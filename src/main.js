@@ -11,7 +11,10 @@ import VueAxios from "vue-axios";
 
 Vue.config.productionTip = false;
 
-Vue.use(VueAxios, axios.create({ baseURL: "http://localhost:3000" })); // $http
+// const baseURL = "http://localhost:3000";
+const baseURL = "https://uidd-backend.herokuapp.com/"
+
+Vue.use(VueAxios, axios.create({ baseURL })); // $http
 
 new Vue({
   router,
