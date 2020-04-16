@@ -13,9 +13,9 @@
             <!-- 使用sideAccount這個component,並傳入變數accountData -->
             <!--SideAccount :accountData="accountData1" /-->
             <!-- :引入SideAccount變數名稱="在App的變數名稱" -->
-            
+        
             <router-view></router-view>
-            <!-- 真正幫你引入component -->
+            <!-- router真正幫你引入component -->
         </div>
     </div>
 </template>
@@ -32,8 +32,8 @@ let data={
     //     {src:'#',category:'收支項名',money:'金額',account:'帳戶'}
     // ],
     menu:[
-        {title:'統計圖產生',link:'/HelloWorld'},
-        {title:'周/月帳目一覽',link:'/'},
+        {title:'統計圖產生',link:''},
+        {title:'周/月帳目一覽',link:'/sideAccount'},
         {title:'類別編輯',link:''},
         {title:'帳戶管理',link:''},
         {title:'雲端備分',link:''},
