@@ -184,8 +184,8 @@ export default {
         });
     },
     fetchRecords() {
-      this.$http
-        .get("/record")
+      this.$api
+        .getAllRecords()
         .then(res => {
           this.accountData = res.data;
         })
@@ -198,8 +198,8 @@ export default {
       if (!this.checkForm()) return;
       const body = Object.assign({}, this.form);
 
-      this.$http
-        .post("/record", body)
+      this.$api
+        .createRecord(body)
         .then(() => {
           this.fetchRecords();
           alert("新增成功");

@@ -3,6 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import axios from "axios";
 import VueAxios from "vue-axios";
+import ApiService from "./utils/ApiService";
 
 //把component定義為global
 // import SideAccount from './components/SideAccount.vue'
@@ -11,10 +12,12 @@ import VueAxios from "vue-axios";
 
 Vue.config.productionTip = false;
 
-// const baseURL = "http://localhost:3000";
-const baseURL = "https://uidd-backend.herokuapp.com/"
+const baseURL = "http://localhost:3000";
+// const baseURL = "https://uidd-backend.herokuapp.com/";
+const axios_ins = axios.create({ baseURL });
 
-Vue.use(VueAxios, axios.create({ baseURL })); // $http
+Vue.use(VueAxios, axios_ins); // $http
+Vue.use(ApiService, axios_ins); // $api
 
 new Vue({
   router,

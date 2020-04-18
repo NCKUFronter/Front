@@ -1,0 +1,46 @@
+{
+  "record": [
+    {
+      "_id": "1",
+      "recordType": "expense",
+      "money": 5000,
+      "account": "Main Account",
+      "category": "交通"
+    },
+    {
+      "_id": "2",
+      "recordType": "expense",
+      "money": "1000",
+      "account": "Bank SinoPac",
+      "category": "交通"
+    },
+    {
+      "_id": "3",
+      "recordType": "expense",
+      "money": "10000",
+      "account": "Main Account",
+      "category": "交通"
+    },
+    {
+      "category": "交通",
+      "account": "Bank SinoPac",
+      "recordType": "expense",
+      "money": 0,
+      "_id": "ZT7ecHz"
+    },
+    {
+      "category": "治裝",
+      "account": "Main Account",
+      "recordType": "expense",
+      "money": 0,
+      "_id": "z5MQWX0"
+    },
+    {
+      "category": "治裝",
+      "account": "Main Account",
+      "recordType": "expense",
+      "money": "5000",
+      "_id": "6tgArfC"
+    }
+  ]
+}
