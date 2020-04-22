@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import SideAccount from '../components/SideAccount.vue'
-import HelloWorld from '../components/HelloWorld.vue'
+import SideAccount from '../views/SideAccount.vue'
+import AddIncome from '../views/AddIncome.vue'
+import AddExpense from '../views/AddExpense.vue'
+
 
 Vue.use(VueRouter)
 
@@ -9,16 +11,24 @@ Vue.use(VueRouter)
 
     // 定義component對應的網址
   {
-    path: '/',
+    path: '/sideAccount',
     name: 'SideAccountName',
-    component: SideAccount
-  },
-  {
-    path: '/HelloWorld',
-    name: 'HelloWorldName',
-    component: HelloWorld
+    component: SideAccount,
+    children: [
+      {
+        path: 'addIncome',
+        name: 'AddIncomeName',
+        component: AddIncome
+      },
+      {
+        path: 'addExpense',
+        name: 'AddExpenseName',
+        component: AddExpense
+      }
 
-  }
+     ]
+  },
+  
 
 ]
 
