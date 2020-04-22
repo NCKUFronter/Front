@@ -2,10 +2,7 @@
   <div class="ma-12 pa-12">
     <template>
       <v-card>
-        <v-navigation-drawer
-          permanent
-          expand-on-hover
-        >
+        <v-navigation-drawer permanent expand-on-hover>
           <v-list>
             <v-list-item class="px-2">
               <v-list-item-avatar>
@@ -23,10 +20,7 @@
 
           <v-divider></v-divider>
 
-          <v-list
-            nav
-            dense
-          >
+          <v-list nav dense>
             <v-list-item link>
               <v-list-item-icon>
                 <v-icon>mdi-folder</v-icon>
@@ -53,7 +47,7 @@
 </template>
 
 <script>
-  export default {
-    //
-  }
+export default {
+  //
+};
 </script>

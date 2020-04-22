@@ -14,6 +14,7 @@ Vue.use(VueRouter)
     path: '/sideAccount',
     name: 'SideAccountName',
     component: SideAccount,
+    /*
     children: [
       {
         path: 'addIncome',
@@ -25,8 +26,8 @@ Vue.use(VueRouter)
         name: 'AddExpenseName',
         component: AddExpense
       }
-
      ]
+     */
   },
   
 

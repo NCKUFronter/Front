@@ -1,5 +1,11 @@
 # spending-vue
 
+## 步驟
+1. npm install
+2. npm run serve
+3. 到 http://localhost:8080/sideAccount/ 查看
+
+
 ## Project setup
 ```
 npm install

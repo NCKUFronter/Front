@@ -4,9 +4,13 @@ export class RecordDto {
   /** @type {number} */
   money;
   /** @type {string} */
-  account;
+  ledger;
   /** @type {string} */
-  category;
+  categoryId;
+  /** @type {string} */
+  date;
+  /** @type {string} */
+  detail;
 }
 
 export class RecordModel extends RecordDto {

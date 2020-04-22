@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "fake-backend": "json-server db.json --id \"_id\"",
+    "fake-backend": "json-server db.json --id \"_id\" --foreignKeySuffix \"Id\"",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"

@@ -1,7 +1,7 @@
  
 <template>
   <div id="app">
-    <div class="header">
+    <div class="app-header">
       <h1 class="logo">記帳網</h1>
     </div>
     <div class="app-container">
@@ -66,11 +66,7 @@ body {
   font-family: 微軟正黑體, Arial, Helvetica, sans-serif;
 }
 
-.cursor-pointer {
-  cursor: pointer;
-}
-
-.header {
+.app-header {
   background-color: #efca16;
   height: 6vh;
 }
