@@ -1,11 +1,11 @@
 <template>
     <div class="side-account">
                 <div class="account-upper">
-                    <!-- <div data-app class='ledgerSelect'> <SALedgerSelect /> </div> -->
+
                     <div data-app class='ledgerSelect'>
                         <v-container fluid>
                             <v-select
-                                v-model="ledgerSelectDefault"
+                                v-model="ledgerSelected"
                                 :items="ledger"
                                 menu-props="auto"
                                 label="Select"
@@ -20,9 +20,20 @@
                     
                     <div class="date-wrap"  >
                         <a class="material-icons" v-on:click=" getYearMonthDate(-1)">arrow_left</a>
-                        <div class="date" >{{userDate}}</div>
+                        <div class="date" v-on:click="dataPickerModal = !dataPickerModal" >{{userDate}}</div>
+                        <v-date-picker 
+                            v-if="dataPickerModal" 
+                            class="dataPicker" 
+                            v-model="userDate" 
+                            color="#efca16" 
+                            header-color="#efca16"
+                            v-on:click.native="dataPickerModal = !dataPickerModal"
+                            transition="scroll-y-transition"
+                        ></v-date-picker>  
                         <a class="material-icons" v-on:click=" getYearMonthDate(1)">arrow_right</a>
                     </div>
+
+                    
                     <div class="point">
                         <h1 >累積點數</h1>
                         <!-- {{ hello }} -->
@@ -38,10 +49,10 @@
                     </div>
                 </div>
 
-                
+               
 
                 <div class="account-down">
-                    <EditAccountItem :userDate="userDate" />
+                    <EditAccountItem :userDate="userDate" :ledgerSelected="ledgerSelected"/>
                     <!-- <div class="account-item" v-for="(item,index) in filterAccountData" :key="index">
                         <img src="https://fakeimg.pl/30x30/efca16" class="categroyIcon" alt="categoryicon">
                         <h1 class="category">{{item.category}}</h1>
@@ -66,7 +77,7 @@
 <script>
 
 import EditAccountItem from '../components/EditAccountItem.vue'
-// import SALedgerSelect from '../components/SALedgerSelect.vue'
+
 
 let data={
     
@@ -76,14 +87,15 @@ let data={
     //     {src:'#',category:'0417的收入',money:'金額',account:'帳戶',flow:'income',accDate:'2020-4-17'}
         
     // ],
-        ledgerSelectDefault: 'All',
-        ledger: [
-          'All','MainAccount','Bank SinoPac',
-        ],
+    ledgerSelected: 'All',
+    ledger: [
+      'All','Main Account','Bank SinoPac',
+    ],
 
-    
+      
 
-    userDate: '2020-4-16' ,
+    userDate: '2020-04-20',
+    dataPickerModal: false
     
     
     //後端連接變數方法
@@ -103,7 +115,7 @@ export default {
   // props: ['accountData'], //引入變數
   components: {
       EditAccountItem,
-    //   SALedgerSelect
+
       
   },
   created() { //Vue開始生命週期
@@ -114,25 +126,36 @@ export default {
   computed:{
 
        
-    },
-    methods:{
+  },
+  methods:{
 
 
         
         initialDate(){
              let t = new Date()
-                this.userDate=`${t.getFullYear()}-${t.getMonth()+1}-${t.getDate()}`
+             
+                this.userDate=t.toISOString().substr(0, 10) 
         },
 
         getYearMonthDate(index){
 
             if(index==1 || index==-1){
                 let t = new Date(this.userDate)
-                this.userDate=`${t.getFullYear()}-${t.getMonth()+1}-${t.getDate()+index}`              
+                t.setDate(t.getDate()+index)
+                this.userDate=t.toISOString().substr(0, 10)              
             }
        
         },
-        
+
+        click(){
+            this.dataPickerModal=false
+            console.log(this.dataPickerModal)
+        }
+
+        // dataPicker(){
+        //     this.dataPickerModal=true
+        // }
+         
 
         // onclick() {
         //     // Vue.prototype.$http
@@ -143,7 +166,7 @@ export default {
         //     })
         // }
 
-    }
+  }
     
 }
 
@@ -177,11 +200,18 @@ export default {
 
 .date-wrap{
     margin:auto;
-    width: 33%;
+    width: 40%;
     margin-left: 3%;
     align-items: center;
     display: flex;
+    position: relative;
 }
+
+.dataPicker{
+    position: absolute;
+    top: 10vh;
+}
+
 
 .account-upper .material-icons{
     color:#CCCCCC;

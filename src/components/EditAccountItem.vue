@@ -195,12 +195,12 @@
         { text: 'Actions', value: 'actions', sortable: false },
       ],
         accountData:[
-        {category:'食物',itemDetail:'0421的收入',money:'187',account:'Main Account',flow:'Income',accDate:'2020-4-21'},
-        {category:'交通',itemDetail:'0421的支出',money:'200',account:'Main Account',flow:'Expense',accDate:'2020-4-21'},
-        {category:'娛樂',itemDetail:'0420的收入',money:'36',account:'Main Account',flow:'Income',accDate:'2020-4-20'},
-        {category:'食物',itemDetail:'0419的收入',money:'187',account:'Main Account',flow:'Income',accDate:'2020-4-19'},
-        {category:'交通',itemDetail:'0419的支出',money:'200',account:'Main Account',flow:'Expense',accDate:'2020-4-19'},
-        {category:'娛樂',itemDetail:'0418的收入',money:'36',account:'Main Account',flow:'Income',accDate:'2020-4-18'},
+        {category:'食物',itemDetail:'0421的收入',money:'187',account:'Main Account',flow:'Income',accDate:'2020-04-21'},
+        {category:'交通',itemDetail:'0421的支出',money:'200',account:'Main Account',flow:'Expense',accDate:'2020-04-21'},
+        {category:'娛樂',itemDetail:'0420的收入',money:'36',account:'Bank SinoPac',flow:'Income',accDate:'2020-04-20'},
+        {category:'食物',itemDetail:'0419的收入',money:'187',account:'Main Account',flow:'Income',accDate:'2020-04-19'},
+        {category:'交通',itemDetail:'0419的支出',money:'200',account:'Bank SinoPac',flow:'Expense',accDate:'2020-04-19'},
+        {category:'娛樂',itemDetail:'0418的收入',money:'36',account:'Bank SinoPac',flow:'Income',accDate:'2020-04-18'},
         ],
         modalCategory:[
         {categoryItem:"食物"},
@@ -220,16 +220,26 @@
       }
     },
     props: ['userDate','ledgerSelected'],
-     computed: {
+    created(){
+    },
+    computed: {
       
 
       filterAccountData(){
-            return this.accountData.filter(item =>{
+            return this.filterLedgerData.filter(item =>{
                 return item.accDate.indexOf(this.userDate)!=-1
+      })},
+      filterLedgerData(){
+
+        if(this.ledgerSelected!='All'){
+            return this.accountData.filter(item =>{
+            return item.account.indexOf(this.ledgerSelected)!=-1
             })
-           
-           
-      }
+        }else{
+          return this.accountData
+        }
+      },
+
     },
     methods: {
       save () {
