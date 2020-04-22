@@ -43,10 +43,12 @@
                         </div>
     
                         <div class="modal-button">
-                            <router-link to="/sideAccount" type="button" class="add">新增</router-link>
+                            <router-link to="/sideAccount" type="button" class="add">
+                            新增
+                            </router-link>
                             <router-link to="/sideAccount" type="button"  class="cancel">取消</router-link>
                             <!-- <button  class="add">新增</button>
-                            <button  class="cancel">取消</button> -->
+                            <button  class="cancel">取消</button>  -->
                         </div>
 
                     </form>
@@ -69,7 +71,25 @@ let data={
     modalAccount:[
         {accountCate:"Main Account"},
         {accountCate:"Bank SinoPac"}
-    ]
+    ],
+
+    editedIndex: -1,
+      editedItem: {
+        category: '',
+        itemDetail: '',
+        money: 0,
+        account: 0,
+        flow: 0,
+        accDate:0,
+      },
+      defaultItem: {
+        category: '',
+        itemDetail: '',
+        money: 0,
+        account: 0,
+        flow: 0,
+        accDate:0,
+      },
 }
 
 export default {
@@ -86,6 +106,7 @@ export default {
             // reset!
             return this.selected_accountCate
         },
+        
 
     }
 
@@ -95,7 +116,9 @@ export default {
 
 function f1() {
     // reset!
+    
     return this.selected_category
+    
 }
 </script>
 

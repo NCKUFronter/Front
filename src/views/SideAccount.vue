@@ -1,10 +1,27 @@
 <template>
     <div class="side-account">
                 <div class="account-upper">
-                    <div class="date-wrap">
-                        <a class="material-icons" v-on:click="getYearMonthDate(-1)">arrow_left</a>
-                        <div class="date" >{{getYearMonthDate}}</div>
-                        <a class="material-icons" v-on:click="getYearMonthDate(1)">arrow_right</a>
+                    <!-- <div data-app class='ledgerSelect'> <SALedgerSelect /> </div> -->
+                    <div data-app class='ledgerSelect'>
+                        <v-container fluid>
+                            <v-select
+                                v-model="ledgerSelectDefault"
+                                :items="ledger"
+                                menu-props="auto"
+                                label="Select"
+                                hide-details
+                                prepend-icon="book"
+                                single-line
+                                dense
+                                full-width
+                            ></v-select>
+                        </v-container>
+                    </div>
+                    
+                    <div class="date-wrap"  >
+                        <a class="material-icons" v-on:click=" getYearMonthDate(-1)">arrow_left</a>
+                        <div class="date" >{{userDate}}</div>
+                        <a class="material-icons" v-on:click=" getYearMonthDate(1)">arrow_right</a>
                     </div>
                     <div class="point">
                         <h1 >累積點數</h1>
@@ -24,12 +41,13 @@
                 
 
                 <div class="account-down">
-                    <div class="account-item" v-for="(item,index) in accountData" :key="index">
+                    <EditAccountItem :userDate="userDate" />
+                    <!-- <div class="account-item" v-for="(item,index) in filterAccountData" :key="index">
                         <img src="https://fakeimg.pl/30x30/efca16" class="categroyIcon" alt="categoryicon">
                         <h1 class="category">{{item.category}}</h1>
                         <h1 class="money">{{item.money}}</h1>
                         <h1 class="accountName">{{item.account}}</h1>
-                    </div>
+                    </div> -->
 
                     <!-- 原本用v-on:click控制modal變數，顯示modal，現在改以不同view -->
                     <!-- <a v-on:click="modal = !modal" href="##additem###" class="material-icons">add_circle</a> -->
@@ -47,14 +65,26 @@
 
 <script>
 
+import EditAccountItem from '../components/EditAccountItem.vue'
+// import SALedgerSelect from '../components/SALedgerSelect.vue'
+
 let data={
     
-    accountData:[
-        {src:'#',category:'收支項名',money:'金額',account:'帳戶',flow:'income',Year:'',Month:'',Day:''},
-        {src:'#',category:'收支項名',money:'金額',account:'帳戶',flow:'expense',Year:'',Month:'',Day:''},
-        {src:'#',category:'收支項名',money:'金額',account:'帳戶',flow:'income',Year:'',Month:'',Day:''}
+    // accountData:[
+    //     {src:'#',category:'0418的收入',money:'金額',account:'帳戶',flow:'income',accDate:'2020-4-18'},
+    //     {src:'#',category:'0417的支出',money:'金額',account:'帳戶',flow:'expense',accDate:'2020-4-17'},
+    //     {src:'#',category:'0417的收入',money:'金額',account:'帳戶',flow:'income',accDate:'2020-4-17'}
         
-    ],
+    // ],
+        ledgerSelectDefault: 'All',
+        ledger: [
+          'All','MainAccount','Bank SinoPac',
+        ],
+
+    
+
+    userDate: '2020-4-16' ,
+    
     
     //後端連接變數方法
     // hello: 'init',
@@ -72,17 +102,36 @@ export default {
   },
   // props: ['accountData'], //引入變數
   components: {
+      EditAccountItem,
+    //   SALedgerSelect
+      
   },
   created() { //Vue開始生命週期
- 
+
+    this.initialDate()
   },
+  
   computed:{
-        getYearMonthDate(){
-            let t = new Date()
-            return `${t.getFullYear()}-${t.getMonth()+1}-${t.getDate()}`
-        } 
+
+       
     },
     methods:{
+
+
+        
+        initialDate(){
+             let t = new Date()
+                this.userDate=`${t.getFullYear()}-${t.getMonth()+1}-${t.getDate()}`
+        },
+
+        getYearMonthDate(index){
+
+            if(index==1 || index==-1){
+                let t = new Date(this.userDate)
+                this.userDate=`${t.getFullYear()}-${t.getMonth()+1}-${t.getDate()+index}`              
+            }
+       
+        },
         
 
         // onclick() {
@@ -117,6 +166,14 @@ export default {
     /* border-color: red;
     border-style: solid; */
 }
+
+.ledgerSelect{
+    margin: auto;
+    /* border: steelblue solid 2px; */
+    padding: 0;
+    width: 20%;
+}
+
 
 .date-wrap{
     margin:auto;
@@ -172,7 +229,7 @@ export default {
 }
 
 
-.account-item{
+/* .account-item{
     display: flex;
     border-bottom: 1.5px black solid;
     height: 8vh;
@@ -202,7 +259,7 @@ export default {
     margin: auto;
     width: 20%;
 }
-
+ */
 
 
 </style>
