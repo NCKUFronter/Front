@@ -2,7 +2,9 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import SideAccount from "../components/SideAccount.vue";
 import Modal from "../components/Modal.vue";
-// import HelloWorld from "../components/HelloWorld.vue";
+// import SideAccount from '../views/SideAccount.vue'
+// import AddIncome from '../views/AddIncome.vue'
+// import AddExpense from '../views/AddExpense.vue'
 
 Vue.use(VueRouter);
 
@@ -18,6 +20,23 @@ const routes = [
     name: "ModalName",
     component: Modal,
   },
+  // path: '/sideAccount',
+  // name: 'SideAccountName',
+  // component: SideAccount,
+  // children: [
+  //   {
+  //     path: 'addIncome',
+  //     name: 'AddIncomeName',
+  //     component: AddIncome
+  //   },
+  //   {
+  //     path: 'addExpense',
+  //     name: 'AddExpenseName',
+  //     component: AddExpense
+  //   }
+
+  // ]
+  //},
 
   // {
   //   path: "/HelloWorld",

@@ -2,9 +2,18 @@
   <div class="side-account">
     <div class="account-upper">
       <div class="date-wrap">
-        <a class="material-icons arrow" v-on:click="getYearMonthDate(-1)">arrow_left</a>
-        <div class="date">{{getYearMonthDate}}</div>
-        <a class="material-icons arrow" v-on:click="getYearMonthDate(1)">arrow_right</a>
+        <!-- <datetime
+          type="datetime"
+          v-model="datetime12"
+          format="yyyy-MM-dd HH:mm:ss"
+        ></datetime> -->
+        <a class="material-icons arrow" v-on:click="getYearMonthDate(-1)"
+          >arrow_left</a
+        >
+        <div class="date">{{ getYearMonthDate }}</div>
+        <a class="material-icons arrow" v-on:click="getYearMonthDate(1)"
+          >arrow_right</a
+        >
       </div>
       <div class="point">
         <h1 v-on:click="onclick">累積點數</h1>
@@ -20,19 +29,28 @@
       </div>
     </div>
     <div class="account-down">
-      <div class="account-item" v-for="(item,index) in accountData" :key="index">
-        <img src="https://fakeimg.pl/30x30/efca16" class="categroyIcon" alt="categoryicon" />
-        <h1 class="category">{{item.category}}</h1>
-        <h1 class="money">{{item.money}}</h1>
-        <h1 class="accountName">{{item.account}}</h1>
+      <div
+        class="account-item"
+        v-for="(item, index) in accountData"
+        :key="index"
+      >
+        <img
+          src="https://fakeimg.pl/30x30/efca16"
+          class="categroyIcon"
+          alt="categoryicon"
+        />
+        <h1 class="category">{{ item.category }}</h1>
+        <h1 class="money">{{ item.money }}</h1>
+        <h1 class="accountName">{{ item.account }}</h1>
       </div>
       <!-- <a v-on:click="modal = !modal" href="##additem###" class="material-icons">add_circle</a> -->
-      <router-link :to="modallink" class="material-icons">add_circle</router-link>
+      <router-link :to="modallink" class="material-icons"
+        >add_circle</router-link
+      >
     </div>
     <router-view></router-view>
   </div>
 </template>
-
 
 <script>
 let data = {
@@ -43,10 +61,10 @@ let data = {
       category: "收支項名",
       money: "金額",
       account: "帳戶",
-      date: "2020-04-14"
+      date: "2020-04-14",
     },
     { src: "#", category: "收支項名", money: "金額", account: "帳戶" },
-    { src: "#", category: "收支項名", money: "金額", account: "帳戶" }
+    { src: "#", category: "收支項名", money: "金額", account: "帳戶" },
   ],
 
   // hello: "init",
@@ -58,14 +76,14 @@ let data = {
     { categoryItem: "食物" },
     { categoryItem: "交通" },
     { categoryItem: "治裝" },
-    { categoryItem: "娛樂" }
+    { categoryItem: "娛樂" },
   ],
 
   selected_accountCate: "",
   modalAccount: [
     { accountCate: "Main Account" },
-    { accountCate: "Bank SinoPac" }
-  ]
+    { accountCate: "Bank SinoPac" },
+  ],
 };
 
 function f1() {
@@ -87,7 +105,7 @@ export default {
     getYearMonthDate() {
       let t = new Date();
       return `${t.getFullYear()}-${t.getMonth() + 1}-${t.getDate()}`;
-    }
+    },
   },
   methods: {
     onCategoryChange: f1,
@@ -95,7 +113,7 @@ export default {
     onAccountChange: function() {
       // reset!
       return this.selected_accountCate;
-    }
+    },
     // onclick() {
     //   // Vue.prototype.$http
     //   this.$http
@@ -105,7 +123,7 @@ export default {
     //       console.log(res);
     //     });
     // }
-  }
+  },
 };
 </script>
 
