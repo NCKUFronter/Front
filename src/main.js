@@ -17,7 +17,8 @@ Vue.config.productionTip = false;
 
 // const baseURL = "http://localhost:3000";
 // const baseURL = "https://uidd-backend.herokuapp.com/";
-const baseURL = "http://luffy.ee.ncku.edu.tw:5000/";
+// const baseURL = "http://luffy.ee.ncku.edu.tw:5000/";
+const baseURL = "https://luffy.ee.ncku.edu.tw:5000/";
 const axios_ins = axios.create({ baseURL });
 
 Vue.use(VueAxios, axios_ins); // $http
