@@ -1,13 +1,14 @@
- 
 <template>
   <div id="app">
     <div class="header">
       <router-link :to="HomeLink" class="logo">記帳網</router-link>
     </div>
-    <div class="container">
+    <v-layout>
       <div class="side-menu">
-        <div class="menu-item" v-for="(item,index) in menu" :key="index">
-          <router-link :to="item.link" class="title">{{item.title}}</router-link>
+        <div class="menu-item" v-for="(item, index) in menu" :key="index">
+          <router-link :to="item.link" class="title">{{
+            item.title
+          }}</router-link>
           <!-- router-link只是表示換哪個component網址 -->
         </div>
       </div>
@@ -17,7 +18,7 @@
 
       <router-view></router-view>
       <!-- 真正幫你引入component -->
-    </div>
+    </v-layout>
   </div>
 </template>
 
@@ -26,20 +27,15 @@
 //import SideAccount from './components/SideAccount.vue'
 
 let data = {
-  //  accountData1:[
-  //     {src:'#',category:'收支項名',money:'金額',account:'帳戶'},
-  //     {src:'#',category:'收支項名',money:'金額',account:'帳戶'},
-  //     {src:'#',category:'收支項名',money:'金額',account:'帳戶'}
-  // ],
   HomeLink: "/",
   menu: [
     { title: "統計圖產生", link: "" },
-    { title: "周/月帳目一覽", link: "/Account" },
+    { title: "周/月帳目一覽", link: "/sideAccount" },
     { title: "類別編輯", link: "" },
     { title: "帳戶管理", link: "" },
     { title: "雲端備分", link: "" },
-    { title: "統一發票", link: "" }
-  ]
+    { title: "統一發票", link: "" },
+  ],
 };
 
 export default {
@@ -51,7 +47,7 @@ export default {
     //SideAccount  // 定義component
   },
   computed: {},
-  methods: {}
+  methods: {},
 };
 </script>
 
@@ -80,10 +76,6 @@ body {
   margin-left: 10px;
 }
 
-.container {
-  display: flex;
-}
-
 .side-menu {
   border-right: 3px #cccccc solid;
   width: 18vw;
@@ -104,4 +96,3 @@ body {
   color: black;
 }
 </style>
-

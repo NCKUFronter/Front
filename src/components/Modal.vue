@@ -1,7 +1,7 @@
 <template>
   <div class="modal">
     <form class="modal-content">
-      <div class="tabs">
+      <v-card class="tabs">
         <div class="tab">
           <input
             type="radio"
@@ -20,32 +20,40 @@
             </div>
             <div class="modal-cate">
               <p>類別</p>
-              <select v-model="selected_category" v-on:change="onCategoryChange">
+              <select
+                v-model="selected_category"
+                v-on:change="onCategoryChange"
+              >
                 <option value>請選擇</option>
                 <option
-                  v-for="(item,index) in modalCategory"
+                  v-for="(item, index) in modalCategory"
                   :value="item.categoryItem"
                   :key="index"
-                >{{ item.categoryItem }}</option>
+                  >{{ item.categoryItem }}</option
+                >
               </select>
             </div>
             <div class="modal-account">
               <p>帳戶</p>
-              <select v-model="selected_accountCate" v-on:change="onAccountChange">
+              <select
+                v-model="selected_accountCate"
+                v-on:change="onAccountChange"
+              >
                 <option value>請選擇</option>
                 <option
-                  v-for="(item,index) in modalAccount"
+                  v-for="(item, index) in modalAccount"
                   :value="item.accountCate"
                   :key="index"
-                >{{ item.accountCate }}</option>
+                  >{{ item.accountCate }}</option
+                >
               </select>
             </div>
             <div class="modal-button">
-              <router-link :to="AccountLink">
-                <button class="add">新增</button>
+              <router-link to="/Account">
+                <v-btn color="#efcb16cc" class="add">新增</v-btn>
               </router-link>
-              <router-link :to="AccountLink">
-                <button class="cancel">取消</button>
+              <router-link to="/Account">
+                <v-btn class="cancel">取消</v-btn>
               </router-link>
             </div>
           </div>
@@ -68,37 +76,45 @@
             </div>
             <div class="modal-cate">
               <p>類別</p>
-              <select v-model="selected_category" v-on:change="onCategoryChange">
+              <select
+                v-model="selected_category"
+                v-on:change="onCategoryChange"
+              >
                 <option value>請選擇</option>
                 <option
-                  v-for="(item,index) in modalCategory"
+                  v-for="(item, index) in modalCategory"
                   :value="item.categoryItem"
                   :key="index"
-                >{{ item.categoryItem }}</option>
+                  >{{ item.categoryItem }}</option
+                >
               </select>
             </div>
             <div class="modal-account">
               <p>帳戶</p>
-              <select v-model="selected_accountCate" v-on:change="onAccountChange">
+              <select
+                v-model="selected_accountCate"
+                v-on:change="onAccountChange"
+              >
                 <option value>請選擇</option>
                 <option
-                  v-for="(item,index) in modalAccount"
+                  v-for="(item, index) in modalAccount"
                   :value="item.accountCate"
                   :key="index"
-                >{{ item.accountCate }}</option>
+                  >{{ item.accountCate }}</option
+                >
               </select>
             </div>
             <div class="modal-button">
-              <router-link :to="AccountLink">
-                <button class="add">新增</button>
+              <router-link to="/Account">
+                <v-btn color="#efcb16cc" class="add">新增</v-btn>
               </router-link>
-              <router-link :to="AccountLink">
-                <button class="cancel">取消</button>
+              <router-link to="/Account">
+                <v-btn class="cancel">取消</v-btn>
               </router-link>
             </div>
           </div>
         </div>
-      </div>
+      </v-card>
     </form>
   </div>
 </template>
@@ -115,14 +131,14 @@ let data = {
     { categoryItem: "食物" },
     { categoryItem: "交通" },
     { categoryItem: "治裝" },
-    { categoryItem: "娛樂" }
+    { categoryItem: "娛樂" },
   ],
 
   selected_accountCate: "",
   modalAccount: [
     { accountCate: "Main Account" },
-    { accountCate: "Bank SinoPac" }
-  ]
+    { accountCate: "Bank SinoPac" },
+  ],
 };
 function f1() {
   // reset!
@@ -146,8 +162,8 @@ export default {
     onAccountChange: function() {
       // reset!
       return this.selected_accountCate;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -155,7 +171,7 @@ export default {
 .modal {
   position: fixed;
   height: 60vh;
-  width: 75vw;
+  width: 50vw;
   top: 16.7vh;
   left: 20vw;
   background-color: white;
@@ -186,6 +202,7 @@ export default {
 
 .tab-label {
   position: relative;
+  left: 6vw;
   display: block;
   line-height: 2.75em;
   height: 3em;
@@ -206,11 +223,11 @@ export default {
 
 .tab-content {
   height: 13.1rem;
-  min-width: 49.65vw;
+  min-width: 45vw;
   position: absolute;
   z-index: 1;
   top: 2.75em;
-  left: 0;
+  left: 6vw;
   padding: 1.618rem;
   background: #eee;
   color: #2c3e50;
