@@ -2,8 +2,9 @@
 
 ## 步驟
 1. npm install
-2. npm run serve
-3. 到 http://localhost:8080/sideAccount/ 查看
+2. npm run serve --port <port_num> --mode production
+3. 到 http://localhost:<port_num>/sideAccount/ 查看
+  * 若用ssh運行在luffy上，則到 http://luffy.ee.ncku.edu.tw:<port_num>/sideAccount 查看
 
 
 ## Project setup
