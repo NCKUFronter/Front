@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import SideAccount from '../views/SideAccount.vue'
+import Category from '../views/Category.vue'
 import AddIncome from '../views/AddIncome.vue'
 import AddExpense from '../views/AddExpense.vue'
+
 
 
 Vue.use(VueRouter)
@@ -28,6 +30,12 @@ Vue.use(VueRouter)
       }
      ]
      */
+  },
+  {
+    path: '/category',
+    name: 'CategoryName',
+    component: Category,
+
   },
   
 

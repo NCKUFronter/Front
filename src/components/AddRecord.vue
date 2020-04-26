@@ -40,10 +40,32 @@
         </select>
       </div>
 
-      <div class="modal-money">
-        <p>細節</p>
-        <input v-model="form.detail" type="text" name="detail" />
-      </div>
+      <template>
+          <v-combobox
+            v-model="newHashtag"
+            :items="filterHashtag"
+            chips
+            clearable
+            append-icon
+            label="備註"
+            multiple
+            solo
+            
+          >
+            <template v-slot:selection="{ attrs, item, select, selected }">
+              <v-chip
+                v-bind="attrs"
+                :input-value="selected"
+                close
+                @click="select"
+                @click:close="remove(item)"
+              >
+                <strong>{{ item }}</strong>&nbsp;
+              </v-chip>
+            </template>
+            
+          </v-combobox>
+        </template>   
 
       <div class="modal-button">
         <v-btn type="button" @click="addRecord" class="add" color="#efca16">新增</v-btn>
@@ -62,19 +84,23 @@ let data = {
   modalCategory: [
     {
       name: "食物",
-      _id: "5ea06d246b04b818d4d3c79b"
+      _id: "5ea06d246b04b818d4d3c79b",
+      index:"0"
     },
     {
       name: "交通",
-      _id: "5ea06d246b04b818d4d3c79c"
+      _id: "5ea06d246b04b818d4d3c79c",
+      index:"1"
     },
     {
       name: "治裝",
-      _id: "5ea06d246b04b818d4d3c79d"
+      _id: "5ea06d246b04b818d4d3c79d",
+      index:"2"
     },
     {
       name: "娛樂",
-      _id: "5ea06d246b04b818d4d3c79e"
+      _id: "5ea06d246b04b818d4d3c79e",
+      index:"3"
     }
   ],
 
@@ -87,7 +113,16 @@ let data = {
     ledger: "",
     categoryId: "",
     money: 0
-  }
+  },
+  
+  newHashtag: [],
+  hashtag: [
+    {index:0,name:"食物",tag:['早餐', '午餐','晚餐']},
+    {index:1,name:"交通",tag:['高鐵', '台鐵','客運']},
+    {index:2,name:"治裝",tag:['上衣', '長褲','外套']},
+    {index:3,name:"娛樂",tag:['電影', 'KTV']},
+    
+  ],
 };
 
 export default {
@@ -99,6 +134,23 @@ export default {
   computed: {
     isIncome() {
       return this.form.recordType == "income";
+    },
+    filterHashtag(){
+
+      console.log(this.form.categoryId)
+      let index=-1
+      if(this.form.categoryId!=''){
+        index=this.modalCategory.filter(item => {
+          return item._id === this.form.categoryId;
+        })[0].index;
+      }
+    
+      if(index>-1){
+        return this.hashtag[index].tag
+      }else{
+        return this.newHashtag
+        
+      }     
     }
   },
   methods: {
@@ -147,7 +199,11 @@ export default {
     onAccountChange: function() {
       // reset!
       return this.selected_accountCate;
-    }
+    },
+    remove (item) {
+        this.newHashtag.splice(this.newHashtag.indexOf(item), 1)
+        this.newHashtag = [...this.chips]
+    },
   }
 };
 

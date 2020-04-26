@@ -234,7 +234,7 @@ export default {
     filterLedgerData() {
       if (this.ledgerSelected != "All") {
         return this.accountData.filter(item => {
-          return item.account === this.ledgerSelected;
+          return item.ledger === this.ledgerSelected;
         });
       } else {
         return this.accountData;

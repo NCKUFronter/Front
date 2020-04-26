@@ -78,12 +78,10 @@
 <script>
 import RecordTable from "../components/RecordTable.vue";
 import AddRecord from "../components/AddRecord.vue";
-
 let data = {
   modalOpen: false,
   ledgerSelected: "All",
   ledger: ["All", "Main Account", "Bank SinoPac"],
-
   userDate: "2020-04-20",
   accountData: [
     {
@@ -148,13 +146,10 @@ let data = {
     }
   ],
   dataPickerModal: false
-
   //後端連接變數方法
   // hello: 'init',
-
   // modal: false,
 };
-
 export default {
   name: "SideAccount",
   data() {
@@ -167,11 +162,9 @@ export default {
   },
   created() {
     //Vue開始生命週期
-
     this.initialDate();
     this.fetchRecords();
   },
-
   computed: {},
   methods: {
     fetchRecords() {
@@ -187,10 +180,8 @@ export default {
     },
     initialDate() {
       let t = new Date();
-
       this.userDate = t.toISOString().substr(0, 10);
     },
-
     getYearMonthDate(index) {
       if (index == 1 || index == -1) {
         let t = new Date(this.userDate);
@@ -198,16 +189,13 @@ export default {
         this.userDate = t.toISOString().substr(0, 10);
       }
     },
-
     click() {
       this.dataPickerModal = false;
       console.log(this.dataPickerModal);
     }
-
     // dataPicker(){
     //     this.dataPickerModal=true
     // }
-
     // onclick() {
     //     // Vue.prototype.$http
     //     this.$http.get('http://ncku-courses.herokuapp.com/api/hello').then((res) => {
@@ -227,7 +215,6 @@ export default {
   width: 90vw;
   height: 94vh;
 }
-
 .account-upper {
   height: 10vh;
   border-bottom: 3px #cccccc solid;
@@ -235,26 +222,22 @@ export default {
   /* justify-content: center; */
   /* border-color: red;
     border-style: solid; */
-
   h6 {
     font-size: 20px;
     font-weight: normal;
   }
-
   .material-icons {
     color: #cccccc;
     font-size: 48px;
     display: inline-flex;
   }
 }
-
 .ledgerSelect {
   margin: auto;
   /* border: steelblue solid 2px; */
   padding: 0;
   width: 20%;
 }
-
 .date-wrap {
   margin: auto;
   width: 40%;
@@ -262,39 +245,31 @@ export default {
   align-items: center;
   display: flex;
   position: relative;
-
   .material-icons,
   .date {
     cursor: pointer;
   }
 }
-
 .dataPicker {
   position: absolute;
   top: 10vh;
 }
-
 .date {
   display: inline-flex;
   margin: 0 5%;
   justify-content: center;
 }
-
 .point {
   margin: auto;
 }
-
 .total {
   margin: auto;
-
   h1 {
     font-size: 12px;
   }
 }
-
 .account-down {
   height: 83vh;
-
   .material-icons {
     color: #efca16;
     position: absolute;
@@ -304,33 +279,27 @@ export default {
     text-decoration: none;
   }
 }
-
 /* .account-item{
     display: flex;
     border-bottom: 1.5px black solid;
     height: 8vh;
     margin: 0 3%;
 }
-
 .account-item h1{
     font-weight: normal;
     font-size: 18px;
 }
-
 .account-item img{
     display: inline-block;
     margin:auto 15px;
     border-radius: 50%;
 }
-
 .category{
     margin: auto;
 }
-
 .money{
     margin: auto;
 }
-
 .accountName{
     margin: auto;
     width: 20%;
