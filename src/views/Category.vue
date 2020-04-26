@@ -37,9 +37,9 @@
               deletable-chips
               class="tag-input"
               :search-input.sync="search" 
-              @keyup.tab="updateTags(card.id)"
-              @paste="updateTags(card.id)"
-              @keyup.enter="updateTags(card.id)"          
+              @keyup.tab="updateTags(card.index)"
+              @paste="updateTags(card.index)"
+              @keyup.enter="updateTags(card.index)"          
               solo
               flat 
               hint="Creat Tags by typing"  
@@ -108,10 +108,10 @@
     data: () => ({
 
       hashtag: [
-        {id:0,name:"食物",tag:['早餐', '午餐','晚餐']},
-        {id:1,name:"交通",tag:['高鐵', '台鐵','客運']},
-        {id:2,name:"治裝",tag:['上衣', '長褲','外套']},
-        {id:3,name:"娛樂",tag:['電影', 'KTV']},
+        {index:0,name:"食物",tag:['早餐', '午餐','晚餐']},
+        {index:1,name:"交通",tag:['高鐵', '台鐵','客運']},
+        {index:2,name:"治裝",tag:['上衣', '長褲','外套']},
+        {index:3,name:"娛樂",tag:['電影', 'KTV']},
       ],
       categoryLength:3,
        
@@ -145,7 +145,7 @@
       save () {
         console.log(this.newHahtag[0])
         if (this.newCategory !='') {
-          var obj={id:this.categoryLength,name:this.newCategory,tag:this.newHahtag}
+          var obj={index:this.categoryLength,name:this.newCategory,tag:this.newHahtag}
           // Object.assign(this.desserts[this.editedIndex], this.editedItem)
           this.hashtag.push(obj)
           this.categoryLength=this.hashtag.length-1
