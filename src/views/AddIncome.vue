@@ -1,50 +1,10 @@
 <template>
-  <v-card class="modal">
-    <!-- <v-tabs v-model="tab" background-color="transparent" color="yellow" grow>
-      <router-link to="/sideAccount/addExpense" class="expense"
-        >支出</router-link
-      >
+  <div class="modal">
+    <div class="modal-flow">
+      <router-link to="/sideAccount/addExpense" class="expense">支出</router-link>
       <h1 class="income">收入</h1>
+    </div>
 
-    </v-tabs> -->
-    <!-- 
-    <v-card class="modal">
-    <v-tabs
-      v-model="tab"
-      background-color="transparent"
-      color="basil"
-      grow
-    >
-      <v-tab
-        v-for="item in items"
-        :key="item"
-      >
-        {{ item }}
-      </v-tab>
-    </v-tabs>
-
-    <v-tabs-items v-model="tab">
-      <v-tab-item
-        v-for="item in items"
-        :key="item"
-      >
-        <v-card
-          color="basil"
-          flat
-        >
-          <v-card-text>{{ text }}</v-card-text>
-        </v-card>
-      </v-tab-item>
-    </v-tabs-items>
-  </v-card> 
-  -->
-    <v-tabs fixed-tabs background-color="efca16" dark>
-      <v-tab
-        ><router-link to="/addExpense" class="expense">支出</router-link></v-tab
-      >
-
-      <v-tab><h1 class="income">收入</h1></v-tab>
-    </v-tabs>
     <!-- <tabs>
                         <tab name="expense" :selected="true">
                             <h1>expense</h1>
@@ -52,7 +12,8 @@
                         <tab name="income" :selected="true">
                             <h1>income</h1>
                         </tab>
-                    </tabs> -->
+    </tabs>-->
+
     <form class="modal-content">
       <div class="modal-money">
         <p>金額</p>
@@ -62,44 +23,36 @@
       <div class="modal-cate">
         <p>類別</p>
         <select v-model="selected_category" v-on:change="onCategoryChange">
-          <option value="">請選擇</option>
+          <option value>請選擇</option>
           <option
-            v-for="(item, index) in modalCategory"
+            v-for="(item,index) in modalCategory"
             :value="item.categoryItem"
             :key="index"
-          >
-            {{ item.categoryItem }}
-          </option>
+          >{{ item.categoryItem }}</option>
         </select>
       </div>
 
       <div class="modal-account">
         <p>帳戶</p>
         <select v-model="selected_accountCate" v-on:change="onAccountChange">
-          <option value="">請選擇</option>
+          <option value>請選擇</option>
           <option
-            v-for="(item, index) in modalAccount"
+            v-for="(item,index) in modalAccount"
             :value="item.accountCate"
             :key="index"
-          >
-            {{ item.accountCate }}
-          </option>
+          >{{ item.accountCate }}</option>
         </select>
       </div>
 
       <div class="modal-button">
-        <router-link to="/sideAccount" type="button" class="add">
-          新增
-        </router-link>
-        <router-link to="/sideAccount" type="button" class="cancel">
-          取消
-        </router-link>
+        <router-link to="/sideAccount" type="button" class="add">新增</router-link>
+        <router-link to="/sideAccount" type="button" class="cancel">取消</router-link>
         <!-- <button  class="add">新增</button>
-                            <button  class="cancel">取消</button>  -->
+        <button  class="cancel">取消</button>-->
       </div>
     </form>
     <router-view></router-view>
-  </v-card>
+  </div>
 </template>
 
 <script>
@@ -109,13 +62,13 @@ let data = {
     { categoryItem: "食物" },
     { categoryItem: "交通" },
     { categoryItem: "治裝" },
-    { categoryItem: "娛樂" },
+    { categoryItem: "娛樂" }
   ],
 
   selected_accountCate: "",
   modalAccount: [
     { accountCate: "Main Account" },
-    { accountCate: "Bank SinoPac" },
+    { accountCate: "Bank SinoPac" }
   ],
 
   editedIndex: -1,
@@ -125,7 +78,7 @@ let data = {
     money: 0,
     account: 0,
     flow: 0,
-    accDate: 0,
+    accDate: 0
   },
   defaultItem: {
     category: "",
@@ -133,8 +86,8 @@ let data = {
     money: 0,
     account: 0,
     flow: 0,
-    accDate: 0,
-  },
+    accDate: 0
+  }
 };
 
 export default {
@@ -149,8 +102,8 @@ export default {
     onAccountChange: function() {
       // reset!
       return this.selected_accountCate;
-    },
-  },
+    }
+  }
 };
 
 function f1() {
@@ -163,13 +116,15 @@ function f1() {
 <style scoped>
 .modal {
   position: fixed;
-  height: 60vh;
-  width: 60vw;
+  height: 83vh;
+  width: 83vw;
   top: 16.5vh;
-  left: 20vw;
+  left: 16.9vw;
   background-color: white;
   font-family: 微軟正黑體, Arial, Helvetica, sans-serif;
   font-size: 20px;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .modal-content {
@@ -177,15 +132,15 @@ function f1() {
   width: 34vw;
 }
 
-/* .modal-flow {
+.modal-flow {
   display: flex;
   width: 83vw;
   height: fit-content;
   margin: 0 auto;
-} */
+}
 
 .expense {
-  /* display: inline-flex; */
+  display: inline-flex;
   margin: 0 2%;
   font-size: 20px;
   font-weight: normal;
@@ -204,7 +159,7 @@ function f1() {
 }
 
 .income {
-  /* display: inline-flex;  */
+  display: inline-flex;
   margin: 0 2%;
   font-size: 20px;
   font-weight: bolder;

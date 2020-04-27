@@ -1,0 +1,80 @@
+{
+  "record": [{
+      "_id": "1",
+      "recordId": 1,
+      "categoryId": "5ea06d246b04b818d4d3c79b",
+      "detail": "0421的收入",
+      "money": "187",
+      "ledger": "Main Account",
+      "recordType": "income",
+      "date": "2020-04-21"
+    },
+    {
+      "_id": "2",
+      "recordId": 2,
+      "categoryId": "5ea06d246b04b818d4d3c79c",
+      "detail": "0421的支出",
+      "money": "200",
+      "ledger": "Main Account",
+      "recordType": "expense",
+      "date": "2020-04-21"
+    },
+    {
+      "_id": "3",
+      "recordId": 3,
+      "categoryId": "5ea06d246b04b818d4d3c79e",
+      "detail": "0420的收入",
+      "money": "36",
+      "ledger": "Bank SinoPac",
+      "recordType": "income",
+      "date": "2020-04-20"
+    },
+    {
+      "_id": "4",
+      "recordId": 4,
+      "categoryId": "5ea06d246b04b818d4d3c79b",
+      "detail": "0419的收入",
+      "money": "187",
+      "ledger": "Main Account",
+      "recordType": "income",
+      "date": "2020-04-19"
+    },
+    {
+      "_id": "5",
+      "recordId": 5,
+      "categoryId": "5ea06d246b04b818d4d3c79c",
+      "detail": "0419的支出",
+      "money": "200",
+      "ledger": "Bank SinoPac",
+      "recordType": "expense",
+      "date": "2020-04-19"
+    },
+    {
+      "_id": "6",
+      "recordId": 6,
+      "categoryId": "5ea06d246b04b818d4d3c79e",
+      "detail": "0418的收入",
+      "money": "36",
+      "ledger": "Bank SinoPac",
+      "recordType": "income",
+      "date": "2020-04-18"
+    }
+  ],
+  "category": [{
+      "name": "食物",
+      "_id": "5ea06d246b04b818d4d3c79b"
+    },
+    {
+      "name": "交通",
+      "_id": "5ea06d246b04b818d4d3c79c"
+    },
+    {
+      "name": "治裝",
+      "_id": "5ea06d246b04b818d4d3c79d"
+    },
+    {
+      "name": "娛樂",
+      "_id": "5ea06d246b04b818d4d3c79e"
+    }
+  ]
+}

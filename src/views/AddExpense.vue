@@ -1,15 +1,9 @@
 <template>
-  <v-card class="modal mx-auto">
-    <!-- <div class="modal-flow">
+  <div class="modal">
+    <div class="modal-flow">
       <h1 class="expense">支出</h1>
-      <router-link to="/addIncome" class="income">收入</router-link>
-    </div> -->
-    <v-tabs fixed-tabs background-color="efca16" dark>
-      <router-link to="/addIncome" class="expense">
-        <v-tab>收入</v-tab>
-      </router-link>
-      <h1 class="income"><v-tab>支出</v-tab></h1>
-    </v-tabs>
+      <router-link to="/sideAccount/addIncome" class="income">收入</router-link>
+    </div>
 
     <!-- <tabs>
                         <tab name="expense" :selected="true">
@@ -18,50 +12,47 @@
                         <tab name="income" :selected="true">
                             <h1>income</h1>
                         </tab>
-                    </tabs> -->
+    </tabs>-->
 
     <form class="modal-content">
       <div class="modal-money">
         <p>金額</p>
         <input type="text" name="money" />
       </div>
+
       <div class="modal-cate">
         <p>類別</p>
         <select v-model="selected_category" v-on:change="onCategoryChange">
-          <option value="">請選擇</option>
+          <option value>請選擇</option>
           <option
-            v-for="(item, index) in modalCategory"
+            v-for="(item,index) in modalCategory"
             :value="item.categoryItem"
             :key="index"
-          >
-            {{ item.categoryItem }}
-          </option>
+          >{{ item.categoryItem }}</option>
         </select>
       </div>
+
       <div class="modal-account">
         <p>帳戶</p>
         <select v-model="selected_accountCate" v-on:change="onAccountChange">
-          <option value="">請選擇</option>
+          <option value>請選擇</option>
           <option
-            v-for="(item, index) in modalAccount"
+            v-for="(item,index) in modalAccount"
             :value="item.accountCate"
             :key="index"
-          >
-            {{ item.accountCate }}
-          </option>
+          >{{ item.accountCate }}</option>
         </select>
       </div>
-      <router-link to="/sideAccount" type="button" class="add"
-        ><v-btn large class="add">新增</v-btn></router-link
-      >
-      <router-link to="/sideAccount" type="button" class="cancel"
-        ><v-btn large class="cancel">取消</v-btn></router-link
-      >
-      <!-- <button  class="add">新增</button>
-                <button  class="cancel">取消</button> -->
+
+      <div class="modal-button">
+        <router-link to="/sideAccount" type="button" class="add">新增</router-link>
+        <router-link to="/sideAccount" type="button" class="cancel">取消</router-link>
+        <!-- <button  class="add">新增</button>
+        <button  class="cancel">取消</button>-->
+      </div>
     </form>
     <router-view></router-view>
-  </v-card>
+  </div>
 </template>
 
 <script>
@@ -71,14 +62,14 @@ let data = {
     { categoryItem: "食物" },
     { categoryItem: "交通" },
     { categoryItem: "治裝" },
-    { categoryItem: "娛樂" },
+    { categoryItem: "娛樂" }
   ],
 
   selected_accountCate: "",
   modalAccount: [
     { accountCate: "Main Account" },
-    { accountCate: "Bank SinoPac" },
-  ],
+    { accountCate: "Bank SinoPac" }
+  ]
 };
 
 export default {
@@ -93,8 +84,8 @@ export default {
     onAccountChange: function() {
       // reset!
       return this.selected_accountCate;
-    },
-  },
+    }
+  }
 };
 
 function f1() {
@@ -103,16 +94,18 @@ function f1() {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .modal {
   position: fixed;
-  height: 60vh;
-  width: 60vw;
+  height: 83vh;
+  width: 83vw;
   top: 16.5vh;
-  left: 20vw;
+  left: 16.9vw;
   background-color: white;
   font-family: 微軟正黑體, Arial, Helvetica, sans-serif;
   font-size: 20px;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .modal-content {
@@ -137,12 +130,12 @@ function f1() {
   border-bottom-style: solid;
   border-bottom-color: #efca16;
   padding: 0 20%;
-}
 
-.income:hover {
-  /* color:#efca16;
+  &:hover {
+    /* color:#efca16;
     border-bottom-color: #efca16; */
-  opacity: 50%;
+    opacity: 50%;
+  }
 }
 
 .income {
@@ -159,35 +152,42 @@ function f1() {
 }
 
 /* .modal-money  */
-.modal-money p {
-  display: inline-block;
-  margin: 5%;
-}
+.modal-money {
+  input {
+    width: 23vw;
+    display: inline-block;
+  }
 
-.modal-money input {
-  width: 23vw;
-  display: inline-block;
+  p {
+    display: inline-block;
+    margin: 5%;
+  }
 }
 
 /* .modal-cate */
-.modal-cate p {
-  display: inline-block;
-  margin: 5%;
-}
+.modal-cate {
+  p {
+    display: inline-block;
+    margin: 5%;
+  }
 
-.modal-cate select {
-  display: inline-block;
-  width: 23vw;
+  select {
+    display: inline-block;
+    width: 23vw;
+  }
 }
 
 /* .modal-account  */
-.modal-account p {
-  display: inline-flex;
-  margin: 5%;
-}
-.modal-account select {
-  display: inline-flex;
-  width: 23vw;
+.modal-account {
+  p {
+    display: inline-flex;
+    margin: 5%;
+  }
+
+  select {
+    display: inline-flex;
+    width: 23vw;
+  }
 }
 
 /* modal-button */
@@ -200,13 +200,14 @@ function f1() {
   border-radius: 10px;
   background-color: #efca16;
   font-family: 微軟正黑體, Arial, Helvetica, sans-serif;
-}
 
-.add:hover {
-  opacity: 70%;
+  &:hover {
+    opacity: 70%;
+  }
 }
 
 .cancel {
+  width: 30vw;
   margin: 5% 10%;
   font-size: 15px;
   text-decoration: none;
@@ -215,9 +216,9 @@ function f1() {
   border-radius: 10px;
   background-color: #cccccc;
   font-family: 微軟正黑體, Arial, Helvetica, sans-serif;
-}
 
-.cancel:hover {
-  opacity: 70%;
+  &:hover {
+    opacity: 70%;
+  }
 }
 </style>
