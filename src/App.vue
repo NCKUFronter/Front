@@ -43,7 +43,7 @@ let data = {
   // ],
   offset: true,
   menu: [
-    { title: "統計圖產生", link: "" },
+    { title: "統計圖產生", link: "/summary" },
     { title: "周/月帳目一覽", link: "/sideAccount" },
     { title: "類別編輯", link: "/category" },
     { title: "帳戶管理", link: "" },

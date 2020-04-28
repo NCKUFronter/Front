@@ -159,19 +159,23 @@
 const modalCategory = [
   {
     name: "食物",
-    _id: "5ea06d246b04b818d4d3c79b"
+    _id: "5ea06d246b04b818d4d3c79b",
+    index:"0"
   },
   {
     name: "交通",
-    _id: "5ea06d246b04b818d4d3c79c"
+    _id: "5ea06d246b04b818d4d3c79c",
+    index:"1"
   },
   {
     name: "治裝",
-    _id: "5ea06d246b04b818d4d3c79d"
+    _id: "5ea06d246b04b818d4d3c79d",
+    index:"2"
   },
   {
     name: "娛樂",
-    _id: "5ea06d246b04b818d4d3c79e"
+    _id: "5ea06d246b04b818d4d3c79e",
+    index:"3"
   }
 ];
 export default {

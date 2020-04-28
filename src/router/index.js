@@ -1,14 +1,44 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-import SideAccount from "../views/SideAccount.vue";
-import Category from "../views/Category.vue";
-import AddIncome from "../views/AddIncome.vue";
-import AddExpense from "../views/AddExpense.vue";
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import SideAccount from '../views/SideAccount.vue'
+import Category from '../views/Category.vue'
+import Summary from '../views/Summary.vue'
+import AddIncome from '../views/AddIncome.vue'
+import AddExpense from '../views/AddExpense.vue'
 
 Vue.use(VueRouter);
 
-const routes = [
-  // 定義component對應的網址
+//
+
+import sunburst from "../components/sunbrust/sunburst";
+
+//slots info
+import nodeInfoDisplayer from "../components/sunbrust/nodeInfoDisplayer";
+import breadcrumbTrail from "../components/sunbrust/breadcrumbTrail";
+//slots behaviors
+import highlightOnHover from "../components/behavior/highlightOnHover";
+import zoomOnClick from "../components/behavior/zoomOnClick";
+
+import { colorSchemes } from "../infra/colorSchemes";
+
+
+export {
+  breadcrumbTrail,
+  colorSchemes,
+  highlightOnHover,
+  nodeInfoDisplayer,
+  sunburst,
+  zoomOnClick
+};
+
+//
+
+
+Vue.use(VueRouter)
+
+  const routes = [
+
+    // 定義component對應的網址
   {
     path: "/sideAccount",
     name: "SideAccountName",
@@ -34,21 +64,15 @@ const routes = [
     component: Category,
   },
   {
-    path: "/addIncome",
-    name: "AddIncomeName",
-    component: AddIncome,
+    path: '/summary',
+    name: 'SummaryName',
+    component: Summary,
+
   },
-  {
-    path: "/addExpense",
-    name: "AddExpenseName",
-    component: AddExpense,
-  },
-  // {
-  //   path: "/Modal",
-  //   name: "ModalName",
-  //   component: Modal,
-  // },
-];
+  
+
+]
+
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
