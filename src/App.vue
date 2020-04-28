@@ -1,28 +1,34 @@
 <template>
-  <div id="app">
-    <div class="app-header">
+  <v-app>
+    <v-app-bar class="mx-auto" color="#efca16" elevate-on-scroll app>
+      <v-menu bottom :offset-y="offset" transition="slide-x-transition" right>
+        <template v-slot:activator="{ on }">
+          <v-app-bar-nav-icon v-on="on"></v-app-bar-nav-icon>
+        </template>
+        <v-list width="17vw" color="balck">
+          <v-list-item
+            class="side-menu"
+            v-for="(item, index) in menu"
+            :key="index"
+            :class="{ 'menu-item': true, disabled: !item.link }"
+          >
+            <router-link :to="item.link">{{ item.title }}</router-link>
+          </v-list-item>
+        </v-list>
+      </v-menu>
       <h1 class="logo">記帳網</h1>
-    </div>
-    <div class="app-container">
-      <!-- <SideMenu /> -->
-      <div class="side-menu">
-        <div
-          v-for="(item,index) in menu"
-          :key="index"
-          :class="{ 'menu-item': true, disabled: !item.link }"
-        >
-          <router-link :to="item.link">{{item.title}}</router-link>
-        </div>
-      </div>
-      <!-- router-link只是表示換哪個component網址 -->
-      <!-- 使用sideAccount這個component,並傳入變數accountData -->
-      <!--SideAccount :accountData="accountData1" /-->
-      <!-- :引入SideAccount變數名稱="在App的變數名稱" -->
+    </v-app-bar>
 
-      <router-view></router-view>
-      <!-- router真正幫你引入component -->
-    </div>
-  </div>
+    <!-- <SideMenu /> -->
+
+    <!-- router-link只是表示換哪個component網址 -->
+    <!-- 使用sideAccount這個component,並傳入變數accountData -->
+    <!--SideAccount :accountData="accountData1" /-->
+    <!-- :引入SideAccount變數名稱="在App的變數名稱" -->
+
+    <!-- router真正幫你引入component -->
+    <router-view></router-view>
+  </v-app>
 </template>
 
 <script>
@@ -35,6 +41,7 @@ let data = {
   //     {src:'#',category:'收支項名',money:'金額',account:'帳戶'},
   //     {src:'#',category:'收支項名',money:'金額',account:'帳戶'}
   // ],
+  offset: true,
   menu: [
     { title: "統計圖產生", link: "" },
     { title: "周/月帳目一覽", link: "/sideAccount" },
@@ -42,8 +49,7 @@ let data = {
     { title: "帳戶管理", link: "" },
     { title: "點數兌換", link: "" },
     { title: "雲端備分", link: "" },
-    { title: "統一發票", link: "" },
-    
+    { title: "統一發票", link: "" }
   ]
 };
 export default {
@@ -66,40 +72,30 @@ body {
   padding: 0;
   font-family: 微軟正黑體, Arial, Helvetica, sans-serif;
 }
-
-.app-header {
-  background-color: #efca16;
-  height: 6vh;
+// .app-header {
+//   background-color: #efca16;
+//   height: 6vh;
+// }
+a {
+  color: black !important;
 }
 .logo {
   display: inline-block;
   font-weight: normal;
   text-decoration: none;
   color: black;
-  height: 6vh;
-  margin: auto;
   font-size: 4vh;
-  margin-left: 10px;
+  padding: 10px;
 }
-
-.app-container {
-  display: flex;
-}
-
 .side-menu {
   /* border-color: chartreuse;
       border-style: solid;  */
-  border-right: 3px #cccccc solid;
-  width: 18vw;
-  height: 94vh;
-
+  color: black;
   a {
     font-weight: normal;
     text-decoration: none;
-    color: black;
   }
 }
-
 .menu-item {
   border: solid #d9d1ba;
   border-radius: 10px;
@@ -107,7 +103,7 @@ body {
   height: fit-content;
   width: auto;
   padding: 20px;
-
+  color: black;
   &.disabled {
     cursor: not-allowed;
     a {

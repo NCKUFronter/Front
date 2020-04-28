@@ -33,7 +33,7 @@
       </div>
 
       <div class="modal-account">
-        <p>帳戶</p>
+        <p>帳本</p>
         <select v-model="selected_accountCate" v-on:change="onAccountChange">
           <option value>請選擇</option>
           <option

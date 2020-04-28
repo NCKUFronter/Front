@@ -1,78 +1,81 @@
 <template>
-  <div class="side-account">
-    <div class="account-upper">
-      <div data-app class="ledgerSelect">
-        <v-container fluid>
-          <v-select
-            v-model="ledgerSelected"
-            :items="ledger"
-            menu-props="auto"
-            label="Select"
-            hide-details
-            prepend-icon="book"
-            single-line
-            dense
-            full-width
-          ></v-select>
-        </v-container>
-      </div>
-
-      <div class="date-wrap">
-        <i class="material-icons" v-on:click="getYearMonthDate(-1)">arrow_left</i>
-        <div class="date" v-on:click="dataPickerModal = !dataPickerModal">{{userDate}}</div>
-        <v-date-picker
-          v-if="dataPickerModal"
-          class="dataPicker"
-          v-model="userDate"
-          color="#efca16"
-          header-color="#efca16"
-          v-on:click.native="dataPickerModal = !dataPickerModal"
-          transition="scroll-y-transition"
-        ></v-date-picker>
-        <i class="material-icons" v-on:click="getYearMonthDate(1)">arrow_right</i>
-      </div>
-
-      <div class="point">
-        <h6>累積點數</h6>
-        <!-- {{ hello }} -->
-      </div>
-      <div class="total">
-        <div class="income">
-          <h6>總收入</h6>
+  <v-content>
+    <div class="side-account">
+      <div class="account-upper">
+        <div data-app class="ledgerSelect">
+          <v-container fluid>
+            <v-select
+              v-model="ledgerSelected"
+              :items="ledger"
+              menu-props="auto"
+              label="Select"
+              hide-details
+              prepend-icon="book"
+              single-line
+              dense
+              full-width
+              color
+            ></v-select>
+          </v-container>
         </div>
-        <div class="expenses">
-          <h6>總支出</h6>
+
+        <div class="date-wrap">
+          <i class="material-icons" v-on:click="getYearMonthDate(-1)">arrow_left</i>
+          <div class="date" v-on:click="dataPickerModal = !dataPickerModal">{{ userDate }}</div>
+          <v-date-picker
+            v-if="dataPickerModal"
+            class="dataPicker"
+            v-model="userDate"
+            color="#efca16"
+            header-color="#efca16"
+            v-on:click.native="dataPickerModal = !dataPickerModal"
+            transition="scroll-y-transition"
+          ></v-date-picker>
+          <i class="material-icons" v-on:click="getYearMonthDate(1)">arrow_right</i>
+        </div>
+
+        <div class="point">
+          <h6>累積點數</h6>
+          <!-- {{ hello }} -->
+        </div>
+        <div class="total">
+          <div class="income">
+            <h6>總收入</h6>
+          </div>
+          <div class="expenses">
+            <h6>總支出</h6>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="account-down">
-      <RecordTable
-        :accountData="accountData"
-        :userDate="userDate"
-        :ledgerSelected="ledgerSelected"
-        @delete="fetchRecords"
-      />
-      <!-- <div class="account-item" v-for="(item,index) in filterAccountData" :key="index">
+      <div class="account-down">
+        <RecordTable
+          :accountData="accountData"
+          :userDate="userDate"
+          :ledgerSelected="ledgerSelected"
+          @delete="fetchRecords"
+        />
+        <!-- <div class="account-item" v-for="(item,index) in filterAccountData" :key="index">
                         <img src="https://fakeimg.pl/30x30/efca16" class="categroyIcon" alt="categoryicon">
                         <h1 class="category">{{item.category}}</h1>
                         <h1 class="money">{{item.money}}</h1>
                         <h1 class="accountName">{{item.account}}</h1>
-      </div>-->
+        </div>-->
 
-      <!-- 原本用v-on:click控制modal變數，顯示modal，現在改以不同view -->
-      <!-- <a v-on:click="modal = !modal" href="##additem###" class="material-icons">add_circle</a> -->
-      <button @click="modalOpen = true" class="material-icons">add_circle</button>
-      <AddRecord
-        v-if="modalOpen"
-        @close="modalOpen = false"
-        @add="fetchRecords"
-        :recordDate="userDate"
-      ></AddRecord>
+        <!-- 原本用v-on:click控制modal變數，顯示modal，現在改以不同view -->
+        <!-- <a v-on:click="modal = !modal" href="##additem###" class="material-icons">add_circle</a> -->
+        <button @click="modalOpen = true" class="material-icons">add_circle</button>
+        <AddRecord
+          v-if="modalOpen"
+          @close="modalOpen = false"
+          @add="fetchRecords"
+          :recordDate="userDate"
+        ></AddRecord>
+      </div>
+
+      <!--router-view></router-view-->
     </div>
-
-    <!--router-view></router-view-->
-  </div>
+  </v-content>
 </template>
 
 <script>
@@ -212,7 +215,7 @@ export default {
 .side-account {
   /* border-color: chartreuse;
     border-style: solid; */
-  width: 90vw;
+  width: 100vw;
   height: 94vh;
 }
 .account-upper {
@@ -271,12 +274,14 @@ export default {
 .account-down {
   height: 83vh;
   .material-icons {
-    color: #efca16;
+    color: #fe4e00;
     position: absolute;
     bottom: 20px;
     right: 30px;
     font-size: 48px;
     text-decoration: none;
+    position: fixed;
+    border-radius: #cccccc solid 2px 4;
   }
 }
 /* .account-item{
