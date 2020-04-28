@@ -37,7 +37,7 @@ let data = {
   //     {src:'#',category:'收支項名',money:'金額',account:'帳戶'}
   // ],
   menu: [
-    { title: "統計圖產生", link: "" },
+    { title: "統計圖產生", link: "/summary" },
     { title: "周/月帳目一覽", link: "/sideAccount" },
     { title: "類別編輯", link: "/category" },
     { title: "帳戶管理", link: "" },

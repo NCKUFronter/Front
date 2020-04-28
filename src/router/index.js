@@ -2,9 +2,35 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import SideAccount from '../views/SideAccount.vue'
 import Category from '../views/Category.vue'
+import Summary from '../views/Summary.vue'
 import AddIncome from '../views/AddIncome.vue'
 import AddExpense from '../views/AddExpense.vue'
 
+
+//
+
+import sunburst from "../components/sunbrust/sunburst";
+
+//slots info
+import nodeInfoDisplayer from "../components/sunbrust/nodeInfoDisplayer";
+import breadcrumbTrail from "../components/sunbrust/breadcrumbTrail";
+//slots behaviors
+import highlightOnHover from "../components/behavior/highlightOnHover";
+import zoomOnClick from "../components/behavior/zoomOnClick";
+
+import { colorSchemes } from "../infra/colorSchemes";
+
+
+export {
+  breadcrumbTrail,
+  colorSchemes,
+  highlightOnHover,
+  nodeInfoDisplayer,
+  sunburst,
+  zoomOnClick
+};
+
+//
 
 
 Vue.use(VueRouter)
@@ -35,6 +61,12 @@ Vue.use(VueRouter)
     path: '/category',
     name: 'CategoryName',
     component: Category,
+
+  },
+  {
+    path: '/summary',
+    name: 'SummaryName',
+    component: Summary,
 
   },
   
