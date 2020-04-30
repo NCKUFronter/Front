@@ -1,26 +1,28 @@
 <template>
-  <div class="graph">
 
-    <!-- Use this slot to add information on top or bottom of the graph-->
-    <slot name="legend" :width="width" :colorGetter="colorGetter" :nodes="graphNodes" :actions="actions">
-    </slot>
-
-    <div class="viewport" v-resize.throttle.250="resize">
-
-      <!-- Use this slot to add information on top of the graph -->
-      <slot name="top" :colorGetter="colorGetter" :nodes="graphNodes" :actions="actions">
+  <v-container fluid row class="graph">
+    <v-flex xs12 sm6 md6 class="chart">
+      <!-- Use this slot to add information on top or bottom of the graph-->
+      <slot class="legend" name="legend" :width="width" :colorGetter="colorGetter" :nodes="graphNodes" :actions="actions">
+      </slot>    
+      <div class="viewport" v-resize.throttle.250="resize">
+        <!-- Use this slot to add information on top of the graph -->
+        <!-- <slot class="top" name="top" :colorGetter="colorGetter" :nodes="graphNodes" :actions="actions">
+        </slot> -->
+        <!-- Use this slot to add behaviors to the sunburst -->
+        <slot :on="on" :actions="actions">
+        </slot>
+      </div>
+    </v-flex>
+    <v-flex xs12 sm6 md6 class="report">
+      <slot name="report" :nodes="graphNodes">
       </slot>
+    </v-flex>
+  </v-container>
 
-      <!-- Use this slot to add behaviors to the sunburst -->
-      <slot :on="on" :actions="actions">
-      </slot>
-
-    </div>
-  </div>
 </template>
 <script>
 /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "transition" }]*/
-
 import resize from "vue-resize-directive";
 import { select } from "d3-selection";
 import { scaleLinear, scaleSqrt } from "d3-scale";
@@ -35,12 +37,14 @@ function recursiveName(node) {
     .ancestors()
     .map(node => node.data.name)
     .join("-");
+
   return res;
 }
 
 function copyCurrentValues(to, from) {
   const { x0, x1, y0, y1 } = from;
   to._current = { x0, x1, y0, y1 };
+    
 }
 
 function arc2Tween(arcSunburst, d, indx) {
@@ -161,7 +165,7 @@ export default {
        * @private
        */
       graphNodes: {
-        clicked: null,
+        clicked: this.root,
         mouseOver: null,
         zoomed: null,
         root: null,
@@ -190,6 +194,7 @@ export default {
       .attr("width", "100%")
       .attr("height", "100%")
       .append("g");
+
 
     select(viewport).on("mouseleave", () => {
       this.$emit("mouseLeave");
@@ -223,11 +228,15 @@ export default {
         .sum(d => d.size)
         .sort((a, b) => b.value - a.value);
 
+
+
       this.nodes = partition()(this.root)
         .descendants()
         .filter(
           d => Math.abs(this.scaleX(d.x1 - d.x0)) > this.minAngleDisplayed
         );
+
+
 
       const pathes = this.getPathes();
       const colorGetter = this.colorGetter;
@@ -255,6 +264,7 @@ export default {
       pathes.exit().remove();
 
       this.graphNodes.root = this.nodes[0];
+
     },
 
     /**
@@ -426,12 +436,17 @@ export default {
 .graph {
   height: 100%;
   width: 100%;
-  display: flex;
-  flex-flow: column wrap;
+  /* display: flex;
+  flex-flow: column wrap; */
+  /* border: black 2px solid; */
 }
 
 .viewport {
   width: 100%;
-  flex: 1 1 auto;
+  height: 100%;
+  /* flex: 1 1 auto; */
+  /* border: red 2px solid; */
 }
+
+
 </style>
