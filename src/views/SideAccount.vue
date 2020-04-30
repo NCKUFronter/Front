@@ -1,6 +1,6 @@
 <template>
   <v-content>
-    <div class="side-account">
+     <v-container fluid style="width: 960px" class="side-account"> 
       <div class="account-upper">
         <div data-app class="ledgerSelect">
           <v-container fluid>
@@ -74,7 +74,7 @@
       </div>
 
       <!--router-view></router-view-->
-    </div>
+     </v-container>
   </v-content>
 </template>
 

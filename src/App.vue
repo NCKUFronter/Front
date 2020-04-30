@@ -47,13 +47,15 @@ let data = {
     { title: "周/月帳目一覽", link: "/sideAccount" },
     { title: "類別編輯", link: "/category" },
     { title: "帳戶管理", link: "" },
-    { title: "點數兌換", link: "" },
+    { title: "點數管理", link: "/point" },
     { title: "雲端備分", link: "" },
     { title: "統一發票", link: "" }
   ]
 };
+
 export default {
   name: "App",
+
   data() {
     return data;
   },
@@ -67,10 +69,12 @@ export default {
 </script>
 
 <style lang="scss">
+*{
+  font-family: 微軟正黑體, Arial, Helvetica, sans-serif;
+}
 body {
   margin: 0;
   padding: 0;
-  font-family: 微軟正黑體, Arial, Helvetica, sans-serif;
 }
 // .app-header {
 //   background-color: #efca16;

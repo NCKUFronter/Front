@@ -103,4 +103,5 @@ export default {
 .span .detail {
   font-size: 1em;
 }
+
 </style>

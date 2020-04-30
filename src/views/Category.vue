@@ -1,10 +1,9 @@
 <template>
   <!-- ref: https://codepen.io/virtualadrian/pen/pOeVPX && Vuetify component: Card & Combobox & Chip-->
   <v-content>
-    <v-card class="m-auto" outlined tile>
-      <v-container fluid>
+      <v-container fluid style="width: 960px">
         <v-row>
-          <v-col v-for="card in hashtag" :key="card.name" :cols="6">
+          <v-flex xs12 sm6 md6 v-for="card in hashtag" :key="card.name" class="card">
             <v-card>
               <v-list-item>
                 <v-list-item-content>
@@ -35,8 +34,8 @@
                 hint="Creat Tags by typing"
               ></v-combobox>
             </v-card>
-          </v-col>
-          <V-col :cols="6">
+          </v-flex>
+          <v-flex xs6 sm6 md6 class="card">
             <v-card>
               <v-text-field
                 label="NewCategory"
@@ -74,10 +73,10 @@
                 </v-btn>
               </v-card-actions>
             </v-card>
-          </V-col>
+          </v-flex>
         </v-row>
       </v-container>
-    </v-card>
+
   </v-content>
 </template>
 
@@ -143,4 +142,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+  .card{
+    padding: 1%;
+  }
+
+  
+</style>

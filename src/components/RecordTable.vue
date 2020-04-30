@@ -294,5 +294,6 @@ export default {
   border-bottom: #cccccc 1px solid;
   margin-top: 10%;
   padding: 3%;
+  
 }
 </style>
