@@ -1,8 +1,18 @@
 <template>
-  <div class="modal">
+  <v-card class="modal" elevation="5">
     <div class="modal-flow">
-      <h3 @click="form.recordType = 'expense'" :class="{'flow-selected': !isIncome }">支出</h3>
-      <h3 @click="form.recordType = 'income'" :class="{'flow-selected': isIncome }">收入</h3>
+      <h3
+        @click="form.recordType = 'expense'"
+        :class="{ 'flow-selected': !isIncome }"
+      >
+        支出
+      </h3>
+      <h3
+        @click="form.recordType = 'income'"
+        :class="{ 'flow-selected': isIncome }"
+      >
+        收入
+      </h3>
     </div>
 
     <!-- <tabs>
@@ -24,7 +34,12 @@
         <p>類別*</p>
         <select v-model="form.categoryId">
           <option value>請選擇</option>
-          <option v-for="cate in modalCategory" :value="cate._id" :key="cate._id">{{ cate.name }}</option>
+          <option
+            v-for="cate in modalCategory"
+            :value="cate._id"
+            :key="cate._id"
+            >{{ cate.name }}</option
+          >
         </select>
       </div>
 
@@ -33,10 +48,11 @@
         <select v-model="form.ledger">
           <option value>請選擇</option>
           <option
-            v-for="(item,index) in modalAccount"
+            v-for="(item, index) in modalAccount"
             :value="item.accountCate"
             :key="index"
-          >{{ item.accountCate }}</option>
+            >{{ item.accountCate }}</option
+          >
         </select>
       </div>
 
@@ -50,6 +66,9 @@
           label="備註"
           multiple
           solo
+          flat
+          light
+          class="hashtag"
         >
           <template v-slot:selection="{ attrs, item, select, selected }">
             <v-chip
@@ -59,21 +78,29 @@
               @click="select"
               @click:close="remove(item)"
             >
-              <strong>{{ item }}</strong>&nbsp;
+              <strong>{{ item }}</strong
+              >&nbsp;
             </v-chip>
           </template>
         </v-combobox>
       </template>
 
       <div class="modal-button">
-        <v-btn type="button" @click="addRecord" class="add" color="#efca16">新增</v-btn>
-        <v-btn type="button" @click="onModalClose" class="cancel" color="#cccccc">取消</v-btn>
+        <v-btn type="button" @click="addRecord" class="add" color="#efca16"
+          >新增</v-btn
+        >
+        <v-btn
+          type="button"
+          @click="onModalClose"
+          class="cancel"
+          color="#cccccc"
+          >取消</v-btn
+        >
         <!-- <button  class="add">新增</button>
         <button  class="cancel">取消</button>-->
       </div>
     </form>
-    <router-view></router-view>
-  </div>
+  </v-card>
 </template>
 
 <script>
@@ -83,34 +110,34 @@ let data = {
     {
       name: "食物",
       _id: "5ea06d246b04b818d4d3c79b",
-      index: "0"
+      index: "0",
     },
     {
       name: "交通",
       _id: "5ea06d246b04b818d4d3c79c",
-      index: "1"
+      index: "1",
     },
     {
       name: "治裝",
       _id: "5ea06d246b04b818d4d3c79d",
-      index: "2"
+      index: "2",
     },
     {
       name: "娛樂",
       _id: "5ea06d246b04b818d4d3c79e",
-      index: "3"
-    }
+      index: "3",
+    },
   ],
 
   modalAccount: [
     { accountCate: "Main Account" },
-    { accountCate: "Bank SinoPac" }
+    { accountCate: "Bank SinoPac" },
   ],
   form: {
     recordType: "income",
     ledger: "",
     categoryId: "",
-    money: 0
+    money: 0,
   },
 
   newHashtag: [],
@@ -118,8 +145,8 @@ let data = {
     { index: 0, name: "食物", tag: ["早餐", "午餐", "晚餐"] },
     { index: 1, name: "交通", tag: ["高鐵", "台鐵", "客運"] },
     { index: 2, name: "治裝", tag: ["上衣", "長褲", "外套"] },
-    { index: 3, name: "娛樂", tag: ["電影", "KTV"] }
-  ]
+    { index: 3, name: "娛樂", tag: ["電影", "KTV"] },
+  ],
 };
 
 export default {
@@ -136,7 +163,7 @@ export default {
       console.log(this.form.categoryId);
       let index = -1;
       if (this.form.categoryId != "") {
-        index = this.modalCategory.filter(item => {
+        index = this.modalCategory.filter((item) => {
           return item._id === this.form.categoryId;
         })[0].index;
       }
@@ -146,7 +173,7 @@ export default {
       } else {
         return this.newHashtag;
       }
-    }
+    },
   },
   methods: {
     resetForm() {
@@ -181,7 +208,7 @@ export default {
           this.resetForm();
           this.onModalClose();
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
           alert("新增失敗");
         });
@@ -198,8 +225,8 @@ export default {
     remove(item) {
       this.newHashtag.splice(this.newHashtag.indexOf(item), 1);
       this.newHashtag = [...this.chips];
-    }
-  }
+    },
+  },
 };
 
 function f1() {
@@ -210,11 +237,12 @@ function f1() {
 
 <style scoped lang="scss">
 .modal {
+  margin: a;
   position: fixed;
-  height: 83vh;
-  width: 83vw;
-  top: 16.5vh;
-  left: 16.9vw;
+  height: 60vh;
+  width: 50vw;
+  top: 25vh;
+  left: 24vw;
   background-color: white;
   font-family: 微軟正黑體, Arial, Helvetica, sans-serif;
   font-size: 20px;
@@ -229,7 +257,7 @@ function f1() {
 
 .modal-flow {
   display: flex;
-  width: 83vw;
+  width: 100%;
   height: fit-content;
   margin: 0 auto;
 
@@ -263,7 +291,9 @@ function f1() {
     }
   }
 }
-
+.hashtag {
+  border: #ccc solid 3px;
+}
 /* .modal-money  */
 .modal-money {
   input {
@@ -285,6 +315,8 @@ function f1() {
   }
 
   select {
+    border: #fff solid 1px;
+    border-bottom: #ccc solid 3px;
     display: inline-block;
     width: 23vw;
   }

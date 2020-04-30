@@ -1,6 +1,12 @@
 <template>
   <v-app>
-    <v-app-bar class="mx-auto" color="#efca16" elevate-on-scroll app>
+    <v-app-bar
+      class="mx-auto"
+      color="#efca16"
+      elevate-on-scroll
+      app
+      absolute=""
+    >
       <v-menu bottom :offset-y="offset" transition="slide-x-transition" right>
         <template v-slot:activator="{ on }">
           <v-app-bar-nav-icon v-on="on"></v-app-bar-nav-icon>
@@ -49,8 +55,8 @@ let data = {
     { title: "帳戶管理", link: "" },
     { title: "點數兌換", link: "" },
     { title: "雲端備分", link: "" },
-    { title: "統一發票", link: "" }
-  ]
+    { title: "統一發票", link: "" },
+  ],
 };
 export default {
   name: "App",
@@ -62,7 +68,7 @@ export default {
     // SideMenu
   },
   computed: {},
-  methods: {}
+  methods: {},
 };
 </script>
 
