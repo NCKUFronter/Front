@@ -1,14 +1,13 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import SideAccount from '../views/SideAccount.vue'
-import Category from '../views/Category.vue'
-import Summary from '../views/Summary.vue'
-import AddIncome from '../views/AddIncome.vue'
-import AddExpense from '../views/AddExpense.vue'
-import pointManage from '../views/PointManage.vue'
-import pointHistory from '../views/PointHistory.vue'
-import pointDelivery from '../views/PointDelivery.vue'
-import Vuetify from 'vuetify/lib'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import Accounting from "../views/Accounting.vue";
+import SideAccount from "../views/SideAccount.vue";
+import Category from "../views/Category.vue";
+import Summary from "../views/Summary.vue";
+import pointManage from "../views/PointManage.vue";
+import pointHistory from "../views/PointHistory.vue";
+import pointDelivery from "../views/PointDelivery.vue";
+import Vuetify from "vuetify/lib";
 
 Vue.use(VueRouter);
 
@@ -25,28 +24,44 @@ import zoomOnClick from "../components/behavior/zoomOnClick";
 
 import { colorSchemes } from "../infra/colorSchemes";
 
-
 export {
   breadcrumbTrail,
   colorSchemes,
   highlightOnHover,
   nodeInfoDisplayer,
   sunburst,
-  zoomOnClick
+  zoomOnClick,
 };
 
 //
 
+Vue.use(VueRouter);
 
-Vue.use(VueRouter)
-
-  const routes = [
-
-    // 定義component對應的網址
+const routes = [
+  // 定義component對應的網址
   {
-    path: "/sideAccount",
-    name: "SideAccountName",
-    component: SideAccount,
+    path: "/accounting",
+    name: "AcountingName",
+    props: true,
+    component: Accounting,
+    children: [
+      {
+        path: "SideAccount",
+        name: "SideAccountName",
+        component: SideAccount,
+      },
+      {
+        path: "Category",
+        name: "CategoryName",
+        component: Category,
+      },
+      // {
+      //   path: "/Ledger",
+      //   name: "LedgerName",
+      //   component: LedgerManagement,
+      // }
+    ],
+
     /*
     children: [
       {
@@ -63,52 +78,43 @@ Vue.use(VueRouter)
      */
   },
   {
-    path: "/category",
-    name: "CategoryName",
-    component: Category,
-  },
-  {
-    path: '/summary',
-    name: 'SummaryName',
+    path: "/summary",
+    name: "SummaryName",
     component: Summary,
   },
   {
-    path: '/point',
-    name: 'PointManageName',
+    path: "/point",
+    name: "PointManageName",
     component: pointManage,
     props: true,
     children: [
       {
-        path: 'delivery',
-        name: 'PointDeliveryName',
-        component: pointDelivery
+        path: "delivery",
+        name: "PointDeliveryName",
+        component: pointDelivery,
       },
       {
-        path: 'history',
-        name: 'PointHistoryName',
+        path: "history",
+        name: "PointHistoryName",
         component: pointHistory,
-      }
-    ] 
-    
+      },
+    ],
   },
-
-  
-
-]
+];
 
 const vuetify = new Vuetify({
   theme: {
     themes: {
       light: {
-        primary: '#cccccc',
-        secondary: '#b0bec5',
-        accent: '#8c9eff',
-        error: '#b71c1c',
-        a:'#cccccc'
+        primary: "#cccccc",
+        secondary: "#b0bec5",
+        accent: "#8c9eff",
+        error: "#b71c1c",
+        a: "#cccccc",
       },
     },
   },
-})
+});
 
 const router = new VueRouter({
   mode: "history",

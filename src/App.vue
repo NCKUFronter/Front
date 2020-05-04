@@ -1,12 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar
-      class="mx-auto"
-      color="#efca16"
-      elevate-on-scroll
-      app
-      absolute=""
-    >
+    <v-app-bar class="mx-auto" color="#efca16" elevate-on-scroll app fixed>
       <v-menu bottom :offset-y="offset" transition="slide-x-transition" right>
         <template v-slot:activator="{ on }">
           <v-app-bar-nav-icon v-on="on"></v-app-bar-nav-icon>
@@ -50,13 +44,18 @@ let data = {
   offset: true,
   menu: [
     { title: "統計圖產生", link: "/summary" },
-    { title: "周/月帳目一覽", link: "/sideAccount" },
-    { title: "類別編輯", link: "/category" },
+    { title: "周/月帳目一覽", link: "/accounting" },
+    // { title: "類別編輯", link: "/category" },
     { title: "帳戶管理", link: "" },
     { title: "點數管理", link: "/point" },
     { title: "雲端備分", link: "" },
-    { title: "統一發票", link: "" },
+    { title: "統一發票", link: "" }
   ],
+  drawer: null,
+  items: [
+    { title: "Home", icon: "dashboard" },
+    { title: "About", icon: "question_answer" }
+  ]
 };
 
 export default {
@@ -70,12 +69,12 @@ export default {
     // SideMenu
   },
   computed: {},
-  methods: {},
+  methods: {}
 };
 </script>
 
 <style lang="scss">
-*{
+* {
   font-family: 微軟正黑體, Arial, Helvetica, sans-serif;
 }
 body {
