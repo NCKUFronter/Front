@@ -165,7 +165,7 @@ export default {
        * @private
        */
       graphNodes: {
-        clicked: this.root,
+        clicked: null,
         mouseOver: null,
         zoomed: null,
         root: null,

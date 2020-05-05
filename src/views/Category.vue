@@ -3,7 +3,7 @@
   <v-content>
       <v-container fluid style="width: 960px">
         <v-row>
-          <v-flex xs12 sm6 md6 v-for="card in hashtag" :key="card.name" class="card">
+          <v-flex xs6 sm6 md6 v-for="(card,idx) in hashtag" :key="idx" class="card">
             <v-card>
               <v-list-item>
                 <v-list-item-content>
@@ -146,6 +146,6 @@ export default {
   .card{
     padding: 1%;
   }
-
+  
   
 </style>

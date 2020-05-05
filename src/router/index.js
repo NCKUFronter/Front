@@ -8,6 +8,7 @@ import AddExpense from '../views/AddExpense.vue'
 import pointManage from '../views/PointManage.vue'
 import pointHistory from '../views/PointHistory.vue'
 import pointDelivery from '../views/PointDelivery.vue'
+import pointRedeem from '../views/PointRedeem.vue'
 import Vuetify from 'vuetify/lib'
 
 Vue.use(VueRouter);
@@ -78,6 +79,11 @@ Vue.use(VueRouter)
     component: pointManage,
     props: true,
     children: [
+      {
+        path: '',
+        name: 'PointRedeemName',
+        component: pointRedeem
+      },
       {
         path: 'delivery',
         name: 'PointDeliveryName',

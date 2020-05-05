@@ -41,7 +41,7 @@
       return {
         tab: null,
         items: [
-          {title: '點數兌換', link:''},
+          {title: '點數兌換', link:'/point'},
           {title: '點數贈送', link:'/point/delivery'},
           {title: '歷史紀錄', link:'/point/history'},
         ],
