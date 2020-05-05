@@ -1,8 +1,8 @@
 <template>
-  <div class="modal">
+  <v-card class="modal" elevation="5">
     <div class="modal-flow">
-      <h3 @click="form.recordType = 'expense'" :class="{'flow-selected': !isIncome }">支出</h3>
-      <h3 @click="form.recordType = 'income'" :class="{'flow-selected': isIncome }">收入</h3>
+      <h3 @click="form.recordType = 'expense'" :class="{ 'flow-selected': !isIncome }">支出</h3>
+      <h3 @click="form.recordType = 'income'" :class="{ 'flow-selected': isIncome }">收入</h3>
     </div>
 
     <!-- <tabs>
@@ -15,13 +15,28 @@
     </tabs>-->
 
     <form class="modal-content">
+      <div class="date-wrap">
+        <p>日期</p>
+        <div class="date" v-on:click="dataPickerModal = !dataPickerModal">{{ userDate }}</div>
+        <v-date-picker
+          v-if="dataPickerModal"
+          class="dataPicker"
+          landscape
+          reactive
+          v-model="userDate"
+          color="#efca16"
+          header-color="#efca16"
+          v-on:click.native="dataPickerModal = !dataPickerModal"
+          transition="scroll-y-transition"
+        ></v-date-picker>
+      </div>
       <div class="modal-money">
-        <p>金額*</p>
+        <p>金額</p>
         <input v-model="form.money" type="number" name="money" />
       </div>
 
       <div class="modal-cate">
-        <p>類別*</p>
+        <p>類別</p>
         <select v-model="form.categoryId">
           <option value>請選擇</option>
           <option v-for="cate in modalCategory" :value="cate._id" :key="cate._id">{{ cate.name }}</option>
@@ -29,11 +44,21 @@
       </div>
 
       <div class="modal-account">
-        <p>帳本*</p>
+        <p>帳本</p>
+        <!-- <v-select
+          v-model="form.ledger"
+          chips
+          dense
+          label="請選擇"
+          outlined
+          :items="(item, index) in modalAccount"
+          :value="item.accountCate"
+          :key="index"
+        ></v-select>-->
         <select v-model="form.ledger">
           <option value>請選擇</option>
           <option
-            v-for="(item,index) in modalAccount"
+            v-for="(item, index) in modalAccount"
             :value="item.accountCate"
             :key="index"
           >{{ item.accountCate }}</option>
@@ -49,7 +74,10 @@
           append-icon
           label="備註"
           multiple
-          solo
+          outlined
+          dense
+          light
+          color="#efca16"
         >
           <template v-slot:selection="{ attrs, item, select, selected }">
             <v-chip
@@ -72,13 +100,14 @@
         <button  class="cancel">取消</button>-->
       </div>
     </form>
-    <router-view></router-view>
-  </div>
+  </v-card>
 </template>
 
 <script>
 let data = {
   selected_category: "",
+  userDate: "2020-04-20",
+  dataPickerModal: false,
   modalCategory: [
     {
       name: "食物",
@@ -128,6 +157,9 @@ export default {
   data() {
     return data;
   },
+  created() {
+    this.initialDate();
+  },
   computed: {
     isIncome() {
       return this.form.recordType == "income";
@@ -155,6 +187,7 @@ export default {
       this.form.money = 0;
       this.form.detail = "";
       this.form.recordType = "income";
+      this.form.date = this.userDate;
     },
     checkForm() {
       if (
@@ -168,10 +201,19 @@ export default {
       }
       return true;
     },
+
+    initialDate() {
+      let t = new Date();
+      this.userDate = t.toISOString().substr(0, 10);
+    },
+    click() {
+      this.dataPickerModal = false;
+      console.log(this.dataPickerModal);
+    },
     addRecord() {
       if (!this.checkForm()) return;
       const form = Object.assign({}, this.form);
-      form.date = this.recordDate;
+      form.date = this.userDate;
 
       this.$api
         .createRecord(form)
@@ -210,11 +252,12 @@ function f1() {
 
 <style scoped lang="scss">
 .modal {
+  margin: a;
   position: fixed;
-  height: 83vh;
-  width: 83vw;
-  top: 16.5vh;
-  left: 16.9vw;
+  height: 60vh;
+  width: 50vw;
+  top: 25vh;
+  left: 24vw;
   background-color: white;
   font-family: 微軟正黑體, Arial, Helvetica, sans-serif;
   font-size: 20px;
@@ -229,7 +272,7 @@ function f1() {
 
 .modal-flow {
   display: flex;
-  width: 83vw;
+  width: 100%;
   height: fit-content;
   margin: 0 auto;
 
@@ -263,17 +306,40 @@ function f1() {
     }
   }
 }
+.date-wrap {
+  z-index: 5;
+  max-width: 60%;
+  margin-left: 3%;
+  align-items: center;
+  display: flex;
+  position: relative;
+  .material-icons,
+  .date {
+    cursor: pointer;
+  }
+}
+.dataPicker {
+  position: absolute;
+  top: 10vh;
+}
+.date {
+  display: inline-flex;
+  margin: 0 3%;
+  justify-content: center;
+}
 
 /* .modal-money  */
 .modal-money {
   input {
     width: 23vw;
     display: inline-block;
+    border: #fff solid 1px;
+    border-bottom: #ccc solid 3px;
   }
 
   p {
     display: inline-block;
-    margin: 5%;
+    margin: 3%;
   }
 }
 
@@ -281,10 +347,12 @@ function f1() {
 .modal-cate {
   p {
     display: inline-block;
-    margin: 5%;
+    margin: 3%;
   }
 
   select {
+    border: #fff solid 1px;
+    border-bottom: #ccc solid 3px;
     display: inline-block;
     width: 23vw;
   }
@@ -294,10 +362,12 @@ function f1() {
 .modal-account {
   p {
     display: inline-flex;
-    margin: 5%;
+    margin: 3%;
   }
 
   select {
+    border: #fff solid 1px;
+    border-bottom: #ccc solid 3px;
     display: inline-flex;
     width: 23vw;
   }
@@ -308,6 +378,7 @@ function f1() {
 .cancel {
   margin: 5% 10%;
   font-size: 15px;
+  left: 6vw;
   text-decoration: none;
   color: black;
   border-style: none;

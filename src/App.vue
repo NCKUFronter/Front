@@ -103,8 +103,7 @@ let data = {
   offset: true,
   menu: [
     { title: "統計圖產生", link: "/summary" },
-    { title: "周/月帳目一覽", link: "/sideAccount" },
-    { title: "類別編輯", link: "/category" },
+    { title: "周/月帳目一覽", link: "/accounting" },
     { title: "帳戶管理", link: "" },
     { title: "點數管理", link: "/point" },
     // { title: "雲端備分", link: "" },
@@ -112,7 +111,6 @@ let data = {
   ],
   personal: {img:"https://fakeimg.pl/10x10/cccccc/",username:"xun",ID:"yeyeye",email:"xun4014026@gmail.com"},
   drawer: false,
-  menuOpen: false,
 
 };
 

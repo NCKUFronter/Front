@@ -1,61 +1,72 @@
-
 <template>
-<!-- ref: https://github.com/David-Desmaisons/Vue.D3.sunburst/tree/e3c61e84268861400116245ea8e9020e8113ea07 -->
-<v-content >
-  <v-container fluid style="width: 960px" class="con">  
-    <v-row class="row1"  >
-      <v-flex xs6 sm3 md3>
-       <v-card
-        flat
-        class="perspective"
-      >
-            <v-btn-toggle
-              v-model="toggle_exclusive_perspective"
-              mandatory
-            >
+  <!-- ref: https://github.com/David-Desmaisons/Vue.D3.sunburst/tree/e3c61e84268861400116245ea8e9020e8113ea07 -->
+  <v-content>
+    <v-container fluid style="width: 960px" class="con">
+      <v-row class="row1">
+        <v-flex xs6 sm3 md3>
+          <v-card flat class="perspective">
+            <v-btn-toggle v-model="toggle_exclusive_perspective" mandatory>
               <v-btn value="personal">個人</v-btn>
               <v-btn value="ledger">帳本</v-btn>
             </v-btn-toggle>
-      </v-card>
-      </v-flex>
+          </v-card>
+        </v-flex>
 
-      <v-flex xs6 sm3 md3>
-      <v-card
-        flat
-        class="time"
-        xs6 sm3 md3 
-      >
-            <v-btn-toggle
-              v-model="toggle_exclusive_time"
-              mandatory
-            >
+        <v-flex xs6 sm3 md3>
+          <v-card flat class="time" xs6 sm3 md3>
+            <v-btn-toggle v-model="toggle_exclusive_time" mandatory>
               <v-btn value="year">年</v-btn>
               <v-btn value="month">月</v-btn>
               <v-btn value="week">週</v-btn>
             </v-btn-toggle>
-      </v-card>
-      </v-flex>
-    </v-row>
-    
-          <!-- <div class="card-header">Sunburst</div>
+          </v-card>
+        </v-flex>
+      </v-row>
+
+      <!-- <div class="card-header">Sunburst</div>
           <div class="card-body father"> -->
-            <sunburst class="sunburst" :data="displayData" :minAngleDisplayed="minAngleDisplayed" :colorScheme="colorScheme" :inAnimationDuration="inAnimationDuration" :outAnimationDuration="outAnimationDuration">
+      <sunburst
+        class="sunburst"
+        :data="displayData"
+        :minAngleDisplayed="minAngleDisplayed"
+        :colorScheme="colorScheme"
+        :inAnimationDuration="inAnimationDuration"
+        :outAnimationDuration="outAnimationDuration"
+      >
+        <breadcrumbTrail
+          slot="legend"
+          slot-scope="{ nodes, colorGetter, width }"
+          :current="nodes.mouseOver"
+          :root="nodes.root"
+          :colorGetter="colorGetter"
+          :from="nodes.zoomed"
+          :width="width"
+        />
 
-              <breadcrumbTrail slot="legend" slot-scope="{ nodes, colorGetter, width }" :current="nodes.mouseOver" :root="nodes.root" :colorGetter="colorGetter" :from="nodes.zoomed" :width="width" />
+        <nodeInfoDisplayer
+          slot="top"
+          slot-scope="{ nodes }"
+          :current="nodes.mouseOver"
+          :root="nodes.root"
+          :clicked="nodes.clicked"
+          description="of selected"
+        />
 
-              <nodeInfoDisplayer slot="top" slot-scope="{ nodes }" :current="nodes.mouseOver" :root="nodes.root" :clicked="nodes.clicked" description="of selected" />
+        <template slot-scope="{ on, actions }">
+          <highlightOnHover v-bind="{ on, actions }" />
+          <zoomOnClick v-bind="{ on, actions }" />
+        </template>
 
-              <template slot-scope="{ on, actions }">
-                <highlightOnHover v-bind="{ on, actions }"/>
-                <zoomOnClick v-bind="{ on, actions }"/>
-              </template>
-
-              <report slot="report" slot-scope="{ nodes }"  :current="nodes.clicked" :data="displayData"/>
-
-            </sunburst>
-          <!-- </div> -->
-  </v-container>
-</v-content>
+        <report
+          slot="report"
+          slot-scope="{ nodes }"
+          :current="nodes.clicked"
+          :data="displayData"
+        />
+      </sunburst>
+      <!-- </div> -->
+    </v-container>
+  </v-content>
 </template>
 
 <script>
@@ -67,14 +78,13 @@ import report from "../components/Report";
 import highlightOnHover from "../components/behavior/highlightOnHover";
 import zoomOnClick from "../components/behavior/zoomOnClick";
 
-
 import { colorSchemes } from "../infra/colorSchemes";
 import sumPersonal from "../data/sumPersonal";
 import sumLedger from "../data/sumLedger";
 
-const colorSchemesNames = Object.keys(colorSchemes).map(key => ({
+const colorSchemesNames = Object.keys(colorSchemes).map((key) => ({
   value: key,
-  text: colorSchemes[key].name
+  text: colorSchemes[key].name,
 }));
 
 export default {
@@ -83,54 +93,47 @@ export default {
     return {
       sumPersonal,
       sumLedger,
-      minAngleDisplayed: 0.05,//設定角度多小的可被看見 if=0表全部都可被看見
-      colorScheme: colorSchemesNames[7].value,//chart的顏色
+      minAngleDisplayed: 0.05, //設定角度多小的可被看見 if=0表全部都可被看見
+      colorScheme: colorSchemesNames[7].value, //chart的顏色
       // colorSchemes: colorSchemesNames,
-      inAnimationDuration: 500,//動畫速度
-      outAnimationDuration: 1000,//動畫速度
+      inAnimationDuration: 500, //動畫速度
+      outAnimationDuration: 1000, //動畫速度
       toggle_exclusive_perspective: "ledger",
-      toggle_exclusive_time:"month",
-      
+      toggle_exclusive_time: "month",
     };
   },
-  computed:{
-    displayData(){
-      if(this.toggle_exclusive_perspective=="ledger"){
-        return this.sumLedger
-      }else{
-        return this.sumPersonal
+  computed: {
+    displayData() {
+      if (this.toggle_exclusive_perspective == "ledger") {
+        return this.sumLedger;
+      } else {
+        return this.sumPersonal;
       }
-    }
+    },
   },
-  methods: {
-  },
+  methods: {},
   components: {
     sunburst,
     nodeInfoDisplayer,
     breadcrumbTrail,
     report,
     highlightOnHover,
-    zoomOnClick
-  }
+    zoomOnClick,
+  },
 };
 </script>
 
 <style scoped>
+.con {
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  color: #2c3e50;
+}
 
+.row1 {
+  margin: 1% 10%;
+}
 
-  
-  .con {
-    font-family: "Avenir", Helvetica, Arial, sans-serif;
-    color: #2c3e50;
-
-  }
-
-  .row1{
-    margin: 1% 10%;
-  }
-
-
-   /* .resizable {
+/* .resizable {
     margin-left: calc(50% - 50px);
   }  */
 /* 
@@ -142,14 +145,7 @@ export default {
     justify-content: center;
   } */
 
-  .sunburst{
-    height: 70vh;
-
-    
-  }
-
-
-
-
-
+.sunburst {
+  height: 70vh;
+}
 </style>

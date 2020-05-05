@@ -237,6 +237,7 @@ async function validatePipe(
 }
 
 /* --- swagger --- */
+/*
 const swaggerUi = require("swagger-ui-express");
 const swaggerJsdoc = require("swagger-jsdoc");
 // swagger setting
@@ -254,6 +255,7 @@ const specs = swaggerJsdoc({
 });
 
 app.use("/api", swaggerUi.serve, swaggerUi.setup(specs));
+*/
 
 /* --- add json server routers --- */
 // set id to "_id"
