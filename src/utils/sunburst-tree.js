@@ -20,8 +20,8 @@ export class SunburstLeaf {
   /** @type {SunburstTree | null} */
   parent;
 
-  /** @type {number | null} 給Sunburst用的 */
-  colorIdx;
+  /** @type {number} 給Sunburst用的 */
+  color;
 
   /**
    * @param {string} name Pie的名稱
@@ -33,6 +33,7 @@ export class SunburstLeaf {
     this.name = name;
     this.size = items.reduce((sum, item) => sum + sizeFn(item), 0);
     this.level = parent.level + 1;
+    this.parent = parent;
   }
 }
 
@@ -108,6 +109,7 @@ export class SunburstTree {
   }
 }
 
+/*
 import testData from "../data/temp";
 const categories = ["", "食物", "交通", "治裝", "娛樂"];
 const tree = new SunburstTree(
@@ -121,3 +123,4 @@ const tree = new SunburstTree(
   (item) => item.money
 );
 console.log(tree);
+*/
