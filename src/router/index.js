@@ -12,32 +12,6 @@ import Vuetify from "vuetify/lib";
 
 Vue.use(VueRouter);
 
-//
-
-import sunburst from "../components/sunbrust/sunburst";
-
-//slots info
-import nodeInfoDisplayer from "../components/sunbrust/nodeInfoDisplayer";
-import breadcrumbTrail from "../components/sunbrust/breadcrumbTrail";
-//slots behaviors
-import highlightOnHover from "../components/behavior/highlightOnHover";
-import zoomOnClick from "../components/behavior/zoomOnClick";
-
-import { colorSchemes } from "../infra/colorSchemes";
-
-export {
-  breadcrumbTrail,
-  colorSchemes,
-  highlightOnHover,
-  nodeInfoDisplayer,
-  sunburst,
-  zoomOnClick,
-};
-
-//
-
-Vue.use(VueRouter);
-
 const routes = [
   // 定義component對應的網址
   {

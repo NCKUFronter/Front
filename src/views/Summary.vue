@@ -24,12 +24,11 @@
       </v-row>
 
       <!-- <div class="card-header">Sunburst</div>
-          <div class="card-body father"> -->
+      <div class="card-body father">-->
       <sunburst
         class="sunburst"
         :data="displayData"
         :minAngleDisplayed="minAngleDisplayed"
-        :colorScheme="colorScheme"
         :inAnimationDuration="inAnimationDuration"
         :outAnimationDuration="outAnimationDuration"
       >
@@ -57,12 +56,7 @@
           <zoomOnClick v-bind="{ on, actions }" />
         </template>
 
-        <report
-          slot="report"
-          slot-scope="{ nodes }"
-          :current="nodes.clicked"
-          :data="displayData"
-        />
+        <report slot="report" slot-scope="{ nodes }" :current="nodes.clicked" />
       </sunburst>
       <!-- </div> -->
     </v-container>
@@ -70,36 +64,34 @@
 </template>
 
 <script>
-import sunburst from "../components/sunbrust/sunburst";
-import nodeInfoDisplayer from "../components/sunbrust/nodeInfoDisplayer";
-import breadcrumbTrail from "../components/sunbrust/breadcrumbTrail";
+import sunburst from "../components/Sunburst";
+// import nodeInfoDisplayer from "../components/sunbrust/nodeInfoDisplayer";
+// import breadcrumbTrail from "../components/sunbrust/breadcrumbTrail";
 import report from "../components/Report";
 //behaviours
-import highlightOnHover from "../components/behavior/highlightOnHover";
-import zoomOnClick from "../components/behavior/zoomOnClick";
+// import highlightOnHover from "../components/behavior/highlightOnHover";
+// import zoomOnClick from "../components/behavior/zoomOnClick";
+import {
+  nodeInfoDisplayer,
+  breadcrumbTrail,
+  highlightOnHover,
+  zoomOnClick,
+} from "vue-d3-sunburst";
 
-import { colorSchemes } from "../infra/colorSchemes";
-import sumPersonal from "../data/sumPersonal";
-import sumLedger from "../data/sumLedger";
-
-const colorSchemesNames = Object.keys(colorSchemes).map((key) => ({
-  value: key,
-  text: colorSchemes[key].name,
-}));
+import sumPersonal from "../data/sumPersonal.js";
+import sumLedger from "../data/sumLedger.js";
 
 export default {
-  name: "summary",
+  name: "app-summary",
   data() {
     return {
       sumPersonal,
       sumLedger,
       minAngleDisplayed: 0.05, //設定角度多小的可被看見 if=0表全部都可被看見
-      colorScheme: colorSchemesNames[7].value, //chart的顏色
-      // colorSchemes: colorSchemesNames,
       inAnimationDuration: 500, //動畫速度
       outAnimationDuration: 1000, //動畫速度
       toggle_exclusive_perspective: "ledger",
-      toggle_exclusive_time: "month",
+      toggle_exclusive_time: "month"
     };
   },
   computed: {
@@ -109,7 +101,7 @@ export default {
       } else {
         return this.sumPersonal;
       }
-    },
+    }
   },
   methods: {},
   components: {
@@ -118,8 +110,8 @@ export default {
     breadcrumbTrail,
     report,
     highlightOnHover,
-    zoomOnClick,
-  },
+    zoomOnClick
+  }
 };
 </script>
 
