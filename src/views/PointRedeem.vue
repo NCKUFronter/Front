@@ -1,5 +1,6 @@
 <template>
     <v-row>
+
         <!-- v-if="!cartModal" -->
         <v-flex  xs12 sm12 md12  v-if="!cartModal">
             <div class="header">
@@ -62,13 +63,15 @@
                 :headers="headers"
                 :items="redeemGoods"
                 :single-select="false"
-                item-key="name"
+                item-key="_id"
                 show-select
                 class="elevation-1"
                 hide-default-footer
+                
+                
             >
                 <template v-slot:item.name="{ item }">
-                        <v-img :src="item.img" class="cartImg"></v-img>
+                        <v-img :src="item.photo" class="cartImg" ></v-img>
                         <div class="cartContent">
                             <v-card-title class="cartT" >{{item.name}}</v-card-title>
                             <v-card-text class="cartT" style="font-size: 12px;">{{item.intro}}</v-card-text>
@@ -88,12 +91,27 @@
         </v-flex>
 
         <!-- goods -->
+        <v-row v-if="loading" >
+        <v-flex xs6 sm3 md3 v-for="item in 8" :key="item" class="item">
+            <v-skeleton-loader
+                type="card"  
+                :loading="loading"
+            ></v-skeleton-loader>
+        </v-flex>
+        </v-row>
+        <v-row v-if="!loading && !cartModal">
+        <v-flex xs6 sm3 md3  v-for="item in goods" :key="item.name" class="item">
 
-        <v-flex xs6 sm3 md3 v-else v-for="item in goods" :key="item.name" class="item">
-                <v-crad class="card">
-                    <v-img :src="item.img" class="img"></v-img>
+
+                <v-crad class="card"   >
+
+                    <v-img :src="item.photo" class="img" ></v-img>
+
                     <v-card-title class="pb-0">{{item.name}}</v-card-title>
+
                     <v-card-text class="pb-0" style="font-size: 12px;">{{item.intro}}</v-card-text>
+
+
                     <v-icon class="pb-1">mdi-alpha-p-circle-outline</v-icon>
                     <v-card-subtitle class="pb-1" >{{item.point}}</v-card-subtitle>
                     <v-card-actions class="icon">
@@ -108,30 +126,27 @@
                     </v-card-actions>
                 </v-crad>
         </v-flex>
+        </v-row>
     </v-row>
 </template>
 <script>
+
 // import PointRedeemCart from "../components/PointRedeemCart";
 export default {
     name: "PointRedeem",
     data: () => ({
+        loading: true,
 
         cartModal:false,
 
-        goods:[
-            {img:"https://fakeimg.pl/100x100/cccccc/",name:"竹蜻蜓",intro:"飛飛飛飛飛飛飛飛飛飛飛飛飛飛飛飛飛飛",point:"200"},
-            {img:"https://fakeimg.pl/100x100/cccccc/",name:"翻譯機",intro:"翻翻翻翻翻翻翻翻翻翻翻翻翻翻翻翻翻翻",point:"100"},
-            {img:"https://fakeimg.pl/100x100/cccccc/",name:"黑洞",intro:"黑黑黑黑黑黑黑黑黑黑黑黑黑黑黑黑黑黑",point:"500"},
-            {img:"https://fakeimg.pl/100x100/cccccc/",name:"蟲洞",intro:"蟲蟲蟲蟲蟲蟲蟲蟲蟲蟲蟲蟲蟲蟲蟲蟲蟲蟲",point:"900"},
-            {img:"https://fakeimg.pl/100x100/cccccc/",name:"30秒無敵",intro:"蟲蟲蟲蟲蟲蟲蟲蟲蟲蟲蟲蟲蟲蟲蟲蟲蟲蟲",point:"900"},
-            
-        ],
+        goods:[],
+        goodLength:null,
 
         redeemGoods:[
             // {img:"https://fakeimg.pl/100x100/cccccc/",name:"竹蜻蜓",intro:"飛飛飛飛飛飛飛飛飛飛飛飛飛飛飛飛飛飛",point:"200",quantity:1},
         ],
         likeGoods:[],
-        totalPoint:20000000,//原有的
+        totalPoint:0,//原有的
         cart:0,
         // heart:0,
 
@@ -146,6 +161,56 @@ export default {
 
 
   }),
+  created(){
+    
+    this.$http.get('/goods').then((res) => {
+      this.goodLength=res.data.length;
+      this.goods = res.data;
+    //   console.log(this.goods)   
+      return  this.$http.get('/user/profile')
+    }).then((res)=>{
+      this.totalPoint=res.data.rewardPoints;
+    //   console.log(this.totalPoint)
+    }).catch(console.log)
+
+    // const readyHandler = () => {
+    // if (document.readyState == 'complete') {
+    //     this.loading = false;
+    //     this.loaded = true;
+    //     document.removeEventListener('readystatechange', readyHandler);
+    //     }
+    // };
+
+    // document.addEventListener('readystatechange', readyHandler);
+
+    // readyHandler();
+
+    
+
+  },
+    mounted(){
+      window.addEventListener('load', () => {
+        // setTimeout(function(){this.loading=false;},500)
+        this.loading=false;
+        console.log('window onload')
+    })
+    },
+//   updated() {
+//   var that = this;
+
+//   if (document.readyState === 'complete'){
+//     // this.$set(that, 'loaded', true);
+//     this.$set(that, 'loading', false);
+//     console.log(this.loading)
+//   }
+//   else{
+//     window.addEventListener('load', function() {
+//       if (document.readyState === 'complete')
+//         that.$set(that, 'loaded', true);
+//         // that.$set(that, 'loading', false);
+//     })
+//   }
+// },
   components:{
     // PointRedeemCart  
   },
@@ -156,9 +221,12 @@ export default {
                 total+=(element.point*element.quantity)
             });
             return total
-        }
+        },
   },
   methods:{
+    //   imageLoaded(){
+    //       this.loading=false;
+    //   },
       addCart(item){
 
           var goodExist=false
@@ -171,7 +239,7 @@ export default {
           });
         
         if(!goodExist){
-          this.redeemGoods.push({img:item.img,name:item.name,intro:item.intro,point:item.point,quantity:1});
+          this.redeemGoods.push({_id:item._id,photo:item.photo,name:item.name,intro:item.intro,point:item.point,quantity:1});
         }
         
       },
@@ -192,46 +260,55 @@ export default {
       
       buy(){
             if(this.sumcart==0){
-                confirm("請選擇商品");
+                alert("請選擇商品");
             }
-            else if(this.totalPoint>=this.sumcart){
-                this.totalPoint-=this.sumcart;
-                //還要記錄點數的運用
-                var Re_idx=0;
-                this.redeemGoods.forEach(element => {//bug
+            else if(this.totalPoint>=this.sumcart){ 
+
+                if(confirm("確認購買")){
+                    //還要記錄點數的運用
                     var Se_idx=0;
-                    console.log(element.name+this.redeemGoods.length);
-                    this.selected.forEach(item => {
-                        console.log(element.name+"//"+item.name)
-                        if(item.name==element.name){
-                            console.log(element.name)
-                            this.redeemGoods.splice(Re_idx,1)
-                            this.selected.splice(Se_idx,1);
-                        }
+
+                    this.selected.forEach(element => {
+                        // console.log(element._id+Se_idx)
+                        this.$http.post('/point/consume/'+element._id,{quantity:element.quantity}).then((res) => {
+                        console.log(res.data)   
+                        }).catch(console.log)
+                        
+                        var Re_idx=0;
+                        this.redeemGoods.forEach(item => {
+                            if(item.name==element.name){
+                                this.redeemGoods.splice(Re_idx,1)
+                            }else{
+                                Re_idx++;
+                            }
+                            
+                        });
                         Se_idx++;
                     });
-                    Re_idx++;
-                });
+                    this.cart-=this.selected.length
+                    this.selected.splice(0, this.selected.length);
+                    this.$http.get('/user/profile').then((res)=>{
+                        this.totalPoint=res.data.rewardPoints;
+                    }).catch(console.log)
+                }
 
-                // this.selected.splice(0, this.selected.length);
-                this.sumcart;
-                this.cart=0
-                confirm("確認購買");
+                
             
                 //還要記錄他買了甚麼
             }else{
-                confirm("點數不夠QQ");
+                alert("點數不夠QQ");
             }
         
       },
       lookCart(){
           this.selected=this.redeemGoods;
           this.cartModal=!this.cartModal;
-          console.log(this.redeemGoods)
+        //   console.log(this.redeemGoods)
       }
   }
     
 }
+
 </script>
 <style scoped>
 .header{

@@ -223,7 +223,13 @@ export default {
     };
   },
   props: ["userDate", "ledgerSelected", "accountData"],
-  created() {},
+  created() {
+    // this.$http.post("/ledger",{name: 'xxxxx'}, {params: {_expand: [], _embed: ["users", "records"]}}).then((res)=>{
+
+    //   console.log(res.data)
+    // })
+
+  },
   filters: {
     categoryName(categoryId) {
       return modalCategory.find(cate => cate._id == categoryId).name;

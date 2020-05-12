@@ -19,7 +19,7 @@ export default {
     return {
       tab: null,
       items: [
-        { title: "帳目管理", link: "/accounting/SideAccount" },
+        { title: "帳目管理", link: "/accounting" },
         { title: "管理類別", link: "/accounting/Category" },
         { title: "管理帳本", link: "" }
       ]

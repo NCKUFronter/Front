@@ -1,6 +1,6 @@
 <template>
 <v-container fluid class="tree">
-  <v-card class="parent"  outlined>
+  <v-card class="parent"  outlined v-if="current">
     <v-card-title class="justify-center">{{current.data.name}}</v-card-title>
       <v-card flat>
         <v-card-title class="justify-center">總覽</v-card-title>

@@ -1,11 +1,37 @@
 <template>
   <!-- ref: https://codepen.io/virtualadrian/pen/pOeVPX && Vuetify component: Card & Combobox & Chip-->
-  <v-content>
-      <v-container fluid style="width: 960px">
+
         <v-row>
-          <v-flex xs6 sm6 md6 v-for="(card,idx) in hashtag" :key="idx" class="card">
-            <v-card>
-              <v-list-item>
+          <v-row v-if="loading">
+            <v-flex xs6 sm6 md6 v-for="item in 6" :key="item" class="card">
+            <v-boilerplate
+              class="md-6"
+              type=" table-heading,list-item-three-line"
+            ></v-boilerplate>
+            </v-flex>
+          </v-row>
+          <v-flex xs6 sm6 md6 v-else v-for="(card,idx) in hashtag" :key="idx" class="card">
+        
+      
+            <v-card class="cardAll">
+
+              <v-text-field class="headline"
+                v-model="card.name"
+                single-line
+                solo
+                flat
+                hide-details
+                :disabled="card.disable"
+                @keyup.tab="updateCategory(card.index,card.name)"
+                @paste="updateCategory(card.index,card.name)"
+                @keyup.enter="updateCategory(card.index,card.name)"
+              >
+              </v-text-field>
+
+              <v-btn icon class="deleteCard" v-on:click="deleteCategory(card.index,card.name,card.disable)">
+                <v-icon>mdi-backspace </v-icon>
+              </v-btn>
+              <!-- <v-list-item>
                 <v-list-item-content>
                   <v-list-item-title class="headline">
                     {{
@@ -13,7 +39,7 @@
                     }}
                   </v-list-item-title>
                 </v-list-item-content>
-              </v-list-item>
+              </v-list-item> -->
 
             <v-divider></v-divider>
 
@@ -26,16 +52,17 @@
               deletable-chips
               class="tag-input"
               :search-input.sync="search"
-              @keyup.tab="updateTags(card.index)"
-              @paste="updateTags(card.index)"
-              @keyup.enter="updateTags(card.index)"
+              @keyup.tab="updateTags(card.index,card.tag)"
+              @paste="updateTags(card.index,card.tag)"
+              @keyup.enter="updateTags(card.index,card.tag)"
+              @change="updateTags(card.index,card.tag)"
               solo
               flat
               hint="Creat Tags by typing"
             ></v-combobox>
           </v-card>
         </v-flex>
-        <v-flex xs6 sm6 md6 class="card">
+        <v-flex xs6 sm6 md6 class="card" v-if="!loading">
           <v-card>
             <v-text-field
               label="NewCategory"
@@ -56,13 +83,9 @@
               deletable-chips
               class="tag-input"
               :search-input.sync="search"
-              @keyup.tab="addNewTags()"
-              @paste="addNewTags()"
-              @keyup.enter="addNewTags()"
               clearable
               solo
               flat
-              disabled
               hint="add category first"
               persistent-hint
             ></v-combobox>
@@ -75,68 +98,99 @@
           </v-card>
         </v-flex>
       </v-row>
-    </v-container>
-  </v-content>
+
 </template>
 
 <script>
+import { confirmed } from 'vee-validate/dist/rules';
 export default {
   data: () => ({
-    hashtag: [
-      { index: 0, name: "食物", tag: ["早餐", "午餐", "晚餐"] },
-      { index: 1, name: "交通", tag: ["高鐵", "台鐵", "客運"] },
-      { index: 2, name: "治裝", tag: ["上衣", "長褲", "外套"] },
-      { index: 3, name: "娛樂", tag: ["電影", "KTV"] },
-    ],
-    categoryLength: 3,
-
+    hashtag: [],
     newCategory: "",
     newTag: [],
-    newHahtag: [],
-
-    search: "", //sync search
+    loading:true,
+    search: null, //sync search
   }),
-  methods: {
-    updateTags(index) {
-      console.log(index);
-      this.$nextTick(() => {
-        this.hashtag[index].tag.push(...this.search.split(","));
-        this.$nextTick(() => {
-          this.search = "";
-        });
+  created(){
+
+    this.$http.get('/user/categories').then((res) => {
+      res.data.forEach(element => {
+        this.hashtag.push({index: element._id, name:element.name, tag: element.hashtags ,disable: !element.userId})
       });
-      console.log(this.hashtag[index].tag[4]);
-    },
-    // addNewTags() {
-    //   this.$nextTick(() => {
-    //     this.newHahtag.push(...this.search.split(","));
-    //     this.$nextTick(() => {
-    //       this.search = "";
-    //     });
-    //   });
-    //   console.log(this.newHashtag[1])
-    // },
-    save() {
-      console.log(this.newHahtag[0]);
-      if (this.newCategory != "") {
-        var obj = {
-          index: this.categoryLength,
-          name: this.newCategory,
-          tag: this.newHahtag,
-        };
-        // Object.assign(this.desserts[this.editedIndex], this.editedItem)
-        this.hashtag.push(obj);
-        this.categoryLength = this.hashtag.length - 1;
-        console.log(this.categoryLength);
-        this.newCategory = "";
-        this.newHahtag = [];
+      console.log(this.hashtag)
+    })
+
+
+  },
+  mounted(){
+      window.addEventListener('load', () => {
+        this.loading=false;
+        console.log('window onload')
+    })
+  },
+  components:{
+         VBoilerplate: {
+        functional: true,
+
+        render (h, { data, props, children }) {
+          return h('v-skeleton-loader', {
+            ...data,
+            props: {
+              boilerplate: true,
+              elevation: 2,
+              ...props,
+            },
+          }, children)
+        },
+      },
+  },
+  methods: {
+    deleteCategory(index,name,disable){
+      if(!disable){
+        if(confirm("刪除類別: "+name)){
+          this.$http.delete('/category/'+index).then((res) => {
+            console.log(res.data)
+          })
+        }
+      }else{
+        alert("預設類別無法刪除")
       }
     },
-    // remove (card,chip) {
-    //   index=this.hashtag
-    //   this.hashtag.tag.splice(this.hashtag.indexOf(chip), 1)
-    //   // this.hashtag = [...this.chips]
-    // },
+    updateCategory(index,updateName) {
+      this.$nextTick(() => {
+        this.$http.patch('/category/'+index,{name:updateName}).then((res) => {
+          console.log(updateName)
+        })
+        
+      });
+
+    },
+    updateTags(index,addTag) {
+ 
+      this.$nextTick(() => {
+        this.$http.patch('/category/'+index,{hashtags:addTag}).then((res) => {
+        })
+        console.log(addTag)
+      });
+
+    },
+    removeTags(){
+      console.log("change!")
+    },
+
+    save() {
+      if (this.newCategory != "") {
+
+        this.$http.post('/category',{name:this.newCategory,hashtags:this.newTag}).then((res) => {
+          console.log(this.newTag);
+          console.log(res.data)
+        })
+        this.newTag=[];
+        this.newCategory = "";
+      
+      }
+    },
+
   },
 };
 </script>
@@ -144,7 +198,20 @@ export default {
 <style scoped>
   .card{
     padding: 1%;
+    position: relative;
   }
-  
+
+
+
+  .deleteCard{
+    position: absolute;
+    top: -1%;
+    right: -1%;
+  }
+
+  .loadCard{
+    margin-bottom: 20px;
+  }
+
   
 </style>
