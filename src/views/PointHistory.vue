@@ -124,18 +124,19 @@
               }
             }
             this.history.push({activity:detail,point:element.amount,type:element.type,time:element.time.substr(0, 10)})
+            this.loading=false;
           });
       })
 
 
 
     },
-    mounted(){
-      window.addEventListener('load', () => {
-        this.loading=false;
-        console.log('window onload')
-    })
-    },
+    // mounted(){
+    //   window.addEventListener('load', () => {
+    //     this.loading=false;
+    //     console.log('window onload')
+    // })
+    // },
 
     computed:{
 

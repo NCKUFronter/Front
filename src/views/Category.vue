@@ -117,17 +117,18 @@ export default {
       res.data.forEach(element => {
         this.hashtag.push({index: element._id, name:element.name, tag: element.hashtags ,disable: !element.userId})
       });
+      this.loading=false;
       console.log(this.hashtag)
     })
 
 
   },
-  mounted(){
-      window.addEventListener('load', () => {
-        this.loading=false;
-        console.log('window onload')
-    })
-  },
+  // mounted(){
+  //     window.addEventListener('load', () => {
+  //       this.loading=false;
+  //       console.log('window onload')
+  //   })
+  // },
   components:{
          VBoilerplate: {
         functional: true,
@@ -150,7 +151,14 @@ export default {
         if(confirm("刪除類別: "+name)){
           this.$http.delete('/category/'+index).then((res) => {
             console.log(res.data)
-          })
+            return this.$http.get('/user/categories')
+        }).then((res) => {
+          this.hashtag=[];
+          res.data.forEach(element => {
+            this.hashtag.push({index: element._id, name:element.name, tag: element.hashtags ,disable: !element.userId})
+          });
+          console.log(this.hashtag)
+        })
         }
       }else{
         alert("預設類別無法刪除")
@@ -174,9 +182,6 @@ export default {
       });
 
     },
-    removeTags(){
-      console.log("change!")
-    },
 
     save() {
       if (this.newCategory != "") {
@@ -184,12 +189,20 @@ export default {
         this.$http.post('/category',{name:this.newCategory,hashtags:this.newTag}).then((res) => {
           console.log(this.newTag);
           console.log(res.data)
+          return this.$http.get('/user/categories')
+        }).then((res) => {
+          this.hashtag=[];
+          res.data.forEach(element => {
+            this.hashtag.push({index: element._id, name:element.name, tag: element.hashtags ,disable: !element.userId})
+          });
+          console.log(this.hashtag)
         })
         this.newTag=[];
         this.newCategory = "";
       
       }
     },
+
 
   },
 };

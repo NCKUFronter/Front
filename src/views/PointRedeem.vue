@@ -37,6 +37,7 @@
         </v-flex>
 
         <!-- cart -->
+        
 
         <v-flex xs12 sm12 md12 v-if="cartModal" >
             <v-container fluid>
@@ -171,6 +172,7 @@ export default {
     }).then((res)=>{
       this.totalPoint=res.data.rewardPoints;
     //   console.log(this.totalPoint)
+    this.loading=false;
     }).catch(console.log)
 
     // const readyHandler = () => {
@@ -188,13 +190,13 @@ export default {
     
 
   },
-    mounted(){
-      window.addEventListener('load', () => {
-        // setTimeout(function(){this.loading=false;},500)
-        this.loading=false;
-        console.log('window onload')
-    })
-    },
+    // mounted(){
+    //   window.addEventListener('load', () => {
+    //     // setTimeout(function(){this.loading=false;},500)
+    //     this.loading=false;
+    //     console.log('window onload')
+    // })
+    // },
 //   updated() {
 //   var that = this;
 
@@ -271,7 +273,11 @@ export default {
                     this.selected.forEach(element => {
                         // console.log(element._id+Se_idx)
                         this.$http.post('/point/consume/'+element._id,{quantity:element.quantity}).then((res) => {
-                        console.log(res.data)   
+                            console.log(res.data)   
+                            return  this.$http.get('/user/profile')
+                        }).then((res)=>{
+                            this.totalPoint=res.data.rewardPoints;
+                               console.log(this.totalPoint)
                         }).catch(console.log)
                         
                         var Re_idx=0;
@@ -287,9 +293,7 @@ export default {
                     });
                     this.cart-=this.selected.length
                     this.selected.splice(0, this.selected.length);
-                    this.$http.get('/user/profile').then((res)=>{
-                        this.totalPoint=res.data.rewardPoints;
-                    }).catch(console.log)
+
                 }
 
                 
