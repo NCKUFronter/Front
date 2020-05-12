@@ -30,7 +30,7 @@ import { hierarchy, partition } from "d3-hierarchy";
 import { interpolate } from "d3-interpolate";
 import { arc } from "d3-shape";
 import { transition } from "d3-transition";
-import { colorSchemes } from "../../infra/colorSchemes";
+import { colorSchemes } from "vue-d3-sunburst";
 
 function recursiveName(node) {
   const res = node

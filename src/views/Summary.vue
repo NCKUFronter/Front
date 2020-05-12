@@ -24,45 +24,41 @@
       </v-row>
 
       <!-- <div class="card-header">Sunburst</div>
-          <div class="card-body father"> -->
+      <div class="card-body father">-->
       <sunburst
         class="sunburst"
         :data="displayData"
         :minAngleDisplayed="minAngleDisplayed"
-        :colorScheme="colorScheme"
         :inAnimationDuration="inAnimationDuration"
         :outAnimationDuration="outAnimationDuration"
       >
-        <breadcrumbTrail
-          slot="legend"
-          slot-scope="{ nodes, colorGetter, width }"
-          :current="nodes.mouseOver"
-          :root="nodes.root"
-          :colorGetter="colorGetter"
-          :from="nodes.zoomed"
-          :width="width"
-        />
+        <template v-slot:legend="{ nodes, colorGetter, width }">
+          <breadcrumbTrail
+            :current="nodes.mouseOver"
+            :root="nodes.root"
+            :colorGetter="colorGetter"
+            :from="nodes.zoomed"
+            :width="width"
+          />
+        </template>
 
-        <nodeInfoDisplayer
-          slot="top"
-          slot-scope="{ nodes }"
-          :current="nodes.mouseOver"
-          :root="nodes.root"
-          :clicked="nodes.clicked"
-          description="of selected"
-        />
+        <template v-slot:top="{ nodes }">
+          <nodeInfoDisplayer
+            :current="nodes.mouseOver"
+            :root="nodes.root"
+            :clicked="nodes.clicked"
+            description="of selected"
+          />
+        </template>
 
-        <template slot-scope="{ on, actions }">
+        <template v-slot="{ on, actions }">
           <highlightOnHover v-bind="{ on, actions }" />
           <zoomOnClick v-bind="{ on, actions }" />
         </template>
 
-        <report
-          slot="report"
-          slot-scope="{ nodes }"
-          :current="nodes.clicked"
-          :data="displayData"
-        />
+        <template v-slot:report="{ nodes }">
+          <report slot="report" :nodes="nodes" />
+        </template>
       </sunburst>
       <!-- </div> -->
     </v-container>
@@ -70,36 +66,48 @@
 </template>
 
 <script>
-import sunburst from "../components/sunbrust/sunburst";
-import nodeInfoDisplayer from "../components/sunbrust/nodeInfoDisplayer";
-import breadcrumbTrail from "../components/sunbrust/breadcrumbTrail";
+import sunburst from "../components/Sunburst";
+// import nodeInfoDisplayer from "../components/sunbrust/nodeInfoDisplayer";
+// import breadcrumbTrail from "../components/sunbrust/breadcrumbTrail";
 import report from "../components/Report";
 //behaviours
-import highlightOnHover from "../components/behavior/highlightOnHover";
-import zoomOnClick from "../components/behavior/zoomOnClick";
+// import highlightOnHover from "../components/behavior/highlightOnHover";
+// import zoomOnClick from "../components/behavior/zoomOnClick";
+import {
+  nodeInfoDisplayer,
+  breadcrumbTrail,
+  highlightOnHover,
+  zoomOnClick
+} from "vue-d3-sunburst";
 
-import { colorSchemes } from "../infra/colorSchemes";
-import sumPersonal from "../data/sumPersonal";
-import sumLedger from "../data/sumLedger";
+import sumPersonal from "../data/sumPersonal.js";
+import sumLedger from "../data/sumLedger.js";
+import testData from "../data/temp.js";
+import { SunburstTree } from "../utils/sunburst-tree";
 
-const colorSchemesNames = Object.keys(colorSchemes).map((key) => ({
-  value: key,
-  text: colorSchemes[key].name,
-}));
+const categories = ["", "食物", "交通", "治裝", "娛樂"];
+const example = new SunburstTree(
+  "Ledger",
+  testData,
+  [
+    { labelFn: item => item.recordType },
+    { labelFn: item => categories[item.categoryId] },
+    { labelFn: item => item.hashtags && item.hashtags[0] }
+  ],
+  item => item.money
+);
 
 export default {
-  name: "summary",
+  name: "app-summary",
   data() {
     return {
       sumPersonal,
-      sumLedger,
+      sumLedger: example,
       minAngleDisplayed: 0.05, //設定角度多小的可被看見 if=0表全部都可被看見
-      colorScheme: colorSchemesNames[7].value, //chart的顏色
-      // colorSchemes: colorSchemesNames,
       inAnimationDuration: 500, //動畫速度
       outAnimationDuration: 1000, //動畫速度
       toggle_exclusive_perspective: "ledger",
-      toggle_exclusive_time: "month",
+      toggle_exclusive_time: "month"
     };
   },
   computed: {
@@ -109,7 +117,7 @@ export default {
       } else {
         return this.sumPersonal;
       }
-    },
+    }
   },
   methods: {},
   components: {
@@ -118,8 +126,8 @@ export default {
     breadcrumbTrail,
     report,
     highlightOnHover,
-    zoomOnClick,
-  },
+    zoomOnClick
+  }
 };
 </script>
 
