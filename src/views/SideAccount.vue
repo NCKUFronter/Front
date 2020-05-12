@@ -73,8 +73,8 @@
       ></AddRecord>
     </div>
 
-      <!--router-view></router-view-->
-
+    <!--router-view></router-view-->
+  </v-card>
   <!-- </v-content> -->
 </template>
 
@@ -177,9 +177,12 @@ export default {
     //   .then(res => {
     //     console.log(res.data);
     //   });
-    // this.$http.get("/record/{id}").then(res=>{
-    // this.accountData = res.data;
-    // })
+    // this.$http.get("/ledger/1/records").then(res => {
+    //   this.accountData = res.data;
+    // });
+    // this.$http.get("/user/ledgers".then(res => {
+    // this.ledger = res.data;
+    // }))
   },
   computed: {},
   methods: {
@@ -324,6 +327,4 @@ export default {
     width: 20%;
 }
  */
-
-
 </style>
