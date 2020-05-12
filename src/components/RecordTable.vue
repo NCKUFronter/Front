@@ -13,7 +13,7 @@
           @open="open"
           @close="close"
         >
-          <div>{{ props.item.categoryId | categoryName }}</div>
+          <div>{{ props.item.categoryId }}</div>
           <template v-slot:input>
             <div class="mt-4 title">Update Category</div>
           </template>
@@ -125,7 +125,13 @@
           @open="open"
           @close="close"
         >
-          <div>{{ props.item.recordType }}</div>
+          <v-chip :color="getColor(props.item.recordType)">
+            <!-- <v-icon left>getIcon()</v-icon> -->
+            <!-- <v-icon v-if="getIcon()==true">mdi-tray-minus</v-icon>
+            <v-icon v-else>mdi-tray-plus</v-icon>-->
+            {{props.item.recordType}}
+          </v-chip>
+
           <template v-slot:input>
             <div class="mt-4 title">Update Flow</div>
           </template>
@@ -151,38 +157,22 @@
 </template>
 
 <script>
-const modalCategory = [
-  {
-    name: "食物",
-    _id: "5ea06d246b04b818d4d3c79b",
-    index: "0"
-  },
-  {
-    name: "交通",
-    _id: "5ea06d246b04b818d4d3c79c",
-    index: "1"
-  },
-  {
-    name: "治裝",
-    _id: "5ea06d246b04b818d4d3c79d",
-    index: "2"
-  },
-  {
-    name: "娛樂",
-    _id: "5ea06d246b04b818d4d3c79e",
-    index: "3"
-  }
-];
 export default {
   data() {
     return {
+      iconName: "mdi_tray-minus",
       dialog: false,
       snack: false,
+      // flowIcon: true,
       snackColor: "",
       snackText: "",
       max25chars: v => v.length <= 25 || "Input too long!",
       pagination: {},
       headers: [
+        {
+          text: "Flow",
+          value: "recordType"
+        },
         {
           text: "Category",
           value: "category"
@@ -200,22 +190,17 @@ export default {
           value: "ledger"
         },
         {
-          text: "Flow",
-          value: "recordType"
-        },
-        {
           text: "Actions",
           value: "actions",
           sortable: false
         }
       ],
-      modalCategory,
       modalAccount: [
         { accountCate: "Main Account" },
         { accountCate: "Bank SinoPac" }
       ],
-
-      modalFlow: ["Income", "Expense"]
+      modalCategory: [],
+      modalFlow: ["income", "expense"]
       // dedaultItem:
       //   {
       //     _id: "",
@@ -241,18 +226,12 @@ export default {
     };
   },
   props: ["userDate", "ledgerSelected", "accountData"],
-  created() {
-    // this.$http.post("/ledger",{name: 'xxxxx'}, {params: {_expand: [], _embed: ["users", "records"]}}).then((res)=>{
-
-    //   console.log(res.data)
-    // })
-
-  },
-  filters: {
-    categoryName(categoryId) {
-      return modalCategory.find(cate => cate._id == categoryId).name;
-    }
-  },
+  created() {},
+  // filters: {
+  //   categoryName(categoryId) {
+  //     return modalCategory.find(cate => cate._id == categoryId).name;
+  //   }
+  // },
   computed: {
     filterAccountData() {
       return this.filterLedgerData.filter(item => {
@@ -268,16 +247,43 @@ export default {
         return this.accountData;
       }
     }
-    // filterFlowData(){
-    //   if(this.modalFlow == "Income"){
-
-    //   }
-    //   else{
-
+    // getIcon() {
+    //   var recordType = "income";
+    //   console.log(recordType);
+    //   if (recordType == "expense") {
+    //     console.log("ok");
+    //     return false;
+    //   } else {
+    //     console.log("ok");
+    //     return true;
     //   }
     // }
+    // getIcon() {
+    //   return "mdi-tray-minus";
+    // var recordType = "income";
+    // console.log(recordType);
+    // if (recordType == "expense") {
+    //   console.log("ok");
+    //   return false;
+    // } else {
+    //   console.log("ok");
+    //   return true;
+    // }
   },
+  // filterFlowData(){
+  //   if(this.modalFlow == "Income"){
+
+  //   }
+  //   else{
+
+  //   }
+  // }
+
   methods: {
+    getColor(recordType) {
+      if (recordType == "income") return "red";
+      else return "yellow";
+    },
     save() {
       this.snack = true;
       this.snackColor = "success";
@@ -315,28 +321,28 @@ export default {
           });
       }
     }
-    // editItem(item) {
-    //   item._id = this.props.indexOf(item);
-    //   this.editedItem = Object.assign({}, item);
-    //   this.dialog = true;
-    // },
-    //   close () {
-    //   this.dialog = false
-    //   this.$nextTick(() => {
-    //     this.editedItem = Object.assign({}, this.defaultItem)
-    //     this.editedIndex = -1
-    //   })
-    // },
-
-    // save () {
-    //   if (this.editedIndex > -1) {
-    //     Object.assign(this.desserts[this.editedIndex], this.editedItem)
-    //   } else {
-    //     this.desserts.push(this.editedItem)
-    //   }
-    //   this.close()
-    // }
   }
+  // editItem(item) {
+  //   item._id = this.props.indexOf(item);
+  //   this.editedItem = Object.assign({}, item);
+  //   this.dialog = true;
+  // },
+  //   close () {
+  //   this.dialog = false
+  //   this.$nextTick(() => {
+  //     this.editedItem = Object.assign({}, this.defaultItem)
+  //     this.editedIndex = -1
+  //   })
+  // },
+
+  // save () {
+  //   if (this.editedIndex > -1) {
+  //     Object.assign(this.desserts[this.editedIndex], this.editedItem)
+  //   } else {
+  //     this.desserts.push(this.editedItem)
+  //   }
+  //   this.close()
+  // }
 };
 </script>
 

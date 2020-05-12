@@ -22,6 +22,7 @@
       <div class="date-wrap">
         <i class="material-icons" v-on:click="getYearMonthDate(-1)">arrow_left</i>
         <div class="date" v-on:click="dataPickerModal = !dataPickerModal">{{ userDate }}</div>
+
         <v-date-picker
           v-if="dataPickerModal"
           class="dataPicker"
@@ -31,6 +32,7 @@
           v-on:click.native="dataPickerModal = !dataPickerModal"
           transition="scroll-y-transition"
         ></v-date-picker>
+
         <i class="material-icons" v-on:click="getYearMonthDate(1)">arrow_right</i>
       </div>
 
@@ -86,72 +88,8 @@ let data = {
   ledgerSelected: "All",
   ledger: ["All", "Main Account", "Bank SinoPac"],
   userDate: "2020-04-20",
-  accountData: [
-    {
-      _id: "1",
-      recordId: 1,
-      categoryId: "5ea06d246b04b818d4d3c79b",
-      detail: "0421的收入",
-      money: "187",
-      ledger: "Main Account",
-      recordType: "income",
-      date: "2020-04-21"
-    },
-    {
-      _id: "2",
-      recordId: 2,
-      categoryId: "5ea06d246b04b818d4d3c79c",
-      detail: "0421的支出",
-      money: "200",
-      ledger: "Main Account",
-      recordType: "expense",
-      date: "2020-04-21"
-    },
-    {
-      _id: "3",
-      recordId: 3,
-      categoryId: "5ea06d246b04b818d4d3c79e",
-      detail: "0420的收入",
-      money: "36",
-      ledger: "Bank SinoPac",
-      recordType: "income",
-      date: "2020-04-20"
-    },
-    {
-      _id: "4",
-      recordId: 4,
-      categoryId: "5ea06d246b04b818d4d3c79b",
-      detail: "0419的收入",
-      money: "187",
-      ledger: "Main Account",
-      recordType: "income",
-      date: "2020-04-19"
-    },
-    {
-      _id: "5",
-      recordId: 5,
-      categoryId: "5ea06d246b04b818d4d3c79c",
-      detail: "0419的支出",
-      money: "200",
-      ledger: "Bank SinoPac",
-      recordType: "expense",
-      date: "2020-04-19"
-    },
-    {
-      _id: "6",
-      recordId: 6,
-      categoryId: "5ea06d246b04b818d4d3c79e",
-      detail: "0418的收入",
-      money: "36",
-      ledger: "Bank SinoPac",
-      recordType: "income",
-      date: "2020-04-18"
-    }
-  ],
+  accountData: [],
   dataPickerModal: false
-  //後端連接變數方法
-  // hello: 'init',
-  // modal: false,
 };
 export default {
   name: "SideAccount",
@@ -177,9 +115,7 @@ export default {
     //   .then(res => {
     //     console.log(res.data);
     //   });
-    // this.$http.get("/ledger/1/records").then(res => {
-    //   this.accountData = res.data;
-    // });
+
     // this.$http.get("/user/ledgers".then(res => {
     // this.ledger = res.data;
     // }))
@@ -187,15 +123,36 @@ export default {
   computed: {},
   methods: {
     fetchRecords() {
-      this.$api
-        .getAllRecords()
-        .then(res => {
-          this.accountData = res.data;
-        })
-        .catch(err => {
-          console.log(err);
-          alert("資料擷取失敗");
+      this.$http.get("/user/ledgers").then(res => {
+        res.data.forEach(element => {
+          let ledgerId = element._id;
+          this.$http
+            .get("/ledger/" + ledgerId + "/records", {
+              params: { _one: ["category", "ledger"] }
+            })
+            .then(res => {
+              res.data.forEach(element => {
+                let t = new Date(element.date);
+                this.accountData.push({
+                  index: element._id,
+                  categoryId: element.category.name,
+                  detail: element.detail,
+                  money: element.money,
+                  ledger: element.ledger.name,
+                  userId: element.userId,
+                  recordType: element.recordType,
+                  date: t.toISOString().substr(0, 10),
+                  rewardPoints: element.rewardPoints
+                });
+              });
+              console.log(this.accountData);
+            })
+            .catch(err => {
+              console.log(err);
+              alert("資料擷取失敗");
+            });
         });
+      });
     },
     initialDate() {
       let t = new Date();
