@@ -73,8 +73,9 @@
       ></AddRecord>
     </div>
 
-    <!--router-view></router-view-->
-  </v-card>
+      <!--router-view></router-view-->
+
+  <!-- </v-content> -->
 </template>
 
 <script>
@@ -229,6 +230,7 @@ export default {
     border-style: solid; */
   width: 100vw;
   height: 94vh;
+  border: none !important;
 }
 .account-upper {
   height: 10vh;
@@ -322,4 +324,6 @@ export default {
     width: 20%;
 }
  */
+
+
 </style>

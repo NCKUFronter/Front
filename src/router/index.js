@@ -9,6 +9,7 @@ import pointManage from "../views/PointManage.vue";
 import pointHistory from "../views/PointHistory.vue";
 import pointDelivery from "../views/PointDelivery.vue";
 import pointRedeem from "../views/PointRedeem.vue";
+import personalAccount from "../views/PersonalAccount.vue";
 import Vuetify from "vuetify/lib";
 
 Vue.use(VueRouter);
@@ -48,7 +49,7 @@ const routes = [
     component: Accounting,
     children: [
       {
-        path: "SideAccount",
+        path: "",
         name: "SideAccountName",
         component: SideAccount,
       },
@@ -78,6 +79,11 @@ const routes = [
       }
      ]
      */
+  },
+  {
+    path: "/personal",
+    name: "PersonalAccountName",
+    component: personalAccount,
   },
   {
     path: "/summary",

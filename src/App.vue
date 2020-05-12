@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-app-bar class="mx-auto overflow-hidden" color="#efca16" elevate-on-scroll clipped-left app>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="login"></v-app-bar-nav-icon>
       <!-- <v-menu bottom :offset-y="offset" transition="slide-x-transition" right>
         <template v-slot:activator="{ on }">
           <v-app-bar-nav-icon v-on="on"></v-app-bar-nav-icon>
@@ -22,39 +22,55 @@
       <h1 class="logo">記帳網</h1>
       <v-spacer />
 
+
       <!-- peraonal account -->
-      <v-menu offset-y>
-        <template v-slot:activator="{ on }">
-          <v-btn icon v-on="on">
-            <v-icon large>mdi-account-circle</v-icon>
-          </v-btn>
-        </template>
-        <v-card flat class="text-center">
-          <v-img
-            :src="personal.img"
-            style="border-radius: 50%; height:100px; width:100px; margin: auto; margin-top: 20px;"
-          ></v-img>
-          <v-card-title class="justify-center">{{personal.username}}</v-card-title>
-          <v-card-subtitle>{{personal.ID}}</v-card-subtitle>
-          <v-card-text>{{personal.email}}</v-card-text>
-          <v-btn outlined block color="#cccccc" style="margin-bottom:10px">
-            <v-icon>mdi-file-edit-outline</v-icon>個人帳戶管理
-          </v-btn>
-          <v-btn outlined block color="#cccccc">
-            <v-icon>mdi-logout-variant</v-icon>登出
-          </v-btn>
-        </v-card>
-      </v-menu>
+      <v-menu offset-y >
+      <template v-slot:activator="{ on }">
+        <v-btn
+        icon
+        v-on="on"
+        :v-on:click="accountClick()"
+        >
+          <v-icon large>mdi-account-circle</v-icon>
+        </v-btn>
+      </template>
+      <v-card flat v-if="!login" style="padding:5px ">
+        <v-card-title class="justify-center">尚未登入</v-card-title>
+        <v-btn outlined flat block color="#cccccc" style="padding:10px " v-on:click="toLogin">
+          登入
+        </v-btn>
+      </v-card>
+      <v-card flat v-else class=" text-center">
+        <v-img :src="personal.img" style="border-radius: 50%; height:100px; width:100px; margin: auto; margin-top: 20px;"></v-img>
+        <v-card-title class="justify-center">{{personal.username}}</v-card-title>
+        <v-card-subtitle >{{personal.ID}}</v-card-subtitle>
+        <v-card-text >{{personal.email}}</v-card-text>
+        <v-btn outlined block style="margin-bottom:10px " color="#cccccc">
+          <v-icon>mdi-file-edit-outline</v-icon>  
+          綁定信用卡
+        </v-btn>
+        <v-btn outlined block color="#cccccc" v-on:click="toLogout">
+          <v-icon>mdi-logout-variant</v-icon>  
+          登出
+        </v-btn>
+      </v-card>
+    </v-menu>
+      
     </v-app-bar>
 
-    <v-card class="mx-auto">
-      <v-navigation-drawer
-        v-model="drawer"
-        hide-overlay
-        :permanent="$vuetify.breakpoint.mdAndUp"
-        :temporary="$vuetify.breakpoint.smAndDown"
-        clipped
-        app
+    <v-card class="mx-auto" v-if="login">
+    <v-navigation-drawer
+      v-model="drawer"
+      hide-overlay
+      :permanent="$vuetify.breakpoint.mdAndUp"
+      :temporary="$vuetify.breakpoint.smAndDown"
+      clipped      
+      app
+      class="nav-drawer"
+      style="top: 56px"
+    >
+      <v-list
+        nav
       >
         <v-list nav>
           <v-list-item
@@ -68,6 +84,26 @@
         </v-list>
       </v-navigation-drawer>
     </v-card>
+
+    <v-content v-if="!login">
+      <v-container fluid style="width: 1100px">
+      <v-row style="margin-top:15%">
+        <v-flex xs6 sm6 md6 class="pa-6">
+          <v-img src="./phone.png"></v-img>
+        </v-flex>
+        <v-flex xs6 sm6 md6 class="pa-6" style="margin-top:10%">
+          <v-card-title color="#efca16">星，際帳</v-card-title>
+          <v-card-text>在這裡，你可以體驗由永豐提供的智慧生活，記下日常消費的每筆帳目，並獲得回饋點數</v-card-text>
+          <v-btn outlined color="#414141" class="ma-3">創建帳戶</v-btn>
+          <v-btn outlined color="#414141" class="ma-3">登入</v-btn>
+        </v-flex>
+      </v-row>
+      </v-container>
+    </v-content>
+  
+
+
+
 
     <!-- <SideMenu /> -->
 
@@ -95,18 +131,17 @@ let data = {
   menu: [
     { title: "統計圖產生", link: "/summary" },
     { title: "周/月帳目一覽", link: "/accounting" },
-    // { title: "帳戶管理", link: "" },
-    { title: "點數管理", link: "/point" }
+    // { title: "帳戶管理", link: "/personal" },
+    { title: "點數管理", link: "/point" },
     // { title: "雲端備分", link: "" },
     // { title: "統一發票", link: "" }
   ],
-  personal: {
-    img: "https://fakeimg.pl/10x10/cccccc/",
-    username: "xun",
-    ID: "yeyeye",
-    email: "xun4014026@gmail.com"
-  },
-  drawer: false
+  personal: {img:"https://fakeimg.pl/10x10/cccccc/",username:"xun",ID:"yeyeye",email:"xun4014026@gmail.com"},
+  drawer: false,
+  login:false,
+
+  
+
 };
 
 export default {
@@ -119,9 +154,53 @@ export default {
     //SideAccount  // 定義component
     // SideMenu
   },
+  created(){
+    // var that = this;
+    // this.$set(that, 'login', this.GLOBAL.loginStatus)
+    // console.log(this.GLOBAL.loginStatus)
+    // console.log(this.login)
+  },
+  computed: {
 
-  computed: {},
-  methods: {}
+  },
+
+  methods: {
+    accountClick(){
+      this.$http.get('/user/profile').then((res)=>{
+        this.GLOBAL.loginStatus=true;
+        this.login=this.GLOBAL.loginStatus;
+      }).catch((err)=>{
+        this.GLOBAL.loginStatus=false;
+        this.login=this.GLOBAL.loginStatus;
+
+      })
+    },
+    toLogin(){
+      this.$http.post('/user/login', {email: 'father@gmail.com', password:'0000'},{withCredentials: true}).then((res)=>{
+        // this.login=true;
+        this.GLOBAL.loginStatus=true;
+        this.login=this.GLOBAL.loginStatus;
+        console.log(this.GLOBAL.loginStatus)
+        // console.log(this.login)
+        return  this.$http.get('/user/profile')
+    }).then((res)=>{
+      this.personal.img=res.data.photo
+      this.personal.username=res.data.name
+      this.personal.ID=res.data._id
+      this.personal.email=res.data.email
+    //   console.log(this.totalPoint)
+    }).catch(console.log)
+    },
+
+    toLogout(){
+      this.$http.post('/user/logout',{withCredentials: true}).then((res)=>{
+        // this.login=false;
+        this.GLOBAL.loginStatus=false;
+        this.login=this.GLOBAL.loginStatus
+      }).catch(console.log)
+    }
+    
+  }
 };
 </script>
 
@@ -176,4 +255,9 @@ a {
 .text-center {
   margin: 10px;
 }
+
+.v-navigation-drawer__border{
+    display: none;
+}
+
 </style>

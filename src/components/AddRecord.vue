@@ -107,28 +107,29 @@ let data = {
   selected_category: "",
   userDate: "2020-04-20",
   dataPickerModal: false,
-  modalCategory: [
-    {
-      name: "食物",
-      _id: "5ea06d246b04b818d4d3c79b",
-      index: "0"
-    },
-    {
-      name: "交通",
-      _id: "5ea06d246b04b818d4d3c79c",
-      index: "1"
-    },
-    {
-      name: "治裝",
-      _id: "5ea06d246b04b818d4d3c79d",
-      index: "2"
-    },
-    {
-      name: "娛樂",
-      _id: "5ea06d246b04b818d4d3c79e",
-      index: "3"
-    }
-  ],
+  modalCategory:[],
+  // modalCategory: [
+  //   {
+  //     name: "食物",
+  //     _id: "5ea06d246b04b818d4d3c79b",
+  //     index: "0"
+  //   },
+  //   {
+  //     name: "交通",
+  //     _id: "5ea06d246b04b818d4d3c79c",
+  //     index: "1"
+  //   },
+  //   {
+  //     name: "治裝",
+  //     _id: "5ea06d246b04b818d4d3c79d",
+  //     index: "2"
+  //   },
+  //   {
+  //     name: "娛樂",
+  //     _id: "5ea06d246b04b818d4d3c79e",
+  //     index: "3"
+  //   }
+  // ],
 
   modalAccount: [
     { accountCate: "Main Account" },
@@ -143,10 +144,10 @@ let data = {
 
   newHashtag: [],
   hashtag: [
-    { index: 0, name: "食物", tag: ["早餐", "午餐", "晚餐"] },
-    { index: 1, name: "交通", tag: ["高鐵", "台鐵", "客運"] },
-    { index: 2, name: "治裝", tag: ["上衣", "長褲", "外套"] },
-    { index: 3, name: "娛樂", tag: ["電影", "KTV"] }
+    { index: 1, name: "食物", tag: ["早餐", "午餐", "晚餐"] },
+    { index: 2, name: "交通", tag: ["高鐵", "台鐵", "客運"] },
+    { index: 3, name: "治裝", tag: ["上衣", "長褲", "外套"] },
+    { index: 4, name: "娛樂", tag: ["電影", "KTV"] }
   ]
 };
 

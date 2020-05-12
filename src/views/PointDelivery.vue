@@ -1,7 +1,16 @@
 <template>
-    <ValidationObserver ref="observer"  >
-        <!-- v-slot="{ validate, reset }" -->
-    <v-form class="form">
+
+    <ValidationObserver ref="observer" v-slot="{ handleSubmit }" >
+        <v-flex  xs12 sm12 md12>
+            <div class="header">
+            <v-card-actions >
+              <v-spacer></v-spacer>
+                    <v-icon style="margin-top:3px" large >mdi-alpha-p-circle-outline</v-icon>
+                    <v-card-title  >{{totalPoint}}</v-card-title>
+            </v-card-actions>
+            </div>
+        </v-flex>
+    <v-form class="form" @submit.prevent="handleSubmit(onSubmit)" >
         <ValidationProvider v-slot="{ errors }" name="select" rules="required">
         <v-select 
             v-model="userSelected"
@@ -10,7 +19,10 @@
             :error-messages="errors"
             prepend-icon="person"
             required
+            item-text="name"
+            item-value="email"
         ></v-select>
+
         </ValidationProvider>
 
         <ValidationProvider v-slot="{ errors }" name="point" rules="required|numeric">
@@ -24,8 +36,8 @@
         </v-text-field>
         </ValidationProvider>
 
-        <v-btn class="mr-4" @click="submit">submit</v-btn>
-        <v-btn @click="clear">clear</v-btn>
+        <v-btn type="submit">Submit</v-btn>
+        <v-btn @click="reset">Reset</v-btn>
     </v-form>
     </ValidationObserver>
 </template>
@@ -49,31 +61,63 @@ import { extend, ValidationObserver, ValidationProvider, setInteractionMode } fr
 export default {
     data(){
         return{
-            user:['Wish','Xun','Matt','Skycii'],
+            user:[],
             userSelected:null,
             inputPoint:'',
+            totalPoint:0,
         }
     },
     components: {
       ValidationProvider,
       ValidationObserver,
     },
+    created(){
+        this.$http.get('/user/relativeUsers',).then((res) => {
+          res.data.forEach(element => {
+            this.user.push({name:element.name,email:element.email})
+          });
+          // console.log(this.user)
+            return  this.$http.get('/user/profile')
+          }).then((res)=>{
+            this.totalPoint=res.data.rewardPoints;
+             console.log(this.totalPoint)
+          }).catch(console.log)
+
+    },
     methods: {
-      submit () {
-        this.$refs.observer.validate()
-      },
-      clear () {
+      // submit () {
+      //   this.$refs.observer.validate().then(()=>{
+      //     console.log(this.$refs.observer.errors);
+      //   })
+        
+      // },
+      reset () {
         this.inputPoint = ''
         this.userSelected=null
         this.$refs.observer.reset()
       },
+      onSubmit () {
+        if(this.inputPoint>this.totalPoint){
+          alert("點數不夠");
+        }else{
+          this.$http.post('/point/transfer',{email:this.userSelected,amount:this.inputPoint}).then((res) => {
+            alert('Form has been submitted!');
+          }).catch((err) => {
+              alert("新增失敗");
+              console.log(err)
+          })
+        }
+      }
     },
 }
 </script>
 <style  scoped>
-    .form{
+.form{
         margin: 10%;
         
-    }
+}
+.header{
+    border-bottom: #cccccc 1px solid;
+}
 
 </style>
