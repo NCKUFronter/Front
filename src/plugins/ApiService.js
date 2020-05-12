@@ -1,6 +1,6 @@
 // @ts-check
 import { AxiosInstance, AxiosResponse } from "axios";
-import { RecordDto, RecordModel } from "./api-model";
+import { RecordDto, RecordModel } from "../utils/api-model";
 
 /** @param { AxiosInstance } axios_ins */
 export default function (Vue, axios_ins) {

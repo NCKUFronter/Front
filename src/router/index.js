@@ -38,21 +38,6 @@ const routes = [
         component: LedgerManagement,
       },
     ],
-
-    /*
-    children: [
-      {
-        path: 'addIncome',
-        name: 'AddIncomeName',
-        component: AddIncome
-      },
-      {
-        path: 'addExpense',
-        name: 'AddExpenseName',
-        component: AddExpense
-      }
-     ]
-     */
   },
   {
     path: "/personal",
@@ -88,20 +73,6 @@ const routes = [
     ],
   },
 ];
-
-const vuetify = new Vuetify({
-  theme: {
-    themes: {
-      light: {
-        primary: "#cccccc",
-        secondary: "#b0bec5",
-        accent: "#8c9eff",
-        error: "#b71c1c",
-        a: "#cccccc",
-      },
-    },
-  },
-});
 
 const router = new VueRouter({
   mode: "history",

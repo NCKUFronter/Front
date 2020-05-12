@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar class="mx-auto overflow-hidden" color="#efca16" elevate-on-scroll clipped-left app>
+    <v-app-bar class="overflow-hidden" color="#efca16" clipped-left app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="login"></v-app-bar-nav-icon>
       <!-- <v-menu bottom :offset-y="offset" transition="slide-x-transition" right>
         <template v-slot:activator="{ on }">
@@ -79,7 +79,7 @@
       <v-container fluid style="width: 1100px">
         <v-row style="margin-top:15%">
           <v-flex xs6 sm6 md6 class="pa-6">
-            <v-img src="./phone.png"></v-img>
+            <v-img src="./assets/homepage-phone.png"></v-img>
           </v-flex>
           <v-flex xs6 sm6 md6 class="pa-6" style="margin-top:10%">
             <v-card-title color="#efca16">星，際帳</v-card-title>
@@ -210,10 +210,8 @@ export default {
 </script>
 
 <style lang="scss">
-* {
-  font-family: 微軟正黑體, Arial, Helvetica, sans-serif;
-}
 body {
+  font-family: 'Roboto', 微軟正黑體, Arial, Helvetica, sans-serif;
   margin: 0;
   padding: 0;
 }
