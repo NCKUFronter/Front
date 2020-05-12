@@ -175,6 +175,8 @@ export default {
     this.loading=false;
     }).catch(console.log)
 
+    console.log(this.GLOBAL.loginStatus)
+
     // const readyHandler = () => {
     // if (document.readyState == 'complete') {
     //     this.loading = false;

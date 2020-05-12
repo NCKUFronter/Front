@@ -28,7 +28,9 @@
       <template v-slot:activator="{ on }">
         <v-btn
         icon
-        v-on="on">
+        v-on="on"
+        :v-on:click="accountClick()"
+        >
           <v-icon large>mdi-account-circle</v-icon>
         </v-btn>
       </template>
@@ -82,6 +84,22 @@
       </v-list>
     </v-navigation-drawer>
     </v-card>
+
+    <v-content v-if="!login">
+      <v-container fluid style="width: 1100px">
+      <v-row style="margin-top:15%">
+        <v-flex xs6 sm6 md6 class="pa-6">
+          <v-img src="./phone.png"></v-img>
+        </v-flex>
+        <v-flex xs6 sm6 md6 class="pa-6" style="margin-top:10%">
+          <v-card-title color="#efca16">星，際帳</v-card-title>
+          <v-card-text>在這裡，你可以體驗由永豐提供的智慧生活，記下日常消費的每筆帳目，並獲得回饋點數</v-card-text>
+          <v-btn outlined color="#414141" class="ma-3">創建帳戶</v-btn>
+          <v-btn outlined color="#414141" class="ma-3">登入</v-btn>
+        </v-flex>
+      </v-row>
+      </v-container>
+    </v-content>
   
 
 
@@ -120,7 +138,7 @@ let data = {
   ],
   personal: {img:"https://fakeimg.pl/10x10/cccccc/",username:"xun",ID:"yeyeye",email:"xun4014026@gmail.com"},
   drawer: false,
-  login:true,
+  login:false,
 
   
 
@@ -137,23 +155,33 @@ export default {
     // SideMenu
   },
   created(){
-    var that = this;
-    this.$set(that, 'login', this.GLOBAL.loginStatus)
-    console.log(this.GLOBAL.loginStatus)
-    console.log(this.login)
-
+    // var that = this;
+    // this.$set(that, 'login', this.GLOBAL.loginStatus)
+    // console.log(this.GLOBAL.loginStatus)
+    // console.log(this.login)
   },
   computed: {
 
   },
 
   methods: {
+    accountClick(){
+      this.$http.get('/user/profile').then((res)=>{
+        this.GLOBAL.loginStatus=true;
+        this.login=this.GLOBAL.loginStatus;
+      }).catch((err)=>{
+        this.GLOBAL.loginStatus=false;
+        this.login=this.GLOBAL.loginStatus;
+
+      })
+    },
     toLogin(){
       this.$http.post('/user/login', {email: 'father@gmail.com', password:'0000'},{withCredentials: true}).then((res)=>{
-        this.login=true;
+        // this.login=true;
         this.GLOBAL.loginStatus=true;
+        this.login=this.GLOBAL.loginStatus;
         console.log(this.GLOBAL.loginStatus)
-        console.log(this.login)
+        // console.log(this.login)
         return  this.$http.get('/user/profile')
     }).then((res)=>{
       this.personal.img=res.data.photo
@@ -166,8 +194,9 @@ export default {
 
     toLogout(){
       this.$http.post('/user/logout',{withCredentials: true}).then((res)=>{
-        this.login=false;
+        // this.login=false;
         this.GLOBAL.loginStatus=false;
+        this.login=this.GLOBAL.loginStatus
       }).catch(console.log)
     }
     
