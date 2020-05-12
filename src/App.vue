@@ -91,6 +91,7 @@
       </v-container>
     </v-content>
 
+
     <!-- <SideMenu /> -->
 
     <!-- router-link只是表示換哪個component網址 -->
@@ -129,7 +130,7 @@ let data = {
     email: ""
   },
   drawer: false,
-  login: false
+  login: false,
 };
 
 export default {

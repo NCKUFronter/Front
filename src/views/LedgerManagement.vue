@@ -1,144 +1,212 @@
 <template>
-  <v-card flat>
-    <v-row>
-      <v-flex xs6 sm6 md6 v-for="(card,idx) in hashtag" :key="idx" class="card">
-        <v-card>
-          <v-list-item>
-            <v-list-item-content>
-              <v-list-item-title class="headline">
-                {{
-                card.name
-                }}
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-
-          <v-divider></v-divider>
-
-          <v-combobox
-            multiple
-            v-model="card.tag"
-            label="Tags"
-            append-icon
-            chips
-            deletable-chips
-            class="tag-input"
-            :search-input.sync="search"
-            @keyup.tab="updateTags(card.index)"
-            @paste="updateTags(card.index)"
-            @keyup.enter="updateTags(card.index)"
-            solo
-            flat
-            hint="Creat Tags by typing"
-          ></v-combobox>
+  <v-row>
+    <!-- <v-row> -->
+      <v-flex xs12 sm12 md12 >
+        <v-card flat >
+          <div class="title">
+          <v-card-title>你管理的帳本</v-card-title>
+          </div>
         </v-card>
       </v-flex>
-      <v-flex xs6 sm6 md6 class="card">
-        <v-card>
-          <v-text-field
-            label="NewCategory"
-            placeholder="Add new Category"
-            solo
-            flat
-            v-model="newCategory"
-          ></v-text-field>
-
-          <v-divider></v-divider>
-
-          <v-combobox
-            multiple
-            v-model="newTag"
-            label="Tags"
-            append-icon
-            chips
-            deletable-chips
-            class="tag-input"
-            :search-input.sync="search"
-            @keyup.tab="addNewTags()"
-            @paste="addNewTags()"
-            @keyup.enter="addNewTags()"
-            clearable
-            solo
-            flat
-            disabled
-            hint="add category first"
-            persistent-hint
-          ></v-combobox>
-
+      <v-flex xs6 sm4 md4 v-for="(card,idx) in adminLedger" :key="idx" class="card">
+        <v-card outlined>
+          <v-card-title>{{card.ledgerName}}</v-card-title>
+          <v-card-text>帳本人數: {{card.userNumber}}</v-card-text>
           <v-card-actions>
-            <v-btn icon class="add" @click="save">
-              <v-icon large>mdi-plus-circle</v-icon>
+            <v-spacer/>
+            <v-btn icon v-on:click="invite(card.id,card.ledgerName)">
+              <v-icon>mdi-account-multiple-plus</v-icon>
+            </v-btn>
+            <v-btn icon v-on:click="out(card.user,card.id,card.name)">
+              <v-icon>mdi-account-multiple-minus</v-icon>
             </v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
-    </v-row>
-  </v-card>
+      <!-- <v-flex xs6 sm4 md4class="card">
+        <v-card outlined>
+          <v-card-title>新增樣本</v-card-title>
+
+        </v-card>
+      </v-flex> -->
+      
+    <!-- </v-row> -->
+
+    <!-- <v-row> -->
+      <v-flex xs12 sm12 md12>
+        <v-card flat >
+          <div class="title">
+          <v-card-title>你參與的帳本</v-card-title>
+          </div>
+        </v-card>
+      </v-flex>
+      <v-flex xs6 sm4 md4 v-for="(card,idx) in engageLedger" :key="idx" class="card">
+        <v-card outlined>
+          <v-card-title>{{card.ledgerName}}</v-card-title>
+          <v-card-text>帳本人數: {{card.userNumber}}</v-card-text>
+          <v-card-actions>
+            <v-spacer/>
+            <v-btn icon v-on:click="invite(card.id,card.ledgerName)">
+              <v-icon>mdi-account-multiple-plus</v-icon>
+            </v-btn>
+            <v-btn icon v-on:click="leave(card.id)">
+              <v-icon>mdi-account-arrow-right</v-icon>
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-flex>
+      <!-- invite -->
+      
+        <v-card class="modal" v-if="inviteModal" color="#fff7d3">
+          <v-card-title >{{inviteLedger}}</v-card-title>
+          <v-text-field
+            v-model="inputEmail"
+            label="請輸入邀請者email"
+            class="pa-4"
+          ></v-text-field>
+          <v-card-actions>
+            <v-spacer/>
+            <v-btn class="button" v-on:click="confirmInvite()">邀請</v-btn>
+            <v-btn class="button" v-on:click="inviteModal=!inviteModal">取消</v-btn>
+          </v-card-actions>
+        </v-card>
+      
+
+      <!-- 踢人out -->
+      
+        <v-card class="modal" v-if="outModal"  color="#fff7d3">
+          <v-card-title>帳本名</v-card-title>
+          <v-card-text>剔除使用者</v-card-text>
+          <v-select
+            :items="user"
+            v-model="outUser"
+            label="選擇要離開的人"
+            outlined
+            item-text="userName"
+            item-value="userId"
+            class="pa-4"
+          ></v-select>
+          <v-card-actions>
+            <v-spacer/>
+            <v-btn class="button" v-on:click="confirmOut()">刪除</v-btn>
+            <v-btn class="button" v-on:click="outModal=!outModal">取消</v-btn>
+          </v-card-actions>
+        </v-card>
+      
+
+    <!-- </v-row> -->
+  </v-row>  
 </template>
 <script>
+import { confirmed } from 'vee-validate/dist/rules';
 export default {
   data: () => ({
-    hashtag: [
-      { index: 0, name: "食物", tag: ["早餐", "午餐", "晚餐"] },
-      { index: 1, name: "交通", tag: ["高鐵", "台鐵", "客運"] },
-      { index: 2, name: "治裝", tag: ["上衣", "長褲", "外套"] },
-      { index: 3, name: "娛樂", tag: ["電影", "KTV"] }
-    ],
-    categoryLength: 3,
+    
+    adminLedger:[],
+    engageLedger:[],
 
-    newCategory: "",
-    newTag: [],
-    newHahtag: [],
+    inviteModal:false,
+    inviteLedger:'',
+    inviteLedgerId:null,
+    inputEmail:'',
 
-    search: "" //sync search
+    outModal:false,
+    user:[],
+    outUser:[],
+    outLedger:'',
+    outLedgerId:null,
+
   }),
-  methods: {
-    updateTags(index) {
-      console.log(index);
-      this.$nextTick(() => {
-        this.hashtag[index].tag.push(...this.search.split(","));
-        this.$nextTick(() => {
-          this.search = "";
-        });
+  created(){
+    var userId="-1"
+
+    this.$http.get('/user/profile').then((res) => {
+      userId=res.data._id
+      return this.$http.get('/user/ledgers',{params: {_many: ["users"]}})
+    }).then((res) => {
+      res.data.forEach(element => {
+        if(element.adminId==userId){
+          this.adminLedger.push({id:element._id,ledgerName:element.name,userNumber:(element.userIds.length+1),user:element.users})
+          
+        }else{
+          this.engageLedger.push({id:element._id,ledgerName:element.name,userNumber:(element.userIds.length+1),user:element.users})
+          
+        }
       });
-      console.log(this.hashtag[index].tag[4]);
+    })
+  },
+  methods: {
+    invite(id,name){
+      console.log('invite')
+      this.inviteModal=true;
+      this.inviteLedger=name;
+      this.inviteLedgerId=id;
     },
-    // addNewTags() {
-    //   this.$nextTick(() => {
-    //     this.newHahtag.push(...this.search.split(","));
-    //     this.$nextTick(() => {
-    //       this.search = "";
-    //     });
-    //   });
-    //   console.log(this.newHashtag[1])
-    // },
-    save() {
-      console.log(this.newHahtag[0]);
-      if (this.newCategory != "") {
-        var obj = {
-          index: this.categoryLength,
-          name: this.newCategory,
-          tag: this.newHahtag
-        };
-        // Object.assign(this.desserts[this.editedIndex], this.editedItem)
-        this.hashtag.push(obj);
-        this.categoryLength = this.hashtag.length - 1;
-        console.log(this.categoryLength);
-        this.newCategory = "";
-        this.newHahtag = [];
+
+    confirmInvite(){
+      console.log(this.inputEmail)
+      if(confirm("確認邀請?")){
+        this.$http.post('/invitation/invite',{ledgerId:this.inviteLedgerId,email:this.inputEmail}).then((res) => {
+          console.log(res.data)
+        }).catch(console.log)
+      }
+    },
+
+
+    leave(id){
+      if(confirm("確認離開帳本?")){
+        console.log(id)
+        this.$http.post('/ledger/'+id+'/leave').then((res) => {
+          console.log(res.data)
+        }).catch(console.log)
+      }
+    },
+
+    out(userList,id,name){
+      this.outModal=true;
+      this.outLedger=name;
+      userList.forEach(element => {
+        this.user.push({userId:element._id,userName:element.name})
+      });
+      this.outLedgerId=id;
+    },
+
+    confirmOut(){
+      console.log(this.outUser)
+      if(confirm("確認剔除?")){
+        this.outUser.forEach(element => {
+          console.log(element)
+          this.$http.post('/ledger/'+this.outLedgerId+'/leave'+element).then((res) => {
+            console.log(res.data)
+          }).catch(console.log)
+        });
       }
     }
-    // remove (card,chip) {
-    //   index=this.hashtag
-    //   this.hashtag.tag.splice(this.hashtag.indexOf(chip), 1)
-    //   // this.hashtag = [...this.chips]
-    // },
+
+    
   }
 };
 </script>
 
 <style scoped>
-.card {
-  padding: 1%;
+.card{
+  padding: 5px;
+}
+.title{
+  border-bottom: #cccccc 2px solid;
+  margin: 5px;
+}
+.button{
+  margin: 5px;
+}
+
+.modal{
+  position: fixed;
+  /* margin: auto; */
+  top: 40%;
+  left: 40%;
+  height: fit-content;
+  width: 300px;
+  padding: 10px;
 }
 </style>
