@@ -33,7 +33,7 @@
           <v-card-title class="justify-center">尚未登入</v-card-title>
           <v-btn outlined flat block color="#cccccc" style="padding:10px " v-on:click="toLogin">登入</v-btn>
         </v-card>
-        <v-card flat v-else class="text-center">
+        <v-card flat v-if="login" class="text-center">
           <v-img
             :src="personal.img"
             style="border-radius: 50%; height:100px; width:100px; margin: auto; margin-top: 20px;"
@@ -123,10 +123,10 @@ let data = {
     // { title: "統一發票", link: "" }
   ],
   personal: {
-    img: "https://fakeimg.pl/10x10/cccccc/",
-    username: "xun",
-    ID: "yeyeye",
-    email: "xun4014026@gmail.com"
+    img: "",
+    username: "",
+    ID: "",
+    email: ""
   },
   drawer: false,
   login: false
@@ -157,6 +157,10 @@ export default {
         .then(res => {
           this.GLOBAL.loginStatus = true;
           this.login = this.GLOBAL.loginStatus;
+          this.personal.img = res.data.photo;
+          this.personal.username = res.data.name;
+          this.personal.ID = res.data._id;
+          this.personal.email = res.data.email;
         })
         .catch(err => {
           this.GLOBAL.loginStatus = false;
@@ -175,6 +179,7 @@ export default {
           this.GLOBAL.loginStatus = true;
           this.login = this.GLOBAL.loginStatus;
           console.log(this.GLOBAL.loginStatus);
+          this.$router.push('/accounting')
           // console.log(this.login)
           return this.$http.get("/user/profile");
         })
@@ -195,6 +200,7 @@ export default {
           // this.login=false;
           this.GLOBAL.loginStatus = false;
           this.login = this.GLOBAL.loginStatus;
+          this.$router.push('')
         })
         .catch(console.log);
     }
