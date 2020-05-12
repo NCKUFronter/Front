@@ -1,5 +1,5 @@
 <template>
-  <v-card class="modal" elevation="5">
+  <v-card class="modal" elevation="10">
     <div class="modal-flow">
       <h3 @click="form.recordType = 'expense'" :class="{ 'flow-selected': !isIncome }">支出</h3>
       <h3 @click="form.recordType = 'income'" :class="{ 'flow-selected': isIncome }">收入</h3>
@@ -72,10 +72,9 @@
           chips
           clearable
           append-icon
-          label="備註"
+          label="Hashtag"
           multiple
           outlined
-          dense
           light
           color="#efca16"
         >
@@ -159,6 +158,33 @@ export default {
   },
   created() {
     this.initialDate();
+    // login;
+    // this.$http
+    //   .post("/login-local", { email: "father@gmail.com", password: "0000" })
+    //   .then(res => {
+    //     console.log(res.data);
+    //     return this.$http.get("/ledger/2");
+    //   })
+    //   .then(res => {
+    //     console.log(res.data);
+    //   });
+
+    // this.$http.delete("/category/1", { name: "衝動消費" }).then(res => {
+    //   console.log(res.data);
+    // });
+    // this.$http
+    //   .post("/category", { name: "日常消費" })
+    //   .then(res => {
+    //     console.log(res.data);
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
+    // this.$http.get("/category").then(res => {
+    //   // console.log(res.data);
+    //   this.modalCategory = res.data;
+    //   console.log(this.modalCategory);
+    // });
   },
   computed: {
     isIncome() {

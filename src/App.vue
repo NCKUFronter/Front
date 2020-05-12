@@ -17,51 +17,47 @@
             <router-link :to="item.link">{{ item.title }}</router-link>
           </v-list-item>
         </v-list>
-      </v-menu> -->
-      
+      </v-menu>-->
+
       <h1 class="logo">記帳網</h1>
-      <v-spacer/>
+      <v-spacer />
 
       <!-- peraonal account -->
       <v-menu offset-y>
-      <template v-slot:activator="{ on }">
-        <v-btn
-        icon
-        v-on="on">
-          <v-icon large>mdi-account-circle</v-icon>
-        </v-btn>
-      </template>
-      <v-card flat class=" text-center">
-        <v-img :src="personal.img" style="border-radius: 50%; height:100px; width:100px; margin: auto; margin-top: 20px;"></v-img>
-        <v-card-title class="justify-center">{{personal.username}}</v-card-title>
-        <v-card-subtitle >{{personal.ID}}</v-card-subtitle>
-        <v-card-text >{{personal.email}}</v-card-text>
-        <v-btn outlined block color="#cccccc" style="margin-bottom:10px">
-          <v-icon>mdi-file-edit-outline</v-icon>  
-          個人帳戶管理
-        </v-btn>
-        <v-btn outlined block color="#cccccc">
-          <v-icon>mdi-logout-variant</v-icon>  
-          登出
-        </v-btn>
-      </v-card>
-    </v-menu>
-      
+        <template v-slot:activator="{ on }">
+          <v-btn icon v-on="on">
+            <v-icon large>mdi-account-circle</v-icon>
+          </v-btn>
+        </template>
+        <v-card flat class="text-center">
+          <v-img
+            :src="personal.img"
+            style="border-radius: 50%; height:100px; width:100px; margin: auto; margin-top: 20px;"
+          ></v-img>
+          <v-card-title class="justify-center">{{personal.username}}</v-card-title>
+          <v-card-subtitle>{{personal.ID}}</v-card-subtitle>
+          <v-card-text>{{personal.email}}</v-card-text>
+          <v-btn outlined block color="#cccccc" style="margin-bottom:10px">
+            <v-icon>mdi-file-edit-outline</v-icon>個人帳戶管理
+          </v-btn>
+          <v-btn outlined block color="#cccccc">
+            <v-icon>mdi-logout-variant</v-icon>登出
+          </v-btn>
+        </v-card>
+      </v-menu>
     </v-app-bar>
 
     <v-card class="mx-auto">
-    <v-navigation-drawer
-      v-model="drawer"
-      hide-overlay
-      :permanent="$vuetify.breakpoint.mdAndUp"
-      :temporary="$vuetify.breakpoint.smAndDown"
-      clipped      
-      app
-    >
-      <v-list
-        nav
+      <v-navigation-drawer
+        v-model="drawer"
+        hide-overlay
+        :permanent="$vuetify.breakpoint.mdAndUp"
+        :temporary="$vuetify.breakpoint.smAndDown"
+        clipped
+        app
       >
-        <v-list-item
+        <v-list nav>
+          <v-list-item
             class="side-menu"
             v-for="(item, index) in menu"
             :key="index"
@@ -69,14 +65,9 @@
           >
             <router-link :to="item.link">{{ item.title }}</router-link>
           </v-list-item>
-
-      </v-list>
-    </v-navigation-drawer>
+        </v-list>
+      </v-navigation-drawer>
     </v-card>
-  
-
-
-
 
     <!-- <SideMenu /> -->
 
@@ -104,14 +95,18 @@ let data = {
   menu: [
     { title: "統計圖產生", link: "/summary" },
     { title: "周/月帳目一覽", link: "/accounting" },
-    { title: "帳戶管理", link: "" },
-    { title: "點數管理", link: "/point" },
+    // { title: "帳戶管理", link: "" },
+    { title: "點數管理", link: "/point" }
     // { title: "雲端備分", link: "" },
     // { title: "統一發票", link: "" }
   ],
-  personal: {img:"https://fakeimg.pl/10x10/cccccc/",username:"xun",ID:"yeyeye",email:"xun4014026@gmail.com"},
-  drawer: false,
-
+  personal: {
+    img: "https://fakeimg.pl/10x10/cccccc/",
+    username: "xun",
+    ID: "yeyeye",
+    email: "xun4014026@gmail.com"
+  },
+  drawer: false
 };
 
 export default {
@@ -125,15 +120,13 @@ export default {
     // SideMenu
   },
 
-  computed: {
-
-  },
+  computed: {},
   methods: {}
 };
 </script>
 
 <style lang="scss">
-*{
+* {
   font-family: 微軟正黑體, Arial, Helvetica, sans-serif;
 }
 body {
@@ -180,8 +173,7 @@ a {
   }
 }
 
-.text-center{
+.text-center {
   margin: 10px;
 }
-
 </style>

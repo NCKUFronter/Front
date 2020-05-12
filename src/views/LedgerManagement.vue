@@ -1,6 +1,4 @@
 <template>
-  <!-- ref: https://codepen.io/virtualadrian/pen/pOeVPX && Vuetify component: Card & Combobox & Chip-->
-
   <v-card flat>
     <v-row>
       <v-flex xs6 sm6 md6 v-for="(card,idx) in hashtag" :key="idx" class="card">
@@ -77,7 +75,6 @@
     </v-row>
   </v-card>
 </template>
-
 <script>
 export default {
   data: () => ({

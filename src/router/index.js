@@ -3,11 +3,12 @@ import VueRouter from "vue-router";
 import Accounting from "../views/Accounting.vue";
 import SideAccount from "../views/SideAccount.vue";
 import Category from "../views/Category.vue";
+import LedgerManagement from "../views/LedgerManagement.vue";
 import Summary from "../views/Summary.vue";
 import pointManage from "../views/PointManage.vue";
 import pointHistory from "../views/PointHistory.vue";
 import pointDelivery from "../views/PointDelivery.vue";
-import pointRedeem from '../views/PointRedeem.vue'
+import pointRedeem from "../views/PointRedeem.vue";
 import Vuetify from "vuetify/lib";
 
 Vue.use(VueRouter);
@@ -56,11 +57,11 @@ const routes = [
         name: "CategoryName",
         component: Category,
       },
-      // {
-      //   path: "/Ledger",
-      //   name: "LedgerName",
-      //   component: LedgerManagement,
-      // }
+      {
+        path: "Ledger",
+        name: "LedgerName",
+        component: LedgerManagement,
+      },
     ],
 
     /*
@@ -90,14 +91,14 @@ const routes = [
     props: true,
     children: [
       {
-        path: '',
-        name: 'PointRedeemName',
-        component: pointRedeem
+        path: "",
+        name: "PointRedeemName",
+        component: pointRedeem,
       },
       {
-        path: 'delivery',
-        name: 'PointDeliveryName',
-        component: pointDelivery
+        path: "delivery",
+        name: "PointDeliveryName",
+        component: pointDelivery,
       },
       {
         path: "history",

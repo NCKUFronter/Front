@@ -2,6 +2,7 @@
   <div>
     <v-data-table :headers="headers" :items="filterAccountData" sort-by="money">
       <!-- category -->
+
       <template v-slot:item.category="props">
         <v-edit-dialog
           :return-value.sync="props.item.categoryId"
@@ -137,13 +138,7 @@
       </template>
 
       <template v-slot:item.actions="{ item }">
-        <!-- <v-icon
-        small
-        class="mr-2"
-        @click="editItem(item)"
-      >
-        mdi-pencil
-        </v-icon>-->
+        <!-- <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon> -->
         <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
       </template>
     </v-data-table>
@@ -181,6 +176,7 @@ const modalCategory = [
 export default {
   data() {
     return {
+      dialog: false,
       snack: false,
       snackColor: "",
       snackText: "",
@@ -220,6 +216,28 @@ export default {
       ],
 
       modalFlow: ["Income", "Expense"]
+      // dedaultItem:
+      //   {
+      //     _id: "",
+      //     recordId: 0,
+      //     categoryId: "",
+      //     detail: "",
+      //     money: "",
+      //     ledger: "",
+      //     recordType: "",
+      //     date: ""
+      //   },
+      // editedItem:
+      //   {
+      //     _id: "",
+      //     recordId: 0,
+      //     categoryId: "",
+      //     detail: "",
+      //     money: "",
+      //     ledger: "",
+      //     recordType: "",
+      //     date: ""
+      //   },
     };
   },
   props: ["userDate", "ledgerSelected", "accountData"],
@@ -291,6 +309,27 @@ export default {
           });
       }
     }
+    // editItem(item) {
+    //   item._id = this.props.indexOf(item);
+    //   this.editedItem = Object.assign({}, item);
+    //   this.dialog = true;
+    // },
+    //   close () {
+    //   this.dialog = false
+    //   this.$nextTick(() => {
+    //     this.editedItem = Object.assign({}, this.defaultItem)
+    //     this.editedIndex = -1
+    //   })
+    // },
+
+    // save () {
+    //   if (this.editedIndex > -1) {
+    //     Object.assign(this.desserts[this.editedIndex], this.editedItem)
+    //   } else {
+    //     this.desserts.push(this.editedItem)
+    //   }
+    //   this.close()
+    // }
   }
 };
 </script>
