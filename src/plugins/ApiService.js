@@ -20,11 +20,64 @@ export class ApiService {
   /** @type { AxiosInstance } */
   raw;
 
+  // ---- user part -----
+  profile;
+
+  _login = false;
+  loginListener = null;
+
+  get loginStatus() {
+    return this._login;
+  }
+  set loginStatus(val) {
+    if (this._login != val) {
+      this._login = val;
+      if (this.loginListener != null) this.loginListener(this._login);
+    }
+  }
+
   /** @param { AxiosInstance } axios_ins */
   constructor(axios_ins) {
     this.raw = axios_ins;
+
+    this.userProfile().catch(() => {});
   }
 
+  userProfile() {
+    return this.raw
+      .get("/user/profile")
+      .then((res) => {
+        this.profile = res.data;
+        this.loginStatus = true;
+        // return this.login;
+        return res;
+      })
+      .catch((err) => {
+        // console.log(err);
+        this.loginStatus = false;
+        // return this.login;
+        throw err;
+      });
+  }
+
+  userLogin(email, password) {
+    return this.raw
+      .post("/user/login", {
+        email,
+        password,
+      })
+      .then((res) => {
+        this.profile = res.data;
+        this.loginStatus = true;
+        return res;
+      })
+      .catch((err) => {
+        this.loginStatus = false;
+        throw err;
+      });
+  }
+
+  // ----- record part -----
   /**
    * @param { RecordDto } dto;
    * @returns { Promise<AxiosResponse<RecordModel>> }
@@ -52,7 +105,7 @@ export class ApiService {
    * @returns { Promise<AxiosResponse<RecordModel>> }
    */
   updateRecord(id, dto) {
-    return this.raw.put(ApiPath.records.withId(id), dto);
+    return this.raw.patch(ApiPath.records.withId(id), dto);
   }
 
   /**

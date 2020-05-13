@@ -3,6 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import axios from "axios";
 import VueAxios from "vue-axios";
+import VueAsyncComputed from "vue-async-computed";
 import ApiService from "./plugins/ApiService";
 import LoadingService from "./plugins/LoadingService";
 import vuetify from "./plugins/vuetify";
@@ -25,6 +26,7 @@ const axios_ins = axios.create({ baseURL, withCredentials: true });
 import global_ from "./components/Global"; //引用檔案
 Vue.prototype.GLOBAL = global_; //掛載到Vue例項上面
 
+Vue.use(VueAsyncComputed);
 Vue.use(VueAxios, axios_ins); // $http
 Vue.use(ApiService, axios_ins); // $api
 Vue.use(LoadingService); // $loading

@@ -2,21 +2,20 @@
   <v-card flat>
     <div class="account-upper">
       <div data-app class="ledgerSelect">
-        <v-container fluid>
-          <v-select
-            v-model="ledgerSelected"
-            :items="ledger"
-            menu-props="auto"
-            label="Select"
-            hide-details
-            prepend-icon="book"
-            single-line
-            dense
-            full-width
-            color="#efca16"
-            item-color="#efca16"
-          ></v-select>
-        </v-container>
+        <v-select
+          v-model="ledgerSelected"
+          :items="ledgers"
+          label="請選擇帳本"
+          hide-details
+          outlined
+          prepend-inner-icon="book"
+          item-text="name"
+          item-value="_id"
+          dense
+          full-width
+          color="#efca16"
+          item-color="#efca16"
+        ></v-select>
       </div>
 
       <div class="date-wrap">
@@ -52,10 +51,11 @@
 
     <div class="account-down">
       <RecordTable
-        :accountData="accountData"
+        :accountData="records"
         :userDate="userDate"
         :ledgerSelected="ledgerSelected"
         @delete="fetchRecords"
+        @want-edit="editRecord"
       />
       <!-- <div class="account-item" v-for="(item,index) in filterAccountData" :key="index">
                         <img src="https://fakeimg.pl/30x30/efca16" class="categroyIcon" alt="categoryicon">
@@ -66,13 +66,22 @@
 
       <!-- 原本用v-on:click控制modal變數，顯示modal，現在改以不同view -->
       <!-- <a v-on:click="modal = !modal" href="##additem###" class="material-icons">add_circle</a> -->
-      <button @click="modalOpen = true" class="material-icons">add_circle</button>
-      <AddRecord
-        v-if="modalOpen"
-        @close="modalOpen = false"
-        @add="fetchRecords"
-        :recordDate="userDate"
-      ></AddRecord>
+      <v-btn
+        icon
+        large
+        @click="newRecord"
+        class="add-record elevation-8"
+      >
+        <v-icon large color="#fff">mdi-plus</v-icon>
+      </v-btn>
+      <v-dialog persistent v-model="modalOpen" width="unset">
+        <EditRecord
+          @close="modalOpen = false"
+          @add="fetchRecords"
+          :recordDate="userDate"
+          :oldForm="selectedRecord"
+        ></EditRecord>
+      </v-dialog>
     </div>
 
     <!--router-view></router-view-->
@@ -82,14 +91,17 @@
 
 <script>
 import RecordTable from "../components/RecordTable.vue";
-import AddRecord from "../components/AddRecord.vue";
+import EditRecord from "../components/EditRecord.vue";
+import { getLocaleDate } from "../utils";
+
 let data = {
   modalOpen: false,
-  ledgerSelected: "All",
+  ledgerSelected: null,
   ledger: ["All", "Main Account", "Bank SinoPac"],
-  userDate: "2020-04-20",
+  userDate: "2020/04/20",
   accountData: [],
-  dataPickerModal: false
+  dataPickerModal: false,
+  selectedRecord: null
 };
 export default {
   name: "SideAccount",
@@ -98,7 +110,7 @@ export default {
   },
   // props: ['accountData'], //引入變數
   components: {
-    AddRecord,
+    EditRecord,
     RecordTable
   },
   created() {
@@ -121,8 +133,34 @@ export default {
     // }))
   },
   computed: {},
+  asyncComputed: {
+    records: {
+      get() {
+        if (this.ledgerSelected == null) return [];
+        return this.$loading.insideLoading(
+          this.$http
+            .get(`/ledger/${this.ledgerSelected}/records`, {
+              params: { _one: ["category"] }
+            })
+            .then(res => res.data)
+        );
+      },
+      default: [],
+      watch: ["ledgerSelected"]
+    },
+    ledgers: {
+      get() {
+        return this.$loading.insideLoading(
+          this.$http.get(`/user/ledgers`).then(res => res.data)
+        );
+      },
+      default: []
+    }
+  },
   methods: {
     fetchRecords() {
+      this.$asyncComputed.records.update();
+      /*
       this.$http.get("/user/ledgers").then(res => {
         res.data.forEach(element => {
           let ledgerId = element._id;
@@ -153,21 +191,29 @@ export default {
             });
         });
       });
+      */
     },
     initialDate() {
-      let t = new Date();
-      this.userDate = t.toISOString().substr(0, 10);
+      this.userDate = getLocaleDate(new Date());
     },
     getYearMonthDate(index) {
       if (index == 1 || index == -1) {
         let t = new Date(this.userDate);
         t.setDate(t.getDate() + index);
-        this.userDate = t.toISOString().substr(0, 10);
+        this.userDate = getLocaleDate(t);
       }
     },
     click() {
       this.dataPickerModal = false;
       console.log(this.dataPickerModal);
+    },
+    newRecord() {
+      this.selectedRecord = null;
+      this.modalOpen = true;
+    },
+    editRecord(item) {
+      this.selectedRecord = item;
+      this.modalOpen = true;
     }
     // dataPicker(){
     //     this.dataPickerModal=true
@@ -247,15 +293,13 @@ export default {
 }
 .account-down {
   height: 83vh;
-  .material-icons {
-    color: #fe4e00;
+  .add-record {
+    background-color: #fe4e00;
     position: absolute;
     bottom: 20px;
     right: 30px;
-    font-size: 48px;
-    text-decoration: none;
     position: fixed;
-    border-radius: #cccccc solid 2px 4;
+    /*border-radius: #cccccc solid 2px 4;*/
   }
 }
 /* .account-item{

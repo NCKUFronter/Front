@@ -18,7 +18,7 @@ const routes = [
   // 定義component對應的網址
   {
     path: "/accounting",
-    name: "AcountingName",
+    // name: "AcountingName",
     props: true,
     component: Accounting,
     children: [
@@ -51,7 +51,7 @@ const routes = [
   },
   {
     path: "/point",
-    name: "PointManageName",
+    // name: "PointManageName",
     component: pointManage,
     props: true,
     children: [

@@ -1,0 +1,9 @@
+$body-font-family: Roboto, "微軟正黑體", Arial, Helvetica, "sans-serif";
+@import "~vuetify/src/styles/main";
+
+$navigation-drawer-mobile-temporary-elevation: 8;
+@import "~vuetify/src/components/VNavigationDrawer/VNavigationDrawer";
+
+.v-data-table th {
+  font-size: 1rem !important;
+}

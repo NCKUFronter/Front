@@ -1,15 +1,11 @@
 <template>
-  <v-content>
-    <v-container fluid style="width: 960px">
-      <v-card flat>
-        <v-card-title class="display-1">記帳管理</v-card-title>
-        <v-tabs v-model="tab" grow color="#efca16">
-          <v-tab v-for="item in items" :key="item.title" :to="item.link">{{ item.title }}</v-tab>
-        </v-tabs>
-        <router-view></router-view>
-      </v-card>
-    </v-container>
-  </v-content>
+  <v-container fluid>
+    <!--v-card-title class="display-1">記帳管理</v-card-title-->
+    <v-tabs v-model="tab" grow>
+      <v-tab v-for="item in items" :key="item.title" :to="item.link">{{ item.title }}</v-tab>
+    </v-tabs>
+    <router-view></router-view>
+  </v-container>
 </template>
 
 <script>
@@ -29,9 +25,6 @@ export default {
 </script>
 
 <style scope lang="scss">
-* {
-  font-family: 微軟正黑體, Arial, Helvetica, sans-serif;
-}
 .side-account {
   /* border-color: chartreuse;
     border-style: solid; */

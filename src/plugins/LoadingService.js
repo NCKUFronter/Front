@@ -13,13 +13,13 @@ class LoadingMixin {
   }
 
   working() {
-    if (this.loadingCount == 0) this.$q.loading.show();
+    // if (this.loadingCount == 0) this.$q.loading.show();
     this.loadingCount++;
   }
 
   done() {
     this.loadingCount--;
-    if (this.loadingCount == 0) this.$q.loading.hide();
+    // if (this.loadingCount == 0) this.$q.loading.hide();
   }
 
   /**
