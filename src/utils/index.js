@@ -4,22 +4,21 @@ export const backgroundColor = {
 };
 
 export function getLocaleDate(isoDateString) {
-  const d = new Date(isoDateString);
-  const mm = d.getMonth() + 1;
-  const dd = d.getDate();
-  const yy = d.getFullYear();
-  return yy + "-" + mm + "-" + dd;
+  const options = { year: "numeric", month: "2-digit", day: "2-digit" }
+  return new Date(isoDateString).toLocaleDateString('zh-TW', options).replace(/\//g, '-');
 }
 
 export function filterChangedFields(oldForm, newForm) {
+  console.log({newForm, oldForm})
   const result = {};
   for (const key in newForm) {
     if (Array.isArray(newForm[key]) && !arrayEqual(oldForm[key], newForm[key])) {
-      result[key] = oldForm[key];
+      result[key] = newForm[key];
     } else if (oldForm[key] !== newForm[key]) {
-      result[key] = oldForm[key];
+      result[key] = newForm[key];
     }
   }
+  console.log(result)
   return result;
 }
 

@@ -10,19 +10,19 @@
         <v-text-field
           outlined
           dense
+          v-model="form.date"
           class="date"
           v-on:click="dataPickerModal = !dataPickerModal"
-          v-on:blur="dataPickerModal = false"
           prepend-icon="mdi-calendar-range"
           color="primary"
           label="日期"
-        >{{ form.date }}</v-text-field>
+        ></v-text-field>
         <v-date-picker
           v-if="dataPickerModal"
           class="dataPicker"
+          v-model="form.date"
           landscape
           reactive
-          v-model="form.date"
           color="#efca16"
           header-color="#efca16"
           v-on:click.native="dataPickerModal = !dataPickerModal"
@@ -84,7 +84,7 @@
 
       <v-combobox
         v-model="form.hashtags"
-        :items="form.hashtags"
+        :items="categoryHashTags"
         chips
         clearable
         append-icon
@@ -109,8 +109,14 @@
       </v-combobox>
 
       <div class="modal-button row justify-center">
-        <v-btn type="button" v-if="edit == false" @click="addRecord" class="add" color="#efca16">新增</v-btn>
-        <v-btn type="button" v-else @click="editRecord" class="add" color="#efca16">新增</v-btn>
+        <v-btn
+          type="button"
+          v-if="oldForm == null"
+          @click="addRecord"
+          class="add"
+          color="#efca16"
+        >新增</v-btn>
+        <v-btn type="button" v-else @click="editRecord" class="add" color="#efca16">修改</v-btn>
         <v-btn type="button" @click="onModalClose" class="cancel" color="#cccccc">取消</v-btn>
         <!-- <button  class="add">新增</button>
         <button  class="cancel">取消</button>-->
@@ -123,43 +129,17 @@
 import { filterChangedFields, getLocaleDate } from "../utils";
 
 let data = {
-  selected_category: "",
-  userDate: "2020-04-20",
   dataPickerModal: false,
-  modalCategory: [],
-  // modalCategory: [
-  //   {
-  //     name: "食物",
-  //     _id: "5ea06d246b04b818d4d3c79b",
-  //     index: "0"
-  //   },
-  //   {
-  //     name: "交通",
-  //     _id: "5ea06d246b04b818d4d3c79c",
-  //     index: "1"
-  //   },
-  //   {
-  //     name: "治裝",
-  //     _id: "5ea06d246b04b818d4d3c79d",
-  //     index: "2"
-  //   },
-  //   {
-  //     name: "娛樂",
-  //     _id: "5ea06d246b04b818d4d3c79e",
-  //     index: "3"
-  //   }
-  // ],
-
   modalAccount: [
     { accountCate: "Main Account" },
     { accountCate: "Bank SinoPac" }
   ],
   form: {
     recordType: "income",
-    ledger: "",
+    ledgerId: "",
     categoryId: "",
     money: 0,
-    date: null
+    date: ""
   },
 
   newHashtag: [],
@@ -173,12 +153,23 @@ let data = {
 
 export default {
   name: "EditRecord",
-  props: ["recordDate", "edit", "oldForm"],
+  props: {
+    userDate: {
+      type: String,
+      default: () => getLocaleDate(new Date())
+    },
+    oldForm: {
+      type: Object,
+      default: () => null
+    }
+  },
   data() {
     return data;
   },
   created() {
-    this.initialDate();
+    this.resetForm();
+    if (this.oldForm != null) this.copyOldForm();
+    // this.initialDate();
     // login;
     // this.$http
     //   .post("/login-local", { email: "father@gmail.com", password: "0000" })
@@ -212,7 +203,6 @@ export default {
       return this.form.recordType == "income";
     },
     filterHashtag() {
-      console.log(this.form.categoryId);
       let index = -1;
       if (this.form.categoryId != "") {
         index = this.modalCategory.filter(item => {
@@ -231,15 +221,12 @@ export default {
         const category = this.userCategories.find(
           item => item._id == this.form.categoryId
         );
-        return category.hashtags || [];
+        return (category && category.hashtags) || [];
       } else return [];
     }
   },
-  create() {
-    if (this.oldForm != null) this.copyOldForm();
-  },
   watch: {
-    oldForm() {
+    oldForm(val) {
       if (this.oldForm != null) this.copyOldForm();
       else this.resetForm();
     }
@@ -261,11 +248,11 @@ export default {
   methods: {
     copyOldForm() {
       this.form.ledgerId = this.oldForm.ledgerId;
-      this.form.categoryId = this.oldForm.ledgerId;
+      this.form.categoryId = this.oldForm.categoryId;
       this.form.money = this.oldForm.money;
-      this.form.hashtags = this.oldForm.hastags;
+      this.form.hashtags = this.oldForm.hashtags;
       this.form.recordType = this.oldForm.recordType;
-      this.form.date = this.oldForm.date;
+      this.form.date = getLocaleDate(this.oldForm.date);
     },
     resetForm() {
       this.form.ledgerId = null;
@@ -278,7 +265,7 @@ export default {
     },
     checkForm() {
       if (
-        !this.form.ledger ||
+        !this.form.ledgerId ||
         !this.form.categoryId ||
         !this.form.recordType ||
         parseInt(this.form.money, 10) < 0
@@ -288,11 +275,6 @@ export default {
       }
       return true;
     },
-
-    initialDate() {
-      let t = new Date();
-      this.userDate = t.toISOString().substr(0, 10);
-    },
     click() {
       this.dataPickerModal = false;
       console.log(this.dataPickerModal);
@@ -300,14 +282,12 @@ export default {
     addRecord() {
       if (!this.checkForm()) return;
       const form = Object.assign({}, this.form);
-      form.date = this.userDate;
 
       this.$api
         .createRecord(form)
         .then(() => {
           alert("新增成功");
           this.$emit("add");
-          this.resetForm();
           this.onModalClose();
         })
         .catch(err => {
@@ -319,7 +299,7 @@ export default {
       if (!this.checkForm()) return;
       const patchForm = filterChangedFields(this.oldForm, this.form);
       this.$api
-        .updateRecord(this.oldForm._id, this.form)
+        .updateRecord(this.oldForm._id, patchForm)
         .then(res => {
           this.$emit("update");
           this.resetForm();
@@ -331,13 +311,9 @@ export default {
         });
     },
     onModalClose() {
+      this.resetForm();
+      if (this.oldForm != null) this.copyOldForm();
       this.$emit("close");
-    },
-    onCategoryChange: f1,
-
-    onAccountChange: function() {
-      // reset!
-      return this.selected_accountCate;
     },
     remove(item) {
       this.form.hashtags.splice(this.form.hashtags.indexOf(item), 1);
@@ -345,11 +321,6 @@ export default {
     }
   }
 };
-
-function f1() {
-  // reset!
-  return this.selected_category;
-}
 </script>
 
 <style scoped lang="scss">

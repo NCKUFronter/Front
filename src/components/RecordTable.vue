@@ -9,6 +9,8 @@
         <v-icon v-else>mdi-tray-plus</v-icon>-->
         <!--{{item.recordType}}-->
         <!--/v-chip-->
+        <v-avatar size="36"><img :src="item.user.photo"/></v-avatar>
+
         <v-icon v-if="item.recordType[0]=='i'" color="green">mdi-cash-multiple</v-icon>
         <v-icon v-else color="red">mdi-cash-minus</v-icon>
       </template>
@@ -20,7 +22,7 @@
 
       <!-- hashtags -->
       <template v-slot:item.hashtags="{ item }">
-        <v-chip small v-for="tag in item.hashtags" :key="tag" class="mx-1">{{ tag }}</v-chip>
+        <v-chip label small v-for="tag in item.hashtags" :key="tag" class="mx-1">{{ tag }}</v-chip>
       </template>
 
       <!-- detail -->
@@ -40,7 +42,7 @@
 
       <template v-slot:item.actions="{ item }">
         <!-- <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon> -->
-        <v-icon small @click="editItem(item)" class="mr-1">mdi-pencil</v-icon>
+        <v-icon small @click="$emit('want-edit',item)" class="mr-1">mdi-pencil</v-icon>
         <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
       </template>
     </v-data-table>
@@ -141,15 +143,11 @@ export default {
   },
   props: ["userDate", "ledgerSelected", "accountData"],
   created() {},
-  // filters: {
-  //   categoryName(categoryId) {
-  //     return modalCategory.find(cate => cate._id == categoryId).name;
-  //   }
-  // },
   computed: {
     filterAccountData() {
       // return this.filterLedgerData.filter(item => {
       return this.accountData.filter(item => {
+        console.log({userDate: this.userDate, locale: getLocaleDate(item.date)})
         return getLocaleDate(item.date) === this.userDate;
       });
     },
@@ -162,38 +160,7 @@ export default {
         return this.accountData;
       }
     }
-    // getIcon() {
-    //   var recordType = "income";
-    //   console.log(recordType);
-    //   if (recordType == "expense") {
-    //     console.log("ok");
-    //     return false;
-    //   } else {
-    //     console.log("ok");
-    //     return true;
-    //   }
-    // }
-    // getIcon() {
-    //   return "mdi-tray-minus";
-    // var recordType = "income";
-    // console.log(recordType);
-    // if (recordType == "expense") {
-    //   console.log("ok");
-    //   return false;
-    // } else {
-    //   console.log("ok");
-    //   return true;
-    // }
   },
-  // filterFlowData(){
-  //   if(this.modalFlow == "Income"){
-
-  //   }
-  //   else{
-
-  //   }
-  // }
-
   methods: {
     getColor(recordType) {
       if (recordType == "income") return "red";
@@ -237,9 +204,6 @@ export default {
       }
     }
   },
-  editItem(item) {
-    this.$emit('want-edit', item);
-  }
   // editItem(item) {
   //   item._id = this.props.indexOf(item);
   //   this.editedItem = Object.assign({}, item);

@@ -25,10 +25,4 @@ export default {
 </script>
 
 <style scope lang="scss">
-.side-account {
-  /* border-color: chartreuse;
-    border-style: solid; */
-  width: 100vw;
-  height: 94vh;
-}
 </style>

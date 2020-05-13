@@ -1,68 +1,66 @@
 <template>
   <!-- ref: https://github.com/David-Desmaisons/Vue.D3.sunburst/tree/e3c61e84268861400116245ea8e9020e8113ea07 -->
-  <v-content>
-    <v-container fluid style="width: 960px" class="con">
-      <v-row class="row1">
-        <v-flex xs6 sm3 md3>
-          <v-card flat class="perspective">
-            <v-btn-toggle v-model="toggle_exclusive_perspective" mandatory>
-              <v-btn value="personal">個人</v-btn>
-              <v-btn value="ledger">帳本</v-btn>
-            </v-btn-toggle>
-          </v-card>
-        </v-flex>
+  <v-container fluid style="width: 960px" class="con">
+    <v-row class="row1">
+      <v-flex xs6 sm3 md3>
+        <v-card flat class="perspective">
+          <v-btn-toggle v-model="toggle_exclusive_perspective" mandatory>
+            <v-btn value="personal">個人</v-btn>
+            <v-btn value="ledger">帳本</v-btn>
+          </v-btn-toggle>
+        </v-card>
+      </v-flex>
 
-        <v-flex xs6 sm3 md3>
-          <v-card flat class="time" xs6 sm3 md3>
-            <v-btn-toggle v-model="toggle_exclusive_time" mandatory>
-              <v-btn value="year">年</v-btn>
-              <v-btn value="month">月</v-btn>
-              <v-btn value="week">週</v-btn>
-            </v-btn-toggle>
-          </v-card>
-        </v-flex>
-      </v-row>
+      <v-flex xs6 sm3 md3>
+        <v-card flat class="time" xs6 sm3 md3>
+          <v-btn-toggle v-model="toggle_exclusive_time" mandatory>
+            <v-btn value="year">年</v-btn>
+            <v-btn value="month">月</v-btn>
+            <v-btn value="week">週</v-btn>
+          </v-btn-toggle>
+        </v-card>
+      </v-flex>
+    </v-row>
 
-      <!-- <div class="card-header">Sunburst</div>
-      <div class="card-body father">-->
-      <sunburst
-        class="sunburst"
-        :data="displayData"
-        :minAngleDisplayed="minAngleDisplayed"
-        :inAnimationDuration="inAnimationDuration"
-        :outAnimationDuration="outAnimationDuration"
-      >
-        <template v-slot:legend="{ nodes, colorGetter, width }">
-          <breadcrumbTrail
-            :current="nodes.mouseOver"
-            :root="nodes.root"
-            :colorGetter="colorGetter"
-            :from="nodes.zoomed"
-            :width="width"
-          />
-        </template>
+    <!-- <div class="card-header">Sunburst</div>
+    <div class="card-body father">-->
+    <sunburst
+      class="sunburst"
+      :data="displayData"
+      :minAngleDisplayed="minAngleDisplayed"
+      :inAnimationDuration="inAnimationDuration"
+      :outAnimationDuration="outAnimationDuration"
+    >
+      <template v-slot:legend="{ nodes, colorGetter, width }">
+        <breadcrumbTrail
+          :current="nodes.mouseOver"
+          :root="nodes.root"
+          :colorGetter="colorGetter"
+          :from="nodes.zoomed"
+          :width="width"
+        />
+      </template>
 
-        <template v-slot:top="{ nodes }">
-          <nodeInfoDisplayer
-            :current="nodes.mouseOver"
-            :root="nodes.root"
-            :clicked="nodes.clicked"
-            description="of selected"
-          />
-        </template>
+      <template v-slot:top="{ nodes }">
+        <nodeInfoDisplayer
+          :current="nodes.mouseOver"
+          :root="nodes.root"
+          :clicked="nodes.clicked"
+          description="of selected"
+        />
+      </template>
 
-        <template v-slot="{ on, actions }">
-          <highlightOnHover v-bind="{ on, actions }" />
-          <zoomOnClick v-bind="{ on, actions }" />
-        </template>
+      <template v-slot="{ on, actions }">
+        <highlightOnHover v-bind="{ on, actions }" />
+        <zoomOnClick v-bind="{ on, actions }" />
+      </template>
 
-        <template v-slot:report="{ nodes }">
-          <report slot="report" :nodes="nodes" />
-        </template>
-      </sunburst>
-      <!-- </div> -->
-    </v-container>
-  </v-content>
+      <template v-slot:report="{ nodes }">
+        <report slot="report" :nodes="nodes" />
+      </template>
+    </sunburst>
+    <!-- </div> -->
+  </v-container>
 </template>
 
 <script>

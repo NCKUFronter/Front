@@ -2,22 +2,6 @@
   <v-app>
     <v-app-bar color="#efca16" clipped-left app dense>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="login"></v-app-bar-nav-icon>
-      <!-- <v-menu bottom :offset-y="offset" transition="slide-x-transition" right>
-        <template v-slot:activator="{ on }">
-          <v-app-bar-nav-icon v-on="on"></v-app-bar-nav-icon>
-        </template>
-        
-        <v-list width="17vw" color="balck">
-          <v-list-item
-            class="side-menu"
-            v-for="(item, index) in menu"
-            :key="index"
-            :class="{ 'menu-item': true, disabled: !item.link }"
-          >
-            <router-link :to="item.link">{{ item.title }}</router-link>
-          </v-list-item>
-        </v-list>
-      </v-menu>-->
 
       <h1 class="logo">記帳網</h1>
       <v-spacer />
@@ -67,6 +51,7 @@
           :key="index"
           :class="{ 'menu-item': true, disabled: !item.link }"
         >
+          <v-icon class="mr-2">{{item.icon}}</v-icon>
           <router-link :to="item.link">{{ item.title }}</router-link>
         </v-list-item>
       </v-list>
@@ -95,7 +80,7 @@
       <!-- :引入SideAccount變數名稱="在App的變數名稱" -->
 
       <!-- router真正幫你引入component -->
-      <div v-else>
+      <div v-else class="px-6">
         <router-view></router-view>
       </div>
     </v-content>
@@ -107,17 +92,12 @@
 //import SideAccount from './components/SideAccount.vue'
 // import SideMenu from './components/SideMenu.vue'
 let data = {
-  //  accountData1:[
-  //     {src:'#',category:'收支項名',money:'金額',account:'帳戶'},
-  //     {src:'#',category:'收支項名',money:'金額',account:'帳戶'},
-  //     {src:'#',category:'收支項名',money:'金額',account:'帳戶'}
-  // ],
   offset: true,
   menu: [
-    { title: "統計圖產生", link: "/summary" },
-    { title: "記帳管理", link: "/accounting" },
+    { icon: "mdi-chart-arc", title: "統計圖產生", link: "/summary" },
+    { icon: "mdi-calculator", title: "記帳管理", link: "/accounting" },
     // { title: "帳戶管理", link: "/personal" },
-    { title: "點數管理", link: "/point" }
+    { icon: "mdi-alpha-p-circle", title: "點數管理", link: "/point" }
     // { title: "雲端備分", link: "" },
     // { title: "統一發票", link: "" }
   ],
@@ -150,69 +130,22 @@ export default {
     this.$api.loginListener = login => {
       this.login = login;
       this.profile = this.$api.profile;
-      if(this.$route.name == null) {
+      if (this.$route.name == null) {
         this.$router.push("/accounting");
       }
     };
   },
   computed: {},
   methods: {
-    /*
-    accountClick() {
-      this.$http
-        .get("/user/profile")
-        .then(res => {
-          this.GLOBAL.loginStatus = true;
-          this.login = this.GLOBAL.loginStatus;
-          this.personal.img = res.data.photo;
-          this.personal.username = res.data.name;
-          this.personal.ID = res.data._id;
-          this.personal.email = res.data.email;
-        })
-        .catch(err => {
-          this.GLOBAL.loginStatus = false;
-          this.login = this.GLOBAL.loginStatus;
-        });
-    },
-    */
     toLogin() {
-      /*
-      this.$http
-        .post(
-          "/user/login",
-          { email: "father@gmail.com", password: "0000" },
-          { withCredentials: true }
-        )
-        .then(res => {
-          // this.login=true;
-          this.GLOBAL.loginStatus = true;
-          this.login = this.GLOBAL.loginStatus;
-          console.log(this.GLOBAL.loginStatus);
-          this.$router.push("/accounting");
-          // console.log(this.login)
-          return this.$http.get("/user/profile");
-        })
-        .then(res => {
-          this.profile = res.data;
-          this.personal.img = res.data.photo;
-          this.personal.username = res.data.name;
-          this.personal.ID = res.data._id;
-          this.personal.email = res.data.email;
-          //   console.log(this.totalPoint)
-        })
-        .catch(console.log);
-        */
-      this.$api.userLogin("father@gmail.com", "0000").catch(console.log);
+      this.$api.login("father@gmail.com", "0000").catch(console.log);
     },
 
     toLogout() {
-      this.$http
-        .post("/user/logout", { withCredentials: true })
+      this.$api
+        .logout()
         .then(res => {
-          // this.login=false;
-          this.GLOBAL.loginStatus = false;
-          this.login = this.GLOBAL.loginStatus;
-          this.$router.push("");
+          if (this.$route.name != null) this.$router.push("/");
         })
         .catch(console.log);
     }
@@ -224,7 +157,6 @@ export default {
 html {
   margin: 0;
   padding: 0;
-  overflow: hidden !important;
 }
 // .app-header {
 //   background-color: #efca16;
@@ -256,11 +188,6 @@ a {
 
 .notLoginPage {
   padding: 5% 10% 0;
-}
-
-.v-content {
-  overflow-x: auto;
-  // background-color: #fafafa !important;
 }
 
 .nav-drawer {

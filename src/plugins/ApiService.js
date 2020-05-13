@@ -40,10 +40,10 @@ export class ApiService {
   constructor(axios_ins) {
     this.raw = axios_ins;
 
-    this.userProfile().catch(() => {});
+    this.fetchProfile().catch(() => {});
   }
 
-  userProfile() {
+  fetchProfile() {
     return this.raw
       .get("/user/profile")
       .then((res) => {
@@ -60,7 +60,7 @@ export class ApiService {
       });
   }
 
-  userLogin(email, password) {
+  login(email, password) {
     return this.raw
       .post("/user/login", {
         email,
@@ -75,6 +75,13 @@ export class ApiService {
         this.loginStatus = false;
         throw err;
       });
+  }
+
+  logout() {
+    return this.raw.post("/user/logout").then((res) => {
+      this.loginStatus = false;
+      return res;
+    });
   }
 
   // ----- record part -----
