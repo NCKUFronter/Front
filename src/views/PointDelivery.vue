@@ -10,31 +10,38 @@
       </div>
     </v-flex>
     <v-form class="form" @submit.prevent="handleSubmit(onSubmit)">
-      <ValidationProvider v-slot="{ errors }" name="select" rules="required">
-        <v-select
-          v-model="userSelected"
-          :items="user"
-          label="對象"
-          :error-messages="errors"
-          prepend-icon="person"
-          required
-          item-text="name"
-          item-value="email"
-        ></v-select>
-      </ValidationProvider>
+      <v-row justify="space-around">
+        <ValidationProvider v-slot="{ errors }" name="point" rules="required|numeric">
+          <v-text-field
+            v-model="inputPoint"
+            label="贈送點數"
+            :error-messages="errors"
+            prepend-icon="mdi-gift"
+            type="number"
+            required
+          ></v-text-field>
+        </ValidationProvider>
 
-      <ValidationProvider v-slot="{ errors }" name="point" rules="required|numeric">
-        <v-text-field
-          v-model="inputPoint"
-          label="贈送點數"
-          :error-messages="errors"
-          prepend-icon="mdi-gift"
-          required
-        ></v-text-field>
-      </ValidationProvider>
+        <v-icon>mdi-arrow-right-bold</v-icon>
 
-      <v-btn type="submit">Submit</v-btn>
-      <v-btn @click="reset">Reset</v-btn>
+        <ValidationProvider v-slot="{ errors }" name="select" rules="required">
+          <v-select
+            v-model="userSelected"
+            :items="relativeUsers"
+            label="對象"
+            :error-messages="errors"
+            prepend-icon="person"
+            required
+            item-text="name"
+            item-value="email"
+          ></v-select>
+        </ValidationProvider>
+      </v-row>
+
+      <v-row justify="center">
+        <v-btn class="mx-2" type="submit">Submit</v-btn>
+        <v-btn class="mx-2" @click="reset">Reset</v-btn>
+      </v-row>
     </v-form>
   </ValidationObserver>
 </template>
@@ -63,10 +70,9 @@ extend("numeric", {
 export default {
   data() {
     return {
-      user: [],
       userSelected: null,
       inputPoint: "",
-      totalPoint: 0
+      totalPoint: this.$api.profile.rewardPoints
     };
   },
   components: {
@@ -74,6 +80,7 @@ export default {
     ValidationObserver
   },
   created() {
+    /*
     this.$http
       .get("/user/relativeUsers")
       .then(res => {
@@ -88,14 +95,26 @@ export default {
         console.log(this.totalPoint);
       })
       .catch(console.log);
+      */
+  },
+  asyncComputed: {
+    totalPointUpdate: {
+      lazy: true,
+      get() {
+        return this.$api.fetchProfile().then(profile => {
+          this.totalPoint = profile.rewardPoints;
+          return this.totalPoint;
+        });
+      }
+    },
+    relativeUsers: {
+      get() {
+        return this.$http.get("/user/relativeUsers").then(res => res.data);
+      },
+      default: []
+    }
   },
   methods: {
-    // submit () {
-    //   this.$refs.observer.validate().then(()=>{
-    //     console.log(this.$refs.observer.errors);
-    //   })
-
-    // },
     reset() {
       this.inputPoint = "";
       this.userSelected = null;
@@ -111,6 +130,7 @@ export default {
             amount: this.inputPoint
           })
           .then(res => {
+            this.$asyncComputed.totalPointUpdate.update();
             alert("Form has been submitted!");
           })
           .catch(err => {

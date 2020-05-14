@@ -16,8 +16,17 @@
         <v-card flat v-if="!login" style="padding:5px ">
           <v-card-title class="justify-center">尚未登入</v-card-title>
           <v-btn outlined block v-on:click="toLogin">登入</v-btn>
+          <v-btn outlined block v-on:click="doLogin('father@gmail.com')">
+            <v-icon>mdi-login-variant</v-icon>爸爸登入
+          </v-btn>
+          <v-btn outlined block v-on:click="doLogin('mother@gmail.com')">
+            <v-icon>mdi-login-variant</v-icon>媽媽登入
+          </v-btn>
+          <v-btn outlined block v-on:click="doLogin('child@gmail.com')">
+            <v-icon>mdi-login-variant</v-icon>小孩登入
+          </v-btn>
         </v-card>
-        <v-card flat v-if="login" class="text-center">
+        <v-card flat v-else class="text-center">
           <v-img
             :src="profile.photo"
             style="border-radius: 50%; height:100px; width:100px; margin: auto; margin-top: 20px;"
@@ -46,13 +55,14 @@
     >
       <v-list nav>
         <v-list-item
-          class="side-menu"
           v-for="(item, index) in menu"
           :key="index"
           :class="{ 'menu-item': true, disabled: !item.link }"
+          :to="item.link"
+          active-class="active"
         >
           <v-icon class="mr-2">{{item.icon}}</v-icon>
-          <router-link :to="item.link">{{ item.title }}</router-link>
+          {{ item.title }}
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -80,7 +90,7 @@
       <!-- :引入SideAccount變數名稱="在App的變數名稱" -->
 
       <!-- router真正幫你引入component -->
-      <div v-else class="px-6">
+      <div v-else class="px-4">
         <router-view></router-view>
       </div>
     </v-content>
@@ -140,7 +150,9 @@ export default {
     toLogin() {
       this.$api.login("father@gmail.com", "0000").catch(console.log);
     },
-
+    doLogin(email) {
+      this.$api.login(email, "0000").catch(console.log);
+    },
     toLogout() {
       this.$api
         .logout()
@@ -176,16 +188,6 @@ a {
   padding-left: 10px;
 }
 
-.side-menu {
-  /* border-color: chartreuse;
-      border-style: solid;  */
-  color: black;
-  a {
-    font-weight: normal;
-    text-decoration: none;
-  }
-}
-
 .notLoginPage {
   padding: 5% 10% 0;
 }
@@ -203,6 +205,9 @@ a {
   width: auto;
   padding: 20px;
   color: black;
+  &.active {
+    background-color: #fff !important; /** not working */
+  }
   &.disabled {
     cursor: not-allowed;
     a {

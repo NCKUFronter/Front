@@ -7,16 +7,21 @@
         </div>
       </v-card>
     </v-flex>
-    <v-flex xs6 sm4 md4 v-for="(card,idx) in adminLedger" :key="idx" class="card">
+    <v-flex xs6 sm4 md4 v-for="ledger in adminLedgers" :key="ledger._id" class="card">
       <v-card outlined>
-        <v-card-title>{{card.ledgerName}}</v-card-title>
-        <v-card-text>帳本人數: {{card.userNumber}}</v-card-text>
+        <v-card-title>{{ledger.ledgerName}}</v-card-title>
+        <v-card-text>帳本人數: {{ledger.users.length}}</v-card-text>
+        <v-flex>
+          <v-avatar v-for="user of ledger.users" :key="ledger._id + user._id" size="36">
+            <img :src="user.photo" />
+          </v-avatar>
+        </v-flex>
         <v-card-actions>
           <v-spacer />
-          <v-btn icon v-on:click="invite(card.id,card.ledgerName)">
+          <v-btn icon v-on:click="invite(ledger._id, ledger.ledgerName)">
             <v-icon>mdi-account-multiple-plus</v-icon>
           </v-btn>
-          <v-btn icon v-on:click="out(card.user,card.id,card.name)">
+          <v-btn icon v-on:click="out(ledger)">
             <v-icon>mdi-account-multiple-minus</v-icon>
           </v-btn>
         </v-card-actions>
@@ -30,22 +35,58 @@
         </div>
       </v-card>
     </v-flex>
-    <v-flex xs6 sm4 md4 v-for="(card,idx) in engageLedger" :key="idx" class="card">
+    <v-flex xs6 sm4 md4 v-for="ledger in engageLedgers" :key="ledger._id" class="card">
       <v-card outlined>
-        <v-card-title>{{card.ledgerName}}</v-card-title>
-        <v-card-text>帳本人數: {{card.userNumber}}</v-card-text>
+        <v-card-title>{{ledger.ledgerName}}</v-card-title>
+        <v-card-text>帳本人數: {{ledger.users.length}}</v-card-text>
+        <v-flex>
+          <v-avatar v-for="user of ledger.users" :key="ledger._id + user._id" size="36">
+            <img :src="user.photo" />
+          </v-avatar>
+        </v-flex>
         <v-card-actions>
           <v-spacer />
-          <v-btn icon v-on:click="invite(card.id,card.ledgerName)">
+          <v-btn icon v-on:click="invite(ledger._id, ledger.ledgerName)">
             <v-icon>mdi-account-multiple-plus</v-icon>
           </v-btn>
-          <v-btn icon v-on:click="leave(card.id)">
+          <v-btn icon v-on:click="leave(ledger._id)">
             <v-icon>mdi-account-arrow-right</v-icon>
           </v-btn>
         </v-card-actions>
       </v-card>
     </v-flex>
+
     <!-- invite -->
+    <v-flex xs12 sm12 md12>
+      <v-card flat>
+        <div class="title">
+          <v-card-title>邀請你的帳本</v-card-title>
+        </div>
+      </v-card>
+    </v-flex>
+    <v-flex
+      xs6
+      sm4
+      md4
+      v-for="invitation in invitations"
+      :key="'invite'+invitation._id"
+      class="card"
+    >
+      <v-card outlined>
+        <v-card-title>{{invitation.ledger.ledgerName}}</v-card-title>
+        <v-card-text>
+          邀請人: {{ invitation.fromUser.name }}
+          <v-avatar>
+            <img :src="invitation.fromUser.photo" />
+          </v-avatar>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn v-on:click="answerInvitation(invitation._id, true)">加入</v-btn>
+          <v-btn v-on:click="answerInvitation(invitation._id, false)">拒絕</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-flex>
 
     <v-card class="modal" v-if="inviteModal" color="#fff7d3">
       <v-card-title>{{inviteLedger}}</v-card-title>
@@ -60,15 +101,15 @@
     <!-- 踢人out -->
 
     <v-card class="modal" v-if="outModal" color="#fff7d3">
-      <v-card-title>帳本名</v-card-title>
+      <v-card-title>帳本名: {{outLedger.ledgerName}}</v-card-title>
       <v-card-text>剔除使用者</v-card-text>
       <v-select
-        :items="user"
+        :items="notAdminUsers(outLedger)"
         v-model="outUser"
         label="選擇要離開的人"
         outlined
-        item-text="userName"
-        item-value="userId"
+        item-text="name"
+        item-value="_id"
         class="pa-4"
       ></v-select>
       <v-card-actions>
@@ -79,56 +120,58 @@
     </v-card>
   </v-row>
 </template>
+
 <script>
 import { confirmed } from "vee-validate/dist/rules";
 export default {
-  data: () => ({
-    adminLedger: [],
-    engageLedger: [],
+  name: "ledgerManagement",
+  data() {
+    return {
+      adminLedgers: [],
+      engageLedgers: [],
 
-    inviteModal: false,
-    inviteLedger: "",
-    inviteLedgerId: null,
-    inputEmail: "",
+      inviteModal: false,
+      inviteLedger: "",
+      inviteLedgerId: null,
+      inputEmail: "",
 
-    outModal: false,
-    user: [],
-    outUser: [],
-    outLedger: "",
-    outLedgerId: null
-  }),
-  created() {
-    var userId = "-1";
-
-    this.$http
-      .get("/user/profile")
-      .then(res => {
-        userId = res.data._id;
-        return this.$http.get("/user/ledgers", {
-          params: { _many: ["users"] }
-        });
-      })
-      .then(res => {
-        res.data.forEach(element => {
-          if (element.adminId == userId) {
-            this.adminLedger.push({
-              id: element._id,
-              ledgerName: element.name,
-              userNumber: element.userIds.length + 1,
-              user: element.users
-            });
-          } else {
-            this.engageLedger.push({
-              id: element._id,
-              ledgerName: element.name,
-              userNumber: element.userIds.length + 1,
-              user: element.users
-            });
-          }
-        });
-      });
+      outModal: false,
+      user: [],
+      outUser: [],
+      outLedger: null
+    };
+  },
+  filters: {},
+  asyncComputed: {
+    ledgerFetch: {
+      get() {
+        return this.$http
+          .get("/user/ledgers", {
+            params: { _many: ["users"] }
+          })
+          .then(res => {
+            this.engageLedgers = [];
+            this.adminLedgers = [];
+            for (const ledger of res.data) {
+              if (ledger.adminId === this.$api.profile._id) {
+                this.adminLedgers.push(ledger);
+              } else this.engageLedgers.push(ledger);
+            }
+          });
+      }
+    },
+    invitations: {
+      get() {
+        return this.$http
+          .get("user/invitations", { params: { _one: ["ledger", "fromUser"] } })
+          .then(res => res.data);
+      }
+    }
   },
   methods: {
+    notAdminUsers(ledger) {
+      return ledger.users.filter(user => user._id !== ledger.adminId);
+    },
     invite(id, name) {
       console.log("invite");
       this.inviteModal = true;
@@ -145,6 +188,7 @@ export default {
             email: this.inputEmail
           })
           .then(res => {
+            this.inviteModal = false;
             console.log(res.data);
           })
           .catch(console.log);
@@ -157,40 +201,61 @@ export default {
         this.$http
           .post("/ledger/" + id + "/leave")
           .then(res => {
+            this.$asyncComputed.ledgerFetch.update();
+            this.$asyncComputed.invitations.update();
             console.log(res.data);
           })
           .catch(console.log);
       }
     },
 
-    out(userList, id, name) {
+    out(ledger) {
       this.outModal = true;
-      this.outLedger = name;
-      userList.forEach(element => {
-        this.user.push({ userId: element._id, userName: element.name });
-      });
-      this.outLedgerId = id;
+      this.outLedger = ledger;
     },
 
     confirmOut() {
-      console.log(this.outUser);
       if (confirm("確認剔除?")) {
-        this.outUser.forEach(element => {
-          console.log(element);
-          this.$http
-            .post("/ledger/" + this.outLedgerId + "/leave" + element)
-            .then(res => {
-              console.log(res.data);
-            })
-            .catch(console.log);
-        });
+        this.$http
+          .post(`/ledger/${this.outLedger._id}/leave/${this.outUser}`)
+          .then(res => {
+            this.outModal = false;
+            this.$asyncComputed.ledgerFetch.update();
+            this.$asyncComputed.invitations.update();
+            console.log(res.data);
+          })
+          .catch(console.log);
       }
+    },
+
+    answerInvitation(id, answer) {
+      this.$http
+        .put(`/invitation/${id}/answer`, { answer })
+        .then(res => {
+          this.$asyncComputed.ledgerFetch.update();
+          this.$asyncComputed.invitations.update();
+          alert("回應成功");
+        })
+        .catch(res => {
+          alert("回應失敗");
+        });
     }
   }
 };
 </script>
 
 <style scoped>
+.card {
+  padding: 5px;
+}
+.title {
+  border-bottom: #cccccc 2px solid;
+  margin: 5px;
+}
+.button {
+  margin: 5px;
+}
+
 .card {
   padding: 5px;
 }

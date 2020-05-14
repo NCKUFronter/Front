@@ -1,27 +1,6 @@
 <template>
   <!-- ref: https://github.com/David-Desmaisons/Vue.D3.sunburst/tree/e3c61e84268861400116245ea8e9020e8113ea07 -->
-  <v-container fluid style="width: 960px" class="con">
-    <v-row class="row1">
-      <v-flex xs6 sm3 md3>
-        <v-card flat class="perspective">
-          <v-btn-toggle v-model="toggle_exclusive_perspective" mandatory>
-            <v-btn value="personal">個人</v-btn>
-            <v-btn value="ledger">帳本</v-btn>
-          </v-btn-toggle>
-        </v-card>
-      </v-flex>
-
-      <v-flex xs6 sm3 md3>
-        <v-card flat class="time" xs6 sm3 md3>
-          <v-btn-toggle v-model="toggle_exclusive_time" mandatory>
-            <v-btn value="year">年</v-btn>
-            <v-btn value="month">月</v-btn>
-            <v-btn value="week">週</v-btn>
-          </v-btn-toggle>
-        </v-card>
-      </v-flex>
-    </v-row>
-
+  <v-container fluid fill-height>
     <!-- <div class="card-header">Sunburst</div>
     <div class="card-body father">-->
     <sunburst
@@ -31,6 +10,26 @@
       :inAnimationDuration="inAnimationDuration"
       :outAnimationDuration="outAnimationDuration"
     >
+      <template v-slot:menu>
+        <v-row class="py-4" justify="center">
+          <v-btn-toggle v-model="toggle_exclusive_perspective" mandatory>
+            <v-btn value="personal">個人</v-btn>
+            <v-btn value="ledger">帳本</v-btn>
+            <v-btn value="points">範例</v-btn>
+          </v-btn-toggle>
+
+          <!--v-flex xs6 sm3 md3>
+            <v-card flat class="time" xs6 sm3 md3>
+              <v-btn-toggle v-model="toggle_exclusive_time" mandatory>
+                <v-btn value="year">年</v-btn>
+                <v-btn value="month">月</v-btn>
+                <v-btn value="week">週</v-btn>
+              </v-btn-toggle>
+            </v-card>
+          </v-flex-->
+        </v-row>
+      </template>
+
       <template v-slot:legend="{ nodes, colorGetter, width }">
         <breadcrumbTrail
           :current="nodes.mouseOver"
@@ -38,6 +37,7 @@
           :colorGetter="colorGetter"
           :from="nodes.zoomed"
           :width="width"
+          class="pt-6"
         />
       </template>
 
@@ -100,7 +100,8 @@ export default {
   data() {
     return {
       sumPersonal,
-      sumLedger: example,
+      sumLedger,
+      example,
       minAngleDisplayed: 0.05, //設定角度多小的可被看見 if=0表全部都可被看見
       inAnimationDuration: 500, //動畫速度
       outAnimationDuration: 1000, //動畫速度
@@ -112,9 +113,9 @@ export default {
     displayData() {
       if (this.toggle_exclusive_perspective == "ledger") {
         return this.sumLedger;
-      } else {
+      } else if (this.toggle_exclusive_perspective == "personal") {
         return this.sumPersonal;
-      }
+      } else return this.example;
     }
   },
   methods: {},
@@ -130,11 +131,6 @@ export default {
 </script>
 
 <style scoped>
-.con {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  color: #2c3e50;
-}
-
 .row1 {
   margin: 1% 10%;
 }
@@ -152,6 +148,6 @@ export default {
   } */
 
 .sunburst {
-  height: 70vh;
+  height: 75vh;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <v-row>
+  <v-container>
     <!-- v-if="!cartModal" -->
     <v-flex xs12 sm12 md12 v-if="!cartModal">
       <div class="header">
@@ -14,7 +14,12 @@
             <v-spacer></v-spacer>
 
             <v-badge :content="cart" :value="cart" color="#efca16">
-              <v-icon v-on:click="lookCart()" class="pb-2" color="#cccccc" large>mdi-cart</v-icon>
+              <v-icon
+                v-on:click="lookCart()"
+                class="pb-2"
+                color="#cccccc"
+                large
+              >mdi-cart-arrow-right</v-icon>
             </v-badge>
           </v-card-actions>
         </v-card>
@@ -24,61 +29,59 @@
     <!-- cart -->
 
     <v-flex xs12 sm12 md12 v-if="cartModal">
-      <v-container fluid>
-        <div class="header">
-          <v-card flat>
-            <v-card-actions class="icon">
-              <v-btn icon class="back">
-                <v-icon @click="cartModal=!cartModal" large>mdi-arrow-left-circle</v-icon>
-              </v-btn>
-              <v-spacer />
-              <v-spacer />
-              <v-spacer />
-              <v-icon large>mdi-alpha-p-circle-outline</v-icon>
-              <v-card-title>{{totalPoint}}</v-card-title>
-              <v-spacer />
-              <v-card-title>總額 {{sumcart}}</v-card-title>
-              <v-spacer />
-              <v-btn v-on:click="buy()" color="#efca16">確認購買</v-btn>
-            </v-card-actions>
-          </v-card>
-        </div>
+      <div class="header">
+        <v-card flat>
+          <v-card-actions class="icon">
+            <v-btn icon class="back">
+              <v-icon @click="cartModal=!cartModal" large>mdi-arrow-left-circle</v-icon>
+            </v-btn>
+            <v-spacer />
+            <v-spacer />
+            <v-spacer />
+            <v-icon large>mdi-alpha-p-circle-outline</v-icon>
+            <v-card-title>{{totalPoint}}</v-card-title>
+            <v-spacer />
+            <v-card-title>總額 {{sumcart}}</v-card-title>
+            <v-spacer />
+            <v-btn v-on:click="buy()" color="#efca16">確認購買</v-btn>
+          </v-card-actions>
+        </v-card>
+      </div>
 
-        <v-data-table
-          v-model="selected"
-          :headers="headers"
-          :items="redeemGoods"
-          :single-select="false"
-          item-key="_id"
-          show-select
-          class="elevation-1"
-          hide-default-footer
-        >
-          <template v-slot:item.name="{ item }">
-            <v-img :src="item.photo" class="cartImg"></v-img>
-            <div class="cartContent">
-              <v-card-title class="cartT">{{item.name}}</v-card-title>
-              <v-card-text class="cartT" style="font-size: 12px;">{{item.intro}}</v-card-text>
-            </div>
-          </template>
-          <template v-slot:item.point="{ item }">{{(item.point*item.quantity)}}</template>
-          <template v-slot:item.quantity="{ item }">
-            <v-icon v-on:click="modifyQuantity(item,-1)" class="cartquant">mdi-menu-left</v-icon>
-            <h4 class="cartQuant">{{ item.quantity }}</h4>
-            <v-icon v-on:click="modifyQuantity(item,1)" class="cartQuant">mdi-menu-right</v-icon>
-          </template>
-        </v-data-table>
-      </v-container>
+      <v-data-table
+        v-model="selected"
+        :headers="headers"
+        :items="redeemGoods"
+        :single-select="false"
+        item-key="_id"
+        show-select
+        class="elevation-1 col-12"
+        hide-default-footer
+      >
+        <template v-slot:item.name="{ item }">
+          <v-img :src="item.photo" class="cartImg"></v-img>
+          <div class="cartContent">
+            <v-card-title class="cartT">{{item.name}}</v-card-title>
+            <v-card-text class="cartT" style="font-size: 12px;">{{item.intro}}</v-card-text>
+          </div>
+        </template>
+        <template v-slot:item.point="{ item }">{{(item.point*item.quantity)}}</template>
+        <template v-slot:item.quantity="{ item }">
+          <v-icon v-on:click="modifyQuantity(item,-1)" class="cartquant">mdi-menu-left</v-icon>
+          <h4 class="cartQuant">{{ item.quantity }}</h4>
+          <v-icon v-on:click="modifyQuantity(item,1)" class="cartQuant">mdi-menu-right</v-icon>
+        </template>
+      </v-data-table>
     </v-flex>
 
     <!-- goods -->
     <v-row v-if="loading">
-      <v-flex xs6 sm3 md3 v-for="item in 8" :key="item" class="item">
+      <v-flex xs6 sm4 md3 v-for="item in 8" :key="item" class="item">
         <v-skeleton-loader type="card" :loading="loading"></v-skeleton-loader>
       </v-flex>
     </v-row>
     <v-row v-if="!loading && !cartModal">
-      <v-flex xs6 sm3 md3 v-for="item in goods" :key="item.name" class="item">
+      <v-flex xs6 sm4 md3 v-for="item in goods" :key="item.name" class="item">
         <v-card class="card py-2">
           <v-img :src="item.photo" class="img"></v-img>
 
@@ -95,13 +98,13 @@
             </v-btn>-->
 
             <v-btn icon v-on:click="addCart(item)">
-              <v-icon @click="cart++">mdi-cart</v-icon>
+              <v-icon @click="cart++">mdi-cart-arrow-down</v-icon>
             </v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
     </v-row>
-  </v-row>
+  </v-container>
 </template>
 <script>
 // import PointRedeemCart from "../components/PointRedeemCart";

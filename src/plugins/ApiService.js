@@ -50,7 +50,7 @@ export class ApiService {
         this.profile = res.data;
         this.loginStatus = true;
         // return this.login;
-        return res;
+        return res.data;
       })
       .catch((err) => {
         // console.log(err);
@@ -67,9 +67,7 @@ export class ApiService {
         password,
       })
       .then((res) => {
-        this.profile = res.data;
-        this.loginStatus = true;
-        return res;
+        return this.fetchProfile()
       })
       .catch((err) => {
         this.loginStatus = false;

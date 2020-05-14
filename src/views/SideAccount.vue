@@ -9,7 +9,7 @@
           hide-details
           outlined
           prepend-inner-icon="book"
-          item-text="name"
+          item-text="ledgerName"
           item-value="_id"
           dense
           full-width
@@ -20,8 +20,7 @@
 
       <div class="date-wrap" @blur="dataPickerModal=false">
         <i class="material-icons" v-on:click="getYearMonthDate(-1)">arrow_left</i>
-        <div class="date" v-on:click="dataPickerModal = !dataPickerModal"
-          >{{ userDate }}</div>
+        <div class="date" v-on:click="dataPickerModal = !dataPickerModal">{{ userDate }}</div>
 
         <v-date-picker
           v-if="dataPickerModal"
@@ -37,15 +36,14 @@
       </div>
 
       <div class="point">
-        <h6>累積點數</h6>
-        <!-- {{ hello }} -->
+        <h6>累積點數: {{totalPoints}}</h6>
       </div>
       <div class="total">
         <div class="income">
-          <h6>總收入</h6>
+          <h6>總收入: {{totalIncome }}</h6>
         </div>
         <div class="expenses">
-          <h6>總支出</h6>
+          <h6>總支出: {{totalExpense}}</h6>
         </div>
       </div>
     </div>
@@ -80,10 +78,7 @@
         ></EditRecord>
       </v-dialog>
     </div>
-
-    <!--router-view></router-view-->
   </v-card>
-  <!-- </v-content> -->
 </template>
 
 <script>
@@ -125,12 +120,27 @@ export default {
     //   .then(res => {
     //     console.log(res.data);
     //   });
-
     // this.$http.get("/user/ledgers".then(res => {
     // this.ledger = res.data;
     // }))
   },
-  computed: {},
+  computed: {
+    totalIncome() {
+      return this.records.reduce(
+        (sum, cur) => (cur.recordType[0] == "i" ? sum + cur.money : sum),
+        0
+      );
+    },
+    totalExpense() {
+      return this.records.reduce(
+        (sum, cur) => (cur.recordType[0] == "e" ? sum + cur.money : sum),
+        0
+      );
+    },
+    totalPoints() {
+      return this.records.reduce((sum, cur) => sum + cur.rewardPoints, 0);
+    }
+  },
   asyncComputed: {
     records: {
       get() {

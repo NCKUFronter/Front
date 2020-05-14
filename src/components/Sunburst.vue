@@ -18,7 +18,8 @@
         <slot :on="on" :actions="actions"></slot>
       </div>
     </v-flex>
-    <v-flex xs12 sm6 md6 class="report">
+    <v-flex xs12 sm6 md6 class="report px-4">
+      <slot name="menu" :nodes="graphNodes"></slot>
       <slot name="report" :nodes="graphNodes"></slot>
     </v-flex>
   </v-container>
