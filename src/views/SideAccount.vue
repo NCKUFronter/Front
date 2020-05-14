@@ -75,6 +75,7 @@
           @update="fetchRecords"
           :userDate="userDate"
           :oldForm="selectedRecord"
+          :ledgerSelected="ledgerSelected"
         ></EditRecord>
       </v-dialog>
     </div>
@@ -90,7 +91,7 @@ let data = {
   modalOpen: false,
   ledgerSelected: null,
   // ledger: ["All", "Main Account", "Bank SinoPac"],
-  userDate: getLocaleDate(new Date(2020, 3, 21)),
+  userDate: getLocaleDate(new Date()),
   accountData: [],
   dataPickerModal: false,
   selectedRecord: null

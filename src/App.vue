@@ -13,7 +13,7 @@
             <v-icon large>mdi-account-circle</v-icon>
           </v-btn>
         </template>
-        <v-card flat v-if="!login" style="padding:5px ">
+        <v-card flat v-if="!login" class="pa-2">
           <v-card-title class="justify-center">尚未登入</v-card-title>
           <v-btn outlined block v-on:click="toLogin">登入</v-btn>
           <v-btn outlined block v-on:click="doLogin('father@gmail.com')">
@@ -26,7 +26,7 @@
             <v-icon>mdi-login-variant</v-icon>小孩登入
           </v-btn>
         </v-card>
-        <v-card flat v-else class="text-center">
+        <v-card flat v-else class="pa-2 text-center">
           <v-img
             :src="profile.photo"
             style="border-radius: 50%; height:100px; width:100px; margin: auto; margin-top: 20px;"
@@ -214,10 +214,6 @@ a {
       cursor: not-allowed;
     }
   }
-}
-
-.text-center {
-  margin: 10px;
 }
 
 .v-navigation-drawer__border {

@@ -9,9 +9,11 @@
         <v-icon v-else>mdi-tray-plus</v-icon>-->
         <!--{{item.recordType}}-->
         <!--/v-chip-->
-        <v-avatar size="36"><img :src="item.user.photo"/></v-avatar>
+        <v-avatar size="36">
+          <img :src="item.user.photo" />
+        </v-avatar>
 
-        <v-icon v-if="item.recordType[0]=='i'" color="green">mdi-cash-multiple</v-icon>
+        <v-icon v-if="item.recordType[0]=='i'" color="green">mdi-cash-plus</v-icon>
         <v-icon v-else color="red">mdi-cash-minus</v-icon>
       </template>
 
@@ -42,8 +44,10 @@
 
       <template v-slot:item.actions="{ item }">
         <!-- <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon> -->
-        <v-icon small @click="$emit('want-edit',item)" class="mr-1">mdi-pencil</v-icon>
-        <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
+        <div v-if="item.userId === $api.profile._id">
+          <v-icon small @click="$emit('want-edit',item)" class="mr-1">mdi-pencil</v-icon>
+          <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
+        </div>
       </template>
     </v-data-table>
 
@@ -147,7 +151,10 @@ export default {
     filterAccountData() {
       // return this.filterLedgerData.filter(item => {
       return this.accountData.filter(item => {
-        console.log({userDate: this.userDate, locale: getLocaleDate(item.date)})
+        console.log({
+          userDate: this.userDate,
+          locale: getLocaleDate(item.date)
+        });
         return getLocaleDate(item.date) === this.userDate;
       });
     },
@@ -203,7 +210,7 @@ export default {
           });
       }
     }
-  },
+  }
   // editItem(item) {
   //   item._id = this.props.indexOf(item);
   //   this.editedItem = Object.assign({}, item);

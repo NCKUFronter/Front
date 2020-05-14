@@ -38,7 +38,7 @@
           outlined
           prepend-icon="mdi-book-outline"
           color="primary"
-          item-text="name"
+          item-text="ledgerName"
           item-value="_id"
           :items="userLedgers"
         ></v-select>
@@ -161,6 +161,9 @@ export default {
     oldForm: {
       type: Object,
       default: () => null
+    },
+    ledgerSelected: {
+      type: String
     }
   },
   data() {
@@ -255,7 +258,7 @@ export default {
       this.form.date = getLocaleDate(this.oldForm.date);
     },
     resetForm() {
-      this.form.ledgerId = null;
+      this.form.ledgerId = this.ledgerSelected;
       this.form.categoryId = null;
       this.form.money = 0;
       // this.form.detail = "";
