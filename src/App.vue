@@ -1,267 +1,165 @@
 <template>
   <v-app>
-    <v-app-bar class="mx-auto overflow-hidden" color="#efca16" elevate-on-scroll clipped-left app>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="login"></v-app-bar-nav-icon>
-      <!-- <v-menu bottom :offset-y="offset" transition="slide-x-transition" right>
-        <template v-slot:activator="{ on }">
-          <v-app-bar-nav-icon v-on="on"></v-app-bar-nav-icon>
-        </template>
+    
+      <!-- <v-app-bar class="mx-auto overflow-hidden" color="#efca16" elevate-on-scroll clipped-left app>
+      </v-app-bar> -->
+    <v-layout class="page">
+        <v-img src="./image/home/p1/background_block.svg" class="background"></v-img>
         
-        <v-list width="17vw" color="balck">
-          <v-list-item
-            class="side-menu"
-            v-for="(item, index) in menu"
-            :key="index"
-            :class="{ 'menu-item': true, disabled: !item.link }"
-          >
-            <router-link :to="item.link">{{ item.title }}</router-link>
-          </v-list-item>
-        </v-list>
-      </v-menu>-->
+        <div class="background-top" height="100%">
+            <img src="./image/home/p1/left_block.svg" height="100%" class="left-block" >
+            <div class="right-block" >
+                <img src="./image/home/p1/right_block.svg" height="100%" >
+                <img src="./image/home/p1/bookkeeping.svg" height="100%" class="book-keeping">
+            </div>
+        </div>
+        
+        <div class="content">
+            <v-card-title class="ml-0 pl-0" >親子互動與<br>教育的新體驗</v-card-title>
+            <v-card-text class="ml-0 pl-0">透過社群記帳與遊戲，讓父母從小培養孩子的金錢觀</v-card-text>
+            <v-btn outlined>開始使用</v-btn>
 
-      <h1 class="logo">記帳網</h1>
-      <v-spacer />
+        </div>
+     
+        <!-- <img src="./image/home/p1/parents.svg" height="100%" class="parents">      -->
 
-      <!-- peraonal account -->
-      <v-menu offset-y>
-        <template v-slot:activator="{ on }">
-          <v-btn icon v-on="on" :v-on:click="accountClick()">
-            <v-icon large>mdi-account-circle</v-icon>
-          </v-btn>
-        </template>
-        <v-card flat v-if="!login" style="padding:5px ">
-          <v-card-title class="justify-center">尚未登入</v-card-title>
-          <v-btn outlined flat block color="#cccccc" style="padding:10px " v-on:click="toLogin">登入</v-btn>
-        </v-card>
-        <v-card flat v-if="login" class="text-center">
-          <v-img
-            :src="personal.img"
-            style="border-radius: 50%; height:100px; width:100px; margin: auto; margin-top: 20px;"
-          ></v-img>
-          <v-card-title class="justify-center">{{personal.username}}</v-card-title>
-          <v-card-subtitle>{{personal.ID}}</v-card-subtitle>
-          <v-card-text>{{personal.email}}</v-card-text>
-          <v-btn outlined block style="margin-bottom:10px " color="#cccccc">
-            <v-icon>mdi-file-edit-outline</v-icon>綁定信用卡
-          </v-btn>
-          <v-btn outlined block color="#cccccc" v-on:click="toLogout">
-            <v-icon>mdi-logout-variant</v-icon>登出
-          </v-btn>
-        </v-card>
-      </v-menu>
-    </v-app-bar>
+        <img src="./image/home/p1/rocket_with_kid.svg" height="100%" class="rocket" v-rellax="{speed:10,}"  >
+        <img src="./image/home/p1/planet.svg" height="100%" class="planet" v-rellax="{speed:10,}"  >
 
-    <v-card class="mx-auto" v-if="login">
-      <v-navigation-drawer
-        v-model="drawer"
-        hide-overlay
-        :permanent="$vuetify.breakpoint.mdAndUp"
-        :temporary="$vuetify.breakpoint.smAndDown"
-        clipped
-        app
-        class="nav-drawer"
-        style="top: 56px"
-      >
-        <v-list nav>
-          <v-list-item
-            class="side-menu"
-            v-for="(item, index) in menu"
-            :key="index"
-            :class="{ 'menu-item': true, disabled: !item.link }"
-          >
-            <router-link :to="item.link">{{ item.title }}</router-link>
-          </v-list-item>
-        </v-list>
-      </v-navigation-drawer>
-    </v-card>
-
-    <v-content v-if="!login">
-      <v-container fluid style="width: 1100px">
-        <v-row style="margin-top:15%">
-          <v-flex xs6 sm6 md6 class="pa-6">
-            <v-img src="./phone.png"></v-img>
-          </v-flex>
-          <v-flex xs6 sm6 md6 class="pa-6" style="margin-top:10%">
-            <v-card-title color="#efca16">星，際帳</v-card-title>
-            <v-card-text>在這裡，你可以體驗由永豐提供的智慧生活，記下日常消費的每筆帳目，並獲得回饋點數</v-card-text>
-            <v-btn outlined color="#414141" class="ma-3">創建帳戶</v-btn>
-            <v-btn outlined color="#414141" class="ma-3">登入</v-btn>
-          </v-flex>
-        </v-row>
-      </v-container>
-    </v-content>
-
-
-    <!-- <SideMenu /> -->
-
-    <!-- router-link只是表示換哪個component網址 -->
-    <!-- 使用sideAccount這個component,並傳入變數accountData -->
-    <!--SideAccount :accountData="accountData1" /-->
-    <!-- :引入SideAccount變數名稱="在App的變數名稱" -->
-
-    <!-- router真正幫你引入component -->
-    <router-view></router-view>
-  </v-app>
+    </v-layout >
+    <v-layout class="page">
+        <v-img src="./image/home/p1/background_block.svg" class="background"></v-img>
+        <div class="feature-block" >
+            <img src="./image/home/p2/feature_block_1.svg" height="100%">
+            <img src="./image/home/p2/feature_block_2.svg" height="100%">
+            <img src="./image/home/p2/feature_block_1.svg" height="100%">
+            <img src="./image/home/p2/feature_block_2.svg" height="100%">
+        </div>
+    </v-layout>
+    <v-layout class="page">
+        <v-img src="./image/home/p1/background_block.svg" class="background"></v-img>
+        <img src="./image/home/p3/img_background.svg" height="115%" class="img-background" >
+        <img src="./image/home/p3/text_background.svg" height="100%" class="text-background">
+        <img src="./image/home/p3/img.svg" height="88%" class="phone">
+    </v-layout>
+    <v-layout class="page">
+        <v-img src="./image/home/p1/background_block.svg" class="background"></v-img>
+        <img src="./image/home/p4/img_background.svg" height="115%" class="img4-background" >
+        <img src="./image/home/p4/text_background.svg" height="100%" class="text4-background">
+        <img src="./image/home/p4/img.svg" height="50%" class="ship">
+    </v-layout>
+    
+  </v-app>  
 </template>
-
 <script>
-// 定義component,不是global,只有APP知道
-//import SideAccount from './components/SideAccount.vue'
-// import SideMenu from './components/SideMenu.vue'
-let data = {
-  //  accountData1:[
-  //     {src:'#',category:'收支項名',money:'金額',account:'帳戶'},
-  //     {src:'#',category:'收支項名',money:'金額',account:'帳戶'},
-  //     {src:'#',category:'收支項名',money:'金額',account:'帳戶'}
-  // ],
-  offset: true,
-  menu: [
-    { title: "統計圖產生", link: "/summary" },
-    { title: "周/月帳目一覽", link: "/accounting" },
-    // { title: "帳戶管理", link: "/personal" },
-    { title: "點數管理", link: "/point" }
-    // { title: "雲端備分", link: "" },
-    // { title: "統一發票", link: "" }
-  ],
-  personal: {
-    img: "",
-    username: "",
-    ID: "",
-    email: ""
-  },
-  drawer: false,
-  login: false,
-};
-
+// import Parallax from "vue-parallaxy";
 export default {
   name: "App",
-
   data() {
-    return data;
   },
   components: {
-    //SideAccount  // 定義component
-    // SideMenu
-  },
-  created() {
-    // var that = this;
-    // this.$set(that, 'login', this.GLOBAL.loginStatus)
-    // console.log(this.GLOBAL.loginStatus)
-    // console.log(this.login)
-  },
-  computed: {},
 
-  methods: {
-    accountClick() {
-      this.$http
-        .get("/user/profile")
-        .then(res => {
-          this.GLOBAL.loginStatus = true;
-          this.login = this.GLOBAL.loginStatus;
-          this.personal.img = res.data.photo;
-          this.personal.username = res.data.name;
-          this.personal.ID = res.data._id;
-          this.personal.email = res.data.email;
-        })
-        .catch(err => {
-          this.GLOBAL.loginStatus = false;
-          this.login = this.GLOBAL.loginStatus;
-        });
-    },
-    toLogin() {
-      this.$http
-        .post(
-          "/user/login",
-          { email: "father@gmail.com", password: "0000" },
-          { withCredentials: true }
-        )
-        .then(res => {
-          // this.login=true;
-          this.GLOBAL.loginStatus = true;
-          this.login = this.GLOBAL.loginStatus;
-          console.log(this.GLOBAL.loginStatus);
-          this.$router.push('/accounting')
-          // console.log(this.login)
-          return this.$http.get("/user/profile");
-        })
-        .then(res => {
-          this.personal.img = res.data.photo;
-          this.personal.username = res.data.name;
-          this.personal.ID = res.data._id;
-          this.personal.email = res.data.email;
-          //   console.log(this.totalPoint)
-        })
-        .catch(console.log);
-    },
-
-    toLogout() {
-      this.$http
-        .post("/user/logout", { withCredentials: true })
-        .then(res => {
-          // this.login=false;
-          this.GLOBAL.loginStatus = false;
-          this.login = this.GLOBAL.loginStatus;
-          this.$router.push('')
-        })
-        .catch(console.log);
-    }
-  }
-};
+    // Parallax
+  } 
+}
+// var rellax = new VueRellax('.rellax', {
+//     speed: -2,
+//     center: false,
+//     wrapper: null,
+//     round: true,
+//     vertical: true,
+//     horizontal: false
+//  });
 </script>
+<style scoped>
+/* .container{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+} */
 
-<style lang="scss">
-* {
-  font-family: 微軟正黑體, Arial, Helvetica, sans-serif;
-}
-body {
-  margin: 0;
-  padding: 0;
-}
-// .app-header {
-//   background-color: #efca16;
-//   height: 6vh;
-// }
-a {
-  color: black !important;
-}
-.logo {
-  display: inline-block;
-  font-weight: normal;
-  text-decoration: none;
-  color: black;
-  font-size: 4vh;
-  padding: 10px;
-}
-.side-menu {
-  /* border-color: chartreuse;
-      border-style: solid;  */
-  color: black;
-  a {
-    font-weight: normal;
-    text-decoration: none;
-  }
-}
-.menu-item {
-  border: solid #d9d1ba;
-  border-radius: 10px;
-  margin: 5%;
-  height: fit-content;
-  width: auto;
-  padding: 20px;
-  color: black;
-  &.disabled {
-    cursor: not-allowed;
-    a {
-      cursor: not-allowed;
-    }
-  }
+
+.page{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    /* width: 100vw; */
+    overflow: hidden;
+    position: relative;
+    /* background-color: springgreen; */
 }
 
-.text-center {
-  margin: 10px;
+.left-block{
+    position: absolute;
+    left: 0;
+} 
+.right-block{
+    height: 100%;
+    position: absolute;
+    right: 0;
+}
+.rocket{
+    position: absolute;
+    top:5%;
+    right: 34%;
+}
+.book-keeping{
+    position: absolute;
+    right: -59.5%;
+}
+.parents{
+    position: absolute;
+}
+.planet{
+    position: absolute;
+    right: 7.6%;
+    top: -17.8%;
+
 }
 
-.v-navigation-drawer__border {
-  display: none;
+.content{
+    position: absolute;
 }
+
+/* p2 */
+.feature-block{
+    margin-top: 12%;
+    position: absolute;
+    display: flex;
+    width: 100%;
+    height: 60%;
+    justify-content:space-evenly;
+}
+
+/* p3 */
+.img-background{
+    position: absolute;
+    top: -16vh;
+}
+.text-background{
+    position: absolute;
+}
+.phone{
+    position: absolute;
+    left: 10%;
+    top: 18%;
+}
+
+/* p4 */
+.img4-background{
+    position: absolute;
+    right: -3%;
+    top: -34%;
+ 
+}
+.text4-background{
+    position: absolute;
+}
+.ship{
+    position: absolute;
+    left: 10%;
+    top: 15%;
+}
+
+
 </style>

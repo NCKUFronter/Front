@@ -75,7 +75,7 @@
       <!-- 踢人out -->
       
         <v-card class="modal" v-if="outModal"  color="#fff7d3">
-          <v-card-title>帳本名</v-card-title>
+          <v-card-title>{{outLedger}}</v-card-title>
           <v-card-text>剔除使用者</v-card-text>
           <v-select
             :items="user"

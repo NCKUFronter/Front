@@ -11,6 +11,9 @@ import pointDelivery from "../views/PointDelivery.vue";
 import pointRedeem from "../views/PointRedeem.vue";
 import personalAccount from "../views/PersonalAccount.vue";
 import Vuetify from "vuetify/lib";
+import VueRellax from 'vue-rellax';
+ 
+Vue.use(VueRellax)
 
 Vue.use(VueRouter);
 
@@ -113,21 +116,9 @@ const routes = [
       },
     ],
   },
+
 ];
 
-const vuetify = new Vuetify({
-  theme: {
-    themes: {
-      light: {
-        primary: "#cccccc",
-        secondary: "#b0bec5",
-        accent: "#8c9eff",
-        error: "#b71c1c",
-        a: "#cccccc",
-      },
-    },
-  },
-});
 
 const router = new VueRouter({
   mode: "history",
