@@ -1,4 +1,5 @@
 // @ts-check
+import Vue from "vue";
 import { AxiosInstance, AxiosResponse } from "axios";
 import { RecordDto, RecordModel } from "../utils/api-model";
 
@@ -39,8 +40,13 @@ export class ApiService {
   /** @param { AxiosInstance } axios_ins */
   constructor(axios_ins) {
     this.raw = axios_ins;
+    this.user = Vue.observable({ login: false, profile: null });
 
     this.fetchProfile().catch(() => {});
+  }
+
+  updateProfile() {
+    return this.fetchProfile();
   }
 
   fetchProfile() {
@@ -49,12 +55,15 @@ export class ApiService {
       .then((res) => {
         this.profile = res.data;
         this.loginStatus = true;
+        this.user.profile = res.data;
+        this.user.login = true;
         // return this.login;
         return res.data;
       })
       .catch((err) => {
         // console.log(err);
         this.loginStatus = false;
+        this.user.login = false;
         // return this.login;
         throw err;
       });
@@ -67,9 +76,10 @@ export class ApiService {
         password,
       })
       .then((res) => {
-        return this.fetchProfile()
+        return this.fetchProfile();
       })
       .catch((err) => {
+        this.user.login = false;
         this.loginStatus = false;
         throw err;
       });
@@ -77,6 +87,7 @@ export class ApiService {
 
   logout() {
     return this.raw.post("/user/logout").then((res) => {
+      this.user.login = false;
       this.loginStatus = false;
       return res;
     });

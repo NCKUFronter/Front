@@ -1,35 +1,23 @@
 <template>
   <v-container>
     <!-- v-if="!cartModal" -->
-    <v-flex xs12 sm12 md12 v-if="!cartModal">
-      <div class="header">
-        <v-card flat>
-          <v-card-actions class="icon">
-            <v-spacer></v-spacer>
-            <v-spacer></v-spacer>
-            <v-spacer></v-spacer>
-            <v-icon class="pb-2" large>mdi-alpha-p-circle-outline</v-icon>
-            <v-card-title class="pb-3">{{totalPoint}}</v-card-title>
+    <v-row xs12 sm12 md12 v-if="!cartModal" class="sub-header">
 
-            <v-spacer></v-spacer>
+      <v-card-title class="offset-8">
+        <v-icon large>mdi-alpha-p-circle-outline</v-icon>
+        {{totalPoint}}
+      </v-card-title>
 
-            <v-badge :content="cart" :value="cart" color="#efca16">
-              <v-icon
-                v-on:click="lookCart()"
-                class="pb-2"
-                color="#cccccc"
-                large
-              >mdi-cart-arrow-right</v-icon>
-            </v-badge>
-          </v-card-actions>
-        </v-card>
-      </div>
-    </v-flex>
+      <v-spacer></v-spacer>
+
+      <v-badge :content="cart" :value="cart" color="#efca16" class="mt-4 mr-8">
+        <v-icon v-on:click="lookCart()" color="#cccccc" large>mdi-cart-arrow-right</v-icon>
+      </v-badge>
+    </v-row>
 
     <!-- cart -->
-
     <v-flex xs12 sm12 md12 v-if="cartModal">
-      <div class="header">
+      <div class="sub-header">
         <v-card flat>
           <v-card-actions class="icon">
             <v-btn icon class="back">
@@ -82,7 +70,7 @@
     </v-row>
     <v-row v-if="!loading && !cartModal">
       <v-flex xs6 sm4 md3 v-for="item in goods" :key="item.name" class="item">
-        <v-card class="card py-2">
+        <v-card class="card py-2 elevation-4">
           <v-img :src="item.photo" class="img"></v-img>
 
           <v-card-title class="pb-0">{{item.name}}</v-card-title>
@@ -252,11 +240,6 @@ export default {
 };
 </script>
 <style scoped>
-.header {
-  border-bottom: #cccccc 1px solid;
-  margin: 10px;
-  padding: 5px;
-}
 .item {
   padding: 5px;
 }

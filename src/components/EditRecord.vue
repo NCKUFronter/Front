@@ -1,34 +1,34 @@
 <template>
   <v-card class="py-6 px-12" elevation="10">
     <div class="modal-flow row">
-      <h3 @click="form.recordType = 'expense'" :class="{ 'flow-selected': !isIncome, col: 1 }">支出</h3>
-      <h3 @click="form.recordType = 'income'" :class="{ 'flow-selected': isIncome, col: 1 }">收入</h3>
+      <h3 @click="form.recordType = 'expense'" :class="{ 'flow-selected': !isIncome, col: 1 }">
+        <v-icon class="pb-3">mdi-cash-minus</v-icon>支出
+      </h3>
+      <h3 @click="form.recordType = 'income'" :class="{ 'flow-selected': isIncome, col: 1 }">
+        <v-icon class="pb-3">mdi-cash-plus</v-icon>收入
+      </h3>
     </div>
 
     <form class="modal-content">
-      <div class="date-wrap">
-        <v-text-field
-          outlined
-          dense
-          v-model="form.date"
-          class="date"
-          v-on:click="dataPickerModal = !dataPickerModal"
-          prepend-icon="mdi-calendar-range"
-          color="primary"
-          label="日期"
-        ></v-text-field>
-        <v-date-picker
-          v-if="dataPickerModal"
-          class="dataPicker"
-          v-model="form.date"
-          landscape
-          reactive
-          color="#efca16"
-          header-color="#efca16"
-          v-on:click.native="dataPickerModal = !dataPickerModal"
-          transition="scroll-y-transition"
-        ></v-date-picker>
-      </div>
+      <DateInputPicker
+        v-model="form.date"
+        color="primary"
+        transition="scroll-y-transition"
+        :top="35"
+      >
+        <template v-slot:activator="{ on, value }">
+          <v-text-field
+            color="primary"
+            label="日期"
+            prepend-icon="mdi-calendar-range"
+            readonly
+            :value="value"
+            v-on="on"
+            outlined
+            dense
+          ></v-text-field>
+        </template>
+      </DateInputPicker>
 
       <div class="modal-account">
         <v-select
@@ -109,17 +109,9 @@
       </v-combobox>
 
       <div class="modal-button row justify-center">
-        <v-btn
-          type="button"
-          v-if="oldForm == null"
-          @click="addRecord"
-          class="add"
-          color="#efca16"
-        >新增</v-btn>
-        <v-btn type="button" v-else @click="editRecord" class="add" color="#efca16">修改</v-btn>
-        <v-btn type="button" @click="onModalClose" class="cancel" color="#cccccc">取消</v-btn>
-        <!-- <button  class="add">新增</button>
-        <button  class="cancel">取消</button>-->
+        <v-btn v-if="oldForm == null" @click="addRecord" class="add" color="#efca16">新增</v-btn>
+        <v-btn v-else @click="editRecord" class="add" color="#efca16">修改</v-btn>
+        <v-btn @click="onModalClose" class="cancel" color="#cccccc">取消</v-btn>
       </div>
     </form>
   </v-card>
@@ -127,21 +119,25 @@
 
 <script>
 import { filterChangedFields, getLocaleDate } from "../utils";
+import DateInputPicker from "./DateInputPicker";
 
 let data = {
   dataPickerModal: false,
+  /*
   modalAccount: [
     { accountCate: "Main Account" },
     { accountCate: "Bank SinoPac" }
   ],
+  */
   form: {
     recordType: "income",
     ledgerId: "",
     categoryId: "",
     money: 0,
     date: ""
-  },
+  }
 
+  /*
   newHashtag: [],
   hashtag: [
     { index: 1, name: "食物", tag: ["早餐", "午餐", "晚餐"] },
@@ -149,6 +145,7 @@ let data = {
     { index: 3, name: "治裝", tag: ["上衣", "長褲", "外套"] },
     { index: 4, name: "娛樂", tag: ["電影", "KTV"] }
   ]
+  */
 };
 
 export default {
@@ -168,6 +165,9 @@ export default {
   },
   data() {
     return data;
+  },
+  components: {
+    DateInputPicker
   },
   created() {
     this.resetForm();
@@ -205,6 +205,7 @@ export default {
     isIncome() {
       return this.form.recordType == "income";
     },
+    /*
     filterHashtag() {
       let index = -1;
       if (this.form.categoryId != "") {
@@ -219,6 +220,7 @@ export default {
         return this.newHashtag;
       }
     },
+    */
     categoryHashTags() {
       if (this.form.categoryId !== null) {
         const category = this.userCategories.find(
@@ -332,8 +334,6 @@ export default {
   margin: 0;
   position: fixed;
   width: 50vw;
-  top: 20vh;
-  left: 24vw;
   background-color: white;
   font-size: 20px;
   display: flex;
@@ -342,7 +342,7 @@ export default {
 
 .modal-content {
   margin: 0 auto;
-  min-width: 34vw;
+  min-width: 40vw;
 }
 
 .modal-flow {
@@ -370,8 +370,21 @@ export default {
     &.flow-selected {
       font-weight: bolder;
       color: #efca16;
-      border-bottom-color: #efca16;
       cursor: unset;
+
+      i {
+        color: inherit;
+      }
+
+      &:first-child {
+        color: red;
+        border-bottom-color: red;
+      }
+
+      &:nth-child(2) {
+        color: green;
+        border-bottom-color: green;
+      }
 
       &:hover {
         opacity: unset;

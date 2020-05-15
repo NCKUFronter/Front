@@ -27,10 +27,9 @@
           </v-btn>
         </v-card>
         <v-card flat v-else class="pa-2 text-center">
-          <v-img
-            :src="profile.photo"
-            style="border-radius: 50%; height:100px; width:100px; margin: auto; margin-top: 20px;"
-          ></v-img>
+          <v-avatar size="128">
+            <img :src="profile.photo" />
+          </v-avatar>
           <v-card-title class="justify-center">{{profile.name}}</v-card-title>
           <v-card-subtitle>{{profile._id}}</v-card-subtitle>
           <v-card-text>{{profile.email}}</v-card-text>
@@ -93,11 +92,15 @@
       <div v-else class="px-4">
         <router-view></router-view>
       </div>
+
+      <GlobalSnackBar></GlobalSnackBar>
     </v-content>
   </v-app>
 </template>
 
 <script>
+import GlobalSnackBar from "./components/GlobalSnackBar";
+
 // 定義component,不是global,只有APP知道
 //import SideAccount from './components/SideAccount.vue'
 // import SideMenu from './components/SideMenu.vue'
@@ -111,44 +114,38 @@ let data = {
     // { title: "雲端備分", link: "" },
     // { title: "統一發票", link: "" }
   ],
-  personal: {
-    img: "",
-    username: "",
-    ID: "",
-    email: ""
-  },
-  profile: null,
-  drawer: false,
-  login: false
+  drawer: false
 };
 
 export default {
   name: "App",
-
   data() {
     return data;
   },
   components: {
+    GlobalSnackBar
     //SideAccount  // 定義component
     // SideMenu
   },
-  created() {
-    // var that = this;
-    // this.$set(that, 'login', this.GLOBAL.loginStatus)
-    // console.log(this.GLOBAL.loginStatus)
-    // console.log(this.login)
-    this.$api.loginListener = login => {
-      this.login = login;
-      this.profile = this.$api.profile;
-      if (this.$route.name == null) {
+  computed: {
+    login() {
+      return this.$api.user.login;
+    },
+    profile() {
+      return this.$api.user.profile;
+    }
+  },
+  watch: {
+    login(val) {
+      if (this.login && this.$route.name == null) {
         this.$router.push("/accounting");
       }
-    };
+    }
   },
-  computed: {},
   methods: {
     toLogin() {
-      this.$api.login("father@gmail.com", "0000").catch(console.log);
+      // this.$api.login("father@gmail.com", "0000").catch(console.log);
+      window.location = "/api/login/auth/google";
     },
     doLogin(email) {
       this.$api.login(email, "0000").catch(console.log);
@@ -169,6 +166,7 @@ export default {
 html {
   margin: 0;
   padding: 0;
+  overflow: visible;
 }
 // .app-header {
 //   background-color: #efca16;

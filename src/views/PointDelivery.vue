@@ -1,49 +1,50 @@
 <template>
-  <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
-    <v-flex xs12 sm12 md12>
-      <div class="header">
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-icon style="margin-top:3px" large>mdi-alpha-p-circle-outline</v-icon>
-          <v-card-title>{{totalPoint}}</v-card-title>
-        </v-card-actions>
-      </div>
-    </v-flex>
-    <v-form class="form" @submit.prevent="handleSubmit(onSubmit)">
-      <v-row justify="space-around">
-        <ValidationProvider v-slot="{ errors }" name="point" rules="required|numeric">
-          <v-text-field
-            v-model="inputPoint"
-            label="贈送點數"
-            :error-messages="errors"
-            prepend-icon="mdi-gift"
-            type="number"
-            required
-          ></v-text-field>
-        </ValidationProvider>
+  <v-container fluid>
+    <v-row class="sub-header">
+      <v-spacer></v-spacer>
+      <v-card-title>
+        <v-icon large>mdi-alpha-p-circle-outline</v-icon>
+        {{totalPoint}}
+      </v-card-title>
+    </v-row>
 
-        <v-icon>mdi-arrow-right-bold</v-icon>
+    <ValidationObserver ref="observer" v-slot="{ handleSubmit }">
+      <v-form class="form" @submit.prevent="handleSubmit(onSubmit)">
+        <v-row justify="space-around">
+          <ValidationProvider v-slot="{ errors }" name="point" rules="required|numeric">
+            <v-text-field
+              v-model="inputPoint"
+              label="贈送點數"
+              :error-messages="errors"
+              prepend-icon="mdi-gift"
+              type="number"
+              required
+            ></v-text-field>
+          </ValidationProvider>
 
-        <ValidationProvider v-slot="{ errors }" name="select" rules="required">
-          <v-select
-            v-model="userSelected"
-            :items="relativeUsers"
-            label="對象"
-            :error-messages="errors"
-            prepend-icon="person"
-            required
-            item-text="name"
-            item-value="email"
-          ></v-select>
-        </ValidationProvider>
-      </v-row>
+          <v-icon>mdi-arrow-right-bold</v-icon>
 
-      <v-row justify="center">
-        <v-btn class="mx-2" type="submit">Submit</v-btn>
-        <v-btn class="mx-2" @click="reset">Reset</v-btn>
-      </v-row>
-    </v-form>
-  </ValidationObserver>
+          <ValidationProvider v-slot="{ errors }" name="select" rules="required">
+            <v-select
+              v-model="userSelected"
+              :items="relativeUsers"
+              label="對象"
+              :error-messages="errors"
+              prepend-icon="person"
+              required
+              item-text="name"
+              item-value="email"
+            ></v-select>
+          </ValidationProvider>
+        </v-row>
+
+        <v-row justify="center">
+          <v-btn class="mx-2" type="submit">Submit</v-btn>
+          <v-btn class="mx-2" @click="reset">Reset</v-btn>
+        </v-row>
+      </v-form>
+    </ValidationObserver>
+  </v-container>
 </template>
 
 <script>
@@ -145,8 +146,5 @@ export default {
 <style  scoped>
 .form {
   margin: 10%;
-}
-.header {
-  border-bottom: #cccccc 1px solid;
 }
 </style>

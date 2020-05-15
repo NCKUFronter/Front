@@ -1,10 +1,27 @@
-
 $body-font-family: Roboto, "微軟正黑體", Arial, Helvetica, "sans-serif";
-@import "~vuetify/src/styles/main";
+
+@import "~vuetify/dist/vuetify.min.css";
+
+.v-application {
+  font-family: $body-font-family !important;
+
+  .headline {
+    font-family: $body-font-family !important;
+  }
+  .title {
+    font-family: $body-font-family !important;
+  }
+}
 
 $navigation-drawer-mobile-temporary-elevation: 8;
 @import "~vuetify/src/components/VNavigationDrawer/VNavigationDrawer";
 
 .v-data-table th {
   font-size: 1rem !important;
+}
+
+.sub-header {
+  height: 70px;
+  border-bottom: #cccccc 3px solid;
+  margin-bottom: 5px;
 }

@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuetify from "vuetify";
 import zhHant from "vuetify/es5/locale/zh-Hant";
 import "./variables.scss";
+// import "vuetify/dist/vuetify.min.css";
 
 Vue.use(Vuetify);
 

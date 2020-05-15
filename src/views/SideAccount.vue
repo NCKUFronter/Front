@@ -1,6 +1,6 @@
 <template>
-  <v-card flat>
-    <div class="account-upper">
+  <v-container flat>
+    <div class="sub-header account-upper">
       <div data-app class="ledgerSelect">
         <v-select
           v-model="ledgerSelected"
@@ -20,17 +20,17 @@
 
       <div class="date-wrap" @blur="dataPickerModal=false">
         <i class="material-icons" v-on:click="getYearMonthDate(-1)">arrow_left</i>
-        <div class="date" v-on:click="dataPickerModal = !dataPickerModal">{{ userDate }}</div>
 
-        <v-date-picker
-          v-if="dataPickerModal"
-          class="dataPicker"
+        <DateInputPicker
           v-model="userDate"
-          color="#efca16"
-          header-color="#efca16"
-          v-on:click.native="dataPickerModal = !dataPickerModal"
+          color="primary"
+          :left="107"
           transition="scroll-y-transition"
-        ></v-date-picker>
+        >
+          <template v-slot:activator="{ on, value }">
+            <div class="date" v-on="on">{{ value }}</div>
+          </template>
+        </DateInputPicker>
 
         <i class="material-icons" v-on:click="getYearMonthDate(1)">arrow_right</i>
       </div>
@@ -56,12 +56,6 @@
         @delete="fetchRecords"
         @want-edit="editRecord"
       />
-      <!-- <div class="account-item" v-for="(item,index) in filterAccountData" :key="index">
-                        <img src="https://fakeimg.pl/30x30/efca16" class="categroyIcon" alt="categoryicon">
-                        <h1 class="category">{{item.category}}</h1>
-                        <h1 class="money">{{item.money}}</h1>
-                        <h1 class="accountName">{{item.account}}</h1>
-      </div>-->
 
       <!-- 原本用v-on:click控制modal變數，顯示modal，現在改以不同view -->
       <!-- <a v-on:click="modal = !modal" href="##additem###" class="material-icons">add_circle</a> -->
@@ -79,12 +73,13 @@
         ></EditRecord>
       </v-dialog>
     </div>
-  </v-card>
+  </v-container>
 </template>
 
 <script>
 import RecordTable from "../components/RecordTable.vue";
 import EditRecord from "../components/EditRecord.vue";
+import DateInputPicker from "../components/DateInputPicker.vue";
 import { getLocaleDate } from "../utils";
 
 let data = {
@@ -104,6 +99,7 @@ export default {
   },
   // props: ['accountData'], //引入變數
   components: {
+    DateInputPicker,
     EditRecord,
     RecordTable
   },
@@ -198,8 +194,6 @@ export default {
 
 <style scoped lang="scss">
 .account-upper {
-  height: 10vh;
-  border-bottom: 3px #cccccc solid;
   display: flex;
   /* justify-content: center; */
   /* border-color: red;
@@ -231,7 +225,12 @@ export default {
   .date {
     cursor: pointer;
   }
+
+  input {
+    text-align: center;
+  }
 }
+
 .dataPicker {
   position: absolute;
   top: 10vh;
