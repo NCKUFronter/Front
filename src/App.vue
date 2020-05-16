@@ -6,7 +6,7 @@
         v-if="login && $vuetify.breakpoint.smAndDown"
       ></v-app-bar-nav-icon>
 
-      <h1 class="logo row">
+      <h1 class="logo d-flex">
         <img src="./assets/logo.png" height="60%" class="pr-2" />
         <div v-if="login">星，際帳</div>
       </h1>
@@ -78,7 +78,9 @@
     <v-content>
       <v-container fluid fill-height v-if="!login" style="background-color:#efca16">
         <v-row class="notLoginPage" justify="center" align="center">
-          <img src="./assets/main.png" class="main-img col-xs-12 col-sm-12 col-md-6" />
+          <v-flex xs12 sm12 md5>
+            <img src="./assets/main.png" class="main-img" />
+          </v-flex>
           <v-flex xs12 sm12 md5 offset-1>
             <h1 class="title1">星．際帳</h1>
             <h3 class="subtitle">
