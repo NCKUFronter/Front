@@ -18,7 +18,8 @@
         <slot :on="on" :actions="actions"></slot>
       </div>
     </v-flex>
-    <v-flex xs12 sm6 md6 class="report">
+    <v-flex xs12 sm6 md6 class="report px-4">
+      <slot name="menu" :nodes="graphNodes"></slot>
       <slot name="report" :nodes="graphNodes"></slot>
     </v-flex>
   </v-container>
@@ -26,59 +27,70 @@
 <script>
 import Vue from "vue";
 import { sunburst } from "vue-d3-sunburst";
+// import sunburst from "./sunbrust/sunburst";
 
 class LevelColorUtil {
-  nowIdx = 0;
-  direction = 1;
-
-  nextIdx(colors) {
-    this.nowIdx = this.nowIdx + this.direction;
-    if (this.nowIdx >= colors.length) {
-      this.nowIdx = colors.length - 1;
-      this.direction = -1;
-    } else if (this.nowIdx < 0) {
-      this.nowIdx = 1;
-      this.direction = 1;
-    }
-    return this.nowIdx;
+  constructor(baseColor) {
+    this.baseColor = baseColor;
+    this.nowIdxMap = {};
   }
+
+  reset() {
+    this.nowIdxMap = {};
+  }
+
+  nextColor(node) {
+    if (node.level == 0) return { r: 255, g: 255, b: 255, a: 1 };
+
+    let baseColor = node.level != 1 ? node.parent.color : this.baseColor;
+    const key = rgba(baseColor) + node.level;
+    if (!this.nowIdxMap[key]) this.nowIdxMap[key] = 0;
+
+    let nowIdx = this.nowIdxMap[key];
+    let { r, g, b, a } = baseColor;
+    a = this.baseColor.a - 0.2 * (node.level - 1);
+    if (node.level == 1) {
+      r = r - 50 * nowIdx;
+      b = b + 30 * nowIdx;
+    } else {
+      g = g - 30 * nowIdx;
+    }
+    this.nowIdxMap[rgba(baseColor) + node.level] = nowIdx + 1;
+    return { r, g, b, a };
+  }
+}
+
+function rgba(obj) {
+  return `rgba(${obj.r},${obj.g},${obj.b},${obj.a})`;
 }
 
 export default Vue.extend(sunburst).extend({
   props: {
-    colors: {
-      type: Array,
-      require: false,
-      default() {
-        return [
-          "#65738E",
-          "#766C91",
-          "#78566F",
-          "#523B58",
-          "#813B3D",
-          "#BC5E52",
-          "#FFDBB3"
-        ];
-      }
+    baseColor: {
+      type: Object,
+      default: () => ({ r: 239, g: 202, b: 22, a: 1 })
     }
   },
   created() {
-    this.levelColorUtil = {};
+    this.colorUtil = new LevelColorUtil(this.baseColor);
   },
   computed: {
     colorGetter() {
       return d => {
         if (d.data) d = d.data;
-        if (d.colorIdx) return this.colors[d.colorIdx];
+        if (d.level == 0 && d.color == null) this.colorUtil.reset();
+        if (d.color != null) return rgba(d.color);
 
-        if (this.levelColorUtil[d.level] == null)
-          this.levelColorUtil[d.level] = new LevelColorUtil();
-
-        const colorUtil = this.levelColorUtil[d.level];
-
-        d.colorIdx = colorUtil.nextIdx(this.colors);
-        return this.colors[d.colorIdx];
+        d.color = this.colorUtil.nextColor(d);
+        return rgba(d.color);
       };
+    }
+  },
+  methods: {
+    onData(data) {
+      this.constructor.super.options.methods.onData.call(this, data);
+      const pathes = this.getPathes();
+      pathes.style("stroke", "#fff");
     }
   }
 });

@@ -1,23 +1,7 @@
 <template>
-  <v-app >
-    <v-app-bar class="mx-auto overflow-hidden" color="#efca16" elevate-on-scroll clipped-left app>
+  <v-app>
+    <v-app-bar color="#efca16" clipped-left app dense>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="login"></v-app-bar-nav-icon>
-      <!-- <v-menu bottom :offset-y="offset" transition="slide-x-transition" right>
-        <template v-slot:activator="{ on }">
-          <v-app-bar-nav-icon v-on="on"></v-app-bar-nav-icon>
-        </template>
-        
-        <v-list width="17vw" color="balck">
-          <v-list-item
-            class="side-menu"
-            v-for="(item, index) in menu"
-            :key="index"
-            :class="{ 'menu-item': true, disabled: !item.link }"
-          >
-            <router-link :to="item.link">{{ item.title }}</router-link>
-          </v-list-item>
-        </v-list>
-      </v-menu>-->
 
       
       <img src="../logo.png" height="60%" style="opacity:80%;">
@@ -27,68 +11,77 @@
       <!-- peraonal account -->
       <v-menu offset-y>
         <template v-slot:activator="{ on }">
-          <v-btn icon v-on="on" :v-on:click="accountClick()">
+          <v-btn icon v-on="on">
             <v-icon large>mdi-account-circle</v-icon>
           </v-btn>
         </template>
-        <v-card flat v-if="!login" style="padding:5px ">
+        <v-card flat v-if="!login" class="pa-2">
           <v-card-title class="justify-center">尚未登入</v-card-title>
-          <v-btn outlined flat block color="#cccccc" style="padding:10px " v-on:click="toLogin">登入</v-btn>
+          <v-btn outlined block v-on:click="toLogin">登入</v-btn>
+          <v-btn outlined block v-on:click="doLogin('father@gmail.com')">
+            <v-icon>mdi-login-variant</v-icon>爸爸登入
+          </v-btn>
+          <v-btn outlined block v-on:click="doLogin('mother@gmail.com')">
+            <v-icon>mdi-login-variant</v-icon>媽媽登入
+          </v-btn>
+          <v-btn outlined block v-on:click="doLogin('child@gmail.com')">
+            <v-icon>mdi-login-variant</v-icon>小孩登入
+          </v-btn>
         </v-card>
-        <v-card flat v-if="login" class="text-center">
+        <v-card flat v-else class="pa-2 text-center">
           <v-img
-            :src="personal.img"
+            :src="profile.photo"
             style="border-radius: 50%; height:100px; width:100px; margin: auto; margin-top: 20px;"
           ></v-img>
-          <v-card-title class="justify-center">{{personal.username}}</v-card-title>
-          <v-card-subtitle>{{personal.ID}}</v-card-subtitle>
-          <v-card-text>{{personal.email}}</v-card-text>
+          <v-card-title class="justify-center">{{profile.name}}</v-card-title>
+          <v-card-subtitle>{{profile._id}}</v-card-subtitle>
+          <v-card-text>{{profile.email}}</v-card-text>
           <v-btn outlined block style="margin-bottom:10px " color="#cccccc">
             <v-icon>mdi-file-edit-outline</v-icon>綁定信用卡
           </v-btn>
-          <v-btn outlined block color="#cccccc" v-on:click="toLogout">
+          <v-btn outlined block v-on:click="toLogout">
             <v-icon>mdi-logout-variant</v-icon>登出
           </v-btn>
         </v-card>
       </v-menu>
     </v-app-bar>
 
-    <v-card class="mx-auto" v-if="login">
-      <v-navigation-drawer
-        v-model="drawer"
-        hide-overlay
-        :permanent="$vuetify.breakpoint.mdAndUp"
-        :temporary="$vuetify.breakpoint.smAndDown"
-        clipped
-        app
-        class="nav-drawer"
-        style="top: 56px"
-      >
-        <v-list nav>
-          <v-list-item
-            class="side-menu"
-            v-for="(item, index) in menu"
-            :key="index"
-            :class="{ 'menu-item': true, disabled: !item.link }"
-          >
-            <router-link :to="item.link">{{ item.title }}</router-link>
-          </v-list-item>
-        </v-list>
-      </v-navigation-drawer>
-    </v-card>
+    <v-navigation-drawer
+      v-model="drawer"
+      hide-overlay
+      :permanent="$vuetify.breakpoint.mdAndUp"
+      :temporary="$vuetify.breakpoint.smAndDown"
+      class="nav-drawer"
+      app
+      v-if="login"
+    >
+      <v-list nav>
+        <v-list-item
+          v-for="(item, index) in menu"
+          :key="index"
+          :class="{ 'menu-item': true, disabled: !item.link }"
+          :to="item.link"
+          active-class="active"
+        >
+          <v-icon class="mr-2">{{item.icon}}</v-icon>
+          {{ item.title }}
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
 
-    <v-content v-if="!login" style="background-color:#efca16"  >
-      <v-container fluid style="padding:0;">
-        <v-row class="pl-12" style="height:90vh; overflow:hidden;" >
-          <v-flex xs12 sm12 md6>
-            <img src="./main.png" height="43%" style="padding:0;">
+    <v-content>
+      <v-container fluid fill-height v-if="!login" style="background-color:#efca16">
+        <v-row  class="notLoginPage" style="height:90vh; overflow:hidden;">
+          <v-flex xs12 sm12 md6 >
+            <img src="./main.png" height="43%" >
           </v-flex>
-          <v-flex xs12 sm12 md6 style="margin-top:10%; padding-left:6%;">
+          <v-flex xs12 sm12 md6 style="margin-top:10%; padding-left:10%;">
             <h1 class="title1">星，際帳</h1>
             <h3 class="subtitle">在這裡，你可以體驗由永豐提供的智慧生活，<br>記下日常消費的每筆帳目，並獲得回饋點數</h3>
             <v-btn outlined color="#414141">創建帳戶</v-btn>
             <v-btn outlined color="#414141" class="ma-3">登入</v-btn>
             <v-row>
+
               <div class="square" style="background:#ccc;">
                 <!-- <v-icon class="icon" color="white" large>mdi-playlist-edit</v-icon> -->
                 </div>
@@ -108,18 +101,19 @@
           </v-flex>
         </v-row>
       </v-container>
+
+      <!-- <SideMenu /> -->
+
+      <!-- router-link只是表示換哪個component網址 -->
+      <!-- 使用sideAccount這個component,並傳入變數accountData -->
+      <!--SideAccount :accountData="accountData1" /-->
+      <!-- :引入SideAccount變數名稱="在App的變數名稱" -->
+
+      <!-- router真正幫你引入component -->
+      <div v-else class="px-4">
+        <router-view></router-view>
+      </div>
     </v-content>
-
-
-    <!-- <SideMenu /> -->
-
-    <!-- router-link只是表示換哪個component網址 -->
-    <!-- 使用sideAccount這個component,並傳入變數accountData -->
-    <!--SideAccount :accountData="accountData1" /-->
-    <!-- :引入SideAccount變數名稱="在App的變數名稱" -->
-
-    <!-- router真正幫你引入component -->
-    <router-view></router-view>
   </v-app>
 </template>
 
@@ -128,17 +122,12 @@
 //import SideAccount from './components/SideAccount.vue'
 // import SideMenu from './components/SideMenu.vue'
 let data = {
-  //  accountData1:[
-  //     {src:'#',category:'收支項名',money:'金額',account:'帳戶'},
-  //     {src:'#',category:'收支項名',money:'金額',account:'帳戶'},
-  //     {src:'#',category:'收支項名',money:'金額',account:'帳戶'}
-  // ],
   offset: true,
   menu: [
-    { title: "統計圖產生", link: "/summary" },
-    { title: "周/月帳目一覽", link: "/accounting" },
+    { icon: "mdi-chart-arc", title: "統計圖產生", link: "/summary" },
+    { icon: "mdi-calculator", title: "記帳管理", link: "/accounting" },
     // { title: "帳戶管理", link: "/personal" },
-    { title: "點數管理", link: "/point" }
+    { icon: "mdi-alpha-p-circle", title: "點數管理", link: "/point" }
     // { title: "雲端備分", link: "" },
     // { title: "統一發票", link: "" }
   ],
@@ -148,8 +137,9 @@ let data = {
     ID: "",
     email: ""
   },
+  profile: null,
   drawer: false,
-  login: false,
+  login: false
 };
 
 export default {
@@ -167,60 +157,27 @@ export default {
     // this.$set(that, 'login', this.GLOBAL.loginStatus)
     // console.log(this.GLOBAL.loginStatus)
     // console.log(this.login)
+    this.$api.loginListener = login => {
+      this.login = login;
+      this.profile = this.$api.profile;
+      if (this.$route.name == null) {
+        this.$router.push("/accounting");
+      }
+    };
   },
   computed: {},
-
   methods: {
-    accountClick() {
-      this.$http
-        .get("/user/profile")
-        .then(res => {
-          this.GLOBAL.loginStatus = true;
-          this.login = this.GLOBAL.loginStatus;
-          this.personal.img = res.data.photo;
-          this.personal.username = res.data.name;
-          this.personal.ID = res.data._id;
-          this.personal.email = res.data.email;
-        })
-        .catch(err => {
-          this.GLOBAL.loginStatus = false;
-          this.login = this.GLOBAL.loginStatus;
-        });
-    },
     toLogin() {
-      this.$http
-        .post(
-          "/user/login",
-          { email: "father@gmail.com", password: "0000" },
-          { withCredentials: true }
-        )
-        .then(res => {
-          // this.login=true;
-          this.GLOBAL.loginStatus = true;
-          this.login = this.GLOBAL.loginStatus;
-          console.log(this.GLOBAL.loginStatus);
-          this.$router.push('/accounting')
-          // console.log(this.login)
-          return this.$http.get("/user/profile");
-        })
-        .then(res => {
-          this.personal.img = res.data.photo;
-          this.personal.username = res.data.name;
-          this.personal.ID = res.data._id;
-          this.personal.email = res.data.email;
-          //   console.log(this.totalPoint)
-        })
-        .catch(console.log);
+      this.$api.login("father@gmail.com", "0000").catch(console.log);
     },
-
+    doLogin(email) {
+      this.$api.login(email, "0000").catch(console.log);
+    },
     toLogout() {
-      this.$http
-        .post("/user/logout", { withCredentials: true })
+      this.$api
+        .logout()
         .then(res => {
-          // this.login=false;
-          this.GLOBAL.loginStatus = false;
-          this.login = this.GLOBAL.loginStatus;
-          this.$router.push('')
+          if (this.$route.name != null) this.$router.push("/");
         })
         .catch(console.log);
     }
@@ -229,10 +186,7 @@ export default {
 </script>
 
 <style lang="scss">
-* {
-  font-family: 微軟正黑體, Arial, Helvetica, sans-serif;
-}
-body {
+html {
   margin: 0;
   padding: 0;
 }
@@ -240,27 +194,29 @@ body {
 //   background-color: #efca16;
 //   height: 6vh;
 // }
+
 a {
   color: black !important;
 }
+
 .logo {
   display: inline-block;
-  font-weight: normal;
+  font-weight: bold;
   text-decoration: none;
   color: black;
-  font-size: 4vh;
-  padding: 10px;
-  
+  font-size: 1.6rem;
+  padding-left: 10px;
 }
-.side-menu {
-  /* border-color: chartreuse;
-      border-style: solid;  */
-  color: black;
-  a {
-    font-weight: normal;
-    text-decoration: none;
-  }
+
+.notLoginPage {
+  padding: 0% 5% 0;
 }
+
+.nav-drawer {
+  background-color: #fafafa !important;
+  margin-top: 56px;
+}
+
 .menu-item {
   border: solid #d9d1ba;
   border-radius: 10px;
@@ -269,16 +225,15 @@ a {
   width: auto;
   padding: 20px;
   color: black;
+  &.active {
+    background-color: #fff !important; /** not working */
+  }
   &.disabled {
     cursor: not-allowed;
     a {
       cursor: not-allowed;
     }
   }
-}
-
-.text-center {
-  margin: 10px;
 }
 
 .v-navigation-drawer__border {

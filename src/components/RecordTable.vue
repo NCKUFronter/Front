@@ -1,151 +1,53 @@
 <template>
   <div>
     <v-data-table :headers="headers" :items="filterAccountData" sort-by="money">
-      <!-- category -->
+      <!-- recordType -->
+      <template v-slot:item.recordType="{ item }">
+        <!--v-chip :color="getColor(item.recordType)"-->
+        <!-- <v-icon left>getIcon()</v-icon>-->
+        <!-- <v-icon v-if="getIcon()==true">mdi-tray-minus</v-icon>
+        <v-icon v-else>mdi-tray-plus</v-icon>-->
+        <!--{{item.recordType}}-->
+        <!--/v-chip-->
+        <v-avatar size="36">
+          <img :src="item.user.photo" />
+        </v-avatar>
 
-      <template v-slot:item.category="props">
-        <v-edit-dialog
-          :return-value.sync="props.item.categoryId"
-          large
-          persistent
-          @save="save"
-          @cancel="cancel"
-          @open="open"
-          @close="close"
-        >
-          <div>{{ props.item.categoryId }}</div>
-          <template v-slot:input>
-            <div class="mt-4 title">Update Category</div>
-          </template>
-          <template v-slot:input>
-            <select v-model="props.item.categoryId" label="Edit" class="categorySelect">
-              <option
-                v-for="cate in modalCategory"
-                :value="cate._id"
-                :key="cate._id"
-              >{{ cate.name }}</option>
-            </select>
-          </template>
-        </v-edit-dialog>
+        <v-icon v-if="item.recordType[0]=='i'" color="green">mdi-cash-plus</v-icon>
+        <v-icon v-else color="red">mdi-cash-minus</v-icon>
+      </template>
+
+      <!-- category -->
+      <!--template v-slot:item.category="{ item }">
+        <div>{{ (item.category) ? item.category.name : '未知' }}</div>
+      </template-->
+
+      <!-- hashtags -->
+      <template v-slot:item.hashtags="{ item }">
+        <v-chip label small v-for="tag in item.hashtags" :key="tag" class="mx-1">{{ tag }}</v-chip>
       </template>
 
       <!-- detail -->
-      <template v-slot:item.detail="props">
-        <v-edit-dialog
-          :return-value.sync="props.item.detail"
-          large
-          persistent
-          @save="save"
-          @cancel="cancel"
-          @open="open"
-          @close="close"
-        >
-          <div>{{ props.item.detail }}</div>
-          <template v-slot:input>
-            <div class="mt-4 title">Update ItemDetail</div>
-          </template>
-          <template v-slot:input>
-            <v-text-field
-              v-model="props.item.detail"
-              :rules="[max25chars]"
-              label="Edit"
-              single-line
-              counter
-              autofocus
-            ></v-text-field>
-          </template>
-        </v-edit-dialog>
-      </template>
+      <!-- template v-slot:item.detail="{ item }">
+        <div>{{ item.detail }}</div>
+      </template-->
 
       <!-- money -->
-      <template v-slot:item.money="props">
-        <v-edit-dialog
-          :return-value.sync="props.item.money"
-          large
-          persistent
-          @save="save"
-          @cancel="cancel"
-          @open="open"
-          @close="close"
-        >
-          <div>{{ props.item.money }}</div>
-          <template v-slot:input>
-            <div class="mt-4 title">Update Money</div>
-          </template>
-          <template v-slot:input>
-            <v-text-field
-              v-model="props.item.money"
-              :rules="[max25chars]"
-              label="Edit"
-              single-line
-              counter
-              autofocus
-            ></v-text-field>
-          </template>
-        </v-edit-dialog>
+      <template v-slot:item.money="{ item }">
+        <div>{{ item.money }}</div>
       </template>
 
       <!-- ledger -->
-
-      <template v-slot:item.ledger="props">
-        <v-edit-dialog
-          :return-value.sync="props.item.ledger"
-          large
-          persistent
-          @save="save"
-          @cancel="cancel"
-          @open="open"
-          @close="close"
-        >
-          <div>{{ props.item.ledger }}</div>
-          <template v-slot:input>
-            <div class="mt-4 title">Update Account</div>
-          </template>
-          <template v-slot:input>
-            <select v-model="props.item.ledger" label="Edit" class="accountSelect">
-              <option
-                v-for="(item,index) in modalAccount"
-                :value="item.accountCate"
-                :key="index"
-              >{{ item.accountCate }}</option>
-            </select>
-          </template>
-        </v-edit-dialog>
-      </template>
-
-      <!-- recordType -->
-
-      <template v-slot:item.recordType="props">
-        <v-edit-dialog
-          :return-value.sync="props.item.recordType"
-          large
-          persistent
-          @save="save"
-          @cancel="cancel"
-          @open="open"
-          @close="close"
-        >
-          <v-chip :color="getColor(props.item.recordType)">
-            <!-- <v-icon left>getIcon()</v-icon> -->
-            <!-- <v-icon v-if="getIcon()==true">mdi-tray-minus</v-icon>
-            <v-icon v-else>mdi-tray-plus</v-icon>-->
-            {{props.item.recordType}}
-          </v-chip>
-
-          <template v-slot:input>
-            <div class="mt-4 title">Update Flow</div>
-          </template>
-          <template v-slot:input>
-            <select v-model="props.item.recordType" label="Edit" class="flowSelect">
-              <option v-for="(item,index) in modalFlow" :value="item" :key="index">{{ item.flow }}</option>
-            </select>
-          </template>
-        </v-edit-dialog>
-      </template>
+      <!--template v-slot:item.ledger="{ item }">
+        <div>{{ item.ledger }}</div>
+      </template-->
 
       <template v-slot:item.actions="{ item }">
         <!-- <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon> -->
-        <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
+        <div v-if="item.userId === $api.profile._id">
+          <v-icon small @click="$emit('want-edit',item)" class="mr-1">mdi-pencil</v-icon>
+          <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
+        </div>
       </template>
     </v-data-table>
 
@@ -157,10 +59,11 @@
 </template>
 
 <script>
+import { getLocaleDate } from "../utils";
+
 export default {
   data() {
     return {
-      iconName: "mdi_tray-minus",
       dialog: false,
       snack: false,
       // flowIcon: true,
@@ -170,28 +73,45 @@ export default {
       pagination: {},
       headers: [
         {
-          text: "Flow",
+          text: "", //"現金流",
           value: "recordType"
         },
         {
-          text: "Category",
-          value: "category"
+          text: "類別",
+          align: "start",
+          value: "category.name"
         },
         {
-          text: "Item",
-          value: "detail"
+          text: "標籤",
+          align: "center",
+          value: "hashtags"
         },
         {
-          text: "Money",
+          text: "金額",
+          align: "end",
           value: "money"
         },
+        /*
         {
-          text: "Account",
+          text: "帳本",
           value: "ledger"
         },
+        */
         {
-          text: "Actions",
+          text: "點數",
+          value: "rewardPoints",
+          align: "end"
+        },
+        {
+          text: "備註",
+          align: "center",
+          value: "from",
+          sortable: false
+        },
+        {
+          text: "操作",
           value: "actions",
+          align: "center",
           sortable: false
         }
       ],
@@ -227,15 +147,15 @@ export default {
   },
   props: ["userDate", "ledgerSelected", "accountData"],
   created() {},
-  // filters: {
-  //   categoryName(categoryId) {
-  //     return modalCategory.find(cate => cate._id == categoryId).name;
-  //   }
-  // },
   computed: {
     filterAccountData() {
-      return this.filterLedgerData.filter(item => {
-        return item.date === this.userDate;
+      // return this.filterLedgerData.filter(item => {
+      return this.accountData.filter(item => {
+        console.log({
+          userDate: this.userDate,
+          locale: getLocaleDate(item.date)
+        });
+        return getLocaleDate(item.date) === this.userDate;
       });
     },
     filterLedgerData() {
@@ -247,38 +167,7 @@ export default {
         return this.accountData;
       }
     }
-    // getIcon() {
-    //   var recordType = "income";
-    //   console.log(recordType);
-    //   if (recordType == "expense") {
-    //     console.log("ok");
-    //     return false;
-    //   } else {
-    //     console.log("ok");
-    //     return true;
-    //   }
-    // }
-    // getIcon() {
-    //   return "mdi-tray-minus";
-    // var recordType = "income";
-    // console.log(recordType);
-    // if (recordType == "expense") {
-    //   console.log("ok");
-    //   return false;
-    // } else {
-    //   console.log("ok");
-    //   return true;
-    // }
   },
-  // filterFlowData(){
-  //   if(this.modalFlow == "Income"){
-
-  //   }
-  //   else{
-
-  //   }
-  // }
-
   methods: {
     getColor(recordType) {
       if (recordType == "income") return "red";
@@ -346,7 +235,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .accountSelect,
 .categorySelect,
 .flowSelect {

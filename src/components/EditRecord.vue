@@ -1,99 +1,122 @@
 <template>
-  <v-card class="modal" elevation="10">
-    <div class="modal-flow">
-      <h3 @click="form.recordType = 'expense'" :class="{ 'flow-selected': !isIncome }">支出</h3>
-      <h3 @click="form.recordType = 'income'" :class="{ 'flow-selected': isIncome }">收入</h3>
+  <v-card class="py-6 px-12" elevation="10">
+    <div class="modal-flow row">
+      <h3 @click="form.recordType = 'expense'" :class="{ 'flow-selected': !isIncome, col: 1 }">支出</h3>
+      <h3 @click="form.recordType = 'income'" :class="{ 'flow-selected': isIncome, col: 1 }">收入</h3>
     </div>
-
-    <!-- <tabs>
-      <tab name="expense" :selected="true">
-          <h1>expense</h1>
-      </tab>
-      <tab name="income" :selected="true">
-          <h1>income</h1>
-      </tab>
-    </tabs>-->
 
     <form class="modal-content">
       <div class="date-wrap">
-        <p>日期</p>
-        <div class="date" v-on:click="dataPickerModal = !dataPickerModal">{{ userDate }}</div>
+        <v-text-field
+          outlined
+          dense
+          v-model="form.date"
+          class="date"
+          v-on:click="dataPickerModal = !dataPickerModal"
+          prepend-icon="mdi-calendar-range"
+          color="primary"
+          label="日期"
+        ></v-text-field>
         <v-date-picker
           v-if="dataPickerModal"
           class="dataPicker"
+          v-model="form.date"
           landscape
           reactive
-          v-model="userDate"
           color="#efca16"
           header-color="#efca16"
           v-on:click.native="dataPickerModal = !dataPickerModal"
           transition="scroll-y-transition"
         ></v-date-picker>
       </div>
-      <div class="modal-money">
-        <p>金額</p>
-        <input v-model="form.money" type="number" name="money" />
-      </div>
-
-      <div class="modal-cate">
-        <p>類別</p>
-        <select v-model="form.categoryId">
-          <option value>請選擇</option>
-          <option v-for="cate in modalCategory" :value="cate._id" :key="cate._id">{{ cate.name }}</option>
-        </select>
-      </div>
 
       <div class="modal-account">
-        <p>帳本</p>
-        <!-- <v-select
-          v-model="form.ledger"
-          chips
+        <v-select
+          v-model="form.ledgerId"
           dense
-          label="請選擇"
+          label="帳本"
           outlined
-          :items="(item, index) in modalAccount"
-          :value="item.accountCate"
-          :key="index"
-        ></v-select>-->
-        <select v-model="form.ledger">
+          prepend-icon="mdi-book-outline"
+          color="primary"
+          item-text="ledgerName"
+          item-value="_id"
+          :items="userLedgers"
+        ></v-select>
+        <!--select v-model="form.ledger">
           <option value>請選擇</option>
           <option
             v-for="(item, index) in modalAccount"
             :value="item.accountCate"
             :key="index"
           >{{ item.accountCate }}</option>
-        </select>
+        </select-->
       </div>
 
-      <template>
-        <v-combobox
-          v-model="newHashtag"
-          :items="filterHashtag"
-          chips
-          clearable
-          append-icon
-          label="Hashtag"
-          multiple
+      <div class="modal-cate">
+        <!--select v-model="form.categoryId">
+          <option value>請選擇</option>
+          <option v-for="cate in modalCategory" :value="cate._id" :key="cate._id">{{ cate.name }}</option>
+        </select-->
+        <v-select
+          v-model="form.categoryId"
+          dense
+          prepend-icon="mdi-shape-outline"
+          color="primary"
+          label="類別"
+          item-text="name"
+          item-value="_id"
           outlined
-          light
-          color="#efca16"
-        >
-          <template v-slot:selection="{ attrs, item, select, selected }">
-            <v-chip
-              v-bind="attrs"
-              :input-value="selected"
-              close
-              @click="select"
-              @click:close="remove(item)"
-            >
-              <strong>{{ item }}</strong>&nbsp;
-            </v-chip>
-          </template>
-        </v-combobox>
-      </template>
+          :items="userCategories"
+        ></v-select>
+      </div>
 
-      <div class="modal-button">
-        <v-btn type="button" @click="addRecord" class="add" color="#efca16">新增</v-btn>
+      <div class="modal-money">
+        <v-text-field
+          dense
+          prepend-icon="mdi-cash-100"
+          v-model="form.money"
+          label="金額"
+          outlined
+          type="number"
+          name="money"
+        ></v-text-field>
+      </div>
+
+      <v-combobox
+        v-model="form.hashtags"
+        :items="categoryHashTags"
+        chips
+        clearable
+        append-icon
+        label="標籤"
+        multiple
+        outlined
+        prepend-icon="mdi-tag-multiple-outline"
+        light
+        color="#efca16"
+      >
+        <template v-slot:selection="{ attrs, item, select, selected }">
+          <v-chip
+            v-bind="attrs"
+            :input-value="selected"
+            close
+            @click="select"
+            @click:close="remove(item)"
+          >
+            <strong>{{ item }}</strong>&nbsp;
+          </v-chip>
+        </template>
+      </v-combobox>
+
+      <div class="modal-button row justify-center">
+        <v-btn
+          type="button"
+          v-if="oldForm == null"
+          @click="addRecord"
+          class="add"
+          color="#efca16"
+        >新增</v-btn>
+        <v-btn type="button" v-else @click="editRecord" class="add" color="#efca16">修改</v-btn>
         <v-btn type="button" @click="onModalClose" class="cancel" color="#cccccc">取消</v-btn>
         <!-- <button  class="add">新增</button>
         <button  class="cancel">取消</button>-->
@@ -103,43 +126,20 @@
 </template>
 
 <script>
-let data = {
-  selected_category: "",
-  userDate: "2020-04-20",
-  dataPickerModal: false,
-  modalCategory:[],
-  // modalCategory: [
-  //   {
-  //     name: "食物",
-  //     _id: "5ea06d246b04b818d4d3c79b",
-  //     index: "0"
-  //   },
-  //   {
-  //     name: "交通",
-  //     _id: "5ea06d246b04b818d4d3c79c",
-  //     index: "1"
-  //   },
-  //   {
-  //     name: "治裝",
-  //     _id: "5ea06d246b04b818d4d3c79d",
-  //     index: "2"
-  //   },
-  //   {
-  //     name: "娛樂",
-  //     _id: "5ea06d246b04b818d4d3c79e",
-  //     index: "3"
-  //   }
-  // ],
+import { filterChangedFields, getLocaleDate } from "../utils";
 
+let data = {
+  dataPickerModal: false,
   modalAccount: [
     { accountCate: "Main Account" },
     { accountCate: "Bank SinoPac" }
   ],
   form: {
     recordType: "income",
-    ledger: "",
+    ledgerId: "",
     categoryId: "",
-    money: 0
+    money: 0,
+    date: ""
   },
 
   newHashtag: [],
@@ -152,13 +152,27 @@ let data = {
 };
 
 export default {
-  name: "AddRecord",
-  props: ["recordDate"],
+  name: "EditRecord",
+  props: {
+    userDate: {
+      type: String,
+      default: () => getLocaleDate(new Date())
+    },
+    oldForm: {
+      type: Object,
+      default: () => null
+    },
+    ledgerSelected: {
+      type: String
+    }
+  },
   data() {
     return data;
   },
   created() {
-    this.initialDate();
+    this.resetForm();
+    if (this.oldForm != null) this.copyOldForm();
+    // this.initialDate();
     // login;
     // this.$http
     //   .post("/login-local", { email: "father@gmail.com", password: "0000" })
@@ -192,7 +206,6 @@ export default {
       return this.form.recordType == "income";
     },
     filterHashtag() {
-      console.log(this.form.categoryId);
       let index = -1;
       if (this.form.categoryId != "") {
         index = this.modalCategory.filter(item => {
@@ -205,20 +218,57 @@ export default {
       } else {
         return this.newHashtag;
       }
+    },
+    categoryHashTags() {
+      if (this.form.categoryId !== null) {
+        const category = this.userCategories.find(
+          item => item._id == this.form.categoryId
+        );
+        return (category && category.hashtags) || [];
+      } else return [];
+    }
+  },
+  watch: {
+    oldForm(val) {
+      if (this.oldForm != null) this.copyOldForm();
+      else this.resetForm();
+    }
+  },
+  asyncComputed: {
+    userCategories: {
+      get() {
+        return this.$http.get("/user/categories").then(res => res.data);
+      },
+      default: []
+    },
+    userLedgers: {
+      get() {
+        return this.$http.get("/user/ledgers").then(res => res.data);
+      },
+      default: []
     }
   },
   methods: {
+    copyOldForm() {
+      this.form.ledgerId = this.oldForm.ledgerId;
+      this.form.categoryId = this.oldForm.categoryId;
+      this.form.money = this.oldForm.money;
+      this.form.hashtags = this.oldForm.hashtags;
+      this.form.recordType = this.oldForm.recordType;
+      this.form.date = getLocaleDate(this.oldForm.date);
+    },
     resetForm() {
-      this.form.ledger = "";
-      this.form.categoryId = "";
+      this.form.ledgerId = this.ledgerSelected;
+      this.form.categoryId = null;
       this.form.money = 0;
-      this.form.detail = "";
+      // this.form.detail = "";
+      this.form.hashtags = [];
       this.form.recordType = "income";
       this.form.date = this.userDate;
     },
     checkForm() {
       if (
-        !this.form.ledger ||
+        !this.form.ledgerId ||
         !this.form.categoryId ||
         !this.form.recordType ||
         parseInt(this.form.money, 10) < 0
@@ -228,11 +278,6 @@ export default {
       }
       return true;
     },
-
-    initialDate() {
-      let t = new Date();
-      this.userDate = t.toISOString().substr(0, 10);
-    },
     click() {
       this.dataPickerModal = false;
       console.log(this.dataPickerModal);
@@ -240,14 +285,12 @@ export default {
     addRecord() {
       if (!this.checkForm()) return;
       const form = Object.assign({}, this.form);
-      form.date = this.userDate;
 
       this.$api
         .createRecord(form)
         .then(() => {
           alert("新增成功");
           this.$emit("add");
-          this.resetForm();
           this.onModalClose();
         })
         .catch(err => {
@@ -255,38 +298,43 @@ export default {
           alert("新增失敗");
         });
     },
+    editRecord() {
+      if (!this.checkForm()) return;
+      const patchForm = filterChangedFields(this.oldForm, this.form);
+      this.$api
+        .updateRecord(this.oldForm._id, patchForm)
+        .then(res => {
+          this.$emit("update");
+          this.resetForm();
+          this.onModalClose();
+        })
+        .catch(err => {
+          console.log(err);
+          alert("更新失敗");
+        });
+    },
     onModalClose() {
+      this.resetForm();
+      if (this.oldForm != null) this.copyOldForm();
       this.$emit("close");
     },
-    onCategoryChange: f1,
-
-    onAccountChange: function() {
-      // reset!
-      return this.selected_accountCate;
-    },
     remove(item) {
-      this.newHashtag.splice(this.newHashtag.indexOf(item), 1);
-      this.newHashtag = [...this.chips];
+      this.form.hashtags.splice(this.form.hashtags.indexOf(item), 1);
+      this.form.hashtags = [...this.chips];
     }
   }
 };
-
-function f1() {
-  // reset!
-  return this.selected_category;
-}
 </script>
 
 <style scoped lang="scss">
 .modal {
-  margin: a;
+  padding: 1em;
+  margin: 0;
   position: fixed;
-  height: 60vh;
   width: 50vw;
-  top: 25vh;
+  top: 20vh;
   left: 24vw;
   background-color: white;
-  font-family: 微軟正黑體, Arial, Helvetica, sans-serif;
   font-size: 20px;
   display: flex;
   flex-wrap: wrap;
@@ -294,25 +342,23 @@ function f1() {
 
 .modal-content {
   margin: 0 auto;
-  width: 34vw;
+  min-width: 34vw;
 }
 
 .modal-flow {
-  display: flex;
-  width: 100%;
-  height: fit-content;
-  margin: 0 auto;
+  margin: 0 0.5em;
+  padding: 0 0 1.5em 0;
 
   h3 {
-    display: inline-flex;
-    margin: 0 2%;
-    font-size: 20px;
+    height: 1.6em;
+    padding: 0;
+    margin: 0 0.5em;
+    font-size: 1.2em;
     font-weight: normal;
-    width: 46%;
     color: #cccccc;
     border-bottom-style: solid;
     border-bottom-color: #cccccc;
-    padding: 0 20%;
+    text-align: center;
     cursor: pointer;
 
     &:hover {
@@ -335,8 +381,6 @@ function f1() {
 }
 .date-wrap {
   z-index: 5;
-  max-width: 60%;
-  margin-left: 3%;
   align-items: center;
   display: flex;
   position: relative;
@@ -358,7 +402,7 @@ function f1() {
 /* .modal-money  */
 .modal-money {
   input {
-    width: 23vw;
+    min-width: 23vw;
     display: inline-block;
     border: #fff solid 1px;
     border-bottom: #ccc solid 3px;
@@ -381,7 +425,7 @@ function f1() {
     border: #fff solid 1px;
     border-bottom: #ccc solid 3px;
     display: inline-block;
-    width: 23vw;
+    min-width: 23vw;
   }
 }
 
@@ -396,22 +440,20 @@ function f1() {
     border: #fff solid 1px;
     border-bottom: #ccc solid 3px;
     display: inline-flex;
-    width: 23vw;
+    min-width: 23vw;
   }
 }
 
 /* modal-button */
 .add,
 .cancel {
-  margin: 5% 10%;
+  margin: 0 10%;
   font-size: 15px;
-  left: 6vw;
   text-decoration: none;
   color: black;
   border-style: none;
   border-radius: 10px;
   background-color: #efca16;
-  font-family: 微軟正黑體, Arial, Helvetica, sans-serif;
 
   &:hover {
     opacity: 70%;

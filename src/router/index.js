@@ -14,37 +14,11 @@ import Vuetify from "vuetify/lib";
 
 Vue.use(VueRouter);
 
-//
-
-import sunburst from "../components/sunbrust/sunburst";
-
-//slots info
-import nodeInfoDisplayer from "../components/sunbrust/nodeInfoDisplayer";
-import breadcrumbTrail from "../components/sunbrust/breadcrumbTrail";
-//slots behaviors
-import highlightOnHover from "../components/behavior/highlightOnHover";
-import zoomOnClick from "../components/behavior/zoomOnClick";
-
-import { colorSchemes } from "../infra/colorSchemes";
-
-export {
-  breadcrumbTrail,
-  colorSchemes,
-  highlightOnHover,
-  nodeInfoDisplayer,
-  sunburst,
-  zoomOnClick,
-};
-
-//
-
-Vue.use(VueRouter);
-
 const routes = [
   // 定義component對應的網址
   {
     path: "/accounting",
-    name: "AcountingName",
+    // name: "AcountingName",
     props: true,
     component: Accounting,
     children: [
@@ -64,21 +38,6 @@ const routes = [
         component: LedgerManagement,
       },
     ],
-
-    /*
-    children: [
-      {
-        path: 'addIncome',
-        name: 'AddIncomeName',
-        component: AddIncome
-      },
-      {
-        path: 'addExpense',
-        name: 'AddExpenseName',
-        component: AddExpense
-      }
-     ]
-     */
   },
   {
     path: "/personal",
@@ -92,7 +51,7 @@ const routes = [
   },
   {
     path: "/point",
-    name: "PointManageName",
+    // name: "PointManageName",
     component: pointManage,
     props: true,
     children: [
@@ -114,20 +73,6 @@ const routes = [
     ],
   },
 ];
-
-const vuetify = new Vuetify({
-  theme: {
-    themes: {
-      light: {
-        primary: "#cccccc",
-        secondary: "#b0bec5",
-        accent: "#8c9eff",
-        error: "#b71c1c",
-        a: "#cccccc",
-      },
-    },
-  },
-});
 
 const router = new VueRouter({
   mode: "history",
