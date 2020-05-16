@@ -17,14 +17,21 @@ import "@mdi/font/css/materialdesignicons.css";
 
 Vue.config.productionTip = false;
 
-const baseURL = "http://localhost:3000/api";
+let baseURL = null;
+if (process.env.NODE_ENV == "development") {
+  baseURL = "http://localhost:3000/api";
+} else baseURL = "/api";
+
+// const baseURL = "http://localhost:3000/api";
 //const baseURL = "https://uidd-backend.herokuapp.com/";
 // const baseURL = "http://luffy.ee.ncku.edu.tw:5000/";
 // const baseURL = "https://luffy.ee.ncku.edu.tw:5000/";
 const axios_ins = axios.create({ baseURL, withCredentials: true });
 
+/* 改存在ApiService裡了
 import global_ from "./components/Global"; //引用檔案
 Vue.prototype.GLOBAL = global_; //掛載到Vue例項上面
+*/
 
 Vue.use(VueAsyncComputed);
 Vue.use(VueAxios, axios_ins); // $http

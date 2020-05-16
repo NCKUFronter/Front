@@ -44,7 +44,7 @@
 
       <template v-slot:item.actions="{ item }">
         <!-- <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon> -->
-        <div v-if="item.userId === $api.profile._id">
+        <div v-if="item.userId === $api.user.profile._id">
           <v-icon small @click="$emit('want-edit',item)" class="mr-1">mdi-pencil</v-icon>
           <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
         </div>
@@ -121,28 +121,6 @@ export default {
       ],
       modalCategory: [],
       modalFlow: ["income", "expense"]
-      // dedaultItem:
-      //   {
-      //     _id: "",
-      //     recordId: 0,
-      //     categoryId: "",
-      //     detail: "",
-      //     money: "",
-      //     ledger: "",
-      //     recordType: "",
-      //     date: ""
-      //   },
-      // editedItem:
-      //   {
-      //     _id: "",
-      //     recordId: 0,
-      //     categoryId: "",
-      //     detail: "",
-      //     money: "",
-      //     ledger: "",
-      //     recordType: "",
-      //     date: ""
-      //   },
     };
   },
   props: ["userDate", "ledgerSelected", "accountData"],
@@ -151,10 +129,6 @@ export default {
     filterAccountData() {
       // return this.filterLedgerData.filter(item => {
       return this.accountData.filter(item => {
-        console.log({
-          userDate: this.userDate,
-          locale: getLocaleDate(item.date)
-        });
         return getLocaleDate(item.date) === this.userDate;
       });
     },

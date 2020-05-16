@@ -72,42 +72,19 @@ export default {
   data() {
     return {
       userSelected: null,
-      inputPoint: "",
-      totalPoint: this.$api.profile.rewardPoints
+      inputPoint: ""
     };
   },
   components: {
     ValidationProvider,
     ValidationObserver
   },
-  created() {
-    /*
-    this.$http
-      .get("/user/relativeUsers")
-      .then(res => {
-        res.data.forEach(element => {
-          this.user.push({ name: element.name, email: element.email });
-        });
-        // console.log(this.user)
-        return this.$http.get("/user/profile");
-      })
-      .then(res => {
-        this.totalPoint = res.data.rewardPoints;
-        console.log(this.totalPoint);
-      })
-      .catch(console.log);
-      */
+  computed: {
+    totalPoint() {
+      return this.$api.user.profile.rewardPoints;
+    }
   },
   asyncComputed: {
-    totalPointUpdate: {
-      lazy: true,
-      get() {
-        return this.$api.fetchProfile().then(profile => {
-          this.totalPoint = profile.rewardPoints;
-          return this.totalPoint;
-        });
-      }
-    },
     relativeUsers: {
       get() {
         return this.$http.get("/user/relativeUsers").then(res => res.data);
@@ -131,7 +108,7 @@ export default {
             amount: this.inputPoint
           })
           .then(res => {
-            this.$asyncComputed.totalPointUpdate.update();
+            this.$api.updateProfile();
             alert("Form has been submitted!");
           })
           .catch(err => {

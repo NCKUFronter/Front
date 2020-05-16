@@ -31,7 +31,7 @@
             <img :src="profile.photo" />
           </v-avatar>
           <v-card-title class="justify-center">{{profile.name}}</v-card-title>
-          <v-card-subtitle>{{profile._id}}</v-card-subtitle>
+          <!--v-card-subtitle>{{profile._id}}</v-card-subtitle-->
           <v-card-text>{{profile.email}}</v-card-text>
           <v-btn outlined block style="margin-bottom:10px " color="#cccccc">
             <v-icon>mdi-file-edit-outline</v-icon>綁定信用卡
@@ -70,7 +70,7 @@
       <v-container fluid fill-height v-if="!login">
         <v-row align="center" class="notLoginPage">
           <v-flex xs12 sm6 md6 class="pa-6">
-            <v-img src="./assets/homepage-phone.png"></v-img>
+            <img src="./assets/homepage-phone.png" style="height: 100%; width: 100%" />
           </v-flex>
           <v-flex xs12 sm6 md6 class="pa-6">
             <v-card-title color="#efca16" class="font-weight-bold">星．際帳</v-card-title>
@@ -93,7 +93,8 @@
         <router-view></router-view>
       </div>
 
-      <GlobalSnackBar></GlobalSnackBar>
+      <GlobalSnackBar top name="snackbar"></GlobalSnackBar>
+      <GlobalSnackBar bottom left name="notification"></GlobalSnackBar>
     </v-content>
   </v-app>
 </template>
@@ -126,6 +127,16 @@ export default {
     GlobalSnackBar
     //SideAccount  // 定義component
     // SideMenu
+  },
+  created() {
+    /*
+    setInterval(() => {
+      this.$snackbar.open('xxxxx', 'error')
+    }, 7000)
+    */
+    this.$api.onNotLoginListener = () => {
+      this.$snackbar.open("你登入過期，請重新登入。", "error");
+    };
   },
   computed: {
     login() {

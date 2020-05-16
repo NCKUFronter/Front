@@ -174,7 +174,7 @@ export default {
             this.engageLedgers = [];
             this.adminLedgers = [];
             for (const ledger of res.data) {
-              if (ledger.adminId === this.$api.profile._id) {
+              if (ledger.adminId === this.$api.user.profile._id) {
                 this.adminLedgers.push(ledger);
               } else this.engageLedgers.push(ledger);
             }
@@ -225,7 +225,7 @@ export default {
       if (confirm("確認離開帳本?")) {
         console.log(id);
         this.$http
-          .post("/ledger/" + id + "/leave")
+          .post(`/ledger/${id}/leave`)
           .then(res => {
             this.update();
             console.log(res.data);

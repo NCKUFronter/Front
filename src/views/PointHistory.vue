@@ -38,7 +38,6 @@ import { getLocaleDate, newPointSubtypeName } from "../utils";
 export default {
   data() {
     return {
-      userId: this.$api.profile._id,
       search: "",
       headers: [
         {
@@ -57,66 +56,6 @@ export default {
       loading: true
     };
   },
-  created() {
-    /*
-    var myID = "-1";
-    this.$http.get("/user/profile").then(res => {
-      myID = res.data._id;
-    });
-    this.$http
-      .get("/user/pointActivities", {
-        params: { _one: ["fromUser", "toUser", "fromRecord", "toGoods"] }
-      })
-      .then(res => {
-        res.data.forEach(element => {
-          let detail = "Other";
-          //Activity命名
-          if (element.type == "transfer") {
-            //轉移
-            if (element.fromUserId == myID) {
-              //轉出
-              detail = "轉出點數給" + element.toUser.name;
-            } else if (element.toUserId == myID) {
-              //轉入
-              detail = "由" + element.fromUser.name + "轉入點數";
-            } else {
-              detail = "TransferOther";
-            }
-          } else if (element.type == "consume") {
-            //購買
-            detail =
-              "購買商品: " + element.toGoods.name + "×" + element.quantity;
-          } else if (element.type == "new") {
-            //新增
-            if (element.subtype == "record") {
-              detail = "帳目紀錄:";
-              // element.fromRecord.hashtag.forEach(element => {
-              //   detail+=(' '+element.)
-              // });
-            } else if (element.subtype == "sinoPac") {
-              detail = "永豐紀錄:";
-              // element.fromRecord.hashtag.forEach(element => {
-              //   detail+=(' '+element)
-              // });
-            } else if (element.subtype == "perLogin") {
-              detail = "登入點數";
-            } else if (element.subtype == "continueLogin") {
-              detail = "連續登入點數";
-            } else {
-              detail = "NewOther";
-            }
-          }
-          this.history.push({
-            activity: detail,
-            point: element.amount,
-            type: element.type,
-            time: element.time.substr(0, 10)
-          });
-          this.loading = false;
-        });
-      });
-    */
-  },
   filters: { getLocaleDate },
   methods: {
     pointDescription(item) {
@@ -125,7 +64,7 @@ export default {
           return newPointSubtypeName(item.subtype);
         case "transfer":
           //轉出
-          if (item.fromUserId === this.$api.profile._id)
+          if (item.fromUserId === this.userId)
             return `轉出點數給${item.toUser.name}`;
           //轉入
           else return `由${item.fromUser.name}轉入點數`;
@@ -136,6 +75,9 @@ export default {
     }
   },
   computed: {
+    userId() {
+      return this.$api.user.profile._id;
+    },
     filterHistory() {
       return this.typeSelected != "ALL"
         ? this.activities.filter(item => item.type === this.typeSelected)

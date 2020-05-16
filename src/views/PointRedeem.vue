@@ -2,7 +2,6 @@
   <v-container>
     <!-- v-if="!cartModal" -->
     <v-row xs12 sm12 md12 v-if="!cartModal" class="sub-header">
-
       <v-card-title class="offset-8">
         <v-icon large>mdi-alpha-p-circle-outline</v-icon>
         {{totalPoint}}
@@ -23,10 +22,7 @@
             <v-btn icon class="back">
               <v-icon @click="cartModal=!cartModal" large>mdi-arrow-left-circle</v-icon>
             </v-btn>
-            <v-spacer />
-            <v-spacer />
-            <v-spacer />
-            <v-icon large>mdi-alpha-p-circle-outline</v-icon>
+            <v-icon large class="offset-6">mdi-alpha-p-circle-outline</v-icon>
             <v-card-title>{{totalPoint}}</v-card-title>
             <v-spacer />
             <v-card-title>總額 {{sumcart}}</v-card-title>
@@ -86,7 +82,7 @@
             </v-btn>-->
 
             <v-btn icon v-on:click="addCart(item)">
-              <v-icon @click="cart++">mdi-cart-arrow-down</v-icon>
+              <v-icon>mdi-cart-arrow-down</v-icon>
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -104,15 +100,10 @@ export default {
     cartModal: false,
 
     goods: [],
-    goodLength: null,
 
-    redeemGoods: [
-      // {img:"https://fakeimg.pl/100x100/cccccc/",name:"竹蜻蜓",intro:"飛飛飛飛飛飛飛飛飛飛飛飛飛飛飛飛飛飛",point:"200",quantity:1},
-    ],
+    redeemGoods: [],
     likeGoods: [],
-    totalPoint: 0, //原有的
     cart: 0,
-    // heart:0,
 
     selected: [],
     headers: [
@@ -122,28 +113,24 @@ export default {
     ],
     sumPoint: 0
   }),
-  created() {
-    this.$http
-      .get("/goods")
-      .then(res => {
-        this.goodLength = res.data.length;
-        this.goods = res.data;
-        //   console.log(this.goods)
-        return this.$http.get("/user/profile");
-      })
-      .then(res => {
-        this.totalPoint = res.data.rewardPoints;
-        //   console.log(this.totalPoint)
-        this.loading = false;
-      })
-      .catch(console.log);
-
-    console.log(this.GLOBAL.loginStatus);
-  },
   components: {
     // PointRedeemCart
   },
+  asyncComputed: {
+    goods: {
+      get() {
+        return this.$http.get("/goods").then(res => {
+          this.loading = false;
+          return res.data;
+        });
+      },
+      default: []
+    }
+  },
   computed: {
+    totalPoint() {
+      return this.$api.user.profile.rewardPoints;
+    },
     sumcart() {
       var total = 0;
       this.selected.forEach(element => {
@@ -154,6 +141,7 @@ export default {
   },
   methods: {
     addCart(item) {
+      this.cart++;
       var goodExist = false;
 
       this.redeemGoods.forEach(element => {
@@ -193,48 +181,36 @@ export default {
         alert("請選擇商品");
       } else if (this.totalPoint >= this.sumcart) {
         if (confirm("確認購買")) {
-          //還要記錄點數的運用
-          var Se_idx = 0;
+          const proms = [];
 
-          this.selected.forEach(element => {
-            // console.log(element._id+Se_idx)
-            this.$http
-              .post("/point/consume/" + element._id, {
-                quantity: element.quantity
+          for (const goods of this.selected) {
+            proms.push(
+              this.$http.post(`/point/consume/${goods._id}`, {
+                quantity: goods.quantity
               })
-              .then(res => {
-                console.log(res.data);
-                return this.$http.get("/user/profile");
-              })
-              .then(res => {
-                this.totalPoint = res.data.rewardPoints;
-                console.log(this.totalPoint);
-              })
-              .catch(console.log);
+            );
 
-            var Re_idx = 0;
-            this.redeemGoods.forEach(item => {
-              if (item.name == element.name) {
-                this.redeemGoods.splice(Re_idx, 1);
-              } else {
-                Re_idx++;
+            this.redeemGoods.forEach((item, index) => {
+              if (item.name == goods.name) {
+                this.redeemGoods.splice(index, 1);
               }
             });
-            Se_idx++;
-          });
-          this.cart -= this.selected.length;
-          this.selected.splice(0, this.selected.length);
-        }
+          }
 
-        //還要記錄他買了甚麼
+          this.cart -= this.selected.length;
+          this.selected = [];
+
+          Promise.all(proms).then(() => {
+            this.$api.updateProfile();
+          });
+        }
       } else {
         alert("點數不夠QQ");
       }
     },
     lookCart() {
-      this.selected = this.redeemGoods;
+      this.selected = this.redeemGoods.slice();
       this.cartModal = !this.cartModal;
-      //   console.log(this.redeemGoods)
     }
   }
 };

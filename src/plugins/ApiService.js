@@ -21,28 +21,40 @@ export class ApiService {
   /** @type { AxiosInstance } */
   raw;
 
-  // ---- user part -----
-  profile;
+  init = true;
 
-  _login = false;
-  loginListener = null;
-
-  get loginStatus() {
-    return this._login;
-  }
-  set loginStatus(val) {
-    if (this._login != val) {
-      this._login = val;
-      if (this.loginListener != null) this.loginListener(this._login);
-    }
-  }
+  onNotLoginListener = null;
 
   /** @param { AxiosInstance } axios_ins */
   constructor(axios_ins) {
     this.raw = axios_ins;
     this.user = Vue.observable({ login: false, profile: null });
 
-    this.fetchProfile().catch(() => {});
+    axios_ins.interceptors.response.use(
+      (res) => res,
+      (error) => {
+        if (error.response.status == 401) {
+          this.setProfile(null);
+        }
+
+        // const whitelist = ['/user/login']
+        if (!this.init && error.config.url !== "/user/login") {
+          if (this.onNotLoginListener != null) this.onNotLoginListener();
+        }
+        throw error;
+      }
+    );
+
+    this.fetchProfile()
+      .catch(() => {})
+      .finally(() => {
+        this.init = false;
+      });
+  }
+
+  setProfile(profile) {
+    this.user.profile = profile;
+    this.user.login = profile != null;
   }
 
   updateProfile() {
@@ -50,23 +62,11 @@ export class ApiService {
   }
 
   fetchProfile() {
-    return this.raw
-      .get("/user/profile")
-      .then((res) => {
-        this.profile = res.data;
-        this.loginStatus = true;
-        this.user.profile = res.data;
-        this.user.login = true;
-        // return this.login;
-        return res.data;
-      })
-      .catch((err) => {
-        // console.log(err);
-        this.loginStatus = false;
-        this.user.login = false;
-        // return this.login;
-        throw err;
-      });
+    return this.raw.get("/user/profile").then((res) => {
+      this.setProfile(res.data);
+      // return this.login;
+      return res.data;
+    });
   }
 
   login(email, password) {
@@ -77,18 +77,12 @@ export class ApiService {
       })
       .then((res) => {
         return this.fetchProfile();
-      })
-      .catch((err) => {
-        this.user.login = false;
-        this.loginStatus = false;
-        throw err;
       });
   }
 
   logout() {
     return this.raw.post("/user/logout").then((res) => {
-      this.user.login = false;
-      this.loginStatus = false;
+      this.setProfile(null);
       return res;
     });
   }
