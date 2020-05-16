@@ -25,3 +25,20 @@ $navigation-drawer-mobile-temporary-elevation: 8;
   border-bottom: #cccccc 3px solid;
   margin-bottom: 5px;
 }
+
+.alert-snackbar {
+  .v-snack__content {
+    padding: 0 !important;
+  }
+
+  .v-alert {
+    margin: 0;
+    width: 100%;
+  }
+}
+
+.alert-dialog {
+  .v-alert {
+    margin: 0;
+  }
+}

@@ -1,9 +1,12 @@
 <template>
   <v-app>
     <v-app-bar color="#efca16" clipped-left app dense>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="login"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon
+        @click.stop="drawer = !drawer"
+        v-if="login && $vuetify.breakpoint.smAndDown"
+      ></v-app-bar-nav-icon>
 
-      <h1 class="logo">記帳網</h1>
+      <h1 class="logo">星．際帳</h1>
       <v-spacer />
 
       <!-- peraonal account -->
@@ -30,11 +33,14 @@
           <v-avatar size="128">
             <img :src="profile.photo" />
           </v-avatar>
-          <v-card-title class="justify-center">{{profile.name}}</v-card-title>
+          <v-card-title class="pb-1 justify-center">{{profile.name}}</v-card-title>
           <!--v-card-subtitle>{{profile._id}}</v-card-subtitle-->
-          <v-card-text>{{profile.email}}</v-card-text>
-          <v-btn outlined block style="margin-bottom:10px " color="#cccccc">
+          <v-card-text class="pb-0">{{profile.email}}</v-card-text>
+          <v-btn outlined block color="#cccccc" disabled>
             <v-icon>mdi-file-edit-outline</v-icon>綁定信用卡
+          </v-btn>
+          <v-btn outlined block color="#cccccc">
+            <v-icon>mdi-file-edit-outline</v-icon>每日點數
           </v-btn>
           <v-btn outlined block v-on:click="toLogout">
             <v-icon>mdi-logout-variant</v-icon>登出
@@ -93,8 +99,15 @@
         <router-view></router-view>
       </div>
 
-      <GlobalSnackBar top name="snackbar"></GlobalSnackBar>
+      <v-dialog :value="false" width="unset" content-class="elevation-0 overflow-hidden">
+        <v-progress-circular :width="7" :size="70" indeterminate color="primary"></v-progress-circular>
+      </v-dialog>
+
+      <GlobalSnackBar top name="alert" dismissible></GlobalSnackBar>
       <GlobalSnackBar bottom left name="notification"></GlobalSnackBar>
+      <!--v-dialog :value="true" max-width="400px">
+        <v-alert type="warning" class="mb-0">xxxxx</v-alert>
+      </v-dialog-->
     </v-content>
   </v-app>
 </template>
@@ -129,14 +142,12 @@ export default {
     // SideMenu
   },
   created() {
-    /*
-    setInterval(() => {
-      this.$snackbar.open('xxxxx', 'error')
-    }, 7000)
-    */
     this.$api.onNotLoginListener = () => {
-      this.$snackbar.open("你登入過期，請重新登入。", "error");
+      // this.$alert.open("你登入過期，請重新登入。", "error");
     };
+  },
+  mounted() {
+    // this.$notification.open("我很吵~~~~", "info");
   },
   computed: {
     login() {
@@ -144,6 +155,9 @@ export default {
     },
     profile() {
       return this.$api.user.profile;
+    },
+    loading() {
+      return this.$loading.status.isRunning;
     }
   },
   watch: {
@@ -159,7 +173,12 @@ export default {
       window.location = "/api/login/auth/google";
     },
     doLogin(email) {
-      this.$api.login(email, "0000").catch(console.log);
+      this.$loading
+        .insideLoading(this.$api.login(email, "0000"))
+        .then(() => {
+          // this.$alert.open("登入成功", "success");
+        })
+        .catch(console.log);
     },
     toLogout() {
       this.$api
@@ -192,7 +211,7 @@ a {
   display: inline-block;
   font-weight: bold;
   text-decoration: none;
-  color: black;
+  color: #fff;
   font-size: 1.6rem;
   padding-left: 10px;
 }
@@ -227,5 +246,12 @@ a {
 
 .v-navigation-drawer__border {
   display: none;
+}
+
+.v-menu__content {
+  button.v-btn {
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
 }
 </style>

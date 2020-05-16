@@ -1,25 +1,33 @@
+import Vue from "vue";
+
 export default function (Vue) {
-  const ins = new LoadingMixin();
+  const ins = new LoadingService();
   Vue.$loading = ins;
   Vue.prototype.$loading = ins;
 }
 
-class LoadingMixin {
+class LoadingService {
   /** @type {number} */
   loadingCount;
 
-  created() {
+  constructor() {
     this.loadingCount = 0;
+    this.status = Vue.observable({ isRunning: false });
+  }
+
+  reset() {
+    this.loadingCount = 0;
+    this.status.isRunning = false;
   }
 
   working() {
-    // if (this.loadingCount == 0) this.$q.loading.show();
+    // if (this.loadingCount == 0) this.status.isRunning = true;
     this.loadingCount++;
   }
 
   done() {
     this.loadingCount--;
-    // if (this.loadingCount == 0) this.$q.loading.hide();
+    // if (this.loadingCount == 0) this.status.isRunning = false;
   }
 
   /**

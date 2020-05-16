@@ -2,16 +2,27 @@
   <v-snackbar
     v-model="state.show"
     :timeout="state.timeout"
-    :color="state.color"
-    :vertical="state.vertical"
     :multi-line="state.multiline"
     :top="top"
     :left="left"
     :right="right"
     :bottom="bottom"
+    color="white"
+    class="alert-snackbar"
   >
-    {{ state.message }}
-    <v-btn text @click="state.show = false">Close</v-btn>
+    <v-alert
+      v-model="state.show"
+      :text="text"
+      :outlined="outlined"
+      :prominent="prominent"
+      :type="state.type"
+      :color="state.color"
+      :icon="state.icon"
+      :dismissible="state.dismissible"
+    >
+      <slot :state="state"></slot>
+      <div v-if="!$scopedSlots.default">{{state.message}}</div>
+    </v-alert>
   </v-snackbar>
 </template>
 
@@ -21,41 +32,49 @@ import Vue from "vue";
 export default {
   name: "global-snackbar",
   props: {
-    name: {
-      type: String,
-      required: true
-    },
     top: Boolean,
     bottom: Boolean,
     left: Boolean,
-    right: Boolean
+    right: Boolean,
+    text: Boolean,
+    outlined: Boolean,
+    prominent: Boolean,
+    dismissible: Boolean
   },
-  created() {
-    const state = Vue.observable({
+  data() {
+    const state = {
       show: false,
       message: "",
       color: "",
+      type: "",
       multiline: false,
-      vertical: false,
-      timeout: 2000
-    });
+      timeout: 2000,
+      data: null
+    };
+    this.snackbar = {
+      open(message, type = "info", config = {}) {
+        this.state.multiline =
+          config.multiline != null ? config.multiline : false;
+        this.state.timeout = config.timeout != null ? config.timeout : 3000;
+        this.state.color = config.color != null ? config.color : "";
+        this.state.icon = config.icon != null ? config.icon : null;
+        this.state.dismissible =
+          config.dismissible != null ? config.dismissible : this.dismissible;
+        this.state.data = config.data;
 
-    const snackbar = {
-      open(message, color = "info", config = {}) {
-        state.multiline = config.multiline != null ? config.multiline : false;
-        state.timeout = config.timeout != null ? config.timeout : 3000;
-        state.vertical = config.vertical != null ? config.vertical : false;
-
-        state.message = message;
-        state.color = color;
-        state.show = true;
-      }
+        this.state.message = message;
+        this.state.type = type;
+        this.state.show = true;
+      },
+      close() {
+        state.show = false;
+      },
+      state
     };
 
-    const key = "$" + this.name;
-    Vue[key] = snackbar;
-    Vue.prototype[key] = snackbar;
-    this.state = state;
+    return {
+      state
+    };
   }
 };
 </script>

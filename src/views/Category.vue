@@ -6,25 +6,26 @@
         <v-boilerplate class="md-6" type=" table-heading,list-item-three-line"></v-boilerplate>
       </v-flex>
     </v-row>
-    <v-flex xs6 sm6 md6 v-else v-for="(card,idx) in hashtag" :key="idx" class="card">
+    <v-flex xs6 sm6 md6 v-else v-for="category of categories" :key="category._id" class="card">
       <v-card class="cardAll">
         <v-text-field
           class="headline"
-          v-model="card.name"
+          v-model="category.name"
           single-line
           solo
           flat
           hide-details
-          :disabled="card.disable"
-          @keyup.tab="updateCategory(card.index,card.name)"
-          @paste="updateCategory(card.index,card.name)"
-          @keyup.enter="updateCategory(card.index,card.name)"
+          :disabled="category.userId == null"
+          @keyup.tab="updateCategory(category._id, card.name)"
+          @paste="updateCategory(category._id, card.name)"
+          @keyup.enter="updateCategory(category._id, card.name)"
         ></v-text-field>
 
         <v-btn
           icon
           class="deleteCard"
-          v-on:click="deleteCategory(card.index,card.name,card.disable)"
+          :disabled="category.userId == null"
+          v-on:click="deleteCategory(category._id, category.name)"
         >
           <v-icon>mdi-backspace</v-icon>
         </v-btn>
@@ -33,20 +34,20 @@
 
         <v-combobox
           multiple
-          v-model="card.tag"
-          label="Tags"
+          v-model="category.hashtags"
+          label="標籤"
           append-icon
           chips
           deletable-chips
           class="tag-input"
-          :search-input.sync="card.search"
-          @keyup.tab="updateTags(card.index,card.tag)"
-          @paste="updateTags(card.index,card.tag)"
-          @keyup.enter="updateTags(card.index,card.tag)"
-          @change="updateTags(card.index,card.tag)"
+          :search-input.sync="category.search"
+          @keyup.tab="updateTags(category._id,category.hashtags)"
+          @paste="updateTags(category._id,category.hashtags)"
+          @keyup.enter="updateTags(category._id,category.hashtags)"
+          @change="updateTags(category._id,category.hashtags)"
           solo
           flat
-          hint="Creat Tags by typing"
+          hint="輸入文字以新增標籤"
         ></v-combobox>
       </v-card>
     </v-flex>
@@ -91,7 +92,9 @@
 
 <script>
 import { confirmed } from "vee-validate/dist/rules";
+
 export default {
+  inject: ["$alert"],
   data: () => ({
     hashtag: [],
     newCategory: "",
@@ -100,22 +103,17 @@ export default {
     search: null //sync search
     // searchLength:0,
   }),
-  created() {
-    this.$http.get("/user/categories").then(res => {
-      res.data.forEach(element => {
-        this.hashtag.push({
-          index: element._id,
-          name: element.name,
-          tag: element.hashtags,
-          disable: !element.userId,
-          search: null
+  created() {},
+  asyncComputed: {
+    categories: {
+      get() {
+        return this.$http.get("/user/categories").then(res => {
+          this.loading = false;
+          return res.data;
         });
-      });
-      // this.search.length=this.hashtag.length;
-      // console.log(this.search.length)
-      this.loading = false;
-      console.log(this.hashtag);
-    });
+      },
+      default: []
+    }
   },
   components: {
     VBoilerplate: {
@@ -138,31 +136,20 @@ export default {
     }
   },
   methods: {
-    deleteCategory(index, name, disable) {
-      if (!disable) {
-        if (confirm("刪除類別: " + name)) {
-          this.$http
-            .delete("/category/" + index)
-            .then(res => {
-              console.log(res.data);
-              return this.$http.get("/user/categories");
-            })
-            .then(res => {
-              this.hashtag = [];
-              res.data.forEach(element => {
-                this.hashtag.push({
-                  index: element._id,
-                  name: element.name,
-                  tag: element.hashtags,
-                  disable: !element.userId
-                });
-              });
-              console.log(this.hashtag);
-            });
-        }
+    deleteCategory(index, name) {
+      // if (!disable) {
+      if (confirm("刪除類別: " + name)) {
+        this.$http.delete("/category/" + index).then(res => {
+          console.log(res.data);
+          this.$asyncComputed.categories.update();
+          this.$alert("類別刪除成功", "success");
+        });
+      }
+      /*
       } else {
         alert("預設類別無法刪除");
       }
+      */
     },
     updateCategory(index, updateName) {
       this.$nextTick(() => {
@@ -173,12 +160,12 @@ export default {
           });
       });
     },
-    updateTags(index, addTag) {
-      this.$nextTick(() => {
-        this.$http
-          .patch("/category/" + index, { hashtags: addTag })
-          .then(res => {});
-        console.log(addTag);
+    updateTags(id, hashtags) {
+      // console.log(this.$alert);
+      this.$nextTick(function() {
+        this.$http.get(`/category/${id}`, { hashtags }).then(res => {
+          // this.$alert("標籤更新成功");
+        });
       });
     },
 
