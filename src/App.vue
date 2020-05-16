@@ -1,12 +1,15 @@
 <template>
   <v-app>
-    <v-app-bar color="#efca16" clipped-left app dense>
+    <v-app-bar color="#efca16" clipped-left :elevate-on-scroll="!login" app dense>
       <v-app-bar-nav-icon
         @click.stop="drawer = !drawer"
         v-if="login && $vuetify.breakpoint.smAndDown"
       ></v-app-bar-nav-icon>
 
-      <h1 class="logo">星．際帳</h1>
+      <h1 class="logo row">
+        <img src="./assets/logo.png" height="60%" class="pr-2" />
+        <div v-if="login">星，際帳</div>
+      </h1>
       <v-spacer />
 
       <!-- peraonal account -->
@@ -73,16 +76,34 @@
     </v-navigation-drawer>
 
     <v-content>
-      <v-container fluid fill-height v-if="!login">
-        <v-row align="center" class="notLoginPage">
-          <v-flex xs12 sm6 md6 class="pa-6">
-            <img src="./assets/homepage-phone.png" style="height: 100%; width: 100%" />
-          </v-flex>
-          <v-flex xs12 sm6 md6 class="pa-6">
-            <v-card-title color="#efca16" class="font-weight-bold">星．際帳</v-card-title>
-            <v-card-text>在這裡，你可以體驗由永豐提供的智慧生活，記下日常消費的每筆帳目，並獲得回饋點數</v-card-text>
-            <v-btn outlined color="#414141" class="ma-3">創建帳戶</v-btn>
+      <v-container fluid fill-height v-if="!login" style="background-color:#efca16">
+        <v-row class="notLoginPage" justify="center" align="center">
+          <img src="./assets/main.png" class="main-img col-xs-12 col-sm-12 col-md-6" />
+          <v-flex xs12 sm12 md5 offset-1>
+            <h1 class="title1">星．際帳</h1>
+            <h3 class="subtitle">
+              在這裡，你可以體驗由永豐提供的智慧生活，
+              <br />記下日常消費的每筆帳目，並獲得回饋點數
+            </h3>
+            <v-btn outlined color="#414141">創建帳戶</v-btn>
             <v-btn outlined color="#414141" class="ma-3">登入</v-btn>
+            <v-row>
+              <div class="square" style="background:#ccc;">
+                <!-- <v-icon class="icon" color="white" large>mdi-playlist-edit</v-icon> -->
+              </div>
+              <div class="square" style="background:#706e6d;">
+                <!-- <v-icon class="icon" color="white" large>mdi-chevron-right</v-icon> -->
+              </div>
+              <div class="square" style="background:#26282d;">
+                <!-- <v-icon class="icon" color="white" large>mdi-alpha-p-circle-outline</v-icon> -->
+              </div>
+              <div class="square" style="background:#ccc;">
+                <!-- <v-icon class="icon" color="white" large>mdi-chevron-right</v-icon> -->
+              </div>
+              <div class="square" style="background:#706e6d;">
+                <!-- <v-icon class="icon" color="white" large>mdi-gamepad-variant-outline</v-icon> -->
+              </div>
+            </v-row>
           </v-flex>
         </v-row>
       </v-container>
@@ -214,10 +235,15 @@ a {
   color: #fff;
   font-size: 1.6rem;
   padding-left: 10px;
+
+  img {
+    opacity: 0.8;
+    height: 36px;
+  }
 }
 
 .notLoginPage {
-  padding: 5% 10% 0;
+  padding: 0% 5% 0;
 }
 
 .nav-drawer {
@@ -254,4 +280,34 @@ a {
     margin-bottom: 5px;
   }
 }
+.title1 {
+  /*font-family: 微軟正黑體, Arial, Helvetica, sans-serif;*/
+  color: white;
+  font-size: 50px;
+}
+
+.subtitle {
+  color: #414141;
+  /*font-family: 微軟正黑體, Arial, Helvetica, sans-serif;*/
+  margin: 1.5% 0%;
+  line-height: 180%;
+}
+
+.square {
+  width: 80px;
+  height: 80px;
+  margin: 1%;
+  margin-top: 5%;
+}
+
+.main-img {
+  height: 100%;
+  width: 100%;
+}
+// .icon{
+//   color:white;
+//   margin: 35%;
+//   opacity: 50%;
+
+// }
 </style>
