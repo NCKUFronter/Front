@@ -48,12 +48,12 @@ export class ApiService {
 
         if (error.response.status == 401) {
           this.setProfile(null);
+          // const whitelist = ['/user/login']
+          if (!this.init && error.config.url !== "/user/login") {
+            if (this.onNotLoginListener != null) this.onNotLoginListener();
+          }
         }
 
-        // const whitelist = ['/user/login']
-        if (!this.init && error.config.url !== "/user/login") {
-          if (this.onNotLoginListener != null) this.onNotLoginListener();
-        }
         throw error;
       }
     );
