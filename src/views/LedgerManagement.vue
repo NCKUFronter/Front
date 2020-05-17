@@ -225,7 +225,6 @@ export default {
       return ledger.users.filter(user => user._id !== ledger.adminId);
     },
     invite(ledger) {
-      console.log("invite");
       this.inviteLedger = ledger;
       this.inviteModal = true;
     },
@@ -246,7 +245,7 @@ export default {
           .catch(ignoreNotLoginError)
           .catch(err => {
             console.log(err);
-            if (err.reponse.status === 404) {
+            if (err.response.status === 400) {
               this.$alert.error("無此使用者，無法發出邀請");
             } else this.$alert.error("邀請失敗");
           });
