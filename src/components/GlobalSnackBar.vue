@@ -1,8 +1,8 @@
 <template>
   <v-snackbar
     v-model="state.show"
-    :timeout="state.timeout"
-    :multi-line="state.multiline"
+    :timeout="timeout"
+    :multi-line="multiline"
     :top="top"
     :left="left"
     :right="right"
@@ -18,16 +18,47 @@
       :type="state.type"
       :color="state.color"
       :icon="state.icon"
-      :dismissible="state.dismissible"
+      :dismissible="realDismissible"
     >
       <slot :state="state"></slot>
-      <div v-if="!$scopedSlots.default">{{state.message}}</div>
+      <span v-if="!$scopedSlots.default" style="white-space: pre;">{{state.message}}</span>
     </v-alert>
   </v-snackbar>
 </template>
 
 <script>
 import Vue from "vue";
+
+export function initSnackbarData() {
+  const state = Vue.observable({
+    show: false,
+    message: "",
+    color: "",
+    type: "",
+    multiline: false,
+    timeout: 1000,
+    data: null
+  });
+
+  return {
+    open(message, type = "info", config = {}) {
+      state.multiline = config.multiline;
+      state.timeout = config.timeout;
+      state.color = config.color;
+      state.icon = config.icon;
+      state.dismissible = config.dismissible;
+      state.data = config.data;
+
+      state.message = message;
+      state.type = type;
+      state.show = true;
+    },
+    close() {
+      state.show = false;
+    },
+    state
+  };
+}
 
 export default {
   name: "global-snackbar",
@@ -39,42 +70,24 @@ export default {
     text: Boolean,
     outlined: Boolean,
     prominent: Boolean,
-    dismissible: Boolean
+    dismissible: Boolean,
+    state: {
+      type: Object,
+      required: true
+    }
   },
-  data() {
-    const state = {
-      show: false,
-      message: "",
-      color: "",
-      type: "",
-      multiline: false,
-      timeout: 2000,
-      data: null
-    };
-    this.snackbar = {
-      open(message, type = "info", config = {}) {
-        this.state.multiline =
-          config.multiline != null ? config.multiline : false;
-        this.state.timeout = config.timeout != null ? config.timeout : 3000;
-        this.state.color = config.color != null ? config.color : "";
-        this.state.icon = config.icon != null ? config.icon : null;
-        this.state.dismissible =
-          config.dismissible != null ? config.dismissible : this.dismissible;
-        this.state.data = config.data;
-
-        this.state.message = message;
-        this.state.type = type;
-        this.state.show = true;
-      },
-      close() {
-        state.show = false;
-      },
-      state
-    };
-
-    return {
-      state
-    };
+  computed: {
+    realDismissible() {
+      return this.state.dismissible != null
+        ? this.state.dismissible
+        : this.dismissible;
+    },
+    timeout() {
+      return this.state.timeout != null ? this.state.timeout : 1500;
+    },
+    multiline() {
+      return this.state.multiline != null ? this.state.multiline : false;
+    }
   }
 };
 </script>

@@ -2,7 +2,10 @@
   <v-container fluid>
     <!--v-card-title class="display-1">記帳管理</v-card-title-->
     <v-tabs v-model="tab" grow>
-      <v-tab v-for="item in items" :key="item.title" :to="item.link">{{ item.title }}</v-tab>
+      <v-tab v-for="item in items" :key="item.title" :to="item.link">
+        <v-icon dense class="pr-2">{{item.icon}}</v-icon>
+        {{ item.title }}
+      </v-tab>
     </v-tabs>
     <router-view></router-view>
   </v-container>
@@ -15,9 +18,9 @@ export default {
     return {
       tab: null,
       items: [
-        { title: "帳目管理", link: "/accounting" },
-        { title: "管理類別", link: "/accounting/Category" },
-        { title: "管理帳本", link: "/accounting/Ledger" }
+        { icon: "mdi-cash-multiple", title: "帳目管理", link: "/accounting" },
+        { icon: "mdi-shape-outline", title: "管理類別", link: "/accounting/Category" },
+        { icon: "mdi-book-outline", title: "管理帳本", link: "/accounting/Ledger" }
       ]
     };
   }

@@ -17,6 +17,12 @@ Vue.use(VueRouter);
 const routes = [
   // 定義component對應的網址
   {
+    path: "",
+    meta: {
+      title: "首頁",
+    },
+  },
+  {
     path: "/accounting",
     // name: "AcountingName",
     props: true,
@@ -26,16 +32,25 @@ const routes = [
         path: "",
         name: "SideAccountName",
         component: SideAccount,
+        meta: {
+          title: "帳目管理",
+        },
       },
       {
         path: "Category",
         name: "CategoryName",
         component: Category,
+        meta: {
+          title: "管理類別",
+        },
       },
       {
         path: "Ledger",
         name: "LedgerName",
         component: LedgerManagement,
+        meta: {
+          title: "管理帳本",
+        },
       },
     ],
   },
@@ -48,6 +63,9 @@ const routes = [
     path: "/summary",
     name: "SummaryName",
     component: Summary,
+    meta: {
+      title: "統計圖",
+    },
   },
   {
     path: "/point",
@@ -59,16 +77,25 @@ const routes = [
         path: "",
         name: "PointRedeemName",
         component: pointRedeem,
+        meta: {
+          title: "點數兌換",
+        },
       },
       {
         path: "delivery",
         name: "PointDeliveryName",
         component: pointDelivery,
+        meta: {
+          title: "點數贈送",
+        },
       },
       {
         path: "history",
         name: "PointHistoryName",
         component: pointHistory,
+        meta: {
+          title: "歷史紀錄",
+        },
       },
     ],
   },

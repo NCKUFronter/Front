@@ -35,6 +35,11 @@ $navigation-drawer-mobile-temporary-elevation: 8;
     margin: 0;
     width: 100%;
   }
+
+  .v-alert__dismissible {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
 }
 
 .alert-dialog {

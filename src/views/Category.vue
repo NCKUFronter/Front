@@ -7,25 +7,27 @@
       </v-flex>
     </v-row>
     <v-flex xs6 sm6 md6 v-else v-for="category of categories" :key="category._id" class="card">
-      <v-card class="cardAll">
+      <v-card elevation="4" class="cardAll">
         <v-text-field
           class="headline"
           v-model="category.name"
+          prepend-inner-icon="mdi-shape"
           single-line
           solo
+          dense
           flat
-          hide-details
+          hint="按下Enter以保存"
           :disabled="category.userId == null"
-          @keyup.tab="updateCategory(category._id, card.name)"
-          @paste="updateCategory(category._id, card.name)"
-          @keyup.enter="updateCategory(category._id, card.name)"
+          @keyup.tab="updateCategory(category._id, category.name)"
+          @paste="updateCategory(category._id, category.name)"
+          @keyup.enter="updateCategory(category._id, category.name)"
         ></v-text-field>
 
         <v-btn
           icon
           class="deleteCard"
           :disabled="category.userId == null"
-          v-on:click="deleteCategory(category._id, category.name)"
+          v-on:click="deleteCategory(category)"
         >
           <v-icon>mdi-backspace</v-icon>
         </v-btn>
@@ -35,7 +37,8 @@
         <v-combobox
           multiple
           v-model="category.hashtags"
-          label="標籤"
+          label="新增類別標籤"
+          prepend-inner-icon="mdi-tag"
           append-icon
           chips
           deletable-chips
@@ -47,7 +50,7 @@
           @change="updateTags(category._id,category.hashtags)"
           solo
           flat
-          hint="輸入文字以新增標籤"
+          hint="輸入文字以新增標籤，按下Enter以保存"
         ></v-combobox>
       </v-card>
     </v-flex>
@@ -55,19 +58,22 @@
     <v-flex xs6 sm6 md6 class="card" v-if="!loading">
       <v-card>
         <v-text-field
-          label="NewCategory"
-          placeholder="Add new Category"
+          label="新增類別名稱"
+          prepend-inner-icon="mdi-shape-outline"
+          dense
           solo
           flat
+          hint="點擊右側按鈕以保存"
           v-model="newCategory"
         ></v-text-field>
 
         <v-divider></v-divider>
 
         <v-combobox
+          prepend-inner-icon="mdi-tag-outline"
           multiple
           v-model="newTag"
-          label="Tags"
+          label="類別標籤"
           append-icon
           chips
           deletable-chips
@@ -76,15 +82,14 @@
           clearable
           solo
           flat
-          hint="add category first"
-          persistent-hint
+          :disabled="!newCategory"
+          :hint="!newCategory ? '請先輸入類別名稱': '輸入文字以新增標籤，點擊右上按鈕以保存'"
+          :persistent-hint="!newCategory"
         ></v-combobox>
 
-        <v-card-actions>
-          <v-btn icon class="add" @click="save">
-            <v-icon large>mdi-plus-circle</v-icon>
-          </v-btn>
-        </v-card-actions>
+        <v-btn icon class="deleteCard" @click="save" :disabled="!newCategory">
+          <v-icon>mdi-plus-box</v-icon>
+        </v-btn>
       </v-card>
     </v-flex>
   </v-row>
@@ -94,6 +99,7 @@
 import { confirmed } from "vee-validate/dist/rules";
 
 export default {
+  title: "管理類別",
   inject: ["$alert"],
   data: () => ({
     hashtag: [],
@@ -136,35 +142,43 @@ export default {
     }
   },
   methods: {
-    deleteCategory(index, name) {
-      // if (!disable) {
-      if (confirm("刪除類別: " + name)) {
-        this.$http.delete("/category/" + index).then(res => {
-          console.log(res.data);
-          this.$asyncComputed.categories.update();
-          this.$alert("類別刪除成功", "success");
-        });
+    update() {
+      this.$asyncComputed.categories.update();
+    },
+    deleteCategory(category) {
+      if (category.userId == null)
+        return this.$alert.open("預設類別無法刪除", "error");
+
+      if (confirm("刪除類別: " + category.name)) {
+        this.$http
+          .delete("/category/" + category._id)
+          .then(res => {
+            console.log(res.data);
+            this.update();
+            this.$alert.open("成功類別刪除", "success");
+          })
+          .catch(err => {
+            console.log(err);
+            this.$alert.open("類別刪除失敗", "error");
+          });
       }
-      /*
-      } else {
-        alert("預設類別無法刪除");
-      }
-      */
     },
     updateCategory(index, updateName) {
       this.$nextTick(() => {
         this.$http
           .patch("/category/" + index, { name: updateName })
           .then(res => {
+            this.update();
+            this.$alert.open("類別已更新", "success");
             console.log(updateName);
           });
       });
     },
     updateTags(id, hashtags) {
-      // console.log(this.$alert);
       this.$nextTick(function() {
-        this.$http.get(`/category/${id}`, { hashtags }).then(res => {
-          // this.$alert("標籤更新成功");
+        this.$http.patch(`/category/${id}`, { hashtags }).then(res => {
+          this.update();
+          this.$alert.open("標籤已更新", "success");
         });
       });
     },
@@ -174,21 +188,10 @@ export default {
         this.$http
           .post("/category", { name: this.newCategory, hashtags: this.newTag })
           .then(res => {
+            this.update();
+            this.$alert.open("成功新增類別", "success");
             console.log(this.newTag);
             console.log(res.data);
-            return this.$http.get("/user/categories");
-          })
-          .then(res => {
-            this.hashtag = [];
-            res.data.forEach(element => {
-              this.hashtag.push({
-                index: element._id,
-                name: element.name,
-                tag: element.hashtags,
-                disable: !element.userId
-              });
-            });
-            console.log(this.hashtag);
           });
         this.newTag = [];
         this.newCategory = "";

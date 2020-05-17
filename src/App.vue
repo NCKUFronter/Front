@@ -6,8 +6,8 @@
         v-if="login && $vuetify.breakpoint.smAndDown"
       ></v-app-bar-nav-icon>
 
-      <h1 class="logo d-flex">
-        <img src="./assets/logo.png" height="60%" class="pr-2" />
+      <h1 class="logo d-flex align-center">
+        <img src="./assets/logo.png" class="pr-2" />
         <div v-if="login">星，際帳</div>
       </h1>
       <v-spacer />
@@ -21,7 +21,8 @@
         </template>
         <v-card flat v-if="!login" class="pa-2">
           <v-card-title class="justify-center">尚未登入</v-card-title>
-          <v-btn outlined block v-on:click="toLogin">登入</v-btn>
+          <v-btn outlined block v-on:click="toLogin">
+            <v-icon small>mdi-google</v-icon>登入</v-btn>
           <v-btn outlined block v-on:click="doLogin('father@gmail.com')">
             <v-icon>mdi-login-variant</v-icon>爸爸登入
           </v-btn>
@@ -43,7 +44,7 @@
             <v-icon>mdi-file-edit-outline</v-icon>綁定信用卡
           </v-btn>
           <v-btn outlined block color="#cccccc">
-            <v-icon>mdi-file-edit-outline</v-icon>每日點數
+            <v-icon>mdi-alpha-p-circle-outline</v-icon>每日點數
           </v-btn>
           <v-btn outlined block v-on:click="toLogout">
             <v-icon>mdi-logout-variant</v-icon>登出
@@ -126,8 +127,8 @@
         <v-progress-circular :width="7" :size="70" indeterminate color="primary"></v-progress-circular>
       </v-dialog>
 
-      <GlobalSnackBar top name="alert" dismissible></GlobalSnackBar>
-      <GlobalSnackBar bottom left name="notification"></GlobalSnackBar>
+      <GlobalSnackBar dismissible top :state="$alert.state"></GlobalSnackBar>
+      <GlobalSnackBar bottom left :state="$notification.state"></GlobalSnackBar>
       <!--v-dialog :value="true" max-width="400px">
         <v-alert type="warning" class="mb-0">xxxxx</v-alert>
       </v-dialog-->
@@ -136,7 +137,7 @@
 </template>
 
 <script>
-import GlobalSnackBar from "./components/GlobalSnackBar";
+import GlobalSnackBar, { initSnackbarData } from "./components/GlobalSnackBar";
 
 // 定義component,不是global,只有APP知道
 //import SideAccount from './components/SideAccount.vue'
@@ -157,6 +158,8 @@ let data = {
 export default {
   name: "App",
   data() {
+    this.$alert = initSnackbarData();
+    this.$notification = initSnackbarData();
     return data;
   },
   components: {
@@ -164,9 +167,15 @@ export default {
     //SideAccount  // 定義component
     // SideMenu
   },
+  provide() {
+    return {
+      $alert: this.$alert,
+      $notification: this.$notification
+    };
+  },
   created() {
     this.$api.onNotLoginListener = () => {
-      // this.$alert.open("你登入過期，請重新登入。", "error");
+      this.$alert.open("你登入過期，請重新登入。", "error");
     };
   },
   mounted() {
@@ -199,7 +208,7 @@ export default {
       this.$loading
         .insideLoading(this.$api.login(email, "0000"))
         .then(() => {
-          // this.$alert.open("登入成功", "success");
+          this.$alert.open("登入成功", "success");
         })
         .catch(console.log);
     },
@@ -236,11 +245,10 @@ a {
   text-decoration: none;
   color: #fff;
   font-size: 1.6rem;
-  padding-left: 10px;
 
   img {
     opacity: 0.8;
-    height: 36px;
+    height: 30px;
   }
 }
 
@@ -280,6 +288,10 @@ a {
   button.v-btn {
     margin-top: 10px;
     margin-bottom: 5px;
+
+    i {
+      padding-right: 5px
+    }
   }
 }
 .title1 {
