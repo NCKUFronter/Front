@@ -6,7 +6,6 @@ import VueAxios from "vue-axios";
 import VueAsyncComputed from "vue-async-computed";
 import ApiService from "./plugins/ApiService";
 import LoadingService from "./plugins/LoadingService";
-import VuePageTitle from "vue-page-title";
 import vuetify from "./plugins/vuetify";
 // import "roboto-fontface/css/roboto/roboto-fontface.css";
 // import "@mdi/font/css/materialdesignicons.css";
@@ -35,7 +34,6 @@ Vue.prototype.GLOBAL = global_; //掛載到Vue例項上面
 */
 
 Vue.use(VueAsyncComputed);
-Vue.use(VuePageTitle, { suffix: "- 星，際帳", router });
 Vue.use(LoadingService); // $loading
 Vue.use(VueAxios, axios_ins); // $http
 Vue.use(ApiService, axios_ins); // $api

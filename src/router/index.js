@@ -107,4 +107,15 @@ const router = new VueRouter({
   routes,
 });
 
+/**
+ * reference: https://juejin.im/post/5d355c3f6fb9a07eb15d9383
+ */
+router.beforeEach((to, from, next) => {
+  if (to.meta.title) {
+    console.log(to.meta.title);
+    document.title = to.meta.title + " - 星，際帳";
+  }
+  next();
+});
+
 export default router;

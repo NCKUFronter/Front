@@ -88,8 +88,8 @@
               在這裡，你可以體驗由永豐提供的智慧生活，
               <br />記下日常消費的每筆帳目，並獲得回饋點數
             </h3>
-            <v-btn outlined color="#414141">創建帳戶</v-btn>
-            <v-btn outlined color="#414141" class="ma-3">登入</v-btn>
+            <!--v-btn outlined color="#414141" class="mr-3">創建帳戶</v-btn-->
+            <v-btn outlined color="#414141" class="text-capitalize" @click="toLogin">Google登入</v-btn>
             <v-row>
               <div class="square" style="background:#ccc;">
                 <!-- <v-icon class="icon" color="white" large>mdi-playlist-edit</v-icon> -->
