@@ -1,23 +1,31 @@
 <template>
-  <v-row>
+  <v-row class="ma-0 pb-8">
     <v-flex xs12 sm12 md12>
       <v-card flat>
         <div class="title">
           <v-card-title>
-            你管理的帳本
+            <v-icon class="mr-2">mdi-book-account</v-icon>你管理的帳本
             <v-spacer />
-            <v-icon @click="createModal=true">mdi-book-plus</v-icon>
+            <v-icon @click="createModal=true">mdi-book-plus-multiple-outline</v-icon>
           </v-card-title>
         </div>
       </v-card>
     </v-flex>
 
-    <v-flex xs6 sm4 md4 v-for="ledger of adminLedgers" :key="ledger._id" class="card">
-      <v-card outlined>
-        <v-card-title>{{ledger.ledgerName}}</v-card-title>
+    <v-flex xs12 sm6 md4 v-for="ledger of adminLedgers" :key="ledger._id" class="pa-2">
+      <v-card outlined elevation="2">
+        <v-card-title>
+          <v-icon class="mr-2">mdi-book</v-icon>
+          {{ledger.ledgerName}}
+        </v-card-title>
         <v-card-text>帳本人數: {{ledger.users.length}}</v-card-text>
-        <v-flex>
-          <v-avatar v-for="user of ledger.users" :key="ledger._id + user._id" size="36">
+        <v-flex class="px-4">
+          <v-avatar
+            v-for="user of ledger.users"
+            :key="ledger._id + user._id"
+            size="36"
+            class="elevation-2 mr-2"
+          >
             <img :src="user.photo" />
           </v-avatar>
         </v-flex>
@@ -36,16 +44,26 @@
     <v-flex xs12 sm12 md12>
       <v-card flat>
         <div class="title">
-          <v-card-title>你參與的帳本</v-card-title>
+          <v-card-title>
+            <v-icon class="mr-2">mdi-book-multiple</v-icon>你參與的帳本
+          </v-card-title>
         </div>
       </v-card>
     </v-flex>
-    <v-flex xs6 sm4 md4 v-for="ledger of engageLedgers" :key="ledger._id" class="card">
-      <v-card outlined>
-        <v-card-title>{{ledger.ledgerName}}</v-card-title>
+    <v-flex xs12 sm6 md4 v-for="ledger of engageLedgers" :key="ledger._id" class="pa-2">
+      <v-card outlined elevation="2">
+        <v-card-title>
+          <v-icon class="mr-2">mdi-book</v-icon>
+          {{ledger.ledgerName}}
+        </v-card-title>
         <v-card-text>帳本人數: {{ledger.users.length}}</v-card-text>
-        <v-flex>
-          <v-avatar v-for="user of ledger.users" :key="ledger._id + user._id" size="36">
+        <v-flex class="px-4">
+          <v-avatar
+            v-for="user of ledger.users"
+            :key="ledger._id + user._id"
+            size="36"
+            class="elevation-2 mr-2"
+          >
             <img :src="user.photo" />
           </v-avatar>
         </v-flex>
@@ -64,23 +82,28 @@
     <v-flex xs12 sm12 md12>
       <v-card flat>
         <div class="title">
-          <v-card-title>邀請你的帳本</v-card-title>
+          <v-card-title>
+            <v-icon class="mr-2">mdi-book-search</v-icon>邀請你的帳本
+          </v-card-title>
         </div>
       </v-card>
     </v-flex>
     <v-flex
-      xs6
-      sm4
+      xs12
+      sm6
       md4
       v-for="invitation in invitations"
       :key="'invite'+invitation._id"
-      class="card"
+      class="pa-2"
     >
-      <v-card outlined>
-        <v-card-title>{{invitation.ledger.ledgerName}}</v-card-title>
+      <v-card outlined elevation="2">
+        <v-card-title>
+          <v-icon class="mr-2">mdi-book</v-icon>
+          {{invitation.ledger.ledgerName}}
+        </v-card-title>
         <v-card-text>
           邀請人: {{ invitation.fromUser.name }}
-          <v-avatar>
+          <v-avatar size="36" class="ml-2 elevation-2">
             <img :src="invitation.fromUser.photo" />
           </v-avatar>
         </v-card-text>
@@ -93,10 +116,10 @@
     </v-flex>
 
     <!-- 建立ledge model -->
-    <v-dialog v-model="createModal">
+    <v-dialog v-model="createModal" width="unset">
       <v-card class="modal" color="#fff7d3" v-if="createModal">
         <v-card-title>新建帳本</v-card-title>
-        <v-text-field v-model="newLedgerName" label="請輸入帳本名稱" class="pa-4"></v-text-field>
+        <v-text-field v-model="newLedgerName" label="請輸入帳本名稱" class="px-4"></v-text-field>
         <v-card-actions>
           <v-spacer />
           <v-btn class="button" @click="createLedger">新增</v-btn>
@@ -106,10 +129,10 @@
     </v-dialog>
 
     <!-- 邀請modal -->
-    <v-dialog v-model="inviteModal">
+    <v-dialog v-model="inviteModal" width="unset">
       <v-card class="modal" color="#fff7d3" v-if="inviteModal">
         <v-card-title>{{inviteLedger.ledgerName}}</v-card-title>
-        <v-text-field v-model="inputEmail" label="請輸入邀請者email" type="email" class="pa-4"></v-text-field>
+        <v-text-field v-model="inputEmail" label="請輸入邀請者email" type="email" class="px-4"></v-text-field>
         <v-card-actions>
           <v-spacer />
           <v-btn class="button" v-on:click="confirmInvite()">邀請</v-btn>
@@ -119,10 +142,10 @@
     </v-dialog>
 
     <!-- 踢人out -->
-    <v-dialog persistent v-model="outModal">
+    <v-dialog persistent v-model="outModal" width="unset">
       <v-card class="modal" color="#fff7d3" v-if="outModal">
-        <v-card-title>帳本名: {{outLedger.ledgerName}}</v-card-title>
-        <v-card-text>剔除使用者</v-card-text>
+        <v-card-title>剔除使用者</v-card-title>
+        <v-card-text>帳本名: {{outLedger.ledgerName}}</v-card-text>
         <v-select
           :items="notAdminUsers(outLedger)"
           v-model="outUser"
@@ -130,7 +153,7 @@
           outlined
           item-text="name"
           item-value="_id"
-          class="pa-4"
+          class="px-4"
         ></v-select>
         <v-card-actions>
           <v-spacer />
@@ -148,7 +171,7 @@ import { ignoreNotLoginError } from "../utils";
 
 export default {
   name: "ledgerManagement",
-  inject: ["$alert"],
+  inject: ["$alert", "$confirm"],
   data() {
     return {
       adminLedgers: [],
@@ -209,7 +232,7 @@ export default {
 
     confirmInvite() {
       // console.log(this.inputEmail);
-      if (confirm("確認邀請?")) {
+      this.$confirm.open("確認邀請?", () => {
         this.$http
           .post("/invitation/invite", {
             ledgerId: this.inviteLedger._id,
@@ -227,13 +250,12 @@ export default {
               this.$alert.error("無此使用者，無法發出邀請");
             } else this.$alert.error("邀請失敗");
           });
-      }
+      });
     },
 
     // leave ledger
     leave(id) {
-      if (confirm("確認離開帳本?")) {
-        console.log(id);
+      this.$confirm.open("確認離開帳本?", () => {
         this.$http
           .post(`/ledger/${id}/leave`)
           .then(res => {
@@ -246,7 +268,7 @@ export default {
             console.log(err);
             this.$alert.error("離開帳本失敗");
           });
-      }
+      });
     },
 
     out(ledger) {
@@ -255,7 +277,7 @@ export default {
     },
 
     confirmOut() {
-      if (confirm("確認剔除?")) {
+      this.$confirm.open("確認剔除?", () => {
         this.$http
           .post(`/ledger/${this.outLedger._id}/leave/${this.outUser}`)
           .then(res => {
@@ -269,7 +291,7 @@ export default {
             console.log(err);
             this.$alert.error("剔除失敗");
           });
-      }
+      });
     },
 
     // answer invitation
@@ -288,21 +310,21 @@ export default {
     },
 
     createLedger() {
-      if (confirm(`確認新增 "${this.newLedgerName}"?`)) {
+      this.$confirm.open(`確認新增 "${this.newLedgerName}"?`, () => {
         this.$http
           .post("/ledger", { ledgerName: this.newLedgerName })
           .then(res => {
             this.createModal = false;
             this.update();
             this.newLedgerName = "";
-            alert("新增成功");
             this.$alert.success("新增成功");
           })
           .catch(ignoreNotLoginError)
-          .catch(res => {
+          .catch(err => {
+            console.log(err)
             this.$alert.error("新增失敗");
           });
-      }
+      });
     }
   }
 };
@@ -320,23 +342,8 @@ export default {
   margin: 5px;
 }
 
-.card {
-  padding: 5px;
-}
-.title {
-  border-bottom: #cccccc 2px solid;
-  margin: 5px;
-}
-.button {
-  margin: 5px;
-}
-
 .modal {
-  position: fixed;
   /* margin: auto; */
-  top: 40%;
-  left: 40%;
-  height: fit-content;
   width: 300px;
   padding: 10px;
 }

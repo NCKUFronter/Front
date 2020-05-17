@@ -55,9 +55,10 @@
 
 <script>
 import { getLocaleDate } from "../utils";
+import { ignoreNotLoginError } from "../utils";
 
 export default {
-  inject: ["$alert"],
+  inject: ["$alert", "$confirm"],
   data() {
     return {
       dialog: false,
@@ -150,18 +151,20 @@ export default {
       confirm("Are you sure you want to delete this item?") &&
         this.accountData.splice(index, 1);
         */
-      if (confirm("Are you sure you want to delete this item?")) {
+      // if (confirm("Are you sure you want to delete this item?")) { }
+      this.$confirm("確認刪除此帳目?", () => {
         this.$api
           .deleteRecord(item._id)
           .then(() => {
             this.$alert.success("帳目刪除成功");
             this.$emit("delete", item);
           })
+          .catch(ignoreNotLoginError)
           .catch(err => {
             this.$alert.success("帳目刪除失敗");
             console.log(err);
           });
-      }
+      });
     }
   }
 };

@@ -1,5 +1,5 @@
 <template>
-  <v-card class="py-6 px-12" elevation="10">
+  <v-card class="py-6 px-12" elevation="10" color="#fff7d3">
     <div class="modal-flow row">
       <h3 @click="form.recordType = 'expense'" :class="{ 'flow-selected': !isIncome, col: 1 }">
         <v-icon class="pb-3">mdi-cash-minus</v-icon>支出
@@ -120,6 +120,7 @@
 <script>
 import { filterChangedFields, getLocaleDate } from "../utils";
 import DateInputPicker from "./DateInputPicker";
+import { ignoreNotLoginError } from "../utils";
 
 let data = {
   dataPickerModal: false,
@@ -290,6 +291,7 @@ export default {
           this.$emit("add");
           this.onModalClose();
         })
+        .catch(ignoreNotLoginError)
         .catch(err => {
           this.$alert.success("新增帳目失敗");
           console.log(err);
@@ -306,6 +308,7 @@ export default {
           this.resetForm();
           this.onModalClose();
         })
+        .catch(ignoreNotLoginError)
         .catch(err => {
           this.$alert.success("更新帳目失敗");
           console.log(err);

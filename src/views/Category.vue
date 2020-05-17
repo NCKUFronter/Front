@@ -2,11 +2,11 @@
   <!-- ref: https://codepen.io/virtualadrian/pen/pOeVPX && Vuetify component: Card & Combobox & Chip-->
   <v-row>
     <v-row v-if="loading">
-      <v-flex xs6 sm6 md6 v-for="item in 6" :key="item" class="card">
+      <v-flex xs12 sm6 md6 v-for="item in 6" :key="item" class="pa-2">
         <v-boilerplate class="md-6" type=" table-heading,list-item-three-line"></v-boilerplate>
       </v-flex>
     </v-row>
-    <v-flex xs6 sm6 md6 v-else v-for="category of categories" :key="category._id" class="card">
+    <v-flex xs12 sm6 md6 v-else v-for="category of categories" :key="category._id" class="pa-2">
       <v-card elevation="4" class="cardAll">
         <v-text-field
           class="headline"
@@ -55,7 +55,7 @@
       </v-card>
     </v-flex>
 
-    <v-flex xs6 sm6 md6 class="card" v-if="!loading">
+    <v-flex xs12 sm6 md6 class="pa-2" v-if="!loading">
       <v-card>
         <v-text-field
           label="新增類別名稱"
@@ -100,7 +100,7 @@ import { confirmed } from "vee-validate/dist/rules";
 import { ignoreNotLoginError } from "../utils";
 
 export default {
-  inject: ["$alert"],
+  inject: ["$alert", "$confirm"],
   data: () => ({
     newCategory: "",
     newTag: [],
@@ -147,19 +147,19 @@ export default {
     deleteCategory(category) {
       if (category.userId == null) return this.$alert.error("預設類別無法刪除");
 
-      if (confirm("刪除類別: " + category.name)) {
+      this.$confirm.open("確認刪除類別: " + category.name, () => {
         this.$http
           .delete("/category/" + category._id)
           .then(res => {
-            // console.log(res.data);
             this.update();
             this.$alert.success("成功類別刪除");
           })
+          .catch(ignoreNotLoginError)
           .catch(err => {
-            // console.log(err);
+            console.log(err);
             this.$alert.error("類別刪除失敗");
           });
-      }
+      });
     },
     updateCategory(index, updateName) {
       this.$nextTick(() => {
@@ -178,7 +178,7 @@ export default {
       });
     },
     updateTags(id, hashtags) {
-      this.$nextTick(function() {
+      this.$nextTick(() => {
         this.$http
           .patch(`/category/${id}`, { hashtags })
           .then(res => {
@@ -194,9 +194,9 @@ export default {
     },
 
     save() {
-      if (this.newCategory != "") return this.$alert.error("新類別名不得為空");
+      if (this.newCategory == "") return this.$alert.error("新類別名不得為空");
 
-      this.$nextTick(function() {
+      this.$nextTick(() => {
         this.$loading
           .insideLoading(
             this.$http.post("/category", {

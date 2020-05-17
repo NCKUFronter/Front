@@ -49,6 +49,7 @@
 
 <script>
 import { required, numeric } from "vee-validate/dist/rules";
+import { ignoreNotLoginError } from "../utils";
 import {
   extend,
   ValidationObserver,
@@ -101,7 +102,7 @@ export default {
     },
     onSubmit() {
       if (this.inputPoint > this.totalPoint) {
-        alert("點數不夠");
+        this.$alert.error("點數不夠");
       } else {
         this.$http
           .post("/point/transfer", {
@@ -113,6 +114,7 @@ export default {
             this.$alert.success("成功贈送點數");
             // alert("Form has been submitted!");
           })
+          .catch(ignoreNotLoginError)
           .catch(err => {
             this.$alert.error("贈送點數失敗");
             console.log(err);

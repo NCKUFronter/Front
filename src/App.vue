@@ -129,12 +129,20 @@
       :value="loading"
       width="unset"
       persistent
-      overlay-opacity="0.1"
+      overlay-opacity="0.2"
       content-class="elevation-0 overflow-hidden"
     >
       <v-progress-circular :width="7" :size="70" indeterminate color="primary"></v-progress-circular>
     </v-dialog>
 
+    <GlobalDialog
+      :state="$confirm.state"
+      prominent
+      persistent
+      outlined
+      border="top"
+      icon="mdi-help"
+    ></GlobalDialog>
     <GlobalSnackBar dismissible top :state="$alert.state"></GlobalSnackBar>
     <GlobalSnackBar bottom left :state="$notification.state"></GlobalSnackBar>
   </v-app>
@@ -142,6 +150,7 @@
 
 <script>
 import GlobalSnackBar, { initSnackbarData } from "./components/GlobalSnackBar";
+import GlobalDialog, { initDialogData } from "./components/GlobalDialog";
 
 // 定義component,不是global,只有APP知道
 //import SideAccount from './components/SideAccount.vue'
@@ -164,17 +173,20 @@ export default {
   data() {
     this.$alert = initSnackbarData();
     this.$notification = initSnackbarData();
+    this.$confirm = initDialogData();
     return data;
   },
   components: {
-    GlobalSnackBar
+    GlobalSnackBar,
+    GlobalDialog
     //SideAccount  // 定義component
     // SideMenu
   },
   provide() {
     return {
       $alert: this.$alert,
-      $notification: this.$notification
+      $notification: this.$notification,
+      $confirm: this.$confirm
     };
   },
   created() {

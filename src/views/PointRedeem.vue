@@ -96,7 +96,7 @@ import { ignoreNotLoginError } from "../utils";
 
 export default {
   name: "PointRedeem",
-  inject: ["$alert"],
+  inject: ["$alert", "$confirm"],
   data: () => ({
     loading: true,
 
@@ -182,9 +182,8 @@ export default {
     buy() {
       if (this.sumcart == 0) {
         this.$alert.warning("請選擇商品");
-        // alert("請選擇商品");
       } else if (this.totalPoint >= this.sumcart) {
-        if (confirm("確認購買")) {
+        this.$confirm.open("確認購買?", () => {
           const proms = [];
 
           for (const goods of this.selected) {
@@ -214,10 +213,9 @@ export default {
               console.log(err);
               this.$alert.error("購買失敗，可能部份商品未購買成功");
             });
-        }
+        });
       } else {
         this.$alert.warning("點數不夠QQ");
-        // alert("點數不夠QQ");
       }
     },
     lookCart() {
