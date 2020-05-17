@@ -53,6 +53,18 @@ export function initSnackbarData() {
       state.type = type;
       state.show = true;
     },
+    success(message, config) {
+      this.open(message, "success", config);
+    },
+    error(message, config) {
+      this.open(message, "error", config);
+    },
+    info(message, config) {
+      this.open(message, "info", config);
+    },
+    warning(message, config) {
+      this.open(message, "warning", config);
+    },
     close() {
       state.show = false;
     },

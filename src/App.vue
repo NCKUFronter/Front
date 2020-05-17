@@ -22,7 +22,8 @@
         <v-card flat v-if="!login" class="pa-2">
           <v-card-title class="justify-center">尚未登入</v-card-title>
           <v-btn outlined block v-on:click="toLogin">
-            <v-icon small>mdi-google</v-icon>登入</v-btn>
+            <v-icon small>mdi-google</v-icon>登入
+          </v-btn>
           <v-btn outlined block v-on:click="doLogin('father@gmail.com')">
             <v-icon>mdi-login-variant</v-icon>爸爸登入
           </v-btn>
@@ -34,7 +35,7 @@
           </v-btn>
         </v-card>
         <v-card flat v-else class="pa-2 text-center">
-          <v-avatar size="128">
+          <v-avatar size="128" class="elevation-4">
             <img :src="profile.photo" />
           </v-avatar>
           <v-card-title class="pb-1 justify-center">{{profile.name}}</v-card-title>
@@ -122,17 +123,20 @@
       <div v-else class="px-4">
         <router-view></router-view>
       </div>
-
-      <v-dialog :value="false" width="unset" content-class="elevation-0 overflow-hidden">
-        <v-progress-circular :width="7" :size="70" indeterminate color="primary"></v-progress-circular>
-      </v-dialog>
-
-      <GlobalSnackBar dismissible top :state="$alert.state"></GlobalSnackBar>
-      <GlobalSnackBar bottom left :state="$notification.state"></GlobalSnackBar>
-      <!--v-dialog :value="true" max-width="400px">
-        <v-alert type="warning" class="mb-0">xxxxx</v-alert>
-      </v-dialog-->
     </v-content>
+
+    <v-dialog
+      :value="loading"
+      width="unset"
+      persistent
+      overlay-opacity="0.1"
+      content-class="elevation-0 overflow-hidden"
+    >
+      <v-progress-circular :width="7" :size="70" indeterminate color="primary"></v-progress-circular>
+    </v-dialog>
+
+    <GlobalSnackBar dismissible top :state="$alert.state"></GlobalSnackBar>
+    <GlobalSnackBar bottom left :state="$notification.state"></GlobalSnackBar>
   </v-app>
 </template>
 
@@ -175,7 +179,7 @@ export default {
   },
   created() {
     this.$api.onNotLoginListener = () => {
-      this.$alert.open("你登入過期，請重新登入。", "error");
+      this.$alert.error("你登入過期，請重新登入。");
     };
   },
   mounted() {
@@ -205,12 +209,15 @@ export default {
       window.location = "/api/login/auth/google";
     },
     doLogin(email) {
-      this.$loading
-        .insideLoading(this.$api.login(email, "0000"))
+      this.$api
+        .login(email, "0000")
         .then(() => {
-          this.$alert.open("登入成功", "success");
+          this.$alert.success("登入成功");
         })
-        .catch(console.log);
+        .catch(err => {
+          console.log(err);
+          this.$alert.error("登入失敗");
+        });
     },
     toLogout() {
       this.$api
@@ -290,7 +297,7 @@ a {
     margin-bottom: 5px;
 
     i {
-      padding-right: 5px
+      padding-right: 5px;
     }
   }
 }

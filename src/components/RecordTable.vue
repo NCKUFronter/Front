@@ -50,11 +50,6 @@
         </div>
       </template>
     </v-data-table>
-
-    <v-snackbar v-model="snack" :timeout="3000" :color="snackColor">
-      {{ snackText }}
-      <v-btn text @click="snack = false">Close</v-btn>
-    </v-snackbar>
   </div>
 </template>
 
@@ -62,6 +57,7 @@
 import { getLocaleDate } from "../utils";
 
 export default {
+  inject: ["$alert"],
   data() {
     return {
       dialog: false,
@@ -147,24 +143,6 @@ export default {
       if (recordType == "income") return "red";
       else return "yellow";
     },
-    save() {
-      this.snack = true;
-      this.snackColor = "success";
-      this.snackText = "Data saved";
-    },
-    cancel() {
-      this.snack = true;
-      this.snackColor = "error";
-      this.snackText = "Canceled";
-    },
-    open() {
-      this.snack = true;
-      this.snackColor = "info";
-      this.snackText = "Dialog opened";
-    },
-    close() {
-      console.log("Dialog closed");
-    },
     deleteItem(item) {
       this.$emit("delete", item);
       /*
@@ -176,36 +154,16 @@ export default {
         this.$api
           .deleteRecord(item._id)
           .then(() => {
+            this.$alert.success("帳目刪除成功");
             this.$emit("delete", item);
           })
           .catch(err => {
+            this.$alert.success("帳目刪除失敗");
             console.log(err);
-            alert("刪除失敗");
           });
       }
     }
   }
-  // editItem(item) {
-  //   item._id = this.props.indexOf(item);
-  //   this.editedItem = Object.assign({}, item);
-  //   this.dialog = true;
-  // },
-  //   close () {
-  //   this.dialog = false
-  //   this.$nextTick(() => {
-  //     this.editedItem = Object.assign({}, this.defaultItem)
-  //     this.editedIndex = -1
-  //   })
-  // },
-
-  // save () {
-  //   if (this.editedIndex > -1) {
-  //     Object.assign(this.desserts[this.editedIndex], this.editedItem)
-  //   } else {
-  //     this.desserts.push(this.editedItem)
-  //   }
-  //   this.close()
-  // }
 };
 </script>
 

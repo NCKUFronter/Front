@@ -21,13 +21,13 @@ class LoadingService {
   }
 
   working() {
-    // if (this.loadingCount == 0) this.status.isRunning = true;
+    if (this.loadingCount == 0) this.status.isRunning = true;
     this.loadingCount++;
   }
 
   done() {
     this.loadingCount--;
-    // if (this.loadingCount == 0) this.status.isRunning = false;
+    if (this.loadingCount == 0) this.status.isRunning = false;
   }
 
   /**

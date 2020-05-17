@@ -17,6 +17,7 @@ export const ApiPath = {
   },
 };
 
+// 假設已經附加LoadingService
 export class ApiService {
   /** @type { AxiosInstance } */
   raw;
@@ -30,9 +31,21 @@ export class ApiService {
     this.raw = axios_ins;
     this.user = Vue.observable({ login: false, profile: null });
 
+    axios_ins.interceptors.request.use((config) => {
+      // @ts-ignore
+      if (Vue.$loading) Vue.$loading.working();
+      return config;
+    });
     axios_ins.interceptors.response.use(
-      (res) => res,
+      (res) => {
+        // @ts-ignore
+        if (Vue.$loading) Vue.$loading.done();
+        return res;
+      },
       (error) => {
+        // @ts-ignore
+        if (Vue.$loading) Vue.$loading.done();
+
         if (error.response.status == 401) {
           this.setProfile(null);
         }

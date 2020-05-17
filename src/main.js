@@ -36,7 +36,7 @@ Vue.prototype.GLOBAL = global_; //掛載到Vue例項上面
 Vue.use(VueAsyncComputed);
 Vue.use(LoadingService); // $loading
 Vue.use(VueAxios, axios_ins); // $http
-Vue.use(ApiService, axios_ins); // $api
+Vue.use(ApiService, axios_ins); // $api, depend on LoadingService
 
 new Vue({
   router,

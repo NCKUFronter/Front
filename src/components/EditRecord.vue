@@ -123,12 +123,6 @@ import DateInputPicker from "./DateInputPicker";
 
 let data = {
   dataPickerModal: false,
-  /*
-  modalAccount: [
-    { accountCate: "Main Account" },
-    { accountCate: "Bank SinoPac" }
-  ],
-  */
   form: {
     recordType: "income",
     ledgerId: "",
@@ -150,6 +144,7 @@ let data = {
 
 export default {
   name: "EditRecord",
+  inject: ["$alert"],
   props: {
     userDate: {
       type: String,
@@ -275,14 +270,14 @@ export default {
         !this.form.recordType ||
         parseInt(this.form.money, 10) < 0
       ) {
-        alert("所有欄位請輸入正確資料");
+        this.$alert.warning("所有欄位請輸入正確資料");
         return false;
       }
       return true;
     },
     click() {
       this.dataPickerModal = false;
-      console.log(this.dataPickerModal);
+      // console.log(this.dataPickerModal);
     },
     addRecord() {
       if (!this.checkForm()) return;
@@ -291,13 +286,13 @@ export default {
       this.$api
         .createRecord(form)
         .then(() => {
-          alert("新增成功");
+          this.$alert.success("成功新增帳目");
           this.$emit("add");
           this.onModalClose();
         })
         .catch(err => {
+          this.$alert.success("新增帳目失敗");
           console.log(err);
-          alert("新增失敗");
         });
     },
     editRecord() {
@@ -306,13 +301,14 @@ export default {
       this.$api
         .updateRecord(this.oldForm._id, patchForm)
         .then(res => {
+          this.$alert.success("成功更新帳目");
           this.$emit("update");
           this.resetForm();
           this.onModalClose();
         })
         .catch(err => {
+          this.$alert.success("更新帳目失敗");
           console.log(err);
-          alert("更新失敗");
         });
     },
     onModalClose() {
@@ -367,14 +363,16 @@ export default {
       opacity: 50%;
     }
 
+    i {
+      margin-top: 5px;
+      margin-right: 5px;
+      color: inherit;
+    }
+
     &.flow-selected {
       font-weight: bolder;
       color: #efca16;
       cursor: unset;
-
-      i {
-        color: inherit;
-      }
 
       &:first-child {
         color: red;

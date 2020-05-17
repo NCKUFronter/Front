@@ -24,6 +24,8 @@
       :items="filterHistory"
       :search="search"
       no-data-text="無點數紀錄"
+      sort-by="time"
+      sort-desc
       v-else
     >
       <template v-slot:item.activity="{item}">{{ pointDescription(item) }}</template>

@@ -88,7 +88,7 @@
         ></v-combobox>
 
         <v-btn icon class="deleteCard" @click="save" :disabled="!newCategory">
-          <v-icon>mdi-plus-box</v-icon>
+          <v-icon style="transform:scaleX(-1)">mdi-shape-plus</v-icon>
         </v-btn>
       </v-card>
     </v-flex>
@@ -97,12 +97,11 @@
 
 <script>
 import { confirmed } from "vee-validate/dist/rules";
+import { ignoreNotLoginError } from "../utils";
 
 export default {
-  title: "管理類別",
   inject: ["$alert"],
   data: () => ({
-    hashtag: [],
     newCategory: "",
     newTag: [],
     loading: true,
@@ -146,20 +145,19 @@ export default {
       this.$asyncComputed.categories.update();
     },
     deleteCategory(category) {
-      if (category.userId == null)
-        return this.$alert.open("預設類別無法刪除", "error");
+      if (category.userId == null) return this.$alert.error("預設類別無法刪除");
 
       if (confirm("刪除類別: " + category.name)) {
         this.$http
           .delete("/category/" + category._id)
           .then(res => {
-            console.log(res.data);
+            // console.log(res.data);
             this.update();
-            this.$alert.open("成功類別刪除", "success");
+            this.$alert.success("成功類別刪除");
           })
           .catch(err => {
-            console.log(err);
-            this.$alert.open("類別刪除失敗", "error");
+            // console.log(err);
+            this.$alert.error("類別刪除失敗");
           });
       }
     },
@@ -169,33 +167,57 @@ export default {
           .patch("/category/" + index, { name: updateName })
           .then(res => {
             this.update();
-            this.$alert.open("類別已更新", "success");
-            console.log(updateName);
+            this.$alert.success("類別已更新");
+            // console.log(updateName);
+          })
+          .catch(ignoreNotLoginError)
+          .catch(err => {
+            console.log(err);
+            this.$alert.error("類別更新失敗");
           });
       });
     },
     updateTags(id, hashtags) {
       this.$nextTick(function() {
-        this.$http.patch(`/category/${id}`, { hashtags }).then(res => {
-          this.update();
-          this.$alert.open("標籤已更新", "success");
-        });
+        this.$http
+          .patch(`/category/${id}`, { hashtags })
+          .then(res => {
+            this.update();
+            this.$alert.success("標籤已更新");
+          })
+          .catch(ignoreNotLoginError)
+          .catch(err => {
+            console.log(err);
+            this.$alert.error("標籤更新失敗");
+          });
       });
     },
 
     save() {
-      if (this.newCategory != "") {
-        this.$http
-          .post("/category", { name: this.newCategory, hashtags: this.newTag })
+      if (this.newCategory != "") return this.$alert.error("新類別名不得為空");
+
+      this.$nextTick(function() {
+        this.$loading
+          .insideLoading(
+            this.$http.post("/category", {
+              name: this.newCategory,
+              hashtags: this.newTag
+            })
+          )
           .then(res => {
             this.update();
-            this.$alert.open("成功新增類別", "success");
+            this.$alert.success("成功新增類別");
             console.log(this.newTag);
             console.log(res.data);
+          })
+          .catch(ignoreNotLoginError)
+          .catch(err => {
+            console.log(err);
+            this.$alert.error("類別新增失敗");
           });
         this.newTag = [];
         this.newCategory = "";
-      }
+      });
     }
   }
 };

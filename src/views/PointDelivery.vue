@@ -69,6 +69,7 @@ extend("numeric", {
 });
 
 export default {
+  inject: ["$alert"],
   data() {
     return {
       userSelected: null,
@@ -109,10 +110,11 @@ export default {
           })
           .then(res => {
             this.$api.updateProfile();
-            alert("Form has been submitted!");
+            this.$alert.success("成功贈送點數");
+            // alert("Form has been submitted!");
           })
           .catch(err => {
-            alert("新增失敗");
+            this.$alert.error("贈送點數失敗");
             console.log(err);
           });
       }

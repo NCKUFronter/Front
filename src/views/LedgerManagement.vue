@@ -6,7 +6,7 @@
           <v-card-title>
             你管理的帳本
             <v-spacer />
-            <v-icon @click="createModal=true">mdi-plus</v-icon>
+            <v-icon @click="createModal=true">mdi-book-plus</v-icon>
           </v-card-title>
         </div>
       </v-card>
@@ -109,7 +109,7 @@
     <v-dialog v-model="inviteModal">
       <v-card class="modal" color="#fff7d3" v-if="inviteModal">
         <v-card-title>{{inviteLedger.ledgerName}}</v-card-title>
-        <v-text-field v-model="inputEmail" label="請輸入邀請者email" class="pa-4"></v-text-field>
+        <v-text-field v-model="inputEmail" label="請輸入邀請者email" type="email" class="pa-4"></v-text-field>
         <v-card-actions>
           <v-spacer />
           <v-btn class="button" v-on:click="confirmInvite()">邀請</v-btn>
@@ -144,8 +144,11 @@
 
 <script>
 import { confirmed } from "vee-validate/dist/rules";
+import { ignoreNotLoginError } from "../utils";
+
 export default {
   name: "ledgerManagement",
+  inject: ["$alert"],
   data() {
     return {
       adminLedgers: [],
@@ -205,7 +208,7 @@ export default {
     },
 
     confirmInvite() {
-      console.log(this.inputEmail);
+      // console.log(this.inputEmail);
       if (confirm("確認邀請?")) {
         this.$http
           .post("/invitation/invite", {
@@ -213,10 +216,17 @@ export default {
             email: this.inputEmail
           })
           .then(res => {
+            this.$alert.success("成功發出邀請");
             this.inviteModal = false;
-            console.log(res.data);
+            // console.log(res.data);
           })
-          .catch(console.log);
+          .catch(ignoreNotLoginError)
+          .catch(err => {
+            console.log(err);
+            if (err.reponse.status === 404) {
+              this.$alert.error("無此使用者，無法發出邀請");
+            } else this.$alert.error("邀請失敗");
+          });
       }
     },
 
@@ -228,9 +238,14 @@ export default {
           .post(`/ledger/${id}/leave`)
           .then(res => {
             this.update();
-            console.log(res.data);
+            this.$alert.success("成功離開帳本");
+            // console.log(res.data);
           })
-          .catch(console.log);
+          .catch(ignoreNotLoginError)
+          .catch(err => {
+            console.log(err);
+            this.$alert.error("離開帳本失敗");
+          });
       }
     },
 
@@ -244,11 +259,16 @@ export default {
         this.$http
           .post(`/ledger/${this.outLedger._id}/leave/${this.outUser}`)
           .then(res => {
-            this.outModal = false;
             this.update();
-            console.log(res.data);
+            this.$alert.success("成功剔除使用者");
+            this.outModal = false;
+            // console.log(res.data);
           })
-          .catch(console.log);
+          .catch(ignoreNotLoginError)
+          .catch(err => {
+            console.log(err);
+            this.$alert.error("剔除失敗");
+          });
       }
     },
 
@@ -258,10 +278,12 @@ export default {
         .put(`/invitation/${id}/answer`, { answer })
         .then(res => {
           this.update();
-          alert("回應成功");
+          this.$alert.success("回應成功");
         })
-        .catch(res => {
-          alert("回應失敗");
+        .catch(ignoreNotLoginError)
+        .catch(err => {
+          console.log(err);
+          this.$alert.error("回應失敗");
         });
     },
 
@@ -274,9 +296,11 @@ export default {
             this.update();
             this.newLedgerName = "";
             alert("新增成功");
+            this.$alert.success("新增成功");
           })
+          .catch(ignoreNotLoginError)
           .catch(res => {
-            alert("新增失敗");
+            this.$alert.error("新增失敗");
           });
       }
     }

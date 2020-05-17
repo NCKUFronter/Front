@@ -92,8 +92,11 @@
 </template>
 <script>
 // import PointRedeemCart from "../components/PointRedeemCart";
+import { ignoreNotLoginError } from "../utils";
+
 export default {
   name: "PointRedeem",
+  inject: ["$alert"],
   data: () => ({
     loading: true,
 
@@ -178,7 +181,8 @@ export default {
 
     buy() {
       if (this.sumcart == 0) {
-        alert("請選擇商品");
+        this.$alert.warning("請選擇商品");
+        // alert("請選擇商品");
       } else if (this.totalPoint >= this.sumcart) {
         if (confirm("確認購買")) {
           const proms = [];
@@ -200,12 +204,20 @@ export default {
           this.cart -= this.selected.length;
           this.selected = [];
 
-          Promise.all(proms).then(() => {
-            this.$api.updateProfile();
-          });
+          Promise.all(proms)
+            .then(() => {
+              this.$api.updateProfile();
+              this.$alert.success("購買成功");
+            })
+            .catch(ignoreNotLoginError)
+            .catch(err => {
+              console.log(err);
+              this.$alert.error("購買失敗，可能部份商品未購買成功");
+            });
         }
       } else {
-        alert("點數不夠QQ");
+        this.$alert.warning("點數不夠QQ");
+        // alert("點數不夠QQ");
       }
     },
     lookCart() {

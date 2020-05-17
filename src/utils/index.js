@@ -59,3 +59,8 @@ export function newPointSubtypeName(subtype) {
     return "NewOther";
   }
 }
+
+export function ignoreNotLoginError(err) {
+  if (err.response === 401) return;
+  else throw err;
+}
