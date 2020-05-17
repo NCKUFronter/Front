@@ -97,11 +97,11 @@ export default {
   methods: {
     onConfirm() {
       this.state.show = false;
-      if (this.state.onConfirm) this.state.onConfirm();
+      if (this.state.onConfirm) this.$nextTick(this.state.onConfirm);
     },
     onCancel() {
       this.state.show = false;
-      if (this.state.onCancel) this.state.onCancel();
+      if (this.state.onCancel) this.$nextTick(this.state.onCancel);
     }
   }
 };

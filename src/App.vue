@@ -44,7 +44,7 @@
           <v-btn outlined block color="#cccccc" disabled>
             <v-icon>mdi-file-edit-outline</v-icon>綁定信用卡
           </v-btn>
-          <v-btn outlined block color="#cccccc">
+          <v-btn outlined block @click="getPoints">
             <v-icon>mdi-alpha-p-circle-outline</v-icon>每日點數
           </v-btn>
           <v-btn outlined block v-on:click="toLogout">
@@ -151,6 +151,7 @@
 <script>
 import GlobalSnackBar, { initSnackbarData } from "./components/GlobalSnackBar";
 import GlobalDialog, { initDialogData } from "./components/GlobalDialog";
+import { ignoreNotLoginError } from "./utils";
 
 // 定義component,不是global,只有APP知道
 //import SideAccount from './components/SideAccount.vue'
@@ -238,6 +239,23 @@ export default {
           if (this.$route.name != null) this.$router.push("/");
         })
         .catch(console.log);
+    },
+    getPoints() {
+      this.$http
+        .post("/user/pointCheck")
+        .then(res => {
+          let message = "";
+          if (res.data.perLogin) message += `獲得每日登入點數: ${res.data.perLogin}點\n`;
+          if (res.data.continueLogin)
+            message += `獲得連續登入點數: ${res.data.continueLogin}點\n`;
+          if (message) this.$alert.info(message);
+          else this.$alert.info("沒有點數QQ");
+        })
+        .catch(ignoreNotLoginError)
+        .catch(err => {
+          console.log(err);
+          this.$alert.error("領取失敗");
+        });
     }
   }
 };
@@ -247,7 +265,7 @@ export default {
 html {
   margin: 0;
   padding: 0;
-  overflow: visible;
+  overflow: visible !important;
 }
 // .app-header {
 //   background-color: #efca16;
