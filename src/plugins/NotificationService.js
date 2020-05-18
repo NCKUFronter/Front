@@ -90,6 +90,7 @@ export class NotificationService {
     if (obj.from._id != getUserId()) {
       this.snackbar.open(makeMessage(obj), null, {
         color: "info",
+        timeout: 2000,
         data: {
           photo: obj.from.photo,
         },

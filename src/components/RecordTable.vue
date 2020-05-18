@@ -152,7 +152,7 @@ export default {
         this.accountData.splice(index, 1);
         */
       // if (confirm("Are you sure you want to delete this item?")) { }
-      this.$confirm("確認刪除此帳目?", () => {
+      this.$confirm.open("確認刪除此帳目?", () => {
         this.$api
           .deleteRecord(item._id)
           .then(() => {
