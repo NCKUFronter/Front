@@ -19,6 +19,7 @@
       :color="state.color"
       :icon="state.icon"
       :dismissible="realDismissible"
+      :border="border"
     >
       <slot :state="state"></slot>
       <span v-if="!$scopedSlots.default" style="white-space: pre;">{{state.message}}</span>
@@ -83,6 +84,7 @@ export default {
     outlined: Boolean,
     prominent: Boolean,
     dismissible: Boolean,
+    border: String,
     state: {
       type: Object,
       required: true

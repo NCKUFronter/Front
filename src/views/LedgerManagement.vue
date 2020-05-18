@@ -171,7 +171,7 @@ import { ignoreNotLoginError } from "../utils";
 
 export default {
   name: "ledgerManagement",
-  inject: ["$alert", "$confirm"],
+  inject: ["$alert", "$confirm", "$notification"],
   data() {
     return {
       adminLedgers: [],
@@ -205,7 +205,7 @@ export default {
               } else this.engageLedgers.push(ledger);
             }
           });
-      }
+      },
     },
     invitations: {
       get() {
@@ -213,7 +213,7 @@ export default {
           .get("user/invitations", { params: { _one: ["ledger", "fromUser"] } })
           .then(res => res.data);
       },
-      default: []
+      default: [],
     }
   },
   methods: {

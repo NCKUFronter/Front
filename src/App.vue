@@ -144,7 +144,21 @@
       icon="mdi-help"
     ></GlobalDialog>
     <GlobalSnackBar dismissible top :state="$alert.state"></GlobalSnackBar>
-    <GlobalSnackBar bottom left :state="$notification.state"></GlobalSnackBar>
+    <GlobalSnackBar
+      bottom
+      dismissible
+      border="left"
+      text
+      left
+      :state="$notification.snackbar.state"
+    >
+      <template v-slot="{ state }">
+        <v-avatar v-if="state.data">
+          <img :src="state.data.photo" />
+        </v-avatar>
+        <span class="black--text">{{state.message}}</span>
+      </template>
+    </GlobalSnackBar>
   </v-app>
 </template>
 
@@ -152,6 +166,7 @@
 import GlobalSnackBar, { initSnackbarData } from "./components/GlobalSnackBar";
 import GlobalDialog, { initDialogData } from "./components/GlobalDialog";
 import { ignoreNotLoginError } from "./utils";
+import { NotificationService } from "./plugins/NotificationService";
 
 // 定義component,不是global,只有APP知道
 //import SideAccount from './components/SideAccount.vue'
@@ -173,7 +188,16 @@ export default {
   name: "App",
   data() {
     this.$alert = initSnackbarData();
-    this.$notification = initSnackbarData();
+    this.$notification = new NotificationService(
+      initSnackbarData(),
+      this.$api.raw.defaults.baseURL
+    );
+    /*
+    this.$notification.snackbar.open("xxxx", null, {
+      color: "info",
+      timeout: 0
+    });
+    */
     this.$confirm = initDialogData();
     return data;
   },
@@ -211,6 +235,10 @@ export default {
   },
   watch: {
     login(val) {
+      if (this.login) {
+        this.$notification.connect();
+      } else this.$notification.closeAll();
+
       if (this.login && this.$route.name == null) {
         this.$router.push("/accounting");
       }
@@ -245,11 +273,14 @@ export default {
         .post("/user/pointCheck")
         .then(res => {
           let message = "";
-          if (res.data.perLogin) message += `獲得每日登入點數: ${res.data.perLogin}點\n`;
+          if (res.data.perLogin)
+            message += `獲得每日登入點數: ${res.data.perLogin}點\n`;
           if (res.data.continueLogin)
             message += `獲得連續登入點數: ${res.data.continueLogin}點\n`;
-          if (message) this.$alert.info(message);
-          else this.$alert.info("沒有點數QQ");
+          if (message) {
+            this.$api.updateProfile();
+            this.$alert.info(message);
+          } else this.$alert.info("沒有點數QQ");
         })
         .catch(ignoreNotLoginError)
         .catch(err => {
@@ -257,6 +288,9 @@ export default {
           this.$alert.error("領取失敗");
         });
     }
+  },
+  destroyed() {
+    this.$notification.closeAll();
   }
 };
 </script>

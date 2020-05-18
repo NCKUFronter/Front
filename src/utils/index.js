@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 export const backgroundColor = {
   rgba: {},
   hex: "#FAFAFA",
@@ -97,6 +99,7 @@ const nameMap = {
   },
   user(name) {
     if(name == "") return "自己";
+    else if(name == Vue.$api.user.profile.name) return "自己";
     else return name;
   }
 };

@@ -135,7 +135,10 @@ export default {
       );
     },
     totalPoints() {
-      return this.records.reduce((sum, cur) => sum + cur.rewardPoints, 0);
+      return this.records.reduce((sum, cur) => {
+        if (cur.rewardPoints != null) return sum + cur.rewardPoints;
+        else return sum;
+      }, 0);
     }
   },
   asyncComputed: {
