@@ -15,7 +15,7 @@
           <v-btn-toggle v-model="toggle_exclusive_perspective" mandatory>
             <v-btn value="personal">個人</v-btn>
             <v-btn value="ledger">帳本</v-btn>
-            <v-btn value="points">範例</v-btn>
+            <v-btn value="points">點數</v-btn>
           </v-btn-toggle>
 
           <!--v-flex xs6 sm3 md3>
@@ -82,6 +82,7 @@ import sumPersonal from "../data/sumPersonal.js";
 import sumLedger from "../data/sumLedger.js";
 import testData from "../data/temp.js";
 import { SunburstTree } from "../utils/sunburst-tree";
+import { summaryAddParent } from "../utils";
 
 const categories = ["", "食物", "交通", "治裝", "娛樂"];
 const example = new SunburstTree(
@@ -106,16 +107,42 @@ export default {
       inAnimationDuration: 500, //動畫速度
       outAnimationDuration: 1000, //動畫速度
       toggle_exclusive_perspective: "ledger",
-      toggle_exclusive_time: "month"
+      toggle_exclusive_time: "month",
+      sunburstOrder: {
+        ledger: ["ledger", "user", "recordType", "category"],
+        personal: ["recordType", "ledger", "category"],
+        points: ["flow", "type", "subtype", "user"]
+      }
     };
   },
   computed: {
     displayData() {
+      return this.sunburstJson;
+      /*
       if (this.toggle_exclusive_perspective == "ledger") {
-        return this.sumLedger;
+        // return this.sumLedger;
+        return this.sunburstJson;
       } else if (this.toggle_exclusive_perspective == "personal") {
-        return this.sumPersonal;
+        return this.sunburstJson;
       } else return this.example;
+    */
+    }
+  },
+  asyncComputed: {
+    sunburstJson: {
+      get() {
+        const type = this.toggle_exclusive_perspective;
+        return this.$http
+          .get(`/statistic/${type}`, {
+            params: { order: this.sunburstOrder[type] }
+          })
+          .then(res => {
+            const json = res.data;
+            summaryAddParent(json);
+            return json;
+          });
+      },
+      default: {}
     }
   },
   methods: {},

@@ -64,3 +64,59 @@ export function ignoreNotLoginError(err) {
   if (err.response.status === 401) return;
   else throw err;
 }
+
+const nameMap = {
+  recordType(name) {
+    return {
+      income: "收入",
+      expense: "支出",
+    }[name];
+  },
+  type(name) {
+    return {
+      new: "新增",
+      transfer: "轉移",
+      consume: "消費",
+    }[name];
+  },
+  subtype(name) {
+    if (name == "") return "其餘";
+    else
+      return {
+        perLogin: "每日登入",
+        continueLogin: "連續登入",
+        sinoPac: "永豐",
+        record: "記帳",
+      }[name];
+  },
+  flow(name) {
+    return {
+      in: "獲得",
+      out: "使用",
+    }[name];
+  },
+  user(name) {
+    if(name == "") return "自己";
+    else return name;
+  }
+};
+
+export function summaryAddParent(obj, level = 0) {
+  obj.level = level;
+  if (!obj.children) return;
+  if (obj.children.length == 0) {
+    delete obj.children;
+    return;
+  }
+
+  const map = nameMap[obj.child_type_name];
+  for (const child of obj.children) {
+    if(!child.name) child.name = "";
+    child.parent = obj;
+    if (map != null) {
+      child.name = map(child.name);
+    }
+    summaryAddParent(child, level + 1);
+  }
+  return obj;
+}

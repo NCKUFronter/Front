@@ -24,6 +24,7 @@
     </v-flex>
   </v-container>
 </template>
+
 <script>
 import Vue from "vue";
 import { sunburst } from "vue-d3-sunburst";
@@ -78,6 +79,7 @@ export default Vue.extend(sunburst).extend({
     colorGetter() {
       return d => {
         if (d.data) d = d.data;
+        if (d.level == null) return "#fff";
         if (d.level == 0 && d.color == null) this.colorUtil.reset();
         if (d.color != null) return rgba(d.color);
 

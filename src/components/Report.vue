@@ -1,13 +1,14 @@
 <template>
   <!--v-container fluid class="tree"-->
   <v-card class="parent" outlined v-if="current">
-    <v-card-title class="justify-center">{{current.data.name}}</v-card-title>
     <v-card flat>
-      <v-card-title class="justify-center">總覽</v-card-title>
+      <v-card-title class="justify-center">{{current.data.name}}</v-card-title>
+      <!--v-card-title class="justify-center">總覽</v-card-title-->
       <v-simple-table class="total" dense>
         <template v-slot:default>
           <v-divider class="justify-center"></v-divider>
-          <tbody>
+          <!-- 點數或不是最後一層的就顯示children -->
+          <tbody v-if="current.children && current.children.length">
             <tr v-for="child in current.children" :key="child.data.name">
               <td>{{ child.data.name }}</td>
               <td>{{ child.value }}</td>
@@ -15,6 +16,18 @@
             <tr>
               <td>總和</td>
               <td>{{current.value}}</td>
+            </tr>
+          </tbody>
+          <!-- 不是點數且最後一層的hashtags資訊 -->
+          <tbody v-else-if="current.hashtags && current.hashtags.length">
+            <tr v-for="taginfo of current.hashtags" :key="taginfo.name">
+              <td>{{ taginfo.tag }}</td>
+              <td>{{ taginfo.count }}</td>
+            </tr>
+          </tbody>
+          <tbody v-else>
+            <tr>
+              <td colspan="2" class="text-center">無資訊可顯示</td>
             </tr>
           </tbody>
         </template>
