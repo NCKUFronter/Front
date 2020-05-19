@@ -13,7 +13,6 @@
     "axios": "^0.19.2",
     "core-js": "^3.6.4",
     "dr-vue-echarts": "^1.0.13",
-    "node-sass": "^4.14.0",
     "rellax": "^1.12.1",
     "roboto-fontface": "*",
     "vee-validate": "^3.3.0",
@@ -34,8 +33,8 @@
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
     "fibers": "^5.0.0",
+    "node-sass": "^4.14.1",
     "sass": "^1.26.5",
-    "node-sass": "^4.13.1",
     "sass-loader": "^8.0.2",
     "vue-cli-plugin-vuetify": "~2.0.5",
     "vue-template-compiler": "^2.6.11"

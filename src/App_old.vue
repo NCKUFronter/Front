@@ -1,7 +1,16 @@
 <template>
   <v-app>
-    <v-app-bar class="mx-auto overflow-hidden" color="#efca16" elevate-on-scroll clipped-left app>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="login"></v-app-bar-nav-icon>
+    <v-app-bar
+      class="mx-auto overflow-hidden"
+      color="#efca16"
+      elevate-on-scroll
+      clipped-left
+      app
+    >
+      <v-app-bar-nav-icon
+        @click.stop="drawer = !drawer"
+        v-if="login"
+      ></v-app-bar-nav-icon>
       <!-- <v-menu bottom :offset-y="offset" transition="slide-x-transition" right>
         <template v-slot:activator="{ on }">
           <v-app-bar-nav-icon v-on="on"></v-app-bar-nav-icon>
@@ -31,16 +40,26 @@
         </template>
         <v-card flat v-if="!login" style="padding:5px ">
           <v-card-title class="justify-center">尚未登入</v-card-title>
-          <v-btn outlined flat block color="#cccccc" style="padding:10px " v-on:click="toLogin">登入</v-btn>
+          <v-btn
+            outlined
+            flat
+            block
+            color="#cccccc"
+            style="padding:10px "
+            v-on:click="toLogin"
+            >登入</v-btn
+          >
         </v-card>
         <v-card flat v-if="login" class="text-center">
           <v-img
             :src="personal.img"
             style="border-radius: 50%; height:100px; width:100px; margin: auto; margin-top: 20px;"
           ></v-img>
-          <v-card-title class="justify-center">{{personal.username}}</v-card-title>
-          <v-card-subtitle>{{personal.ID}}</v-card-subtitle>
-          <v-card-text>{{personal.email}}</v-card-text>
+          <v-card-title class="justify-center">{{
+            personal.username
+          }}</v-card-title>
+          <v-card-subtitle>{{ personal.ID }}</v-card-subtitle>
+          <v-card-text>{{ personal.email }}</v-card-text>
           <v-btn outlined block style="margin-bottom:10px " color="#cccccc">
             <v-icon>mdi-file-edit-outline</v-icon>綁定信用卡
           </v-btn>
@@ -83,14 +102,15 @@
           </v-flex>
           <v-flex xs6 sm6 md6 class="pa-6" style="margin-top:10%">
             <v-card-title color="#efca16">星，際帳</v-card-title>
-            <v-card-text>在這裡，你可以體驗由永豐提供的智慧生活，記下日常消費的每筆帳目，並獲得回饋點數</v-card-text>
+            <v-card-text
+              >在這裡，你可以體驗由永豐提供的智慧生活，記下日常消費的每筆帳目，並獲得回饋點數</v-card-text
+            >
             <v-btn outlined color="#414141" class="ma-3">創建帳戶</v-btn>
             <v-btn outlined color="#414141" class="ma-3">登入</v-btn>
           </v-flex>
         </v-row>
       </v-container>
     </v-content>
-
 
     <!-- <SideMenu /> -->
 
@@ -119,7 +139,7 @@ let data = {
     { title: "統計圖產生", link: "/summary" },
     { title: "周/月帳目一覽", link: "/accounting" },
     // { title: "帳戶管理", link: "/personal" },
-    { title: "點數管理", link: "/point" }
+    { title: "點數管理", link: "/point" },
     // { title: "雲端備分", link: "" },
     // { title: "統一發票", link: "" }
   ],
@@ -127,7 +147,7 @@ let data = {
     img: "",
     username: "",
     ID: "",
-    email: ""
+    email: "",
   },
   drawer: false,
   login: false,
@@ -155,7 +175,7 @@ export default {
     accountClick() {
       this.$http
         .get("/user/profile")
-        .then(res => {
+        .then((res) => {
           this.GLOBAL.loginStatus = true;
           this.login = this.GLOBAL.loginStatus;
           this.personal.img = res.data.photo;
@@ -163,7 +183,7 @@ export default {
           this.personal.ID = res.data._id;
           this.personal.email = res.data.email;
         })
-        .catch(err => {
+        .catch((err) => {
           this.GLOBAL.loginStatus = false;
           this.login = this.GLOBAL.loginStatus;
         });
@@ -175,16 +195,16 @@ export default {
           { email: "father@gmail.com", password: "0000" },
           { withCredentials: true }
         )
-        .then(res => {
+        .then((res) => {
           // this.login=true;
           this.GLOBAL.loginStatus = true;
           this.login = this.GLOBAL.loginStatus;
           console.log(this.GLOBAL.loginStatus);
-          this.$router.push('/accounting')
+          this.$router.push("/accounting");
           // console.log(this.login)
           return this.$http.get("/user/profile");
         })
-        .then(res => {
+        .then((res) => {
           this.personal.img = res.data.photo;
           this.personal.username = res.data.name;
           this.personal.ID = res.data._id;
@@ -197,15 +217,15 @@ export default {
     toLogout() {
       this.$http
         .post("/user/logout", { withCredentials: true })
-        .then(res => {
+        .then((res) => {
           // this.login=false;
           this.GLOBAL.loginStatus = false;
           this.login = this.GLOBAL.loginStatus;
-          this.$router.push('')
+          this.$router.push("");
         })
         .catch(console.log);
-    }
-  }
+    },
+  },
 };
 </script>
 
