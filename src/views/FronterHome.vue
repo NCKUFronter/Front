@@ -1,41 +1,11 @@
 <template>
   <transition name="fade">
-    <v-show>
-      <v-layout class="page">
-        <img src="src\image\fronter\home\home_logo.svg" height="100%" class="img-background" />
-      </v-layout>
-    </v-show>
-  </transition>
-  <!-- <v-card class="mx-auto" v-if="login">
-    <v-navigation-drawer
-      v-model="drawer"
-      hide-overlay
-      :permanent="$vuetify.breakpoint.mdAndUp"
-      :temporary="$vuetify.breakpoint.smAndDown"
-      clipped
-      app
-      class="nav-drawer"
-      style="top: 56px"
-    >
-      <v-list nav>
-        <v-list-item
-          class="side-menu"
-          v-for="(item, index) in menu"
-          :key="index"
-          :class="{ 'menu-item': true, disabled: !item.link }"
-        >
-          <router-link :to="item.link">{{ item.title }}</router-link>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-    <v-layout class="page">
-      <img
-        src="src\image\fronter\home\home_logo.svg"
-        height="100%"
-        class="img-background"
-      />
+    <v-layout class="page" v-if="show" justify-center>
+      <img src="../image/fronter/home/home_logo.svg" class="translogo" width="45%" />
+      <div class="name">FRONTER</div>
+      <div class="slogan">A Brand-New Spending App</div>
     </v-layout>
-  </v-card>-->
+  </transition>
 </template>
 
 <script>
@@ -46,6 +16,7 @@ let data = {
     { title: "統記", link: "/summary" },
     { title: "類別", link: "/point" }
   ],
+  show: true,
   drawer: false,
   login: false
 };
@@ -58,30 +29,72 @@ export default {
   },
   components: {},
   created() {},
+  methods: {
+    stopanima() {
+      let counter = 0;
+      if (counter < 3) {
+        counter = counter + 1;
+        console.log(counter);
+      } else {
+        self.show = !self.show;
+      }
+    },
+    function() {
+      var self = this;
+      setInterval(function() {
+        self.show = !self.show;
+      }, 1000);
+    }
+  },
   computed: {}
 };
 </script>
 
 <style lang="scss">
 * {
-  font-family: 微軟正黑體, Arial, Helvetica, sans-serif;
+  font-family: Microsoft YaHei UI, 微軟正黑體, Arial, Helvetica, sans-serif;
   background-color: #3d404e;
 }
 .page {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  /* width: 100vw; */
+  margin-top: 20vh;
   overflow: hidden;
   position: relative;
+}
+.translogo {
+  z-index: 1;
+}
+.name {
+  font-family: Calibri;
+  left: 30%;
+  color: #fff294;
+  font-size: 500%;
+  color: #fff294;
+  background-color: #ffffff00;
+  top: 20%;
+  font-weight: bold;
+  position: absolute;
+  z-index: 2;
+}
+.slogan {
+  color: #fff294;
+  background-color: #ffffff00;
+  font-size: 150%;
+  position: absolute;
+  right: 30%;
+  bottom: 28%;
+  z-index: 2;
 }
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.8s;
+  transition: all 0.8s;
 }
-.fade-enter,
+.fade-enter {
+  transform: translateY(-25px);
+  opacity: 0;
+}
 .fade-leave-to {
+  transform: translateY(-25px);
   opacity: 0;
 }
 </style>
