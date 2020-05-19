@@ -25,6 +25,7 @@ import Vuetify, {
   VForm,
   VIcon,
   VImg,
+  VLayout,
   VList,
   VListItem,
   VMenu,
@@ -70,6 +71,7 @@ Vue.use(Vuetify, {
     VForm,
     VIcon,
     VImg,
+    VLayout,
     VList,
     VListItem,
     VMenu,
@@ -89,8 +91,9 @@ Vue.use(Vuetify, {
 
 export default new Vuetify({
   theme: {
+    dark:true,
     themes: {
-      light: {
+      dark: {
         primary: "#efca16",
         secondary: "#26a69a", //"#424242",
         accent: "#9c27b0", //"#82B1FF",

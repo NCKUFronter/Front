@@ -10,7 +10,11 @@ import pointHistory from "../views/PointHistory.vue";
 import pointDelivery from "../views/PointDelivery.vue";
 import pointRedeem from "../views/PointRedeem.vue";
 import personalAccount from "../views/PersonalAccount.vue";
+import fronterHome from "../views/FronterHome.vue";
 import Vuetify from "vuetify/lib";
+import VueRellax from "vue-rellax";
+
+Vue.use(VueRellax);
 
 Vue.use(VueRouter);
 
@@ -54,6 +58,7 @@ const routes = [
       },
     ],
   },
+  { path: "/fronter_home", name: "FronterHomeName", component: fronterHome },
   {
     path: "/personal",
     name: "PersonalAccountName",
