@@ -5,7 +5,7 @@
 
       <h1 class="logo d-flex align-center">
         <img src="./assets/logo.png" class="pr-2" />
-        <div >星，際帳{{offsetTop}}</div>
+        <div v-if="login">星，際帳</div>
       </h1>
       <v-spacer />
 
@@ -66,17 +66,17 @@
       <!-- id="scroll-target" class="overflow-y-auto"  -->
       <!-- <v-app-bar class="mx-auto overflow-hidden" color="#efca16" elevate-on-scroll clipped-left app>
       </v-app-bar> -->
-    <v-container id="scroll-target" class="overflow-y-auto" fluid  v-if="!login" style=" padding: 0;">
+    <v-container id="scroll-target" class="all" fluid  v-if="!login" style=" padding: 0;">
       <!-- class="overflow-y-auto" -->
-      <div 
+      <!-- <div 
         v-scroll:#scroll-target="onScroll"
         align="center"
         class="all"
-        >
+        > -->
       <v-layout class="page">
         <!-- <v-parallax  src="./image/home/p1/bookkeeping2.png" style="width:100%;height:100%;padding:0" > -->
           <v-img src="./image/home/p1/background_block.svg"  class="background"></v-img>
-          <img src="./image/home/p1/middle-block.png" height="100%" class="planet" >
+          <img src="./image/home/p1/middle_block.png" height="120%" class="planet" >
           <!-- <img src="./image/home/p1/rocket.png" height="100%" class="rocket" > -->
           <img src="./image/home/p1/bookkeeping2.png" height="120%" class="book-keeping" v-rellax="{speed:-10,}" >  
           <img src="./image/home/p1/right_block_dark.svg" height="48.9%" class="right-block" >
@@ -86,6 +86,7 @@
               <h1 class="p1t2">透過社群記帳與遊戲，讓父母從小培養孩子的金錢觀</h1>
               <button color="white" class="p1btn" outlined>開始使用</button>
           </div>
+
         <!-- </v-parallax> -->
       </v-layout >
       <v-layout class="page">
@@ -95,44 +96,58 @@
           </transition>
           <transition name="cardfade">
           <div v-if="cardShow" class="feature-block" >
-            <div class="card pos1" v-rellax="{speed:2,}">
+            <div class="card pos1">
               <img src="./image/home/p2/feature_block_1.svg" height="100%">
               <v-card-text class="p2t2"> 社群記帳功能，讓父母與小孩共同記下生活中的每樣精采事物。</v-card-text>
             </div>
-            <div class="card pos2" v-rellax="{speed:1,}">
+            <div class="card pos2">
               <img src="./image/home/p2/feature_block_2.svg" height="100%">
               <v-card-text class="p2t2"> 藉由交易紀錄，讓孩子學習審視自己的金錢流，培養金錢進與出的觀念。</v-card-text>
             </div>
-            <div class="card pos1" v-rellax="{speed:2,}">
+            <div class="card pos1">
               <img src="./image/home/p2/feature_block_1.svg" height="100%">
               <v-card-text class="p2t2"> 在遊戲中使用回饋點數，讓孩子更加參與其中。</v-card-text>
             </div>
-            <div class="card pos2" v-rellax="{speed:1,}">
+            <div class="card pos2">
               <img src="./image/home/p2/feature_block_2.svg" height="100%">
               <v-card-text class="p2t2"> 綁定永豐銀行信用卡，自動登入每筆消費金額，記帳輕鬆無負擔。</v-card-text>
             </div>
           </div>
           </transition>
       </v-layout>
-      <v-layout class="page">
+      <v-layout v-if="account" class="page">
           <v-img src="./image/home/p3/background_block.svg"  class="background"></v-img>
+          
           <img src="./image/home/p3/img_background.svg" height="115%" class="img-background" >
           <img src="./image/home/p3/text_background.svg" height="100%" class="text-background">
           <img src="./image/home/p3/img.svg" height="88%" class="phone">
           <div class="p3Text">
-              <h1 class="p3t1" >星，際帳</h1>
+              <h1 class="p3t1" >星 · 際帳</h1>
               <h1 class="p3t2">在這裡，你可以體驗由永豐提供的智慧生活，記下日常<br>消費的每筆帳目，並獲得回饋</h1>
               <button color="white" class="p3btn" outlined>創建帳戶</button>
               <button color="white" class="p3btn" outlined>登入</button>
           </div>
+          <div class="p3bottom">
+            <button @click="account=false" class="p3t3 p3b1" style="opacity:20%;">遊戲</button>
+            <button @click="account=true" class="p3t3 p3b2" style="opacity:80%;">帳戶</button>
+          </div>    
       </v-layout>
-      <v-layout class="page">
+      <v-layout v-if="!account" class="page">
           <v-img src="./image/home/p4/background_block.svg"  class="background"></v-img>
           <img src="./image/home/p4/img_background.svg" height="115%" class="img4-background" >
           <img src="./image/home/p4/text_background.svg" height="100%" class="text4-background">
           <img src="./image/home/p4/img.svg" height="50%" class="ship">
+          <div class="p3Text">
+              <h1 class="p3t1" >宇宙 · 戰艦</h1>
+              <h1 class="p3t2">在遊戲中使用回饋點數，讓孩子也能樂於記帳</h1>
+              <button color="white" class="p4btn" outlined>開啟你的星際探險</button>
+          </div>
+          <div class="p3bottom">
+            <button @click="account=false" class="p3t3 p3b1" style="opacity:80%;">遊戲</button>
+            <button @click="account=true" class="p3t3 p3b2" style="opacity:20%">帳戶</button>
+          </div>
       </v-layout>
-      </div>
+      <!-- </div> -->
       </v-container>
       <div v-if="login" class="px-4">
         <router-view></router-view>
@@ -164,6 +179,7 @@ let data = {
   page1:false,
   offsetTop: 0,
   cardShow:false,
+  account:true,
 };
 
 export default {
@@ -176,19 +192,23 @@ export default {
     // SideMenu
   },
   created() {
-    // var that = this;
-    // this.$set(that, 'login', this.GLOBAL.loginStatus)
-    // console.log(this.GLOBAL.loginStatus)
-    // console.log(this.login)
+    window.addEventListener('scroll', this.onScroll);
+  },
+  destroyed () {
+    window.removeEventListener('scroll', this.onScroll);
   },
   computed: {},
-
   methods: {
     onScroll (e) {
-      this.offsetTop = e.target.scrollTop
-      if(this.offsetTop>400){
+      console.log(e);
+      var posY = (e.target.body || e.target.documentElement || e.target.body.parentNode).scrollTop || e.currentTarget.pageYOffset
+      this.offsetTop = posY
+      if(this.offsetTop>=400){
         this.cardShow=true;
-      }if(this.offsetTop>1100){
+      }else{
+        this.cardShow=false;
+      }
+      if(this.offsetTop>1050){
         this.cardShow=false;
       }
 
@@ -379,6 +399,7 @@ html {
 }
 .planet{
     position: absolute;
+    top: -19%;
     z-index: 4;
 }
 
@@ -387,7 +408,7 @@ html {
   width: 45%;
   background: #fff294;
   position: relative;
-  right:40%;
+  right:15%;
   margin-bottom: 8%;
 }
 .p1Text{
@@ -480,9 +501,13 @@ html {
   transition: all 2s ease;
 }
 
-.cardfade-enter, .cardfade-leave-to
-/* .slide-fade-leave-active for below version 2.1.8 */ {
+.cardfade-enter{
   transform: translateY(15px);
+  opacity: 0;
+}
+
+.cardfade-leave-to{
+  transform: translateY(-15px);
   opacity: 0;
 }
 
@@ -534,10 +559,33 @@ html {
   margin-left: 3%;
 }
 
-.p1btn:hover{
+.p3btn:hover{
   color: #fff294;
-  border: solid #fff294 1px;
+  border: solid #fff294 2px;
 
+}
+
+.p3bottom{
+  position: absolute;
+  bottom:4%;
+  width: 100%;
+ 
+}
+
+.p3t3{
+  display: inline;
+  font-size: 24px;
+  color: white;
+  font-family: Microsoft YaHei UI,微軟正黑體,Arial, Helvetica, sans-serif;
+}
+
+.p3b1{
+
+  margin-left:24%;
+}
+.p3b2{
+
+  margin-left:49%;
 }
 
 /* p4 */
@@ -554,5 +602,22 @@ html {
     position: absolute;
     left: 10%;
     top: 15%;
+}
+
+.p4btn{
+  border: solid white 1px;
+  width: 50%;
+  border-radius: 20px;
+  padding: 1%;
+  font-size: 14px;
+  color: white;
+  font-family: Microsoft YaHei UI,微軟正黑體,Arial, Helvetica, sans-serif;
+  margin-left: 3%;
+}
+
+.p4btn:hover{
+  color: #fff294;
+  border: solid #fff294 2px;
+
 }
 </style>
