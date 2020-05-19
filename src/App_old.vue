@@ -1,16 +1,7 @@
 <template>
   <v-app>
-    <v-app-bar
-      class="mx-auto overflow-hidden"
-      color="#efca16"
-      elevate-on-scroll
-      clipped-left
-      app
-    >
-      <v-app-bar-nav-icon
-        @click.stop="drawer = !drawer"
-        v-if="login"
-      ></v-app-bar-nav-icon>
+    <v-app-bar class="mx-auto overflow-hidden" color="#26282d" elevate-on-scroll clipped-left app>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="login"></v-app-bar-nav-icon>
       <!-- <v-menu bottom :offset-y="offset" transition="slide-x-transition" right>
         <template v-slot:activator="{ on }">
           <v-app-bar-nav-icon v-on="on"></v-app-bar-nav-icon>
