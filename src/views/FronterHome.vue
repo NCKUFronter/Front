@@ -50,11 +50,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
-* {
-  font-family: Microsoft YaHei UI, 微軟正黑體, Arial, Helvetica, sans-serif;
-  background-color: #3d404e;
-}
+<style scoped lang="scss">
 .page {
   margin-top: 20vh;
   overflow: hidden;
