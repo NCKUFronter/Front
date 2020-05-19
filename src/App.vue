@@ -118,34 +118,38 @@
       <v-layout v-if="account" class="page">
           <v-img src="./image/home/p3/background_block.svg"  class="background"></v-img>
           
-          <img src="./image/home/p3/img_background.svg" height="115%" class="img-background" >
-          <img src="./image/home/p3/text_background.svg" height="100%" class="text-background">
-          <img src="./image/home/p3/img.svg" height="88%" class="phone">
-          <div class="p3Text">
-              <h1 class="p3t1" >星 · 際帳</h1>
-              <h1 class="p3t2">在這裡，你可以體驗由永豐提供的智慧生活，記下日常<br>消費的每筆帳目，並獲得回饋</h1>
-              <button color="white" class="p3btn" outlined>創建帳戶</button>
-              <button color="white" class="p3btn" outlined>登入</button>
-          </div>
-          <div class="p3bottom">
-            <button @click="account=false" class="p3t3 p3b1" style="opacity:20%;">遊戲</button>
-            <button @click="account=true" class="p3t3 p3b2" style="opacity:80%;">帳戶</button>
-          </div>    
+          <transition name="cardfade"><img v-if="accountContent" src="./image/home/p3/img_background.svg" height="115%" class="img-background" ></transition>
+          <transition name="cardfade"><img v-if="accountContent" src="./image/home/p3/text_background.svg" height="100%" class="text-background"></transition>
+          <transition name="cardfade"><img v-if="accountContent" src="./image/home/p3/img.svg" height="88%" class="phone"></transition>
+          <transition name="cardfade">
+            <div v-if="accountContent" class="p3Text">
+                <h1 class="p3t1" >星 · 際帳</h1>
+                <h1 class="p3t2">在這裡，你可以體驗由永豐提供的智慧生活，記下日常<br>消費的每筆帳目，並獲得回饋</h1>
+                <button color="white" class="p3btn" outlined>創建帳戶</button>
+                <button color="white" class="p3btn" outlined>登入</button>
+            </div>
+          </transition>
+          <transition name="cardfade">
+            <div v-if="accountContent" class="p3bottom">
+              <button @click="account=false;accountCount=false;gameContent=true;" class="p3t3 p3b1" style="opacity:20%;">遊戲</button>
+              <button @click="account=true;accountCount=true;gameContent=false;" class="p3t3 p3b2" style="opacity:80%;">帳戶</button>
+            </div> 
+          </transition>   
       </v-layout>
       <v-layout v-if="!account" class="page">
           <v-img src="./image/home/p4/background_block.svg"  class="background"></v-img>
-          <img src="./image/home/p4/img_background.svg" height="115%" class="img4-background" >
-          <img src="./image/home/p4/text_background.svg" height="100%" class="text4-background">
-          <img src="./image/home/p4/img.svg" height="50%" class="ship">
-          <div class="p3Text">
+          <transition name="cardfade"><img v-if="gameContent" src="./image/home/p4/img_background.svg" height="115%" class="img4-background" ></transition>
+          <transition name="cardfade"><img v-if="gameContent" src="./image/home/p4/text_background.svg" height="100%" class="text4-background"></transition>
+          <transition name="cardfade"><img v-if="gameContent" src="./image/home/p4/img.svg" height="50%" class="ship"></transition>
+          <transition name="cardfade"><div v-if="gameContent" class="p3Text">
               <h1 class="p3t1" >宇宙 · 戰艦</h1>
               <h1 class="p3t2">在遊戲中使用回饋點數，讓孩子也能樂於記帳</h1>
               <button color="white" class="p4btn" outlined>開啟你的星際探險</button>
-          </div>
-          <div class="p3bottom">
-            <button @click="account=false" class="p3t3 p3b1" style="opacity:80%;">遊戲</button>
-            <button @click="account=true" class="p3t3 p3b2" style="opacity:20%">帳戶</button>
-          </div>
+          </div></transition>
+          <transition name="cardfade"><div v-if="gameContent" class="p3bottom">
+            <button @click="account=false;accountCount=false;gameContent=true;" class="p3t3 p3b1" style="opacity:80%;">遊戲</button>
+            <button @click="account=true;accountCount=true;gameContent=false;" class="p3t3 p3b2" style="opacity:20%">帳戶</button>
+          </div></transition>
       </v-layout>
       <!-- </div> -->
       </v-container>
@@ -180,6 +184,8 @@ let data = {
   offsetTop: 0,
   cardShow:false,
   account:true,
+  accountContent:false,
+  gameContent:false,
 };
 
 export default {
@@ -199,17 +205,30 @@ export default {
   },
   computed: {},
   methods: {
+    // gameBtn(){
+    //   this.account=true;
+    //   this.accountCount=true;
+    //   this.gameContent=true;
+    // },
     onScroll (e) {
       console.log(e);
       var posY = (e.target.body || e.target.documentElement || e.target.body.parentNode).scrollTop || e.currentTarget.pageYOffset
       this.offsetTop = posY
-      if(this.offsetTop>=400){
+      if(this.offsetTop>=300){
         this.cardShow=true;
       }else{
         this.cardShow=false;
       }
-      if(this.offsetTop>1050){
+      if(this.offsetTop>=1050){
         this.cardShow=false;
+        if(this.account){
+          this.accountContent=true;
+        }else{
+          this.gameContent=true;
+        }
+      }else{
+        this.accountContent=false;
+        this.gameContent=false;
       }
 
     },
@@ -267,6 +286,7 @@ export default {
         .catch(console.log);
     }
   }
+  
 };
 </script>
 
@@ -502,16 +522,16 @@ html {
 }
 
 .cardfade-enter-active, .cardfade-leave-active{
-  transition: all 2s ease;
+  transition: all 1s ease;
 }
 
 .cardfade-enter{
-  transform: translateY(15px);
+  transform: translateY(30px);
   opacity: 0;
 }
 
 .cardfade-leave-to{
-  transform: translateY(-15px);
+  transform: translateY(-30px);
   opacity: 0;
 }
 
@@ -527,7 +547,6 @@ html {
     position: absolute;
     left: 10%;
     top: 18%;
-    transition: .9s ease-in;
 }
 
 .p3Text{
