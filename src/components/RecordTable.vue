@@ -1,7 +1,9 @@
 <template>
-  <div>
-    <v-data-table :headers="headers" :items="filterAccountData" sort-by="money">
+  <div class="recordTable">
+    <div class="header-background"></div>
+    <v-data-table class="record" :headers="headers" :items="filterAccountData" sort-by="money" >
       <!-- recordType -->
+      
       <template v-slot:item.recordType="{ item }">
         <!--v-chip :color="getColor(item.recordType)"-->
         <!-- <v-icon left>getIcon()</v-icon>-->
@@ -18,9 +20,9 @@
       </template>
 
       <!-- category -->
-      <!--template v-slot:item.category="{ item }">
-        <div>{{ (item.category) ? item.category.name : '未知' }}</div>
-      </template-->
+      <template v-slot:item.categoryId="{ item }">
+        <v-chip :color="getCateColor(item.category.name)" label style="width:100%;height:5vh;" class="justify-center">{{item.category.name}}</v-chip>
+      </template>
 
       <!-- hashtags -->
       <template v-slot:item.hashtags="{ item }">
@@ -50,6 +52,7 @@
         </div>
       </template>
     </v-data-table>
+  
   </div>
 </template>
 
@@ -75,8 +78,8 @@ export default {
         },
         {
           text: "類別",
-          align: "start",
-          value: "category.name"
+          align: "center",
+          value: "categoryId",
         },
         {
           text: "標籤",
@@ -123,11 +126,13 @@ export default {
   props: ["userDate", "ledgerSelected", "accountData"],
   created() {},
   computed: {
+
     filterAccountData() {
       // return this.filterLedgerData.filter(item => {
       return this.accountData.filter(item => {
         return getLocaleDate(item.date) === this.userDate;
       });
+
     },
     filterLedgerData() {
       if (this.ledgerSelected != "All") {
@@ -140,6 +145,22 @@ export default {
     }
   },
   methods: {
+    getCateColor(cate){
+      console.log(cate)
+      if(cate=="食物"){
+        return '#FED37A'
+      }else if(cate=="娛樂"){
+        return "#DF764C"
+      }else if(cate=="醫療"){
+        return "#A24A8E"
+      }else if(cate=="交通"){
+        return "#5D63AF"
+      }else if(cate=="治裝"){
+        return "#C2CCB3"
+      }else{
+        return "#509883"
+      }
+    },
     getColor(recordType) {
       if (recordType == "income") return "red";
       else return "yellow";
@@ -170,12 +191,48 @@ export default {
 };
 </script>
 
-<style>
+<style >
 .accountSelect,
 .categorySelect,
 .flowSelect {
   border-bottom: #cccccc 1px solid;
   margin-top: 10%;
   padding: 3%;
+  
+}
+
+
+
+.recordTable .v-data-table-header th,
+.recordTable .v-data-table tbody tr
+{
+  height: 8vh;
+}
+
+.recordTable{
+  width: 100%;
+  position: relative;
+  
+}
+
+.recordTable .v-chip--label {
+    border-radius: 10px !important;
+}
+
+.header-background{
+  background-color: white; 
+  opacity: 20%;
+  width: 100%;
+  height: 8vh;
+  border-radius: 10px;
+  position: absolute;
+}
+
+.theme--dark.v-tabs > .v-tabs-bar {
+    background-color: transparent;
+}
+
+.v-data-table{
+  background-color: transparent ! important;
 }
 </style>

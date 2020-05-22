@@ -62,7 +62,7 @@
       <v-btn icon large @click="newRecord" class="add-record elevation-8">
         <v-icon large color="#fff">mdi-plus</v-icon>
       </v-btn>
-      <v-dialog persistent v-model="modalOpen" width="unset">
+      <!-- <v-dialog persistent v-model="modalOpen" width="unset"> -->
         <EditRecord
           @close="modalOpen = false"
           @add="fetchRecords"
@@ -70,8 +70,9 @@
           :userDate="userDate"
           :oldForm="selectedRecord"
           :ledgerSelected="ledgerSelected"
+          v-if="modalOpen"
         ></EditRecord>
-      </v-dialog>
+      <!-- </v-dialog> -->
     </div>
   </v-container>
 </template>
