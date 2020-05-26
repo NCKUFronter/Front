@@ -1,17 +1,7 @@
 <template>
   <v-app>
-    <v-app-bar
-      transition="slide-y-transition"
-      color="transparent"
-      clipped
-      :flat="!login"
-      app
-      dense
-    >
-      <v-app-bar-nav-icon
-        @click.stop="drawer = !drawer"
-        v-if="login"
-      ></v-app-bar-nav-icon>
+    <v-app-bar transition="slide-y-transition" color="transparent" clipped :flat="!login" app dense>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="login"></v-app-bar-nav-icon>
       <!-- v-if="login && $vuetify.breakpoint.smAndDown" -->
       <h1 class="logo d-flex align-center">
         <img src="./assets/logo.png" class="pr-2" />
@@ -70,8 +60,8 @@
       v-if="login"
       temporary
     >
-          <!-- :permanent="$vuetify.breakpoint.mdAndUp"
-      :temporary="$vuetify.breakpoint.smAndDown" -->
+      <!-- :permanent="$vuetify.breakpoint.mdAndUp"
+      :temporary="$vuetify.breakpoint.smAndDown"-->
       <v-list nav>
         <v-list-item
           v-for="(item, index) in menu"
@@ -102,7 +92,12 @@
           <v-img src="./assets/home/p1/background_block.svg" class="background"></v-img>
           <img src="./assets/home/p1/middle_block.png" height="120%" class="planet" />
           <!-- <img src="./assets/home/p1/rocket.png" height="100%" class="rocket" > -->
-          <img src="./assets/home/p1/bookkeeping2.png" height="120%" class="book-keeping" v-rellax="{speed:-10,}"/>
+          <img
+            src="./assets/home/p1/bookkeeping2.png"
+            height="120%"
+            class="book-keeping"
+            v-rellax="{speed:-10,}"
+          />
           <img src="./assets/home/p1/right_block_dark.svg" height="48.9%" class="right-block" />
           <div class="p1Text">
             <div class="p1rec"></div>
@@ -197,10 +192,19 @@
           </transition>
         </v-layout>
 
-        <v-layout class="footer" >
+        <v-layout class="footer">
           <v-flex xs4 sm4 md4 style="margin:auto;padding-left:8%;">
-            <v-card-title class="pa-0 mb-8" style="font-weight:bold; font-size:16px">UIDD-FRONTER x Bank SinoPac</v-card-title>
-            <v-card-title class="pa-0 mb-4" style="font-weight:bold; font-size:16px; line-height:130%">Copyright 2020,<br>National Cheng Kung University</v-card-title>
+            <v-card-title
+              class="pa-0 mb-8"
+              style="font-weight:bold; font-size:16px"
+            >UIDD-FRONTER x Bank SinoPac</v-card-title>
+            <v-card-title
+              class="pa-0 mb-4"
+              style="font-weight:bold; font-size:16px; line-height:130%"
+            >
+              Copyright 2020,
+              <br />National Cheng Kung University
+            </v-card-title>
           </v-flex>
           <v-flex xs2.5 sm2.5 md2.5 style="margin:auto;padding-left:2%;">
             <v-card-title class="pa-0 mb-6" style="font-weight:bold;font-size:24px;">星際帳</v-card-title>
@@ -211,9 +215,7 @@
               active-class="active"
               dense
               class="footerAccount"
-            >
-              {{ item.title }}
-            </v-text>
+            >{{ item.title }}</v-text>
           </v-flex>
           <v-flex xs2.5 sm2.5 md2.5 style="margin:auto;">
             <v-card-title class="pa-0 mb-6" style="font-weight:bold;font-size:24px;">宇宙戰艦</v-card-title>
@@ -224,11 +226,9 @@
               active-class="active"
               dense
               class="footerAccount"
-            >
-              {{ item.title }}
-            </v-text>
+            >{{ item.title }}</v-text>
           </v-flex>
-          <v-flex xs3 sm3 md3 class="text-center" style="margin:auto;border-left:3px white solid;"> 
+          <v-flex xs3 sm3 md3 class="text-center" style="margin:auto;border-left:3px white solid;">
             <v-text
               v-for="(item, index) in footerLink"
               :key="index"
@@ -236,9 +236,7 @@
               active-class="active"
               dense
               class="footerLink"
-            >
-              {{ item.title }}
-            </v-text>
+            >{{ item.title }}</v-text>
           </v-flex>
         </v-layout>
         <!-- </div> -->
@@ -301,33 +299,40 @@ let data = {
     { icon: "mdi-chart-arc", title: "統計圖產生", link: "/summary" },
     { icon: "mdi-alpha-p-circle", title: "點數管理", link: "/point" },
     { icon: "mdi-cash-multiple", title: "帳目管理", link: "/accounting" },
-    { icon: "mdi-shape-outline",title: "管理類別",link: "/accounting/Category"},
-    { icon: "mdi-book-multiple-outline",title: "管理帳本",link: "/accounting/Ledger"}
+    {
+      icon: "mdi-shape-outline",
+      title: "管理類別",
+      link: "/accounting/Category"
+    },
+    {
+      icon: "mdi-book-multiple-outline",
+      title: "管理帳本",
+      link: "/accounting/Ledger"
+    }
   ],
-  footerAccount:[
-    {title:'認識星際帳',link:''},
-    {title:'如何使用',link:''},
-    {title:'記下你的第一筆精彩',link:''},
+  footerAccount: [
+    { title: "認識星際帳", link: "" },
+    { title: "如何使用", link: "" },
+    { title: "記下你的第一筆精彩", link: "" }
   ],
-  footerGame:[
-    {title:'做好登艦準備',link:''},
-    {title:'如何成為一位優良艦長',link:''},
-    {title:'開始星際航行',link:''},
+  footerGame: [
+    { title: "做好登艦準備", link: "" },
+    { title: "如何成為一位優良艦長", link: "" },
+    { title: "開始星際航行", link: "" }
   ],
-  footerLink:[
-    {title:'facebook',link:''},
-    {title:'instagram',link:''},
-    {title:'twitter',link:''},
+  footerLink: [
+    { title: "facebook", link: "" },
+    { title: "instagram", link: "" },
+    { title: "twitter", link: "" }
   ],
 
   drawer: false,
   offsetTop: 0,
   cardShow: false,
-  parents:true,
+  parents: true,
   account: true,
-  accountContent:false,
-  gameContent:false,
-  
+  accountContent: false,
+  gameContent: false
 };
 
 export default {
@@ -383,20 +388,21 @@ export default {
     }
   },
   methods: {
-
     onScroll(e) {
       // console.log(e);
-      var posY = (e.target.body || e.target.documentElement || e.target.body.parentNode).scrollTop || e.currentTarget.pageYOffset
-      this.offsetTop = posY
-      if(this.offsetTop>=1000){
+      var posY =
+        (e.target.body || e.target.documentElement || e.target.body.parentNode)
+          .scrollTop || e.currentTarget.pageYOffset;
+      this.offsetTop = posY;
+      if (this.offsetTop >= 1000) {
         // this.cardShow=false;
-        this.parents=false;
-      }else if(this.offsetTop>=250){
-        this.cardShow=true;
-        this.parents=true;
-      }else{
-        this.cardShow=false;
-        this.parents=true;
+        this.parents = false;
+      } else if (this.offsetTop >= 250) {
+        this.cardShow = true;
+        this.parents = true;
+      } else {
+        this.cardShow = false;
+        this.parents = true;
       }
 
       if(this.offsetTop>=950){
@@ -540,8 +546,6 @@ html {
   }
 }
 
-
-
 /* width */
 ::-webkit-scrollbar {
   width: 10px;
@@ -579,18 +583,17 @@ html {
   /* background-color: springgreen; */
 }
 
-.footer{
+.footer {
   height: 30%;
   background-color: #26282d;
-
 }
 
-.footerAccount{
+.footerAccount {
   display: block;
   line-height: 130%;
 }
 
-.footerLink{
+.footerLink {
   display: block;
   font-weight: bold;
   line-height: 250%;
@@ -613,9 +616,8 @@ html {
 .parents {
   position: absolute;
   z-index: 4;
-  top:70%;
+  top: 70%;
   left: 12%;
-  
 }
 .planet {
   position: absolute;
@@ -695,14 +697,12 @@ html {
   z-index: 5;
 }
 
-.p2Icon{
+.p2Icon {
   position: absolute;
   top: 12%;
   left: 0;
   width: 100%;
   padding-right: 7%;
-  
-
 }
 
 .v-card__text.p2t2 {
@@ -745,7 +745,7 @@ html {
 .leftIn-leave-active,
 .rightIn-enter-active,
 .rightIn-leave-active {
-  transition: all 1s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  transition: all 1s cubic-bezier(1, 0.5, 0.8, 1);
 }
 
 .leftIn-enter,
@@ -760,14 +760,14 @@ html {
   opacity: 0;
 }
 
-.fade-enter-active, 
+.fade-enter-active,
 .fade-leave-active {
   transition: opacity 2s;
 }
-.fade-enter, .fade-leave-to {
+.fade-enter,
+.fade-leave-to {
   opacity: 0;
 }
-
 
 /* p3 */
 .img-background {
