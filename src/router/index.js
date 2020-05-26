@@ -26,62 +26,62 @@ const routes = [
       title: "首頁",
     },
   },
-  {
-    path: "/accounting",
-    name: "SideAccountName",
-    component: SideAccount,
-    meta: {
-      title: "帳目管理",
-    },
-  },
-  {
-    path: "/accounting/Category",
-    name: "CategoryName",
-    component: Category,
-    meta: {
-      title: "管理類別",
-    },
-  },
-  {
-    path: "/accounting/Ledger",
-    name: "LedgerName",
-    component: LedgerManagement,
-    meta: {
-      title: "管理帳本",
-    },
-  },
   // {
   //   path: "/accounting",
-  //   // name: "AcountingName",
-  //   props: true,
-  //   component: Accounting,
-  //   children: [
-  //     {
-  //       path: "",
-  //       name: "SideAccountName",
-  //       component: SideAccount,
-  //       meta: {
-  //         title: "帳目管理",
-  //       },
-  //     },
-  //     {
-  //       path: "Category",
-  //       name: "CategoryName",
-  //       component: Category,
-  //       meta: {
-  //         title: "管理類別",
-  //       },
-  //     },
-  //     {
-  //       path: "Ledger",
-  //       name: "LedgerName",
-  //       component: LedgerManagement,
-  //       meta: {
-  //         title: "管理帳本",
-  //       },
-  //     },
-  //   ],
+  //   name: "SideAccountName",
+  //   component: SideAccount,
+  //   meta: {
+  //     title: "帳目管理",
+  //   },
   // },
+  // {
+  //   path: "/accounting/Category",
+  //   name: "CategoryName",
+  //   component: Category,
+  //   meta: {
+  //     title: "管理類別",
+  //   },
+  // },
+  // {
+  //   path: "/accounting/Ledger",
+  //   name: "LedgerName",
+  //   component: LedgerManagement,
+  //   meta: {
+  //     title: "管理帳本",
+  //   },
+  // },
+  {
+    path: "/accounting",
+    // name: "AcountingName",
+    props: true,
+    component: Accounting,
+    children: [
+      {
+        path: "",
+        name: "SideAccountName",
+        component: SideAccount,
+        meta: {
+          title: "帳目管理",
+        },
+      },
+      {
+        path: "Category",
+        name: "CategoryName",
+        component: Category,
+        meta: {
+          title: "管理類別",
+        },
+      },
+      {
+        path: "Ledger",
+        name: "LedgerName",
+        component: LedgerManagement,
+        meta: {
+          title: "管理帳本",
+        },
+      },
+    ],
+  },
   { path: "/fronter_home", name: "FronterHomeName", component: fronterHome },
   {
     path: "/personal",

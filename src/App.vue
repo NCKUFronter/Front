@@ -116,7 +116,9 @@
 
           <!-- </v-parallax> -->
         </v-layout>
+        <v-layout>
         <transition name="fade"><img v-if="parents" src="./assets/home/p1/parents.svg" height="70%" class="parents" v-rellax="{speed:-4.5,}" /></transition>
+        </v-layout>
         <v-layout class="page">
           <v-img src="./assets/home/p2/background_block.svg" class="background"></v-img>
           <transition name="cardfade">
@@ -150,8 +152,9 @@
         <v-layout class="page" style="background-color: #26282d;">
           <!-- <v-img src="./assets/home/p3/background_block.svg"  class="background"></v-img> -->
           <transition name="fade">
-          <div v-if="account" class="account">
-            <transition name="cardfade"><img v-if="accountContent" src="./assets/home/p3/img_background.svg" height="115%" class="img-background" ></transition>
+          <div class="account">
+             <!-- v-if="account" -->
+            <transition name="leftIn"><img v-if="accountContent" src="./assets/home/p3/img_background.svg" height="115%" class="img-background" ></transition>
             <transition name="rightIn"><img v-if="accountContent" src="./assets/home/p3/text_background.svg" height="100%" class="text-background"></transition>
             <transition name="rightIn"><img v-if="accountContent" src="./assets/home/p3/img.svg" height="88%" class="phone"></transition>
             <transition name="cardfade">
@@ -164,16 +167,19 @@
             </transition>
             <transition name="cardfade">
               <div v-if="accountContent" class="p3bottom">
-                <button @click="account=false;accountContent=false;gameContent=true;" class="p3t3 p3b1" style="opacity:20%;">遊戲</button>
-                <button @click="account=true;accountContent=true;gameContent=false;" class="p3t3 p3b2" style="opacity:80%;">帳戶</button>
+                <button  class="p3t3 p3b1" style="opacity:20%;">遊戲</button>
+                <!-- @click="account=false;accountContent=false;gameContent=true;" -->
+                <button  class="p3t3 p3b2" style="opacity:80%;">帳戶</button>
+                <!-- @click="account=true;accountContent=true;gameContent=false;" -->
               </div> 
             </transition>   
           </div>
           </transition>
-          
+        </v-layout>
+        <v-layout class="page" style="background-color: #26282d;">
           <transition name="fade">
-          <div v-if="!account" class="game">
-            <transition name="cardfade"><img v-if="gameContent" src="./assets/home/p4/img_background.svg" height="115%" class="img4-background" ></transition>
+          <div class="game">
+            <transition name="rightIn"><img v-if="gameContent" src="./assets/home/p4/img_background.svg" height="115%" class="img4-background" ></transition>
             <transition name="leftIn"><img v-if="gameContent" src="./assets/home/p4/text_background.svg" height="100%" class="text4-background"></transition>
             <transition name="leftIn"><img v-if="gameContent" src="./assets/home/p4/img.svg" height="50%" class="ship"></transition>
             <transition name="cardfade"><div v-if="gameContent" class="p3Text">
@@ -182,8 +188,10 @@
                 <button color="white" class="p4btn" outlined>開啟你的星際探險</button>
             </div></transition>
             <transition name="cardfade"><div v-if="gameContent" class="p3bottom">
-              <button @click="account=false;accountContent=false;gameContent=true;" class="p3t3 p3b1" style="opacity:80%;">遊戲</button>
-              <button @click="account=true;accountContent=true;gameContent=false;" class="p3t3 p3b2" style="opacity:20%">帳戶</button>
+              <button  class="p3t3 p3b1" style="opacity:80%;">遊戲</button>
+              <!-- @click="account=false;accountContent=false;gameContent=true;" -->
+              <button class="p3t3 p3b2" style="opacity:20%">帳戶</button>
+              <!-- @click="account=true;accountContent=true;gameContent=false;"  -->
             </div></transition>
           </div>
           </transition>
@@ -392,14 +400,27 @@ export default {
       }
 
       if(this.offsetTop>=950){
-        if(this.account){
-          this.accountContent=true;
-        }else{
-          this.gameContent=true;
-        }
+        this.accountContent=true;
+        // if(this.account){
+        //   this.accountContent=true;
+        // }else{
+        //   this.gameContent=true;
+        // }
       }else{
         this.accountContent=false;
+        // this.gameContent=false;
+      }
+
+      if(this.offsetTop>=1700){
+        this.gameContent=true;
+        // if(this.account){
+        //   this.accountContent=true;
+        // }else{
+        //   this.gameContent=true;
+        // }
+      }else{
         this.gameContent=false;
+        // this.gameContent=false;
       }
     },
     toLogin() {
@@ -825,7 +846,7 @@ html {
 .img4-background {
   position: absolute;
   right: -3%;
-  top: -34%;
+  top: -33.5%;
 }
 .text4-background {
   position: absolute;

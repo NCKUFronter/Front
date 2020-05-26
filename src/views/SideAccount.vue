@@ -1,6 +1,7 @@
 <template>
-  <v-container flat>
-    <div class="sub-header account-upper">
+  <!-- <v-container flat> -->
+    <v-card flat  class="account-all" v-if="!modalOpen">
+    <div class=" account-upper" style="margin-bottom:1%">
       <div data-app class="ledgerSelect">
         <v-select
           v-model="ledgerSelected"
@@ -19,23 +20,32 @@
       </div>
 
       <div class="date-wrap" @blur="dataPickerModal=false">
-        <i class="material-icons" v-on:click="getYearMonthDate(-1)">arrow_left</i>
+        <!-- <i class="material-icons" v-on:click="getYearMonthDate(-1)">arrow_left</i> -->
+        <v-card flat class="ma-auto" v-on:click="getYearMonthDate(-1)"  style="position:relative;">
+        <div>{{preDate}}</div>
+        <div style="position:absolute;top:0;height:100%;width:100%;background: linear-gradient(to right,rgba(61,64,78,1),rgba(61,64,78,0.85),transparent);"></div>
+        </v-card>
 
         <DateInputPicker
           v-model="userDate"
           color="primary"
           :left="107"
           transition="scroll-y-transition"
+          class="ma-auto"
         >
           <template v-slot:activator="{ on, value }">
             <div class="date" v-on="on">{{ value }}</div>
           </template>
         </DateInputPicker>
 
-        <i class="material-icons" v-on:click="getYearMonthDate(1)">arrow_right</i>
+        <v-card flat class="ma-auto" v-on:click="getYearMonthDate(1)"  style="position:relative;">
+        <div>{{nextDate}}</div>
+        <div style="position:absolute;top:0;height:100%;width:100%;background: linear-gradient(to left,rgba(61,64,78,1),rgba(61,64,78,0.85),transparent);"></div>
+        </v-card>
+        <!-- <i class="material-icons" v-on:click="getYearMonthDate(1)">arrow_right</i> -->
       </div>
 
-      <div class="point">
+      <!-- <div class="point">
         <h6>累積點數: {{totalPoints}}</h6>
       </div>
       <div class="total">
@@ -45,7 +55,7 @@
         <div class="expenses">
           <h6>總支出: {{totalExpense}}</h6>
         </div>
-      </div>
+      </div> -->
     </div>
 
     <div class="account-down">
@@ -59,22 +69,24 @@
 
       <!-- 原本用v-on:click控制modal變數，顯示modal，現在改以不同view -->
       <!-- <a v-on:click="modal = !modal" href="##additem###" class="material-icons">add_circle</a> -->
-      <v-btn icon large @click="newRecord" class="add-record elevation-8">
-        <v-icon large color="#fff">mdi-plus</v-icon>
-      </v-btn>
       <!-- <v-dialog persistent v-model="modalOpen" width="unset"> -->
-        <EditRecord
+      <!-- </v-dialog> -->
+    </div>
+    <v-btn icon large @click="newRecord" class="add-record elevation-8">
+        <v-icon large color="#3D404E">mdi-plus</v-icon>
+    </v-btn>
+    </v-card>
+    <div class="account-edit"  v-else>
+      <EditRecord
           @close="modalOpen = false"
           @add="fetchRecords"
           @update="fetchRecords"
           :userDate="userDate"
           :oldForm="selectedRecord"
-          :ledgerSelected="ledgerSelected"
-          v-if="modalOpen"
-        ></EditRecord>
-      <!-- </v-dialog> -->
+          :ledgerSelected="ledgerSelected"     
+      ></EditRecord>
     </div>
-  </v-container>
+  <!-- </v-container> -->
 </template>
 
 <script>
@@ -88,6 +100,8 @@ let data = {
   ledgerSelected: null,
   // ledger: ["All", "Main Account", "Bank SinoPac"],
   userDate: getLocaleDate(new Date()),
+  preDate:getLocaleDate(new Date().setDate(new Date().getDate()-1)),
+  nextDate:getLocaleDate(new Date().setDate(new Date().getDate()+1)),
   accountData: [],
   dataPickerModal: false,
   selectedRecord: null
@@ -178,6 +192,8 @@ export default {
         let t = new Date(this.userDate);
         t.setDate(t.getDate() + index);
         this.userDate = getLocaleDate(t);
+        this.preDate=getLocaleDate(new Date(this.userDate).setDate(new Date(this.userDate).getDate()-1));
+        this.nextDate=getLocaleDate(new Date(this.userDate).setDate(new Date(this.userDate).getDate()+1));
       }
     },
     click() {
@@ -197,6 +213,15 @@ export default {
 </script>
 
 <style scoped lang="scss">
+
+
+
+.account-all{
+  
+  padding: 2% 15%;
+  position: relative;
+}
+
 .account-upper {
   display: flex;
   /* justify-content: center; */
@@ -220,7 +245,7 @@ export default {
 }
 .date-wrap {
   margin: auto;
-  width: 40%;
+  width: 45%;
   margin-left: 3%;
   align-items: center;
   display: flex;
@@ -254,14 +279,19 @@ export default {
   }
 }
 .account-down {
-  padding-bottom: 10%;
+  // padding-bottom: 10%;
+  position: relative;
+}
+
   .add-record {
-    background-color: #fe4e00;
+    background-color: white;
     position: absolute;
-    bottom: 20px;
-    right: 30px;
-    position: fixed;
+    bottom: 5%;
+    right: 3%;
     /*border-radius: #cccccc solid 2px 4;*/
   }
+
+.theme--dark.v-sheet{
+  background-color: transparent;
 }
 </style>

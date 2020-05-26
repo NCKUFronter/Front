@@ -1,122 +1,139 @@
 <template>
-  <v-card class="py-6 px-12" elevation="10" color="#fff7d3">
-    <div class="modal-flow row">
-      <h3 @click="form.recordType = 'expense'" :class="{ 'flow-selected': !isIncome, col: 1 }">
-        <v-icon class="pb-3">mdi-cash-minus</v-icon>支出
-      </h3>
-      <h3 @click="form.recordType = 'income'" :class="{ 'flow-selected': isIncome, col: 1 }">
-        <v-icon class="pb-3">mdi-cash-plus</v-icon>收入
-      </h3>
-    </div>
+    <v-card flat style="padding: 3% 0% 2% 7%;">
+        <form class="modal-content" >
+        <v-layout row>
+            <v-flex xs12 sm3 md3 
+            style="border-right: solid 3px #dddee2;">
+                <!-- <v-card v-for="item in userCategories" :key="item" > -->
+                  <v-btn ref="category"  @click="categorySelect(index,item.categoryId)" 
+                  v-for="(item,index) in userCategories" :key="index" class="cate elevation-0" 
+                  style="margin:5%;height:fit-content;width:80px;border-radius:50px;background-color:#3D404E;">
+                    <v-avatar :color="item.color" size="80"  style=" border:double 5px #3D404E" >
+                        <span style="color:#3D404E; font-weight:bold">{{item.name}}</span>
+                    </v-avatar>
+                  </v-btn>
+                <!-- </v-card> -->
+            </v-flex>
+            <v-flex xs12 sm8 md8 class="ml-7" style="padding:2% 15%">
+                <div class="modal-flow row">
+                <h3 @click="form.recordType = 'expense'" :class="{ 'flow-selected': !isIncome, col: 1 }">
+                    <!-- <v-icon class="pb-3">mdi-cash-minus</v-icon> -->
+                    支出
+                </h3>
+                <h3 @click="form.recordType = 'income'" :class="{ 'flow-selected': isIncome, col: 1 }">
+                    <!-- <v-icon class="pb-3">mdi-cash-plus</v-icon> -->
+                    收入
+                </h3>
+                </div>
 
-    <form class="modal-content">
-      <DateInputPicker
-        v-model="form.date"
-        color="primary"
-        transition="scroll-y-transition"
-        :top="35"
-      >
-        <template v-slot:activator="{ on, value }">
-          <v-text-field
-            color="primary"
-            label="日期"
-            prepend-icon="mdi-calendar-range"
-            readonly
-            :value="value"
-            v-on="on"
-            outlined
-            dense
-          ></v-text-field>
-        </template>
-      </DateInputPicker>
+                
+                <DateInputPicker
+                    v-model="form.date"
+                    color="primary"
+                    transition="scroll-y-transition"
+                    :top="35"
+                >
+                    <template v-slot:activator="{ on, value }">
+                    <v-text-field
+                        color="primary"
+                        prepend-icon="mdi-calendar-range"
+                        readonly
+                        :value="value"
+                        v-on="on"
+                        filled
+                        dense
+                        hide-details
+                        style="margin:4% 0% 8% 0%;"
+                    ></v-text-field>
+                    </template>
+                </DateInputPicker>
 
-      <div class="modal-account">
-        <v-select
-          v-model="form.ledgerId"
-          dense
-          label="帳本"
-          outlined
-          prepend-icon="mdi-book-outline"
-          color="primary"
-          item-text="ledgerName"
-          item-value="_id"
-          :items="userLedgers"
-        ></v-select>
-        <!--select v-model="form.ledger">
-          <option value>請選擇</option>
-          <option
-            v-for="(item, index) in modalAccount"
-            :value="item.accountCate"
-            :key="index"
-          >{{ item.accountCate }}</option>
-        </select-->
-      </div>
+                <div class="modal-account">
+                    <v-select
+                    v-model="form.ledgerId"
+                    dense
+                    filled
+                    prepend-icon="mdi-book-outline"
+                    color="primary"
+                    item-text="ledgerName"
+                    item-value="_id"
+                    :items="userLedgers"
+                    hide-details
+                    style="margin:8% 0%; "
+                    ></v-select>
+                    <!--select v-model="form.ledger">
+                    <option value>請選擇</option>
+                    <option
+                        v-for="(item, index) in modalAccount"
+                        :value="item.accountCate"
+                        :key="index"
+                    >{{ item.accountCate }}</option>
+                    </select-->
+                </div>
 
-      <div class="modal-cate">
-        <!--select v-model="form.categoryId">
-          <option value>請選擇</option>
-          <option v-for="cate in modalCategory" :value="cate._id" :key="cate._id">{{ cate.name }}</option>
-        </select-->
-        <v-select
-          v-model="form.categoryId"
-          dense
-          prepend-icon="mdi-shape-outline"
-          color="primary"
-          label="類別"
-          item-text="name"
-          item-value="_id"
-          outlined
-          :items="userCategories"
-        ></v-select>
-      </div>
+                <!-- <div class="modal-cate">
+                    <v-select
+                    v-model="form.categoryId"
+                    dense
+                    prepend-icon="mdi-shape-outline"
+                    color="primary"
+                    item-text="name"
+                    item-value="_id"
+                    filled
+                    :items="userCategories"
+                    ></v-select>
+                </div> -->
 
-      <div class="modal-money">
-        <v-text-field
-          dense
-          prepend-icon="mdi-cash-100"
-          v-model="form.money"
-          label="金額"
-          outlined
-          type="number"
-          name="money"
-        ></v-text-field>
-      </div>
+                <div class="modal-money">
+                    <v-text-field
+                    dense
+                    prepend-icon="mdi-cash-100"
+                    v-model="form.money"
+                    filled
+                    type="number"
+                    name="money"
+                    hide-details
+                    style="margin:8% 0%"
+                    ></v-text-field>
+                </div>
 
-      <v-combobox
-        v-model="form.hashtags"
-        :items="categoryHashTags"
-        chips
-        clearable
-        append-icon
-        label="標籤"
-        multiple
-        outlined
-        prepend-icon="mdi-tag-multiple-outline"
-        light
-        color="#efca16"
-      >
-        <template v-slot:selection="{ attrs, item, select, selected }">
-          <v-chip
-            v-bind="attrs"
-            :input-value="selected"
-            close
-            @click="select"
-            @click:close="remove(item)"
-          >
-            <strong>{{ item }}</strong>&nbsp;
-          </v-chip>
-        </template>
-      </v-combobox>
+                <v-combobox
+                    v-model="form.hashtags"
+                    :items="categoryHashTags"
+                    chips
+                    clearable
+                    append-icon
+                    multiple
+                    filled
+                    hide-details
+                    prepend-icon="mdi-tag-multiple-outline"
+                    color="white"
+                    style="margin:8% 0%"
+                >
+                    <template v-slot:selection="{ attrs, item, select, selected }">
+                    <v-chip
+                        v-bind="attrs"
+                        :input-value="selected"
+                        close
+                        @click="select"
+                        @click:close="remove(item)"
+                    >
+                        <strong>{{ item }}</strong>&nbsp;
+                    </v-chip>
+                    </template>
+                </v-combobox>
 
-      <div class="modal-button row justify-center">
-        <v-btn v-if="oldForm == null" @click="addRecord" class="add" color="#efca16">新增</v-btn>
-        <v-btn v-else @click="editRecord" class="add" color="#efca16">修改</v-btn>
-        <v-btn @click="onModalClose" class="cancel" color="#cccccc">取消</v-btn>
-      </div>
-    </form>
-  </v-card>
+                <div class="modal-button row justify-center">
+                    <v-btn v-if="oldForm == null" @click="addRecord" class="add" color="#72aa8b">新增</v-btn>
+                    <v-btn v-else @click="editRecord" class="add" color="#72aa8b">修改</v-btn>
+                    <v-btn @click="onModalClose" class="cancel" color="#dddee2">取消</v-btn>
+                </div>
+                
+            </v-flex>              
+        </v-layout>
+        </form>      
+    </v-card>
 </template>
-
 <script>
 import { filterChangedFields, getLocaleDate } from "../utils";
 import DateInputPicker from "./DateInputPicker";
@@ -247,6 +264,12 @@ export default {
     }
   },
   methods: {
+    // categorySelect(idx,cateId){
+    //   let $ref = this.$refs.category;
+    //   console.log($ref)
+    //   $ref[idx].setBackgroundColor = '#ffffff';
+
+    // },
     copyOldForm() {
       this.form.ledgerId = this.oldForm.ledgerId;
       this.form.categoryId = this.oldForm.categoryId;
@@ -328,35 +351,71 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.modal {
-  padding: 1em;
-  margin: 0;
-  position: fixed;
-  width: 50vw;
-  background-color: white;
-  font-size: 20px;
-  display: flex;
-  flex-wrap: wrap;
+
+
+.v-text-field--filled{
+  border-radius: 4px;
 }
+
+.v-text-field > .v-input__control > .v-input__slot:before{
+  border-style: none !important;
+  border: transparent !important;
+}
+
+.theme--dark.v-btn{
+  color: #3D404E;
+}
+
+// .theme--dark.v-text-field--filled > .v-input__control > .v-input__slot{
+//   background-color: rgba(221,222,226,1) !important;
+// }
+
+// .v-text-field > .v-input__control > .v-input__slot:before, .v-text-field > .v-input__control > .v-input__slot:after{
+//   content: none;
+// }
+
+// .v-text-field > .v-input__control > .v-input__slot:before, .v-text-field > .v-input__control > .v-input__slot:before{
+//   content: none;
+// }
+
+
+.frame{
+  width: 70%;
+  padding: 2%;
+  margin: auto;
+  background-color: #3D404E;
+  border-radius: 50px;
+  margin-top: 5%;
+}
+// .modal {
+//   padding: 1em;
+//   margin: 0;
+//   position: fixed;
+//   width: 50vw;
+//   background-color: white;
+//   font-size: 20px;
+//   display: flex;
+//   flex-wrap: wrap;
+// }
 
 .modal-content {
   margin: 0 auto;
-  min-width: 40vw;
+//   min-width: 40vw;
 }
 
 .modal-flow {
-  margin: 0 0.5em;
-  padding: 0 0 1.5em 0;
+  padding-left: 10%;
 
   h3 {
-    height: 1.6em;
-    padding: 0;
-    margin: 0 0.5em;
+    margin-left: 5%;
+    height: 5em;
     font-size: 1.2em;
+    padding-top:4%;
+    padding-right:10%;
     font-weight: normal;
-    color: #cccccc;
-    border-bottom-style: solid;
-    border-bottom-color: #cccccc;
+    background-image: url(../assets/fronter/account/unclick.png) ;
+    background-size: 80%;
+    color: #dddee2;
     text-align: center;
     cursor: pointer;
 
@@ -378,13 +437,15 @@ export default {
       cursor: unset;
 
       &:first-child {
-        color: red;
-        border-bottom-color: red;
+        background-image: url(../assets/fronter/account/clicked.png) ;
+        background-size:80%;
+        color: #3D404E;
       }
 
       &:nth-child(2) {
-        color: green;
-        border-bottom-color: green;
+        background-image: url(../assets/fronter/account/clicked.png);
+        background-size:80%;
+        color: #3D404E;
       }
 
       &:hover {
@@ -443,6 +504,13 @@ export default {
   }
 }
 
+.cateCircle{
+    height:50px;
+    width: 50px;
+    border-radius: 50px;;
+    background-color: turquoise;
+}
+
 /* .modal-account  */
 .modal-account {
   p {
@@ -458,32 +526,38 @@ export default {
   }
 }
 
+// modal-tag
+.v-select.v-select--chips:not(.v-text-field--single-line).v-text-field--enclosed .v-select__selections {
+    min-height: 30px;
+}
+
 /* modal-button */
 .add,
 .cancel {
-  margin: 0 10%;
+  margin: 0 9%;
   font-size: 15px;
+  font: bold;
   text-decoration: none;
-  color: black;
   border-style: none;
+  width: 30%;
   border-radius: 10px;
-  background-color: #efca16;
-
   &:hover {
     opacity: 70%;
   }
+}
+
+.add{
+  margin-left: 13%;
 }
 
 .cancel {
-  background-color: #cccccc;
-
   &:hover {
     opacity: 70%;
   }
 }
 
-select,
-input {
-  border: 1px solid #303030;
-}
+// select,
+// input {
+//   border: 1px solid #303030;
+// }
 </style>

@@ -1,7 +1,10 @@
 <template>
-  <div class="recordTable">
+  <div class="RT">
+  <v-card flat height="55vh" class="scroll recordTable" >
     <div class="header-background"></div>
-    <v-data-table class="record" :headers="headers" :items="filterAccountData" sort-by="money" >
+    <v-data-table  class=" record" 
+    hide-default-footer
+    :headers="headers" :items="filterAccountData" sort-by="money" >
       <!-- recordType -->
       
       <template v-slot:item.recordType="{ item }">
@@ -21,7 +24,7 @@
 
       <!-- category -->
       <template v-slot:item.categoryId="{ item }">
-        <v-chip :color="getCateColor(item.category.name)" label style="width:100%;height:5vh;" class="justify-center">{{item.category.name}}</v-chip>
+        <v-chip :color="(item.category) ? item.category.color : '#d5ccb3'" key="item.category" label style="width:100%;height:5vh;" class="justify-center">{{ (item.category) ? item.category.name : '未知' }}</v-chip>
       </template>
 
       <!-- hashtags -->
@@ -53,6 +56,7 @@
       </template>
     </v-data-table>
   
+  </v-card>
   </div>
 </template>
 
@@ -128,6 +132,7 @@ export default {
   computed: {
 
     filterAccountData() {
+      console.log(this.accountData)
       // return this.filterLedgerData.filter(item => {
       return this.accountData.filter(item => {
         return getLocaleDate(item.date) === this.userDate;
@@ -192,6 +197,34 @@ export default {
 </script>
 
 <style >
+
+.recordTable .theme--dark.v-data-table tbody tr:not(:last-child) td:not(.v-data-table__mobile-row), .theme--dark.v-data-table tbody tr:not(:last-child) th:not(.v-data-table__mobile-row) {
+    border-bottom: none;
+}
+
+/* width */
+.RT ::-webkit-scrollbar {
+  width: 13px;
+  background-color: transparent;
+}
+
+/* Handle */
+.RT ::-webkit-scrollbar-thumb {
+  background: white;
+  border-radius: 5px;
+  border: 4px solid #3D404E;
+}
+
+
+.scroll {
+  overflow-y: auto;
+
+}
+
+.theme--dark.v-card{
+  background-color: transparent ! important;
+}
+
 .accountSelect,
 .categorySelect,
 .flowSelect {
@@ -215,18 +248,23 @@ export default {
   
 }
 
+.recordTable thead{
+  background-color: rgba(255,255,255,0.2);
+  border-radius: 10px ! important;
+}
+
 .recordTable .v-chip--label {
     border-radius: 10px !important;
 }
 
-.header-background{
+/* .header-background{
   background-color: white; 
   opacity: 20%;
   width: 100%;
   height: 8vh;
   border-radius: 10px;
   position: absolute;
-}
+} */
 
 .theme--dark.v-tabs > .v-tabs-bar {
     background-color: transparent;
