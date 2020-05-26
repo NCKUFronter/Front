@@ -53,6 +53,52 @@
         </transition>
       </v-flex>
     </v-flex>
+
+    <v-app-bar transition="slide-y-transition" flat app v-if="$vuetify.breakpoint.mdAndUp">
+      <h1 class="FH_logo d-flex align-lg-center justify-center">
+        <div>FRONTER</div>
+      </h1>
+      <v-spacer />
+      <v-menu offset-y>
+        <template v-slot:activator="{ on }">
+          <v-btn icon v-on="on">
+            <img v-if="open" @click="toOpen" src="../assets/fronter/home/user_outline_unclick.svg" />
+            <img v-if="!open" @click="toOpen" src="../assets/fronter/home/user_outline_clicked.svg" />
+          </v-btn>
+        </template>
+        <v-card flat v-if="!login" class="pa-2">
+          <v-card-title class="justify-center">尚未登入</v-card-title>
+          <v-btn outlined block v-on:click="toLogin">
+            <v-icon small>mdi-google</v-icon>登入
+          </v-btn>
+          <v-btn outlined block v-on:click="doLogin('father@gmail.com')">
+            <v-icon>mdi-login-variant</v-icon>爸爸登入
+          </v-btn>
+          <v-btn outlined block v-on:click="doLogin('mother@gmail.com')">
+            <v-icon>mdi-login-variant</v-icon>媽媽登入
+          </v-btn>
+          <v-btn outlined block v-on:click="doLogin('child@gmail.com')">
+            <v-icon>mdi-login-variant</v-icon>小孩登入
+          </v-btn>
+        </v-card>
+        <v-card flat v-else class="pa-2 text-center">
+          <v-avatar size="128" class="elevation-4">
+            <img :src="profile.photo" />
+          </v-avatar>
+
+          <v-card-text class="pb-0">{{profile.email}}</v-card-text>
+          <v-btn outlined block color="#cccccc" disabled>
+            <v-icon>mdi-file-edit-outline</v-icon>綁定信用卡
+          </v-btn>
+          <v-btn outlined block @click="getPoints">
+            <v-icon>mdi-alpha-p-circle-outline</v-icon>每日點數
+          </v-btn>
+          <v-btn outlined block v-on:click="toLogout">
+            <v-icon>mdi-logout-variant</v-icon>登出
+          </v-btn>
+        </v-card>
+      </v-menu>
+    </v-app-bar>
   </v-layout>
 </template>
 
@@ -65,7 +111,7 @@ let data = {
   ],
   show: false,
   vanish: true,
-  drawer: false,
+  open: true,
   login: false
 };
 
@@ -103,6 +149,9 @@ export default {
   methods: {
     toToggle() {
       this.show = !this.show;
+    },
+    toOpen() {
+      this.open = !this.open;
     }
   },
   computed: {}
@@ -110,6 +159,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.FH_logo {
+  color: white;
+  font-weight: 400;
+}
 .FH_page {
   left: 27.5vw;
   top: 13vh;
@@ -150,7 +203,7 @@ export default {
   transform: translateX(55%) translateY(60%);
 }
 .slogan_des {
-  transform: translateX(-43%) translateY(-90%);
+  transform: translateX(-41.5%) translateY(-90%);
 }
 .slogan_des.sm {
   transform: translateX(-35%) translateY(-110%);

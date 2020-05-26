@@ -4,14 +4,16 @@ $body-font-family: Roboto, "微軟正黑體", Arial, Helvetica, "sans-serif";
 
 //  case 1: 只有部份背景顏色改變
 .theme--dark.v-application {
-  background: #26282d ;
+  background: #26282d;
 }
 
 /* case 2: 除了輸入框，全部都變成同一顏色 */
 // .theme--dark {
 //   background: #3d404e !important;
 // }
-
+.theme--dark.v-app-bar.v-toolbar.v-sheet {
+  background-color: #26282d;
+}
 
 .v-application {
   font-family: $body-font-family !important;
