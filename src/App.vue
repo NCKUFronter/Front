@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar transition="slide-y-transition" color="transparent" clipped :flat="!login" app dense>
+    <v-app-bar transition="slide-y-transition" color="transparent" clipped-left flat app dense>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="login"></v-app-bar-nav-icon>
       <!-- v-if="login && $vuetify.breakpoint.smAndDown" -->
       <h1 class="logo d-flex align-center">
@@ -55,25 +55,50 @@
       v-model="drawer"
       hide-overlay
       class="nav-drawer"
-      style="top:56px"
+      style="top:15%; border-top-right-radius: 5em;"
       app
       v-if="login"
-      temporary
+      :permanent="$vuetify.breakpoint.mdAndUp"
+      :temporary="$vuetify.breakpoint.smAndDown"
     >
       <!-- :permanent="$vuetify.breakpoint.mdAndUp"
       :temporary="$vuetify.breakpoint.smAndDown"-->
-      <v-list nav>
-        <v-list-item
+      <!-- <v-list-item-group mandatory> -->
+      <v-list shaped nav class="pa-0">
+        <v-list-group
           v-for="(item, index) in menu"
           :key="index"
           :class="{ 'menu-item': true, disabled: !item.link }"
+          class="pl-10"
           :to="item.link"
-          active-class="active"
+          value="true" 
         >
-          <v-icon class="mr-2">{{item.icon}}</v-icon>
-          {{ item.title }}
-        </v-list-item>
+        <!-- {{item.title}} -->
+        <!-- <v-list-tile slot="activator">
+          <v-list-tile-content>
+        <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile> -->
+          <template v-slot:activator>
+            <v-list-item-content>
+                <v-list-item-title v-text="item.title"></v-list-item-title>
+            </v-list-item-content>
+          </template>
+
+          <v-list-item
+            v-for="(child, index) in item.child"
+            :key="index"
+            :class="{ 'menu-item': true, disabled: !child.link }"
+            class="pl-10"
+            :to="child.link"
+            active-class="active"
+          >
+          <v-list-item-title v-text="child.title">{{child.title}}</v-list-item-title>
+          </v-list-item>
+          <!-- <v-icon class="mr-2 pl-10">{{item.icon}}</v-icon> -->
+        </v-list-group>
       </v-list>
+      <!-- </v-list-item-group> -->
     </v-navigation-drawer>
 
     <v-content>
@@ -296,19 +321,27 @@ import { NotificationService } from "./plugins/NotificationService";
 let data = {
   offset: true,
   menu: [
-    { icon: "mdi-chart-arc", title: "統計圖產生", link: "/summary" },
-    { icon: "mdi-alpha-p-circle", title: "點數管理", link: "/point" },
-    { icon: "mdi-cash-multiple", title: "帳目管理", link: "/accounting" },
-    {
-      icon: "mdi-shape-outline",
-      title: "管理類別",
-      link: "/accounting/Category"
-    },
-    {
-      icon: "mdi-book-multiple-outline",
-      title: "管理帳本",
-      link: "/accounting/Ledger"
-    }
+
+    { child:[
+      {icon: "mdi-chart-arc", title: "帳目一覽", link: "/accounting" },
+      {icon: "mdi-chart-arc", title: "帳本管理", link: "/accounting/Ledger" },
+      {icon: "mdi-chart-arc", title: "自訂類別", link: "/accounting/Category" },],
+      icon: "mdi-cash-multiple", title: "帳目", link: "/accounting" },
+    { child:[],icon: "mdi-chart-arc", title: "統計", link: "/summary" },
+    { child:[],icon: "mdi-alpha-p-circle", title: "點數", link: "/point" },
+    
+    // {
+    //   icon: "mdi-shape-outline",
+    //   title: "管理類別",
+    //   link: "/accounting/Category"
+    // },
+    // {
+    //   icon: "mdi-book-multiple-outline",
+    //   title: "管理帳本",
+    //   link: "/accounting/Ledger"
+    // },
+    { child:[],icon: "", title: "認識星際帳", link: "" },
+    { child:[],icon: "", title: "如何使用", link: "" },
   ],
   footerAccount: [
     { title: "認識星際帳", link: "" },
@@ -512,17 +545,16 @@ html {
   a {
     font-weight: normal;
     text-decoration: none;
+    
   }
 }
 
 .menu-item {
-  border: solid #d9d1ba;
-  border-radius: 10px;
-  margin: 5%;
+  font-weight: bold;
+  font-size: 1.1em;
+  margin: 8% 12% 8% 0%;
   height: fit-content;
   width: auto;
-  padding: 20px;
-  color: black;
   &.disabled {
     cursor: not-allowed;
     a {

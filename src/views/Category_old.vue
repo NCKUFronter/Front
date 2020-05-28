@@ -1,15 +1,13 @@
 <template>
   <!-- ref: https://codepen.io/virtualadrian/pen/pOeVPX && Vuetify component: Card & Combobox & Chip-->
-  <v-row style="padding: 2% 15%;">
+  <v-row>
     <v-row v-if="loading">
       <v-flex xs12 sm6 md6 v-for="item in 6" :key="item" class="pa-2">
         <v-boilerplate class="md-6" type=" table-heading,list-item-three-line"></v-boilerplate>
       </v-flex>
     </v-row>
-    <v-flex xs12 sm12 md12 v-else v-for="category of categories" :key="category._id" class="pa-2">
-      <v-row  class="cardAll"> 
-        <!-- elevation="4" -->
-        <v-flex xs12 sm3 md3>
+    <v-flex xs12 sm6 md6 v-else v-for="category of categories" :key="category._id" class="pa-2">
+      <v-card elevation="4" class="cardAll">
         <v-text-field
           class="headline"
           v-model="category.name"
@@ -34,9 +32,8 @@
           <v-icon>mdi-backspace</v-icon>
         </v-btn>
 
-        </v-flex>
+        <v-divider></v-divider>
 
-        <v-flex xs12 sm6 md6>
         <v-combobox
           multiple
           v-model="category.hashtags"
@@ -55,11 +52,10 @@
           flat
           hint="輸入文字以新增標籤，按下Enter以保存"
         ></v-combobox>
-        </v-flex>
-      </v-row>
+      </v-card>
     </v-flex>
 
-    <v-flex xs12 sm12 md12 class="pa-2" v-if="!loading">
+    <v-flex xs12 sm6 md6 class="pa-2" v-if="!loading">
       <v-card>
         <v-text-field
           label="新增類別名稱"

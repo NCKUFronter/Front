@@ -155,15 +155,15 @@ export default {
       if(cate=="食物"){
         return '#FED37A'
       }else if(cate=="娛樂"){
-        return "#DF764C"
+        return "#FFA863"
       }else if(cate=="醫療"){
-        return "#A24A8E"
+        return "#DF764C"
       }else if(cate=="交通"){
-        return "#5D63AF"
+        return "#8ABA97"
       }else if(cate=="治裝"){
-        return "#C2CCB3"
+        return "#50989E"
       }else{
-        return "#509883"
+        return "#D5CCB3"
       }
     },
     getColor(recordType) {

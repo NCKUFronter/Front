@@ -1,8 +1,8 @@
 <template>
   <!-- <v-container flat> -->
     <v-card flat  class="account-all" v-if="!modalOpen">
-    <div class=" account-upper" style="margin-bottom:1%">
-      <div data-app class="ledgerSelect">
+    <v-layout row class=" account-upper" style="margin-bottom:1%">
+      <v-flex xs12 sm4 md4 data-app class="ledgerSelect">
         <v-select
           v-model="ledgerSelected"
           :items="ledgers"
@@ -17,13 +17,13 @@
           color="#efca16"
           item-color="#efca16"
         ></v-select>
-      </div>
+      </v-flex>
 
-      <div class="date-wrap" @blur="dataPickerModal=false">
+      <v-flex xs12 sm6 md6 class="date-wrap" @blur="dataPickerModal=false">
         <!-- <i class="material-icons" v-on:click="getYearMonthDate(-1)">arrow_left</i> -->
         <v-card flat class="ma-auto" v-on:click="getYearMonthDate(-1)"  style="position:relative;">
         <div>{{preDate}}</div>
-        <div style="position:absolute;top:0;height:100%;width:100%;background: linear-gradient(to right,rgba(61,64,78,1),rgba(61,64,78,0.85),transparent);"></div>
+        <div style="position:absolute;top:0;height:100%;width:100%;background: linear-gradient(to right,rgba(38,40,45,1),rgba(38,40,45,0.85),transparent);"></div>
         </v-card>
 
         <DateInputPicker
@@ -40,10 +40,10 @@
 
         <v-card flat class="ma-auto" v-on:click="getYearMonthDate(1)"  style="position:relative;">
         <div>{{nextDate}}</div>
-        <div style="position:absolute;top:0;height:100%;width:100%;background: linear-gradient(to left,rgba(61,64,78,1),rgba(61,64,78,0.85),transparent);"></div>
+        <div style="position:absolute;top:0;height:100%;width:100%;background: linear-gradient(to left,rgba(38,40,45,1),rgba(38,40,45,0.85),transparent);"></div>
         </v-card>
         <!-- <i class="material-icons" v-on:click="getYearMonthDate(1)">arrow_right</i> -->
-      </div>
+      </v-flex>
 
       <!-- <div class="point">
         <h6>累積點數: {{totalPoints}}</h6>
@@ -56,7 +56,7 @@
           <h6>總支出: {{totalExpense}}</h6>
         </div>
       </div> -->
-    </div>
+    </v-layout>
 
     <div class="account-down">
       <RecordTable
@@ -245,7 +245,7 @@ export default {
 }
 .date-wrap {
   margin: auto;
-  width: 45%;
+  // width: 45%;
   margin-left: 3%;
   align-items: center;
   display: flex;
