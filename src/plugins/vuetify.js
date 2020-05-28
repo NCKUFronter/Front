@@ -1,4 +1,5 @@
 import Vue from "vue";
+/*
 import Vuetify, {
   VAlert,
   VApp,
@@ -43,9 +44,12 @@ import Vuetify, {
   VTabs,
   VTextField,
 } from "vuetify/lib";
+*/
+import Vuetify from 'vuetify';
 import "./variables.scss";
 // import "vuetify/dist/vuetify.min.css";
 
+/*
 Vue.use(Vuetify, {
   components: {
     VAlert,
@@ -92,6 +96,8 @@ Vue.use(Vuetify, {
     VTextField,
   },
 });
+*/
+Vue.use(Vuetify);
 
 export default new Vuetify({
   theme: {
