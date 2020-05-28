@@ -174,7 +174,8 @@ export default {
     },
     ledgerSelected: {
       type: String
-    }
+    },
+    
   },
   data() {
     return data;

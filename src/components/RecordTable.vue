@@ -127,7 +127,7 @@ export default {
       modalFlow: ["income", "expense"]
     };
   },
-  props: ["userDate", "ledgerSelected", "accountData"],
+  props: ["userDate", "ledgerSelected", "accountData","flowSelected"],
   created() {},
   computed: {
 
@@ -139,15 +139,16 @@ export default {
       });
 
     },
-    filterLedgerData() {
-      if (this.ledgerSelected != "All") {
-        return this.accountData.filter(item => {
-          return item.ledger === this.ledgerSelected;
-        });
-      } else {
-        return this.accountData;
-      }
-    }
+
+    // filterLedgerData() {
+    //   if (this.ledgerSelected != "All") {
+    //     return this.accountData.filter(item => {
+    //       return item.ledger === this.ledgerSelected;
+    //     });
+    //   } else {
+    //     return this.accountData;
+    //   }
+    // }
   },
   methods: {
     getCateColor(cate){

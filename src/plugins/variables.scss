@@ -2,6 +2,11 @@ $body-font-family: Roboto, "微軟正黑體", Arial, Helvetica, "sans-serif";
 
 @import "~vuetify/dist/vuetify.min.css";
 @import "~vuetify/src/components/VList/VList";
+@import "~vuetify/src/components/VSelect/VSelect";
+@import "~vuetify/src/components/VCard/VCard";
+@import "~vuetify/src/components/VInput/VInput";
+@import "~vuetify/src/components/VTextField/VTextField";
+@import "~vuetify/src/components/VSheet/VSheet";
 
 //  case 1: 只有部份背景顏色改變
 .theme--dark.v-application {
@@ -12,7 +17,7 @@ $body-font-family: Roboto, "微軟正黑體", Arial, Helvetica, "sans-serif";
 // .theme--dark {
 //   background: #3d404e !important;
 // }
-.theme--dark.v-app-bar.v-toolbar.v-sheet.v-list{
+.theme--dark.v-app-bar.v-toolbar.v-sheet.v-list.v-select.v-card.v-input.v-text-field{
   background-color: #26282d;
 }
 
@@ -69,3 +74,7 @@ $navigation-drawer-mobile-temporary-elevation: 8;
   border-top-right-radius: 16px !important;
   border-bottom-right-radius: 16px !important;
 }  
+
+.theme--dark.v-text-field--solo > .v-input__control > .v-input__slot{
+  background: #26282d !important;
+}
