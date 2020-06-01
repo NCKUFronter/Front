@@ -11,6 +11,7 @@ import pointDelivery from "../views/PointDelivery.vue";
 import pointRedeem from "../views/PointRedeem.vue";
 import personalAccount from "../views/PersonalAccount.vue";
 import fronterHome from "../views/FronterHome.vue";
+import global_ from "../components/Global.vue";
 import Vuetify from "vuetify/lib";
 import VueRellax from "vue-rellax";
 
@@ -27,6 +28,11 @@ const routes = [
     },
   },
   {
+    path: "/empty",
+    name: "globalName",
+    component: global_,
+  },
+  {
     path: "/accounting",
     name: "SideAccountName",
     component: SideAccount,
@@ -35,7 +41,7 @@ const routes = [
     },
   },
   {
-    path: "/accounting/Category",
+    path: "/Category",
     name: "CategoryName",
     component: Category,
     meta: {
@@ -43,7 +49,7 @@ const routes = [
     },
   },
   {
-    path: "/accounting/Ledger",
+    path: "/Ledger",
     name: "LedgerName",
     component: LedgerManagement,
     meta: {

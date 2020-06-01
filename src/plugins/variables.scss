@@ -7,6 +7,7 @@ $body-font-family: Roboto, "微軟正黑體", Arial, Helvetica, "sans-serif";
 @import "~vuetify/src/components/VInput/VInput";
 @import "~vuetify/src/components/VTextField/VTextField";
 @import "~vuetify/src/components/VSheet/VSheet";
+@import "~vuetify/src/components/VList/VList";
 
 //  case 1: 只有部份背景顏色改變
 .theme--dark.v-application {
@@ -17,9 +18,10 @@ $body-font-family: Roboto, "微軟正黑體", Arial, Helvetica, "sans-serif";
 // .theme--dark {
 //   background: #3d404e !important;
 // }
-.theme--dark.v-app-bar.v-toolbar.v-sheet.v-list.v-select.v-card.v-input.v-text-field{
+.theme--dark.v-app-bar.v-toolbar.v-sheet.v-list.v-select.v-input.v-text-field{
   background-color: #26282d;
 }
+
 
   
 
@@ -77,4 +79,12 @@ $navigation-drawer-mobile-temporary-elevation: 8;
 
 .theme--dark.v-text-field--solo > .v-input__control > .v-input__slot{
   background: #26282d !important;
+}
+
+.v-list-group--active > .v-list-group__header .v-list-item__content{
+  color: white;
+}
+
+.v-list-item-group .v-list-item--active{
+  color: white;
 }

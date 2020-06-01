@@ -1,9 +1,11 @@
 <template>
-  <div class="RT">
-  <v-card flat height="55vh" class="scroll recordTable" >
+  <div class="RT" >
+  <v-card flat class="scroll recordTable" style="height:60vh;"> 
+    <!-- class="scroll recordTable" -->
     <div class="header-background"></div>
     <v-data-table  class=" record" 
     hide-default-footer
+    items-per-page-options = [999,9]
     :headers="headers" :items="filterAccountData" sort-by="money" >
       <!-- recordType -->
       
@@ -17,9 +19,8 @@
         <v-avatar size="36">
           <img :src="item.user.photo" />
         </v-avatar>
-
-        <v-icon v-if="item.recordType[0]=='i'" color="green">mdi-cash-plus</v-icon>
-        <v-icon v-else color="red">mdi-cash-minus</v-icon>
+        <!-- <v-icon v-if="item.recordType[0]=='i'" color="green">mdi-cash-plus</v-icon>
+        <v-icon v-else color="red">mdi-cash-minus</v-icon> -->
       </template>
 
       <!-- category -->
@@ -132,7 +133,6 @@ export default {
   computed: {
 
     filterAccountData() {
-      console.log(this.accountData)
       // return this.filterLedgerData.filter(item => {
       return this.accountData.filter(item => {
         return getLocaleDate(item.date) === this.userDate;
@@ -213,7 +213,7 @@ export default {
 .RT ::-webkit-scrollbar-thumb {
   background: white;
   border-radius: 5px;
-  border: 4px solid #3D404E;
+  border: 4px solid #26282d;
 }
 
 
@@ -222,7 +222,7 @@ export default {
 
 }
 
-.theme--dark.v-card{
+.RT .theme--dark.v-card{
   background-color: transparent ! important;
 }
 

@@ -4,8 +4,8 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="login"></v-app-bar-nav-icon>
       <!-- v-if="login && $vuetify.breakpoint.smAndDown" -->
       <h1 class="logo d-flex align-center">
-        <img src="./assets/logo.png" class="pr-2" />
-        <div v-if="login">星，際帳</div>
+        <img src="./assets/Fronter.png" class="mt-2"/>
+        <!-- <div v-if="login">星，際帳</div> -->
       </h1>
       <v-spacer />
 
@@ -55,36 +55,33 @@
       v-model="drawer"
       hide-overlay
       class="nav-drawer"
-      style="top:15%; border-top-right-radius: 5em;"
+      style="top:15%;width:220px; border-top-right-radius: 4em; background-color:#3D404E"
       app
       v-if="login"
       :permanent="$vuetify.breakpoint.mdAndUp"
       :temporary="$vuetify.breakpoint.smAndDown"
     >
+      <v-btn to="/accounting" @click="setRecordModal(true,null)" class="elevation-0 mt-10 ml-8" style="font-weight:bold;width:65%;color:#3D404E;background-color:white;border-radius:2em;">新增帳目</v-btn>
+      <!-- @click="global_.newRecordModal=true" -->
       <!-- :permanent="$vuetify.breakpoint.mdAndUp"
       :temporary="$vuetify.breakpoint.smAndDown"-->
-      <!-- <v-list-item-group mandatory> -->
+      <v-list-item-group mandatory>
       <v-list shaped nav class="pa-0">
         <v-list-group
-          v-for="(item, index) in menu"
+          v-for="(item, index) in menuWithChild"
           :key="index"
           :class="{ 'menu-item': true, disabled: !item.link }"
-          class="pl-10"
+          class="pl-0"
           :to="item.link"
-          value="true" 
+          value="false"
         >
-        <!-- {{item.title}} -->
-        <!-- <v-list-tile slot="activator">
-          <v-list-tile-content>
-        <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile> -->
+                  <!-- v-model="item.active" -->
           <template v-slot:activator>
-            <v-list-item-content>
+            <v-list-item-content class="pl-8">
                 <v-list-item-title v-text="item.title"></v-list-item-title>
             </v-list-item-content>
           </template>
-
+        
           <v-list-item
             v-for="(child, index) in item.child"
             :key="index"
@@ -93,15 +90,26 @@
             :to="child.link"
             active-class="active"
           >
-          <v-list-item-title v-text="child.title">{{child.title}}</v-list-item-title>
+          <v-list-item-title class="pl-8" v-text="child.title">{{child.title}}</v-list-item-title>
           </v-list-item>
           <!-- <v-icon class="mr-2 pl-10">{{item.icon}}</v-icon> -->
         </v-list-group>
+
+        <v-list-item
+          v-for="(item, index) in menu"
+          :key="index"
+          :class="{ 'menu-item': true, disabled: !item.link }"
+          class="pl-10"
+          :to="item.link"
+          active-class="active"
+        >
+        {{item.title}}
+        </v-list-item>
       </v-list>
-      <!-- </v-list-item-group> -->
+      </v-list-item-group>
     </v-navigation-drawer>
 
-    <v-content>
+    <v-content >
       <!-- id="scroll-target" class="overflow-y-auto"  -->
       <!-- <v-app-bar class="mx-auto overflow-hidden" color="#efca16" elevate-on-scroll clipped-left app>
       </v-app-bar>-->
@@ -267,9 +275,15 @@
         <!-- </div> -->
       </v-container>
 
-      <div v-else class="px-4">
+      <div v-else > 
+        <!-- class="px-4" -->
         <router-view></router-view>
       </div>
+      <!-- <div class="account-edit"  v-if="modalOpen">
+        <EditRecord
+            @close="modalOpen = false" 
+        ></EditRecord>
+      </div> -->
     </v-content>
 
     <v-dialog
@@ -310,6 +324,8 @@
 </template>
 
 <script>
+// import EditRecord from "./components/EditRecord.vue";
+import global_ from './components/Global';
 import GlobalSnackBar, { initSnackbarData } from "./components/GlobalSnackBar";
 import GlobalDialog, { initDialogData } from "./components/GlobalDialog";
 import { ignoreNotLoginError } from "./utils";
@@ -319,27 +335,22 @@ import { NotificationService } from "./plugins/NotificationService";
 //import SideAccount from './components/SideAccount.vue'
 // import SideMenu from './components/SideMenu.vue'
 let data = {
+  // modalOpen: false,
   offset: true,
-  menu: [
-
+  menuWithChild:[   
     { child:[
       {icon: "mdi-chart-arc", title: "帳目一覽", link: "/accounting" },
-      {icon: "mdi-chart-arc", title: "帳本管理", link: "/accounting/Ledger" },
-      {icon: "mdi-chart-arc", title: "自訂類別", link: "/accounting/Category" },],
-      icon: "mdi-cash-multiple", title: "帳目", link: "/accounting" },
+      {icon: "mdi-chart-arc", title: "帳本管理", link: "/Ledger" },
+      {icon: "mdi-chart-arc", title: "自訂類別", link: "/Category" },],
+      icon: "mdi-cash-multiple", title: "帳目", link: "/accounting" ,active:true},
+    { child:[
+      { icon: "mdi-cart-outline", title: "點數兌換", link: "/point" },
+      { icon: "mdi-gift-outline",title: "點數贈送",link: "/point/delivery"},
+      { icon: "mdi-history", title: "歷史紀錄", link: "/point/history" }],
+      icon: "mdi-alpha-p-circle", title: "點數", link: "/point",active:true },
+  ],
+  menu: [
     { child:[],icon: "mdi-chart-arc", title: "統計", link: "/summary" },
-    { child:[],icon: "mdi-alpha-p-circle", title: "點數", link: "/point" },
-    
-    // {
-    //   icon: "mdi-shape-outline",
-    //   title: "管理類別",
-    //   link: "/accounting/Category"
-    // },
-    // {
-    //   icon: "mdi-book-multiple-outline",
-    //   title: "管理帳本",
-    //   link: "/accounting/Ledger"
-    // },
     { child:[],icon: "", title: "認識星際帳", link: "" },
     { child:[],icon: "", title: "如何使用", link: "" },
   ],
@@ -381,7 +392,8 @@ export default {
   },
   components: {
     GlobalSnackBar,
-    GlobalDialog
+    GlobalDialog,
+    // EditRecord,
     //SideAccount  // 定義component
     // SideMenu
   },
@@ -462,6 +474,9 @@ export default {
         // this.gameContent=false;
       }
     },
+    childList(item){
+      this.$router.push(item.link);
+    },
     toLogin() {
       // this.$api.login("father@gmail.com", "0000").catch(console.log);
       window.location = "/api/login/auth/google";
@@ -517,7 +532,7 @@ export default {
 html {
   margin: 0;
   padding: 0;
-  overflow: visible !important;
+  // overflow: visible !important;
   scroll-behavior: smooth;
 }
 // .app-header {
@@ -533,8 +548,8 @@ html {
   font-size: 1.6rem;
 
   img {
-    opacity: 0.8;
-    height: 30px;
+    opacity: 1;
+    height: 35px;
   }
 }
 
@@ -580,14 +595,17 @@ html {
 
 /* width */
 ::-webkit-scrollbar {
-  width: 10px;
-  background-color: transparent;
+  // width: 10px;
+  // padding: 0;
+  // margin: 0;
+  // background-color: transparent;
+  display: none;
 }
 
 /* Handle */
-::-webkit-scrollbar-thumb {
-  background: #888;
-}
+// ::-webkit-scrollbar-thumb {
+//   background: #888;
+// }
 
 // new
 /* .container{
@@ -794,7 +812,7 @@ html {
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 2s;
+  transition: opacity 1s;
 }
 .fade-enter,
 .fade-leave-to {

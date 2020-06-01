@@ -1,8 +1,8 @@
 <template>
-    <v-card flat style="padding: 3% 0% 2% 7%;">
+    <v-card flat style="padding: 8% 0% 2% 7%;">
         <form class="modal-content" >
         <v-layout row>
-            <v-flex xs12 sm3 md3 
+            <v-flex xs12 sm3 md3
             style="border-right: solid 3px #dddee2;">
                 <!-- <v-card v-for="item in userCategories" :key="item" > -->
                   <v-btn ref="category"  @click="categorySelect(item)" 

@@ -19,11 +19,7 @@ export default {
       tab: null,
       items: [
         { icon: "mdi-cart-outline", title: "點數兌換", link: "/point" },
-        {
-          icon: "mdi-gift-outline",
-          title: "點數贈送",
-          link: "/point/delivery"
-        },
+        { icon: "mdi-gift-outline",title: "點數贈送",link: "/point/delivery"},
         { icon: "mdi-history", title: "歷史紀錄", link: "/point/history" }
       ]
     };
