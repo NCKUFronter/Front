@@ -1,14 +1,39 @@
 <template>
   <v-app>
-    <v-app-bar transition="slide-y-transition" color="transparent" clipped :flat="!login" app dense>
+    <v-app-bar transition="slide-y-transition" color="transparent" flat clipped app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="login"></v-app-bar-nav-icon>
       <!-- v-if="login && $vuetify.breakpoint.smAndDown" -->
-      <h1 class="logo d-flex align-center">
-        <img src="./assets/logo.png" class="pr-2" />
-        <div v-if="login">星，際帳</div>
+      <h1 v-if="login" class="logo d-flex align-center">
+        <div>FRONTER</div>
       </h1>
       <v-spacer />
+      <v-spacer />
+      <v-spacer />
+      <v-spacer />
+      <v-spacer />
+      <v-spacer />
+      <v-spacer />
+      <v-from v-if="login">
+        <v-text-field
+          background-color="#3d404e"
+          color="#fff"
+          dense
+          prepend-inner-icon="mdi-magnify"
+          label="Search here"
+          filled
+          shaped
+        ></v-text-field>
+      </v-from>
 
+      <v-spacer />
+      <v-spacer />
+      <v-spacer />
+      <v-spacer />
+      <v-icon v-if="login">mdi-bell-outline</v-icon>
+      <v-spacer />
+      <v-spacer />
+      <h3 v-if="login">{{profile.name}}</h3>
+      <v-spacer />
       <!-- peraonal account -->
       <v-menu offset-y>
         <template v-slot:activator="{ on }">
@@ -112,7 +137,15 @@
           <!-- </v-parallax> -->
         </v-layout>
         <v-layout>
-        <transition name="fade"><img v-if="parents" src="./assets/home/p1/parents.svg" height="70%" class="parents" v-rellax="{speed:-4.5,}" /></transition>
+          <transition name="fade">
+            <img
+              v-if="parents"
+              src="./assets/home/p1/parents.svg"
+              height="70%"
+              class="parents"
+              v-rellax="{speed:-4.5,}"
+            />
+          </transition>
         </v-layout>
         <v-layout class="page">
           <v-img src="./assets/home/p2/background_block.svg" class="background"></v-img>
@@ -147,48 +180,92 @@
         <v-layout class="page" style="background-color: #26282d;">
           <!-- <v-img src="./assets/home/p3/background_block.svg"  class="background"></v-img> -->
           <transition name="fade">
-          <div class="account">
-             <!-- v-if="account" -->
-            <transition name="leftIn"><img v-if="accountContent" src="./assets/home/p3/img_background.svg" height="115%" class="img-background" ></transition>
-            <transition name="rightIn"><img v-if="accountContent" src="./assets/home/p3/text_background.svg" height="100%" class="text-background"></transition>
-            <transition name="rightIn"><img v-if="accountContent" src="./assets/home/p3/img.svg" height="88%" class="phone"></transition>
-            <transition name="cardfade">
-              <div v-if="accountContent" class="p3Text">
-                  <h1 class="p3t1" >星 · 際帳</h1>
-                  <h1 class="p3t2">在這裡，你可以體驗由永豐提供的智慧生活，記下日常<br>消費的每筆帳目，並獲得回饋</h1>
+            <div class="account">
+              <!-- v-if="account" -->
+              <transition name="leftIn">
+                <img
+                  v-if="accountContent"
+                  src="./assets/home/p3/img_background.svg"
+                  height="115%"
+                  class="img-background"
+                />
+              </transition>
+              <transition name="rightIn">
+                <img
+                  v-if="accountContent"
+                  src="./assets/home/p3/text_background.svg"
+                  height="100%"
+                  class="text-background"
+                />
+              </transition>
+              <transition name="rightIn">
+                <img
+                  v-if="accountContent"
+                  src="./assets/home/p3/img.svg"
+                  height="88%"
+                  class="phone"
+                />
+              </transition>
+              <transition name="cardfade">
+                <div v-if="accountContent" class="p3Text">
+                  <h1 class="p3t1">星 · 際帳</h1>
+                  <h1 class="p3t2">
+                    在這裡，你可以體驗由永豐提供的智慧生活，記下日常
+                    <br />消費的每筆帳目，並獲得回饋
+                  </h1>
                   <button color="white" class="p3btn" outlined>創建帳戶</button>
                   <button color="white" class="p3btn" outlined>登入</button>
-              </div>
-            </transition>
-            <transition name="cardfade">
-              <div v-if="accountContent" class="p3bottom">
-                <button  class="p3t3 p3b1" style="opacity:20%;">遊戲</button>
-                <!-- @click="account=false;accountContent=false;gameContent=true;" -->
-                <button  class="p3t3 p3b2" style="opacity:80%;">帳戶</button>
-                <!-- @click="account=true;accountContent=true;gameContent=false;" -->
-              </div> 
-            </transition>   
-          </div>
+                </div>
+              </transition>
+              <transition name="cardfade">
+                <div v-if="accountContent" class="p3bottom">
+                  <button class="p3t3 p3b1" style="opacity:20%;">遊戲</button>
+                  <!-- @click="account=false;accountContent=false;gameContent=true;" -->
+                  <button class="p3t3 p3b2" style="opacity:80%;">帳戶</button>
+                  <!-- @click="account=true;accountContent=true;gameContent=false;" -->
+                </div>
+              </transition>
+            </div>
           </transition>
         </v-layout>
         <v-layout class="page" style="background-color: #26282d;">
           <transition name="fade">
-          <div class="game">
-            <transition name="rightIn"><img v-if="gameContent" src="./assets/home/p4/img_background.svg" height="115%" class="img4-background" ></transition>
-            <transition name="leftIn"><img v-if="gameContent" src="./assets/home/p4/text_background.svg" height="100%" class="text4-background"></transition>
-            <transition name="leftIn"><img v-if="gameContent" src="./assets/home/p4/img.svg" height="50%" class="ship"></transition>
-            <transition name="cardfade"><div v-if="gameContent" class="p3Text">
-                <h1 class="p3t1" >宇宙 · 戰艦</h1>
-                <h1 class="p3t2">在遊戲中使用回饋點數，讓孩子也能樂於記帳</h1>
-                <button color="white" class="p4btn" outlined>開啟你的星際探險</button>
-            </div></transition>
-            <transition name="cardfade"><div v-if="gameContent" class="p3bottom">
-              <button  class="p3t3 p3b1" style="opacity:80%;">遊戲</button>
-              <!-- @click="account=false;accountContent=false;gameContent=true;" -->
-              <button class="p3t3 p3b2" style="opacity:20%">帳戶</button>
-              <!-- @click="account=true;accountContent=true;gameContent=false;"  -->
-            </div></transition>
-          </div>
+            <div class="game">
+              <transition name="rightIn">
+                <img
+                  v-if="gameContent"
+                  src="./assets/home/p4/img_background.svg"
+                  height="115%"
+                  class="img4-background"
+                />
+              </transition>
+              <transition name="leftIn">
+                <img
+                  v-if="gameContent"
+                  src="./assets/home/p4/text_background.svg"
+                  height="100%"
+                  class="text4-background"
+                />
+              </transition>
+              <transition name="leftIn">
+                <img v-if="gameContent" src="./assets/home/p4/img.svg" height="50%" class="ship" />
+              </transition>
+              <transition name="cardfade">
+                <div v-if="gameContent" class="p3Text">
+                  <h1 class="p3t1">宇宙 · 戰艦</h1>
+                  <h1 class="p3t2">在遊戲中使用回饋點數，讓孩子也能樂於記帳</h1>
+                  <button color="white" class="p4btn" outlined>開啟你的星際探險</button>
+                </div>
+              </transition>
+              <transition name="cardfade">
+                <div v-if="gameContent" class="p3bottom">
+                  <button class="p3t3 p3b1" style="opacity:80%;">遊戲</button>
+                  <!-- @click="account=false;accountContent=false;gameContent=true;" -->
+                  <button class="p3t3 p3b2" style="opacity:20%">帳戶</button>
+                  <!-- @click="account=true;accountContent=true;gameContent=false;"  -->
+                </div>
+              </transition>
+            </div>
           </transition>
         </v-layout>
 
@@ -381,9 +458,9 @@ export default {
       if (this.login) {
         this.$notification.connect();
       } else this.$notification.closeAll();
-
+      console.log(this.$route.name);
       if (this.login && this.$route.name == null) {
-        this.$router.push("/accounting");
+        this.$router.push("/fronter_home");
       }
     }
   },
@@ -405,27 +482,27 @@ export default {
         this.parents = true;
       }
 
-      if(this.offsetTop>=950){
-        this.accountContent=true;
+      if (this.offsetTop >= 950) {
+        this.accountContent = true;
         // if(this.account){
         //   this.accountContent=true;
         // }else{
         //   this.gameContent=true;
         // }
-      }else{
-        this.accountContent=false;
+      } else {
+        this.accountContent = false;
         // this.gameContent=false;
       }
 
-      if(this.offsetTop>=1700){
-        this.gameContent=true;
+      if (this.offsetTop >= 1700) {
+        this.gameContent = true;
         // if(this.account){
         //   this.accountContent=true;
         // }else{
         //   this.gameContent=true;
         // }
-      }else{
-        this.gameContent=false;
+      } else {
+        this.gameContent = false;
         // this.gameContent=false;
       }
     },
@@ -871,5 +948,17 @@ html {
 .p4btn:hover {
   color: #fff294;
   border: solid #fff294 2px;
+}
+
+.v-text-field .v-input__control {
+  color: #6d6b6b;
+}
+.v-text-field--filled.v-input--dense > .v-input__control > .v-input__slot {
+  min-height: 10px;
+}
+.theme--dark.v-input,
+.theme--dark.v-input input,
+.theme--dark.v-input textarea {
+  color: #6d6b6b;
 }
 </style>

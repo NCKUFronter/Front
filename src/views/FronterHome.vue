@@ -1,5 +1,6 @@
 <template>
   <v-layout>
+    <v-app-bar transition="slide-y-transition" color="#26282d" flat clipped app></v-app-bar>
     <v-flex v-if="this.$vuetify.breakpoint.mdAndUp">
       <transition name="fade">
         <img v-show="vanish" class="FH_page" src="../assets/fronter/home/home_logo.svg" width="45%" />
@@ -9,7 +10,7 @@
 
       <v-flex v-if="vanish" class="FH_slogan">A Brand-New Spending App</v-flex>
 
-      <v-flex @click="toToggle">
+      <v-flex>
         <transition name="brandmove">
           <v-flex v-show="show" class="FH_brand brand_des">FRONTER</v-flex>
         </transition>
@@ -53,52 +54,6 @@
         </transition>
       </v-flex>
     </v-flex>
-
-    <v-app-bar transition="slide-y-transition" flat app v-if="$vuetify.breakpoint.mdAndUp">
-      <h1 class="FH_logo d-flex align-lg-center justify-center">
-        <div>FRONTER</div>
-      </h1>
-      <v-spacer />
-      <v-menu offset-y>
-        <template v-slot:activator="{ on }">
-          <v-btn icon v-on="on">
-            <img v-if="open" @click="toOpen" src="../assets/fronter/home/user_outline_unclick.svg" />
-            <img v-if="!open" @click="toOpen" src="../assets/fronter/home/user_outline_clicked.svg" />
-          </v-btn>
-        </template>
-        <v-card flat v-if="!login" class="pa-2">
-          <v-card-title class="justify-center">尚未登入</v-card-title>
-          <v-btn outlined block v-on:click="toLogin">
-            <v-icon small>mdi-google</v-icon>登入
-          </v-btn>
-          <v-btn outlined block v-on:click="doLogin('father@gmail.com')">
-            <v-icon>mdi-login-variant</v-icon>爸爸登入
-          </v-btn>
-          <v-btn outlined block v-on:click="doLogin('mother@gmail.com')">
-            <v-icon>mdi-login-variant</v-icon>媽媽登入
-          </v-btn>
-          <v-btn outlined block v-on:click="doLogin('child@gmail.com')">
-            <v-icon>mdi-login-variant</v-icon>小孩登入
-          </v-btn>
-        </v-card>
-        <v-card flat v-else class="pa-2 text-center">
-          <v-avatar size="128" class="elevation-4">
-            <img :src="profile.photo" />
-          </v-avatar>
-
-          <v-card-text class="pb-0">{{profile.email}}</v-card-text>
-          <v-btn outlined block color="#cccccc" disabled>
-            <v-icon>mdi-file-edit-outline</v-icon>綁定信用卡
-          </v-btn>
-          <v-btn outlined block @click="getPoints">
-            <v-icon>mdi-alpha-p-circle-outline</v-icon>每日點數
-          </v-btn>
-          <v-btn outlined block v-on:click="toLogout">
-            <v-icon>mdi-logout-variant</v-icon>登出
-          </v-btn>
-        </v-card>
-      </v-menu>
-    </v-app-bar>
   </v-layout>
 </template>
 
@@ -110,9 +65,7 @@ let data = {
     { title: "類別", link: "/point" }
   ],
   show: false,
-  vanish: true,
-  open: true,
-  login: false
+  vanish: true
 };
 
 export default {
@@ -143,18 +96,28 @@ export default {
       self.vanish = !self.vanish;
       self.show = !self.show;
     }, 1000);
+    setTimeout(function() {
+      self.show = !self.show;
+    }, 2000);
+    setTimeout(function() {
+      self.$router.push("/accounting");
+    }, 3000);
   },
 
   mounted: function() {},
-  methods: {
-    toToggle() {
-      this.show = !this.show;
-    },
-    toOpen() {
-      this.open = !this.open;
-    }
-  },
+  methods: {},
   computed: {}
+  // watch: {
+  //   login(val) {
+  //     if (this.login) {
+  //       this.$notification.connect();
+  //     } else this.$notification.closeAll();
+
+  //     if (this.login && this.$route.name == "FronterHomeName") {
+  //       this.$router.push("/accounting");
+  //     }
+  //   }
+  // }
 };
 </script>
 
@@ -164,8 +127,9 @@ export default {
   font-weight: 400;
 }
 .FH_page {
+  margin: auto;
   left: 27.5vw;
-  top: 13vh;
+  top: 10vh;
   overflow: hidden;
   position: absolute;
   z-index: 1;
@@ -181,7 +145,7 @@ export default {
   font-size: 500%;
   color: #fff294;
   background-color: #ffffff00;
-  top: 28%;
+  top: 23%;
   font-weight: bold;
   position: absolute;
   z-index: 2;
@@ -197,13 +161,13 @@ export default {
   bottom: 45%;
 }
 .brand_des {
-  transform: translateX(43%) translateY(46%);
+  transform: translateX(43%) translateY(70%);
 }
 .brand_des.sm {
   transform: translateX(55%) translateY(60%);
 }
 .slogan_des {
-  transform: translateX(-41.5%) translateY(-90%);
+  transform: translateX(-41.5%) translateY(-20%);
 }
 .slogan_des.sm {
   transform: translateX(-35%) translateY(-110%);
@@ -216,7 +180,7 @@ export default {
   position: absolute;
   right: 30.9%;
   font-weight: bold;
-  bottom: 33%;
+  bottom: 37%;
   z-index: 2;
 }
 .FH_bar {
