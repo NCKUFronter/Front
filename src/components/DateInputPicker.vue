@@ -14,7 +14,6 @@
     </template>
     <v-row justify="center" class="pa-4">
       <v-date-picker
-        locale="zh-tw"
         @input="dateInput"
         no-title
         class="elevation-4"

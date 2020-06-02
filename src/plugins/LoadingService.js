@@ -13,6 +13,8 @@ class LoadingService {
   constructor() {
     this.loadingCount = 0;
     this.status = Vue.observable({ isRunning: false });
+    //觀察isrunning obj是否有變化
+    //true=loading
   }
 
   reset() {

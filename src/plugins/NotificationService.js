@@ -9,7 +9,7 @@ function getUserId() {
 }
 
 function makeMessage(obj) {
-  switch (obj.type) {
+  switch (obj.type) { //事件種類
     case "point":
       if (obj.action == "transfer") {
         return `"${obj.from.name}" 給予 "你" 點數${obj.body.amount}點`;
@@ -109,6 +109,8 @@ export class NotificationService {
     this.sse.onmessage = (e) => {
       console.log(e);
       localStorage.setItem(N_KEY, e.data);
+      //單人多視窗時，只會有一個視窗與sse連線，其他視窗去連localstorage
+      //setItem即為連線視窗將東西塞到localstorage
       this.handleNewNotification(JSON.parse(e.data));
     };
     this.sse.onerror = (e) => {

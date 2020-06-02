@@ -9,7 +9,7 @@
     <v-tabs-items v-model="tab" class="pa-2 pt-8">
       <v-tab-item><LedgerAdmin :adminLedgers="adminLedgers"/></v-tab-item>
       <v-tab-item><LedgerEngage :engageLedgers="engageLedgers"/></v-tab-item>
-      <v-tab-item><LedgerInvited :invitations="invitations"/></v-tab-item>
+      <v-tab-item><LedgerInvited :invitations="invitations" @update="update()" /></v-tab-item>
     </v-tabs-items>
   </v-container>
 </template>
@@ -59,6 +59,12 @@ export default {
       default: [],
     }
   },
+  methods:{
+    update() {
+      this.$asyncComputed.ledgerFetch.update();
+      this.$asyncComputed.invitations.update();
+    },
+  }
 
 };
 </script>

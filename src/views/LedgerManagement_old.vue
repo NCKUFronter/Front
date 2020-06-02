@@ -336,6 +336,7 @@ export default {
 .title {
   border-bottom: #cccccc 2px solid;
   margin: 5px;
+  
 }
 .button {
   margin: 5px;

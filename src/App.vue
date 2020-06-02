@@ -286,6 +286,8 @@
       </div> -->
     </v-content>
 
+
+    <!-- loading circle -->
     <v-dialog
       :value="loading"
       width="unset"
@@ -424,6 +426,7 @@ export default {
   watch: {
     login(val) {
       if (this.login) {
+        // 加$表自己定義
         this.$notification.connect();
       } else this.$notification.closeAll();
 
