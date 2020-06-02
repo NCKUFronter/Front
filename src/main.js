@@ -8,18 +8,15 @@ import ApiService from "./plugins/ApiService";
 import LoadingService from "./plugins/LoadingService";
 import vuetify from "./plugins/vuetify";
 
+//draw pie chart
 import ECharts from "vue-echarts/components/ECharts.vue";
 import "echarts/lib/chart/pie";
 import "echarts/lib/component/tooltip";
 import "echarts/lib/component/polar";
 import "echarts/lib/component/legend";
 import "echarts/lib/component/title.js";
-
 Vue.component("v-chart", ECharts);
 
-//draw pie chart
-// import DrVueEcharts from 'dr-vue-echarts';
-// Vue.use(DrVueEcharts)
 
 // import "roboto-fontface/css/roboto/roboto-fontface.css";
 // import "@mdi/font/css/materialdesignicons.css";

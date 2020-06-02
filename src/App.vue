@@ -344,10 +344,10 @@ let data = {
       {icon: "mdi-chart-arc", title: "自訂類別", link: "/Category" },],
       icon: "mdi-cash-multiple", title: "帳目", link: "/accounting" ,active:true},
     { child:[
-      { icon: "mdi-cart-outline", title: "點數兌換", link: "/point" },
-      { icon: "mdi-gift-outline",title: "點數贈送",link: "/point/delivery"},
-      { icon: "mdi-history", title: "歷史紀錄", link: "/point/history" }],
-      icon: "mdi-alpha-p-circle", title: "點數", link: "/point",active:true },
+      { icon: "mdi-cart-outline", title: "點數兌換", link: "/pointRedeem" },
+      { icon: "mdi-gift-outline",title: "點數贈送",link: "/pointDelivery"},
+      { icon: "mdi-history", title: "歷史紀錄", link: "/pointHistory" }],
+      icon: "mdi-alpha-p-circle", title: "點數", link: "/pointRedeem",active:true },
   ],
   menu: [
     { child:[],icon: "mdi-chart-arc", title: "統計", link: "/summary" },

@@ -146,15 +146,15 @@
           <!-- style="border:2px solid red;" -->
           <v-card-title class="pa-0 mr-5" style="border-bottom:1px solid white;font-size:0.8em;font-weight:bold;margin-top:12.5vh; margin-left:4vw;">當日小計</v-card-title>
           <div v-if="this.flowSelected!='支出'" class="income" style="height:28%;padding:0;margin:0">
-            <v-card-title class="pa-0" style="font-size:0.8em;margin-left:4vw;">總收入</v-card-title>
+            <v-card-title class="pa-0" style="font-size:0.8em;margin-left:4vw;">總收入 {{totalIncome}}</v-card-title>
             <v-chart :options="income"/>
           </div>
           <div flat v-if="this.flowSelected!='收入'" class="expense" style="height:28%;padding:0;margin:0">
-            <v-card-title class="pa-0" style="font-size:0.8em;margin-left:4vw;">總支出</v-card-title>
+            <v-card-title class="pa-0" style="font-size:0.8em;margin-left:4vw;">總支出 {{totalExpense}}</v-card-title>
             <v-chart :options="expense"/>
           </div>
           <div flat v-if="this.flowSelected!='收入'" class="point" style="height:28%;padding:0;margin:0">
-            <v-card-title class="pa-0" style="font-size:0.8em;margin-left:4vw;">總點數</v-card-title>
+            <v-card-title class="pa-0" style="font-size:0.8em;margin-left:4vw;">總點數 {{totalPoints}}</v-card-title>
             <v-chart :options="point"/>
           </div>   
         </v-card>
@@ -196,13 +196,16 @@ let data = {
   userDate: getLocaleDate(new Date()),
   preDate:getLocaleDate(new Date().setDate(new Date().getDate()-1)),
   nextDate:getLocaleDate(new Date().setDate(new Date().getDate()+1)),
-  accountData: [],
-  expenseData:[],
-  incomeData:[],
-  pointData:[],
   dataPickerModal: false,
-  // selectedRecord: null,
+  accountData: [],
   participants:false,
+  //pie
+  expenseData:[],
+  totalExpense:0,
+  incomeData:[],
+  totalIncome:0,
+  pointData:[],
+  totalPoints:0,
   income: {
     title : {},
     tooltip : {},
@@ -438,8 +441,11 @@ export default {
       console.log(this.filterAccountData)
       console.log(this.userCategories)
       this.expenseData.length=0;
+      this.totalExpense=0;
       this.incomeData.length=0;
+      this.totalIncome=0;
       this.pointData.length=0;
+      this.totalPoints=0;
       this.userCategories.forEach(element => {
         this.expenseData.push({name:element.name,value:0,color:element.color})
         this.incomeData.push({name:element.name,value:0,color:element.color})
@@ -453,6 +459,7 @@ export default {
         .filter(item => item.category.name === this.incomeData[i].name)
         .forEach(element => {
           this.incomeData[i].value+=element.money;
+          this.totalIncome+=element.money;
         });
       }
       this.income.series[0].data=this.incomeData;
@@ -463,7 +470,9 @@ export default {
         .filter(item => item.category.name === this.expenseData[e].name)
         .forEach(element => {
           this.expenseData[e].value+=element.money;
+          this.totalExpense+=element.money
           this.pointData[e].value+=element.rewardPoints;
+          this.totalPoints+=element.rewardPoints;
         });
       }
       this.expense.series[0].data=this.expenseData;

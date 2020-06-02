@@ -12,7 +12,7 @@
       <v-btn class="elevation-0 mt-2 mb-2" style="background-color:transparent;border:white solid 1px;border-radius:2em;">新增類別</v-btn>
     </v-flex>
     <v-flex xs6 sm3 md3 v-for="category of categories" :key="category._id" class="pa-2">
-      <v-card elevation="4" class="cardAll" style="back" :color="(category) ? category.color : '#d5ccb3'">
+      <v-card elevation="4"  class="cardAll" style="back" :color="(category) ? category.color : '#d5ccb3'">
         <v-text-field
           class="headline"
           v-model="category.name"
