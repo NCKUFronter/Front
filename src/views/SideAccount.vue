@@ -1,91 +1,251 @@
 <template>
-  <!-- <v-container flat> -->
-    <v-card flat  class="account-all" v-if="!modalOpen">
-    <div class=" account-upper" style="margin-bottom:1%">
-      <div data-app class="ledgerSelect">
-        <v-select
-          v-model="ledgerSelected"
-          :items="ledgers"
-          label="請選擇帳本"
-          hide-details
-          outlined
-          prepend-inner-icon="book"
-          item-text="ledgerName"
-          item-value="_id"
-          dense
-          full-width
-          color="#efca16"
-          item-color="#efca16"
-        ></v-select>
-      </div>
-
-      <div class="date-wrap" @blur="dataPickerModal=false">
-        <!-- <i class="material-icons" v-on:click="getYearMonthDate(-1)">arrow_left</i> -->
-        <v-card flat class="ma-auto" v-on:click="getYearMonthDate(-1)"  style="position:relative;">
-        <div>{{preDate}}</div>
-        <div style="position:absolute;top:0;height:100%;width:100%;background: linear-gradient(to right,rgba(61,64,78,1),rgba(61,64,78,0.85),transparent);"></div>
-        </v-card>
-
-        <DateInputPicker
-          v-model="userDate"
-          color="primary"
-          :left="107"
-          transition="scroll-y-transition"
-          class="ma-auto"
+  <!-- <v-content style="padding:0;"> -->
+  <v-container fluid style="padding:0;position:relative;">
+    <v-card
+      flat
+      min-height="85vh"
+      style="position:fixed;top:15%;right:0%;border-radius:0;"
+    >
+      <v-navigation-drawer
+        v-model="participants"
+        hide-overlay
+        style="border-top-left-radius:4em;width:220px; min-height:85vh;background-color:#3D404E"
+        temporary
+        right
+        class="elevation-0"
+      >
+        <v-card-title
+          class="pl-12"
+          style="font-size:0.8em;font-weight:bold;margin-top:70px"
+          >其他成員</v-card-title
         >
-          <template v-slot:activator="{ on, value }">
-            <div class="date" v-on="on">{{ value }}</div>
-          </template>
-        </DateInputPicker>
-
-        <v-card flat class="ma-auto" v-on:click="getYearMonthDate(1)"  style="position:relative;">
-        <div>{{nextDate}}</div>
-        <div style="position:absolute;top:0;height:100%;width:100%;background: linear-gradient(to left,rgba(61,64,78,1),rgba(61,64,78,0.85),transparent);"></div>
-        </v-card>
-        <!-- <i class="material-icons" v-on:click="getYearMonthDate(1)">arrow_right</i> -->
-      </div>
-
-      <!-- <div class="point">
-        <h6>累積點數: {{totalPoints}}</h6>
-      </div>
-      <div class="total">
-        <div class="income">
-          <h6>總收入: {{totalIncome }}</h6>
-        </div>
-        <div class="expenses">
-          <h6>總支出: {{totalExpense}}</h6>
-        </div>
-      </div> -->
-    </div>
-
-    <div class="account-down">
-      <RecordTable
-        :accountData="records"
-        :userDate="userDate"
-        :ledgerSelected="ledgerSelected"
-        @delete="fetchRecords"
-        @want-edit="editRecord"
-      />
-
-      <!-- 原本用v-on:click控制modal變數，顯示modal，現在改以不同view -->
-      <!-- <a v-on:click="modal = !modal" href="##additem###" class="material-icons">add_circle</a> -->
-      <!-- <v-dialog persistent v-model="modalOpen" width="unset"> -->
-      <!-- </v-dialog> -->
-    </div>
-    <v-btn icon large @click="newRecord" class="add-record elevation-8">
-        <v-icon large color="#3D404E">mdi-plus</v-icon>
-    </v-btn>
+        <v-list nav class="pa-0">
+          <v-list-item
+            v-for="(item, index) in engage_user.users"
+            :key="index"
+            active-class="active"
+            class="pl-10 pt-2"
+          >
+            <v-avatar size="36"><img :src="item.photo"/></v-avatar>
+            <v-list-item-title
+              class="ml-4"
+              v-text="item.name"
+              style="font-weight:bold;"
+            ></v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-navigation-drawer>
     </v-card>
-    <div class="account-edit"  v-else>
+
+    <v-card flat class="account-all " v-if="!this.GLOBAL.newRecordModal">
+      <v-layout row>
+        <v-flex xs12 sm9 md9 class="account-left">
+          <v-card-title class="ma-0 pa-0">帳目一覽</v-card-title>
+          <v-layout row class=" account-upper" style="margin-bottom:1%">
+            <v-flex xs6 sm6 md3 data-app class="pr-12">
+              <v-select
+                v-model="ledgerSelected"
+                :items="ledgers"
+                label="請選擇帳本"
+                hide-details
+                solo
+                flat
+                prepend-inner-icon="book"
+                item-text="ledgerName"
+                item-value="_id"
+                full-width
+                color="white"
+                item-color="white"
+              ></v-select>
+            </v-flex>
+            <v-flex xs6 sm6 md3 data-app class="pr-12">
+              <v-select
+                v-model="flowSelected"
+                :items="flow"
+                label="請選擇金流"
+                hide-details
+                solo
+                flat
+                prepend-inner-icon="money"
+                full-width
+                color="white"
+                item-color="white"
+              ></v-select>
+            </v-flex>
+
+            <v-flex
+              xs12
+              sm12
+              md6
+              class="date-wrap"
+              @blur="dataPickerModal = false"
+            >
+              <!-- <i class="material-icons" v-on:click="getYearMonthDate(-1)">arrow_left</i> -->
+              <v-card
+                flat
+                class="ma-auto"
+                v-on:click="getYearMonthDate(-1)"
+                style="position:relative;"
+              >
+                <div>{{ preDate }}</div>
+                <div
+                  style="position:absolute;top:0;height:100%;width:100%;background: linear-gradient(to right,rgba(38,40,45,1),rgba(38,40,45,0.85),transparent);"
+                ></div>
+              </v-card>
+
+              <DateInputPicker
+                v-model="userDate"
+                color="primary"
+                :left="107"
+                transition="scroll-y-transition"
+                class="ma-auto"
+              >
+                <template v-slot:activator="{ on, value }">
+                  <div class="date" v-on="on">{{ value }}</div>
+                </template>
+              </DateInputPicker>
+
+              <v-card
+                flat
+                class="ma-auto"
+                v-on:click="getYearMonthDate(1)"
+                style="position:relative;"
+              >
+                <div>{{ nextDate }}</div>
+                <div
+                  style="position:absolute;top:0;height:100%;width:100%;background: linear-gradient(to left,rgba(38,40,45,1),rgba(38,40,45,0.85),transparent);"
+                ></div>
+              </v-card>
+              <!-- <i class="material-icons" v-on:click="getYearMonthDate(1)">arrow_right</i> -->
+            </v-flex>
+
+            <!-- <div class="point">
+            <h6>累積點數: {{totalPoints}}</h6>
+          </div>
+          <div class="total">
+            <div class="income">
+              <h6>總收入: {{totalIncome }}</h6>
+            </div>
+            <div class="expenses">
+              <h6>總支出: {{totalExpense}}</h6>
+            </div>
+          </div> -->
+          </v-layout>
+
+          <div class="account-down">
+            <RecordTable
+              :accountData="records"
+              :userDate="userDate"
+              :ledgerSelected="ledgerSelected"
+              :flowSelected="flowSelected"
+              @delete="fetchRecords"
+              @want-edit="editRecord"
+            />
+
+            <!-- 原本用v-on:click控制modal變數，顯示modal，現在改以不同view -->
+            <!-- <a v-on:click="modal = !modal" href="##additem###" class="material-icons">add_circle</a> -->
+            <!-- <v-dialog persistent v-model="modalOpen" width="unset"> -->
+            <!-- </v-dialog> -->
+          </div>
+          <!-- <v-btn icon large @click="newRecord" class="add-record elevation-8">
+            <v-icon large color="#3D404E">mdi-plus</v-icon>
+        </v-btn> -->
+        </v-flex>
+
+        <v-flex xs12 sm3 md3 class="account-right">
+          <!-- style="border:2px solid blue" -->
+          <v-card flat class="ma-0 pa-0">
+            <v-card-actions class="ma-0 pa-0">
+              <v-spacer />
+              <bottom
+                @click.stop="participants = !participants"
+                style="position:relative;background-color:transparent;z-index:2;height:fit-content;width:fit-content;margin-right:70px;"
+              >
+                <transition name="fade"
+                  ><img
+                    v-if="!participants"
+                    src="../assets/fronter/account/member_unclicked.svg"
+                    height="20px"
+                    style="position: absolute;"
+                /></transition>
+                <transition name="fade"
+                  ><img
+                    v-if="participants"
+                    src="../assets/fronter/account/member_clicked.svg"
+                    height="20px"
+                    style="position: absolute;"
+                /></transition>
+              </bottom>
+            </v-card-actions>
+          </v-card>
+          <!-- <div class="chart">
+          <pie-chart :data="piedata" label-position="center" :colors="piecolor"/>
+        </div>
+        <div class="chart">
+          <pie-chart :data="piedata" label-position="center"/>
+        </div> -->
+          <v-card v-if="!participants" flat class="chart">
+            <!-- style="border:2px solid red;" -->
+            <v-card-title
+              class="pa-0 mr-5"
+              style="border-bottom:1px solid white;font-size:0.8em;font-weight:bold;margin-top:12.5vh; margin-left:4vw;"
+              >當日小計</v-card-title
+            >
+            <div
+              v-if="this.flowSelected != '支出'"
+              class="income"
+              style="height:28%;padding:0;margin:0"
+            >
+              <v-card-title
+                class="pa-0"
+                style="font-size:0.8em;margin-left:4vw;"
+                >總收入 {{ totalIncome }}</v-card-title
+              >
+              <v-chart :options="income" />
+            </div>
+            <div
+              flat
+              v-if="this.flowSelected != '收入'"
+              class="expense"
+              style="height:28%;padding:0;margin:0"
+            >
+              <v-card-title
+                class="pa-0"
+                style="font-size:0.8em;margin-left:4vw;"
+                >總支出 {{ totalExpense }}</v-card-title
+              >
+              <v-chart :options="expense" />
+            </div>
+            <div
+              flat
+              v-if="this.flowSelected != '收入'"
+              class="point"
+              style="height:28%;padding:0;margin:0"
+            >
+              <v-card-title
+                class="pa-0"
+                style="font-size:0.8em;margin-left:4vw;"
+                >總點數 {{ totalPoints }}</v-card-title
+              >
+              <v-chart :options="point" />
+            </div>
+          </v-card>
+        </v-flex>
+      </v-layout>
+    </v-card>
+    <div class="account-edit" v-if="this.GLOBAL.newRecordModal">
       <EditRecord
-          @close="modalOpen = false"
-          @add="fetchRecords"
-          @update="fetchRecords"
-          :userDate="userDate"
-          :oldForm="selectedRecord"
-          :ledgerSelected="ledgerSelected"     
+        @close="setRecordModal(false)"
+        @add="fetchRecords"
+        @update="fetchRecords"
+        :userDate="userDate"
+        :oldForm="this.GLOBAL.selectedRecord"
+        :ledgerSelected="ledgerSelected"
       ></EditRecord>
     </div>
+  </v-container>
+  <!-- </v-content> -->
+
   <!-- </v-container> -->
 </template>
 
@@ -94,21 +254,132 @@ import RecordTable from "../components/RecordTable.vue";
 import EditRecord from "../components/EditRecord.vue";
 import DateInputPicker from "../components/DateInputPicker.vue";
 import { getLocaleDate } from "../utils";
+import ECharts from "vue-echarts/components/ECharts";
 
 let data = {
-  modalOpen: false,
-  ledgerSelected: null,
+  // modalOpen: false,
+  ledgerSelected: "1", //希望預設0=mainAccount
+  flowSelected: "全部項目",
   // ledger: ["All", "Main Account", "Bank SinoPac"],
+  flow: ["支出", "收入", "全部項目"],
   userDate: getLocaleDate(new Date()),
-  preDate:getLocaleDate(new Date().setDate(new Date().getDate()-1)),
-  nextDate:getLocaleDate(new Date().setDate(new Date().getDate()+1)),
-  accountData: [],
+  preDate: getLocaleDate(new Date().setDate(new Date().getDate() - 1)),
+  nextDate: getLocaleDate(new Date().setDate(new Date().getDate() + 1)),
   dataPickerModal: false,
-  selectedRecord: null
+  accountData: [],
+  participants: false,
+  //pie
+  expenseData: [],
+  totalExpense: 0,
+  incomeData: [],
+  totalIncome: 0,
+  pointData: [],
+  totalPoints: 0,
+  income: {
+    title: {},
+    tooltip: {},
+    legend: {
+      show: false,
+    },
+    series: [
+      {
+        name: "income",
+        type: "pie",
+        radius: "65%",
+        color: "#d5ccb3",
+        data: [],
+        label: {
+          show: false,
+          position: "center",
+        },
+        labelLine: {
+          show: false,
+        },
+        itemStyle: {
+          normal: {
+            color: function(params) {
+              if (params.data != null && params.data.color != undefined) {
+                return params.data.color;
+              } else {
+                return params.color;
+              }
+            },
+          },
+        },
+      },
+    ],
+  },
+  expense: {
+    title: {},
+    tooltip: {},
+    legend: {
+      show: false,
+    },
+    series: [
+      {
+        name: "expense",
+        type: "pie",
+        radius: "65%",
+        data: [],
+        label: {
+          show: false,
+          position: "center",
+        },
+        labelLine: {
+          show: false,
+        },
+        itemStyle: {
+          normal: {
+            color: function(params) {
+              if (params.data != null && params.data.color != undefined) {
+                return params.data.color;
+              } else {
+                return params.color;
+              }
+            },
+          },
+        },
+      },
+    ],
+  },
+  point: {
+    title: {},
+    tooltip: {},
+    legend: {
+      show: false,
+    },
+    series: [
+      {
+        name: "point",
+        type: "pie",
+        radius: "65%",
+        data: [],
+        label: {
+          show: false,
+          position: "center",
+        },
+        labelLine: {
+          show: false,
+        },
+        itemStyle: {
+          normal: {
+            color: function(params) {
+              if (params.data != null && params.data.color != undefined) {
+                return params.data.color;
+              } else {
+                return params.color;
+              }
+            },
+          },
+        },
+      },
+    ],
+  },
 };
 
 export default {
   name: "SideAccount",
+  inject: ["$clear"],
   data() {
     return data;
   },
@@ -116,9 +387,16 @@ export default {
   components: {
     DateInputPicker,
     EditRecord,
-    RecordTable
+    RecordTable,
+    "v-chart": ECharts,
   },
   created() {
+    this.$clear.animeOver = true;
+
+    // console.log('hihi'+this.$route.query.userId)
+    // if(this.$route.query.modal){
+    //   this.modalOpen=this.$route.query.modal;
+    // }
     //Vue開始生命週期
     // this.initialDate();
     // this.fetchRecords();
@@ -136,7 +414,31 @@ export default {
     // this.ledger = res.data;
     // }))
   },
+  watch: {
+    ledgerSelected: function() {
+      this.drawPie();
+    },
+    userDate: function() {
+      this.drawPie();
+    },
+    flowSelected: function() {
+      this.drawPie();
+    },
+    records: function() {
+      this.drawPie();
+    },
+  },
   computed: {
+    filterAccountData() {
+      // return this.filterLedgerData.filter(item => {
+      return this.records.filter((item) => {
+        return getLocaleDate(item.date) === this.userDate;
+      });
+    },
+    user() {
+      console.log(this.engage_user);
+      return this.engage_user;
+    },
     totalIncome() {
       return this.records.reduce(
         (sum, cur) => (cur.recordType[0] == "i" ? sum + cur.money : sum),
@@ -154,33 +456,132 @@ export default {
         if (cur.rewardPoints != null) return sum + cur.rewardPoints;
         else return sum;
       }, 0);
-    }
+    },
   },
   asyncComputed: {
     records: {
       get() {
-        if (this.ledgerSelected == null) return [];
+        if (this.ledgerSelected == null || this.flowSelected == null) return [];
+        if (this.flowSelected == "全部項目") {
+          return this.$loading.insideLoading(
+            this.$http
+              .get(`/ledger/${this.ledgerSelected}/records`, {
+                params: { _one: ["category", "user"] },
+              })
+              .then((res) => res.data)
+          );
+        } else {
+          // 1. callback
+          // dosomething(..., functino(err, value) {})
+          // 2. promise
+          // dosomething(...).then(value => { return dosomthing2()}).catch(err => {}).catch().then()
+          // 3. async/awit
+          // try {
+          //   const value = await dosomething(...);
+          // catch(err) {
+          // }
+          //
+          return this.$loading.insideLoading(
+            this.$http
+              .get(`/ledger/${this.ledgerSelected}/records`, {
+                params: { _one: ["category", "user"] },
+              })
+              .then((res) => {
+                console.log(res.data);
+                return this.flowSelected == "收入"
+                  ? res.data.filter((item) => item.recordType === "income")
+                  : res.data.filter((item) => item.recordType === "expense");
+              })
+          );
+        }
+      },
+      default: [],
+      watch: ["ledgerSelected", "flowSelected"],
+    },
+    engage_user: {
+      get() {
         return this.$loading.insideLoading(
           this.$http
-            .get(`/ledger/${this.ledgerSelected}/records`, {
-              params: { _one: ["category", "user"] }
+            .get(`/ledger/${this.ledgerSelected}`, {
+              params: { _many: ["users"] },
             })
-            .then(res => res.data)
+            .then((res) => res.data)
         );
       },
       default: [],
-      watch: ["ledgerSelected"]
+      watch: ["ledgerSelected"],
     },
     ledgers: {
       get() {
         return this.$loading.insideLoading(
-          this.$http.get(`/user/ledgers`).then(res => res.data)
+          this.$http.get(`/user/ledgers`).then((res) => res.data)
         );
       },
-      default: []
-    }
+      default: [],
+    },
+    userCategories: {
+      get() {
+        return this.$http.get("/user/categories").then((res) => res.data);
+      },
+      default: [],
+    },
   },
   methods: {
+    drawPie() {
+      console.log(this.filterAccountData);
+      console.log(this.userCategories);
+      this.expenseData.length = 0;
+      this.totalExpense = 0;
+      this.incomeData.length = 0;
+      this.totalIncome = 0;
+      this.pointData.length = 0;
+      this.totalPoints = 0;
+      this.userCategories.forEach((element) => {
+        this.expenseData.push({
+          name: element.name,
+          value: 0,
+          color: element.color,
+        });
+        this.incomeData.push({
+          name: element.name,
+          value: 0,
+          color: element.color,
+        });
+        this.pointData.push({
+          name: element.name,
+          value: 0,
+          color: element.color,
+        });
+      });
+      console.log(this.incomeData);
+
+      //收入
+      for (var i = 0; i < this.incomeData.length; i++) {
+        this.filterAccountData
+          .filter((item) => item.recordType === "income")
+          .filter((item) => item.category.name === this.incomeData[i].name)
+          .forEach((element) => {
+            this.incomeData[i].value += element.money;
+            this.totalIncome += element.money;
+          });
+      }
+      this.income.series[0].data = this.incomeData;
+
+      //支出與點數
+      for (var e = 0; e < this.expenseData.length; e++) {
+        this.filterAccountData
+          .filter((item) => item.recordType === "expense")
+          .filter((item) => item.category.name === this.expenseData[e].name)
+          .forEach((element) => {
+            this.expenseData[e].value += element.money;
+            this.totalExpense += element.money;
+            this.pointData[e].value += element.rewardPoints;
+            this.totalPoints += element.rewardPoints;
+          });
+      }
+      this.expense.series[0].data = this.expenseData;
+      this.point.series[0].data = this.pointData;
+    },
     fetchRecords() {
       this.$asyncComputed.records.update();
     },
@@ -192,33 +593,56 @@ export default {
         let t = new Date(this.userDate);
         t.setDate(t.getDate() + index);
         this.userDate = getLocaleDate(t);
-        this.preDate=getLocaleDate(new Date(this.userDate).setDate(new Date(this.userDate).getDate()-1));
-        this.nextDate=getLocaleDate(new Date(this.userDate).setDate(new Date(this.userDate).getDate()+1));
+        this.preDate = getLocaleDate(
+          new Date(this.userDate).setDate(new Date(this.userDate).getDate() - 1)
+        );
+        this.nextDate = getLocaleDate(
+          new Date(this.userDate).setDate(new Date(this.userDate).getDate() + 1)
+        );
       }
     },
     click() {
       this.dataPickerModal = false;
       console.log(this.dataPickerModal);
     },
-    newRecord() {
-      this.selectedRecord = null;
-      this.modalOpen = true;
-    },
+    // newRecord() {
+    //   this.selectedRecord = null;
+    //   this.setRecordModal(true,null)
+    //   this.modalOpen = true;
+    // },
     editRecord(item) {
-      this.selectedRecord = item;
-      this.modalOpen = true;
-    }
-  }
+      // this.selectedRecord = item;
+      this.setRecordModal(true, item);
+      // this.modalOpen = true;
+    },
+  },
 };
 </script>
 
 <style scoped lang="scss">
+.chart {
+  width: 70%;
+  height: 85%;
+}
+.echarts {
+  position: relative;
+  top: -20px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
 
+.theme--dark.v-card {
+  background-color: transparent !important;
+}
 
+.v-btn:not(.v-btn--round).v-size--default {
+  min-width: 15px;
+}
 
-.account-all{
-  
-  padding: 2% 15%;
+.account-all {
+  padding: 8% 0% 0% 2%;
   position: relative;
 }
 
@@ -237,16 +661,10 @@ export default {
     display: inline-flex;
   }
 }
-.ledgerSelect {
-  margin: auto;
-  /* border: steelblue solid 2px; */
-  padding: 0;
-  width: 20%;
-}
+
 .date-wrap {
   margin: auto;
-  width: 45%;
-  margin-left: 3%;
+  // width: 45%;
   align-items: center;
   display: flex;
   position: relative;
@@ -283,15 +701,15 @@ export default {
   position: relative;
 }
 
-  .add-record {
-    background-color: white;
-    position: absolute;
-    bottom: 5%;
-    right: 3%;
-    /*border-radius: #cccccc solid 2px 4;*/
-  }
+.add-record {
+  background-color: white;
+  position: absolute;
+  bottom: 5%;
+  right: 3%;
+  /*border-radius: #cccccc solid 2px 4;*/
+}
 
-.theme--dark.v-sheet{
-  background-color: transparent;
+.theme--dark.v-sheet {
+  background-color: #26282d;
 }
 </style>

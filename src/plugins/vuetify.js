@@ -1,4 +1,5 @@
 import Vue from "vue";
+/*
 import Vuetify, {
   VAlert,
   VApp,
@@ -24,6 +25,7 @@ import Vuetify, {
   VFlex,
   VForm,
   VIcon,
+  VInput,
   VImg,
   VLayout,
   VList,
@@ -37,13 +39,17 @@ import Vuetify, {
   VSkeletonLoader,
   VSnackbar,
   VSpacer,
+  VSheet,
   VTab,
   VTabs,
   VTextField,
 } from "vuetify/lib";
+*/
+import Vuetify from 'vuetify';
 import "./variables.scss";
 // import "vuetify/dist/vuetify.min.css";
 
+/*
 Vue.use(Vuetify, {
   components: {
     VAlert,
@@ -70,6 +76,7 @@ Vue.use(Vuetify, {
     VFlex,
     VForm,
     VIcon,
+    VInput,
     VImg,
     VLayout,
     VList,
@@ -83,18 +90,21 @@ Vue.use(Vuetify, {
     VSkeletonLoader,
     VSnackbar,
     VSpacer,
+    VSheet,
     VTab,
     VTabs,
     VTextField,
   },
 });
+*/
+Vue.use(Vuetify);
 
 export default new Vuetify({
   theme: {
     dark:true,
     themes: {
       dark: {
-        primary: "#3d404e",
+        primary: "white",
         secondary: "#26a69a", //"#424242",
         accent: "#9c27b0", //"#82B1FF",
         error: "#E53935", // "#FF5252",

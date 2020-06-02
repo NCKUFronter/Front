@@ -11,6 +11,7 @@ import pointDelivery from "../views/PointDelivery.vue";
 import pointRedeem from "../views/PointRedeem.vue";
 import personalAccount from "../views/PersonalAccount.vue";
 import fronterHome from "../views/FronterHome.vue";
+import global_ from "../components/Global.vue";
 import Vuetify from "vuetify/lib";
 import VueRellax from "vue-rellax";
 
@@ -26,62 +27,67 @@ const routes = [
       title: "首頁",
     },
   },
-  // {
-  //   path: "/accounting",
-  //   name: "SideAccountName",
-  //   component: SideAccount,
-  //   meta: {
-  //     title: "帳目管理",
-  //   },
-  // },
-  // {
-  //   path: "/accounting/Category",
-  //   name: "CategoryName",
-  //   component: Category,
-  //   meta: {
-  //     title: "管理類別",
-  //   },
-  // },
-  // {
-  //   path: "/accounting/Ledger",
-  //   name: "LedgerName",
-  //   component: LedgerManagement,
-  //   meta: {
-  //     title: "管理帳本",
-  //   },
-  // },
+  {
+    path: "/empty",
+    name: "globalName",
+    component: global_,
+  },
   {
     path: "/accounting",
-    // name: "AcountingName",
-    props: true,
-    component: Accounting,
-    children: [
-      {
-        path: "",
-        name: "SideAccountName",
-        component: SideAccount,
-        meta: {
-          title: "帳目管理",
-        },
-      },
-      {
-        path: "Category",
-        name: "CategoryName",
-        component: Category,
-        meta: {
-          title: "管理類別",
-        },
-      },
-      {
-        path: "Ledger",
-        name: "LedgerName",
-        component: LedgerManagement,
-        meta: {
-          title: "管理帳本",
-        },
-      },
-    ],
+    name: "SideAccountName",
+    component: SideAccount,
+    meta: {
+      title: "帳目管理",
+    },
   },
+  {
+    path: "/Category",
+    name: "CategoryName",
+    component: Category,
+    meta: {
+      title: "管理類別",
+    },
+  },
+  {
+    path: "/Ledger",
+    name: "LedgerName",
+    component: LedgerManagement,
+    meta: {
+      title: "管理帳本",
+    },
+  },
+  // {
+  //   path: "/accounting",
+  //   // name: "AcountingName",
+  //   props: true,
+  //   component: Accounting,
+  //   children: [
+  //     {
+  //       path: "",
+  //       name: "SideAccountName",
+  //       component: SideAccount,
+  //       meta: {
+  //         title: "帳目管理",
+  //       },
+  //     },
+  //     {
+  //       path: "Category",
+  //       name: "CategoryName",
+  //       component: Category,
+  //       meta: {
+  //         title: "管理類別",
+  //       },
+  //     },
+  //     {
+  //       path: "Ledger",
+  //       name: "LedgerName",
+  //       component: LedgerManagement,
+  //       meta: {
+  //         title: "管理帳本",
+  //       },
+  //     },
+  //   ],
+  // },
   { path: "/fronter_home", name: "FronterHomeName", component: fronterHome },
   {
     path: "/personal",
@@ -97,37 +103,60 @@ const routes = [
     },
   },
   {
-    path: "/point",
-    // name: "PointManageName",
-    component: pointManage,
-    props: true,
-    children: [
-      {
-        path: "",
-        name: "PointRedeemName",
-        component: pointRedeem,
-        meta: {
-          title: "點數兌換",
-        },
-      },
-      {
-        path: "delivery",
-        name: "PointDeliveryName",
-        component: pointDelivery,
-        meta: {
-          title: "點數贈送",
-        },
-      },
-      {
-        path: "history",
-        name: "PointHistoryName",
-        component: pointHistory,
-        meta: {
-          title: "歷史紀錄",
-        },
-      },
-    ],
+    path: "/pointRedeem",
+    name: "PointRedeemName",
+    component: pointRedeem,
+    meta: {
+      title: "點數兌換",
+    },
   },
+  {
+    path: "/pointDelivery",
+    name: "PointDeliveryName",
+    component: pointDelivery,
+    meta: {
+      title: "點數贈送",
+    },
+  },
+  {
+    path: "/pointHistory",
+    name: "PointHistoryName",
+    component: pointHistory,
+    meta: {
+      title: "歷史紀錄",
+    },
+  // {
+  //   path: "/point",
+  //   // name: "PointManageName",
+  //   component: pointManage,
+  //   props: true,
+  //   children: [
+  //     {
+  //       path: "",
+  //       name: "PointRedeemName",
+  //       component: pointRedeem,
+  //       meta: {
+  //         title: "點數兌換",
+  //       },
+  //     },
+  //     {
+  //       path: "delivery",
+  //       name: "PointDeliveryName",
+  //       component: pointDelivery,
+  //       meta: {
+  //         title: "點數贈送",
+  //       },
+  //     },
+  //     {
+  //       path: "history",
+  //       name: "PointHistoryName",
+  //       component: pointHistory,
+  //       meta: {
+  //         title: "歷史紀錄",
+  //       },
+  //     },
+  //   ],
+    },
 ];
 
 const router = new VueRouter({

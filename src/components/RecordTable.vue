@@ -1,9 +1,11 @@
 <template>
-  <div class="RT">
-  <v-card flat height="55vh" class="scroll recordTable" >
+  <div class="RT" >
+  <v-card flat class="scroll recordTable" style="height:60vh;"> 
+    <!-- class="scroll recordTable" -->
     <div class="header-background"></div>
     <v-data-table  class=" record" 
     hide-default-footer
+    items-per-page-options = [-1]
     :headers="headers" :items="filterAccountData" sort-by="money" >
       <!-- recordType -->
       
@@ -17,9 +19,8 @@
         <v-avatar size="36">
           <img :src="item.user.photo" />
         </v-avatar>
-
-        <v-icon v-if="item.recordType[0]=='i'" color="green">mdi-cash-plus</v-icon>
-        <v-icon v-else color="red">mdi-cash-minus</v-icon>
+        <!-- <v-icon v-if="item.recordType[0]=='i'" color="green">mdi-cash-plus</v-icon>
+        <v-icon v-else color="red">mdi-cash-minus</v-icon> -->
       </template>
 
       <!-- category -->
@@ -127,27 +128,27 @@ export default {
       modalFlow: ["income", "expense"]
     };
   },
-  props: ["userDate", "ledgerSelected", "accountData"],
+  props: ["userDate", "ledgerSelected", "accountData","flowSelected"],
   created() {},
   computed: {
 
     filterAccountData() {
-      console.log(this.accountData)
       // return this.filterLedgerData.filter(item => {
       return this.accountData.filter(item => {
         return getLocaleDate(item.date) === this.userDate;
       });
 
     },
-    filterLedgerData() {
-      if (this.ledgerSelected != "All") {
-        return this.accountData.filter(item => {
-          return item.ledger === this.ledgerSelected;
-        });
-      } else {
-        return this.accountData;
-      }
-    }
+
+    // filterLedgerData() {
+    //   if (this.ledgerSelected != "All") {
+    //     return this.accountData.filter(item => {
+    //       return item.ledger === this.ledgerSelected;
+    //     });
+    //   } else {
+    //     return this.accountData;
+    //   }
+    // }
   },
   methods: {
     getCateColor(cate){
@@ -155,15 +156,15 @@ export default {
       if(cate=="食物"){
         return '#FED37A'
       }else if(cate=="娛樂"){
-        return "#DF764C"
+        return "#FFA863"
       }else if(cate=="醫療"){
-        return "#A24A8E"
+        return "#DF764C"
       }else if(cate=="交通"){
-        return "#5D63AF"
+        return "#8ABA97"
       }else if(cate=="治裝"){
-        return "#C2CCB3"
+        return "#50989E"
       }else{
-        return "#509883"
+        return "#D5CCB3"
       }
     },
     getColor(recordType) {
@@ -212,7 +213,7 @@ export default {
 .RT ::-webkit-scrollbar-thumb {
   background: white;
   border-radius: 5px;
-  border: 4px solid #3D404E;
+  border: 4px solid #26282d;
 }
 
 
@@ -221,7 +222,7 @@ export default {
 
 }
 
-.theme--dark.v-card{
+.RT .theme--dark.v-card{
   background-color: transparent ! important;
 }
 

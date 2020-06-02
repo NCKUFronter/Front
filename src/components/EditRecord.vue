@@ -1,14 +1,14 @@
 <template>
-    <v-card flat style="padding: 3% 0% 2% 7%;">
+    <v-card flat style="padding: 8% 0% 2% 7%;">
         <form class="modal-content" >
         <v-layout row>
-            <v-flex xs12 sm3 md3 
+            <v-flex xs12 sm3 md3
             style="border-right: solid 3px #dddee2;">
                 <!-- <v-card v-for="item in userCategories" :key="item" > -->
-                  <v-btn ref="category"  @click="categorySelect(index,item.categoryId)" 
+                  <v-btn ref="category"  @click="categorySelect(item)" 
                   v-for="(item,index) in userCategories" :key="index" class="cate elevation-0" 
                   style="margin:5%;height:fit-content;width:80px;border-radius:50px;background-color:#3D404E;">
-                    <v-avatar :color="item.color" size="80"  style=" border:double 5px #3D404E" >
+                    <v-avatar :color="item.color" size="80"  :style="cateCircle(item)" >
                         <span style="color:#3D404E; font-weight:bold">{{item.name}}</span>
                     </v-avatar>
                   </v-btn>
@@ -146,7 +146,7 @@ let data = {
     ledgerId: "",
     categoryId: "",
     money: 0,
-    date: ""
+    date: "",
   }
 
   /*
@@ -174,7 +174,8 @@ export default {
     },
     ledgerSelected: {
       type: String
-    }
+    },
+    
   },
   data() {
     return data;
@@ -264,12 +265,19 @@ export default {
     }
   },
   methods: {
-    // categorySelect(idx,cateId){
-    //   let $ref = this.$refs.category;
-    //   console.log($ref)
-    //   $ref[idx].setBackgroundColor = '#ffffff';
+    categorySelect(item){
+      // console.log(item)
+      this.form.categoryId=item._id;
+    },
 
-    // },
+    cateCircle(item){
+      // console.log(item)
+      if(item._id==this.form.categoryId){
+        return 'border:double 5px #3D404E'
+      }else{
+        return ''
+      }
+    },
     copyOldForm() {
       this.form.ledgerId = this.oldForm.ledgerId;
       this.form.categoryId = this.oldForm.categoryId;

@@ -1,13 +1,18 @@
 <template>
   <!-- ref: https://codepen.io/virtualadrian/pen/pOeVPX && Vuetify component: Card & Combobox & Chip-->
-  <v-row>
+  <v-row style="padding: 8% 5% 0% 2%;">
     <v-row v-if="loading">
-      <v-flex xs12 sm6 md6 v-for="item in 6" :key="item" class="pa-2">
+      <v-flex xs6 sm3 md3 v-for="item in 6" :key="item" class="pa-2">
         <v-boilerplate class="md-6" type=" table-heading,list-item-three-line"></v-boilerplate>
       </v-flex>
     </v-row>
-    <v-flex xs12 sm6 md6 v-else v-for="category of categories" :key="category._id" class="pa-2">
-      <v-card elevation="4" class="cardAll">
+    <v-row v-else>
+    <v-flex xs12 sm12 md12 class="pl-2">
+      <v-card-title class="ma-0 pa-0">自訂類別</v-card-title>
+      <v-btn class="elevation-0 mt-2 mb-2" style="background-color:transparent;border:white solid 1px;border-radius:2em;">新增類別</v-btn>
+    </v-flex>
+    <v-flex xs6 sm3 md3 v-for="category of categories" :key="category._id" class="pa-2">
+      <v-card elevation="4"  class="cardAll" style="back" :color="(category) ? category.color : '#d5ccb3'">
         <v-text-field
           class="headline"
           v-model="category.name"
@@ -55,7 +60,7 @@
       </v-card>
     </v-flex>
 
-    <v-flex xs12 sm6 md6 class="pa-2" v-if="!loading">
+    <!-- <v-flex xs6 sm3 md3 class="pa-2" v-if="!loading">
       <v-card>
         <v-text-field
           label="新增類別名稱"
@@ -91,14 +96,14 @@
           <v-icon style="transform:scaleX(-1)">mdi-shape-plus</v-icon>
         </v-btn>
       </v-card>
-    </v-flex>
+    </v-flex> -->
+    </v-row>
   </v-row>
 </template>
 
 <script>
 import { confirmed } from "vee-validate/dist/rules";
 import { ignoreNotLoginError } from "../utils";
-
 export default {
   inject: ["$alert", "$confirm"],
   data: () => ({
@@ -123,7 +128,6 @@ export default {
   components: {
     VBoilerplate: {
       functional: true,
-
       render(h, { data, props, children }) {
         return h(
           "v-skeleton-loader",
@@ -146,7 +150,6 @@ export default {
     },
     deleteCategory(category) {
       if (category.userId == null) return this.$alert.error("預設類別無法刪除");
-
       this.$confirm.open("確認刪除類別: " + category.name, () => {
         this.$http
           .delete("/category/" + category._id)
@@ -192,10 +195,8 @@ export default {
           });
       });
     },
-
     save() {
       if (this.newCategory == "") return this.$alert.error("新類別名不得為空");
-
       this.$nextTick(() => {
         this.$loading
           .insideLoading(
@@ -227,14 +228,13 @@ export default {
 .card {
   padding: 1%;
   position: relative;
+  
 }
-
 .deleteCard {
   position: absolute;
   top: -1%;
   right: -1%;
 }
-
 .loadCard {
   margin-bottom: 20px;
 }

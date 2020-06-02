@@ -1,9 +1,13 @@
 <template>
   <v-layout>
-    <v-app-bar transition="slide-y-transition" color="#26282d" flat clipped app></v-app-bar>
     <v-flex v-if="this.$vuetify.breakpoint.mdAndUp">
       <transition name="fade">
-        <img v-show="vanish" class="FH_page" src="../assets/fronter/home/home_logo.svg" width="45%" />
+        <img
+          v-show="vanish"
+          class="FH_page"
+          src="../assets/fronter/home/home_logo.svg"
+          width="45%"
+        />
       </transition>
 
       <v-flex v-if="vanish" class="FH_brand">FRONTER</v-flex>
@@ -15,7 +19,9 @@
           <v-flex v-show="show" class="FH_brand brand_des">FRONTER</v-flex>
         </transition>
         <transition name="sloganmove">
-          <v-flex v-show="show" class="FH_slogan slogan_des">A Brand-New Spending App</v-flex>
+          <v-flex v-show="show" class="FH_slogan slogan_des"
+            >A Brand-New Spending App</v-flex
+          >
         </transition>
         <transition name="slidedown">
           <v-flex v-show="show" class="FH_bar FH_fronter_bar"></v-flex>
@@ -37,14 +43,18 @@
 
       <v-flex v-if="vanish" class="FH_brand sm">FRONTER</v-flex>
 
-      <v-flex v-if="vanish" class="FH_slogan sm">A Brand-New Spending App</v-flex>
+      <v-flex v-if="vanish" class="FH_slogan sm"
+        >A Brand-New Spending App</v-flex
+      >
 
-      <v-flex @click="toToggle">
+      <v-flex>
         <transition name="brandmove">
           <v-flex v-show="show" class="FH_brand brand_des sm">FRONTER</v-flex>
         </transition>
         <transition name="sloganmove">
-          <v-flex v-show="show" class="FH_slogan slogan_des sm">A Brand-New Spending App</v-flex>
+          <v-flex v-show="show" class="FH_slogan slogan_des sm"
+            >A Brand-New Spending App</v-flex
+          >
         </transition>
         <transition name="slidedown">
           <v-flex v-show="show" class="FH_bar FH_fronter_bar sm"></v-flex>
@@ -62,14 +72,15 @@ let data = {
   menu: [
     { title: "帳目", link: "/accounting" },
     { title: "統記", link: "/summary" },
-    { title: "類別", link: "/point" }
+    { title: "類別", link: "/point" },
   ],
   show: false,
-  vanish: true
+  vanish: true,
 };
 
 export default {
   name: "FronterHomeName",
+  inject: ["$clear"],
 
   data() {
     return data;
@@ -104,9 +115,10 @@ export default {
     }, 3000);
   },
 
-  mounted: function() {},
-  methods: {},
-  computed: {}
+  mounted: function() {
+    this.$clear.animeOver = false;
+  },
+  computed: {},
   // watch: {
   //   login(val) {
   //     if (this.login) {
