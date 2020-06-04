@@ -132,7 +132,7 @@
         <v-list shaped nav class="pa-0">
           <v-list-group
             v-for="(item, index) in menuWithChild"
-            :key="index"
+            :key="'menu_'+index"
             :class="{ 'menu-item': true, disabled: !item.link }"
             class="pl-0"
             :to="item.link"
@@ -147,7 +147,7 @@
 
             <v-list-item
               v-for="(child, index) in item.child"
-              :key="index"
+              :key="'menu_child_'+index"
               :class="{ 'menu-item': true, disabled: !child.link }"
               class="pl-10"
               :to="child.link"
@@ -162,7 +162,7 @@
 
           <v-list-item
             v-for="(item, index) in menu"
-            :key="index"
+            :key="'menu_item'+index"
             :class="{ 'menu-item': true, disabled: !item.link }"
             class="pl-10"
             :to="item.link"
@@ -413,11 +413,11 @@
 
             <v-card-text
               v-for="(item, index) in footerAccount"
-              :key="index"
+              :key="'footerAccount_'+index"
               :to="item.link"
               active-class="active"
               dense
-              class="footerAccount"
+              class="footerAccount ma-0 pa-0"
               >{{ item.title }}</v-card-text
             >
           </v-flex>
@@ -429,11 +429,11 @@
             >
             <v-card-text
               v-for="(item, index) in footerGame"
-              :key="index"
+              :key="'footerGame_'+index"
               :to="item.link"
               active-class="active"
               dense
-              class="footerAccount"
+              class="footerAccount ma-0 pa-0"
               >{{ item.title }}</v-card-text
             >
           </v-flex>
@@ -446,7 +446,7 @@
           >
             <v-card-text
               v-for="(item, index) in footerLink"
-              :key="index"
+              :key="'footerLink_'+index"
               :to="item.link"
               active-class="active"
               dense

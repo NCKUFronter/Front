@@ -1,10 +1,5 @@
 <template>
-    <v-row v-if="loading">
-      <v-flex xs6 sm3 md3 v-for="item in 6" :key="item" class="pa-2">
-        <v-boilerplate class="md-6" type=" table-heading,list-item-three-line"></v-boilerplate>
-      </v-flex>
-    </v-row>
-    <v-row v-else>
+    <v-row >
     <v-flex xs6 sm3 md3 v-for="ledger of engageLedgers" :key="ledger._id" class="pa-2">
       <v-card flat style="border-radius:2em">
       <div class="pr-8 pl-8 pt-2 pb-2" style="background-color:#08112c;position: relative">
@@ -43,6 +38,11 @@
           </v-btn>
         </v-card-actions> -->
       </v-card>
+      <v-card-actions class="ma-0 mt-1 pa-0 px-7">
+        <v-spacer />
+        <v-btn  class="ma-0 px-1 pa-0 elevation-0" style="font-size:10px;height:fit-content;width:fit-content;border-radius:0;" v-on:click="invite(ledger)">邀請</v-btn>
+        <v-btn class="ma-0 px-1 pa-0 elevation-0" style="font-size:10px;height:fit-content;width:fit-content;border-left:1px solid white;border-radius:0;" v-on:click="leave(ledger._id)">剔除</v-btn>
+      </v-card-actions>
     </v-flex>
     </v-row>
 
@@ -50,6 +50,8 @@
 
 <script>
 export default {
+  name: "ledgerEngage",
+  inject: ["$alert", "$confirm", "$notification"],
   data: () => ({
   }),
   created(){
@@ -57,15 +59,20 @@ export default {
   },
   props: ["engageLedgers",],
   methods:{
-      ledgerUser(user){
-        console.log(user)
+    ledgerUser(user){
+        console.log(user.length)
         if(user.length<=6){
           return user
         }else{
-          return user.splice(0,3)
+          var shortlist=[];
+          for (var i=0;i<4;i++){
+            shortlist.push(user[i])
+          }
+          return shortlist
+          // return user.splice(0,3)
         }
         
-      }
+    },
   }
 }
 </script>

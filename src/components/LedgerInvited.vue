@@ -1,10 +1,5 @@
 <template>
-    <v-row v-if="loading">
-      <v-flex xs6 sm3 md3 v-for="item in 6" :key="item" class="pa-2">
-        <v-boilerplate class="md-6" type=" table-heading,list-item-three-line"></v-boilerplate>
-      </v-flex>
-    </v-row>
-    <v-row v-else>
+    <v-row >
     <v-flex xs6 sm3 md3 v-for="invitation in invitations" :key="'invite'+invitation._id" class="pa-2">
       <v-card flat style="border-radius:2em">
       <div class="pr-8 pl-8 pt-2 pb-2" style="background-color:#08112c;position: relative">
@@ -58,6 +53,8 @@
 <script>
 import { ignoreNotLoginError } from "../utils";
 export default {
+  name: "ledgerInvited",
+  inject: ["$alert", "$confirm", "$notification"],
   data: () => ({
   }),
   created(){
@@ -67,11 +64,16 @@ export default {
   props: ["invitations",],
   methods:{
     ledgerUser(user){
-        console.log(user)
+        console.log(user.length)
         if(user.length<=6){
           return user
         }else{
-          return user.splice(0,3)
+          var shortlist=[];
+          for (var i=0;i<4;i++){
+            shortlist.push(user[i])
+          }
+          return shortlist
+          // return user.splice(0,3)
         }
         
     },
