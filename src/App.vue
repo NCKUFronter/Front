@@ -6,106 +6,95 @@
       flat
       clipped
       app
-      height="100px"
+      height="47px"
+      class="pa-4"
     >
-      <v-container>
-        <v-row>
-          <v-col v-if="clear.animeOver && $vuetify.breakpoint.smAndDown">
-            <v-app-bar-nav-icon
-              @click.stop="drawer = !drawer"
-              v-if="login"
-              class="d-flex align-center justify-center pa-4"
-            ></v-app-bar-nav-icon>
-          </v-col>
-          <v-col
-            v-if="login && clear.animeOver"
-            class="d-flex align-center justify-center pa-4"
-          >
-            <h1 class="logo d-flex align-center">
-              <div>FRONTER</div>
-            </h1>
-          </v-col>
-          <!-- v-if="login && $vuetify.breakpoint.smAndDown" -->
+      <v-col v-if="clear.animeOver && $vuetify.breakpoint.smAndDown">
+        <v-app-bar-nav-icon
+          @click.stop="drawer = !drawer"
+          v-if="login"
+          class="d-flex align-center justify-center pa-4"
+        ></v-app-bar-nav-icon>
+      </v-col>
+      <v-col v-if="login && clear.animeOver" class="d-flex align-center justify-center pa-4">
+        <h1 class="logo d-flex align-center">
+          <div>FRONTER</div>
+        </h1>
+      </v-col>
+      <!-- v-if="login && $vuetify.breakpoint.smAndDown" -->
 
-          <!-- <v-app-bar transition="slide-y-transition" color="transparent" clipped-left flat app dense>
+      <!-- <v-app-bar transition="slide-y-transition" color="transparent" clipped-left flat app dense>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="login"></v-app-bar-nav-icon>
       
       <h1 class="logo d-flex align-center">
         <img src="./assets/Fronter.png" class="mt-2"/>
         <div v-if="login">星，際帳</div>
-      </h1> -->
-          <v-col
-            v-if="login && clear.animeOver"
-            class="d-flex align-center justify-center pa-4"
-          >
-            <v-form>
-              <v-text-field
-                background-color="#3d404e"
-                color="#fff"
-                dense
-                prepend-inner-icon="mdi-magnify"
-                label="Search here"
-                filled
-                shaped
-              ></v-text-field>
-            </v-form>
-          </v-col>
-          <v-col
-            v-if="login && clear.animeOver"
-            class="d-flex align-center justify-end"
-            ><v-icon>mdi-bell-outline</v-icon></v-col
-          >
-          <v-col
-            v-if="login && clear.animeOver"
-            class="d-flex align-center justify-end pa-4"
-            ><h3>{{ profile.name }}</h3></v-col
-          >
-          <v-col class="d-flex align-center justify-end" v-if="clear.animeOver">
-            <!-- peraonal account -->
-            <v-menu offset-y>
-              <template v-slot:activator="{ on }">
-                <v-btn icon v-on="on">
-                  <v-icon large color="white">mdi-account-circle</v-icon>
-                </v-btn>
-              </template>
-              <v-card flat v-if="!login" class="pa-2">
-                <v-card-title class="justify-center">尚未登入</v-card-title>
-                <v-btn outlined block v-on:click="toLogin">
-                  <v-icon small>mdi-google</v-icon>登入
-                </v-btn>
-                <v-btn outlined block v-on:click="doLogin('father@gmail.com')">
-                  <v-icon>mdi-login-variant</v-icon>爸爸登入
-                </v-btn>
-                <v-btn outlined block v-on:click="doLogin('mother@gmail.com')">
-                  <v-icon>mdi-login-variant</v-icon>媽媽登入
-                </v-btn>
-                <v-btn outlined block v-on:click="doLogin('child@gmail.com')">
-                  <v-icon>mdi-login-variant</v-icon>小孩登入
-                </v-btn>
-              </v-card>
-              <v-card flat v-else class="pa-2 text-center">
-                <v-avatar size="128" class="elevation-4">
-                  <img :src="profile.photo" />
-                </v-avatar>
-                <v-card-title class="pb-1 justify-center">{{
-                  profile.name
-                }}</v-card-title>
-                <!--v-card-subtitle>{{profile._id}}</v-card-subtitle-->
-                <v-card-text class="pb-0">{{ profile.email }}</v-card-text>
-                <v-btn outlined block color="#cccccc" disabled>
-                  <v-icon>mdi-file-edit-outline</v-icon>綁定信用卡
-                </v-btn>
-                <v-btn outlined block @click="getPoints">
-                  <v-icon>mdi-alpha-p-circle-outline</v-icon>每日點數
-                </v-btn>
-                <v-btn outlined block v-on:click="toLogout">
-                  <v-icon>mdi-logout-variant</v-icon>登出
-                </v-btn>
-              </v-card>
-            </v-menu>
-          </v-col>
-        </v-row>
-      </v-container>
+      </h1>-->
+      <v-col v-if="login && clear.animeOver" class="d-flex align-center justify-center pa-4">
+        <v-form>
+          <v-text-field
+            background-color="#3d404e"
+            color="#fff"
+            dense
+            prepend-inner-icon="mdi-magnify"
+            label="Search here"
+            filled
+            shaped
+          ></v-text-field>
+        </v-form>
+      </v-col>
+      <v-col v-if="login && clear.animeOver" class="d-flex align-center justify-end">
+        <v-icon>mdi-bell-outline</v-icon>
+      </v-col>
+      <v-col v-if="login && clear.animeOver" class="d-flex align-center justify-end pa-4">
+        <h3>{{ profile.name }}</h3>
+      </v-col>
+      <v-col class="d-flex align-center justify-end" v-if="clear.animeOver">
+        <!-- peraonal account -->
+        <v-menu offset-y>
+          <template v-slot:activator="{ on }">
+            <v-btn icon v-on="on">
+              <v-icon large color="white">mdi-account-circle</v-icon>
+            </v-btn>
+          </template>
+          <v-card flat v-if="!login" class="pa-2">
+            <v-card-title class="justify-center">尚未登入</v-card-title>
+            <v-btn outlined block v-on:click="toLogin">
+              <v-icon small>mdi-google</v-icon>登入
+            </v-btn>
+            <v-btn outlined block v-on:click="doLogin('father@gmail.com')">
+              <v-icon>mdi-login-variant</v-icon>爸爸登入
+            </v-btn>
+            <v-btn outlined block v-on:click="doLogin('mother@gmail.com')">
+              <v-icon>mdi-login-variant</v-icon>媽媽登入
+            </v-btn>
+            <v-btn outlined block v-on:click="doLogin('child@gmail.com')">
+              <v-icon>mdi-login-variant</v-icon>小孩登入
+            </v-btn>
+          </v-card>
+          <v-card flat v-else class="pa-2 text-center">
+            <v-avatar size="128" class="elevation-4">
+              <img :src="profile.photo" />
+            </v-avatar>
+            <v-card-title class="pb-1 justify-center">
+              {{
+              profile.name
+              }}
+            </v-card-title>
+            <!--v-card-subtitle>{{profile._id}}</v-card-subtitle-->
+            <v-card-text class="pb-0">{{ profile.email }}</v-card-text>
+            <v-btn outlined block color="#cccccc" disabled>
+              <v-icon>mdi-file-edit-outline</v-icon>綁定信用卡
+            </v-btn>
+            <v-btn outlined block @click="getPoints">
+              <v-icon>mdi-alpha-p-circle-outline</v-icon>每日點數
+            </v-btn>
+            <v-btn outlined block v-on:click="toLogout">
+              <v-icon>mdi-logout-variant</v-icon>登出
+            </v-btn>
+          </v-card>
+        </v-menu>
+      </v-col>
     </v-app-bar>
 
     <v-navigation-drawer
@@ -123,8 +112,7 @@
         @click="setRecordModal(true, null)"
         class="elevation-0 mt-10 ml-8"
         style="font-weight:bold;width:65%;color:#3D404E;background-color:white;border-radius:2em;"
-        >新增帳目</v-btn
-      >
+      >新增帳目</v-btn>
       <!-- @click="global_.newRecordModal=true" -->
       <!-- :permanent="$vuetify.breakpoint.mdAndUp"
       :temporary="$vuetify.breakpoint.smAndDown"-->
@@ -153,9 +141,11 @@
               :to="child.link"
               active-class="active"
             >
-              <v-list-item-title class="pl-8">{{
+              <v-list-item-title class="pl-8">
+                {{
                 child.title
-              }}</v-list-item-title>
+                }}
+              </v-list-item-title>
             </v-list-item>
             <!-- <v-icon class="mr-2 pl-10">{{item.icon}}</v-icon> -->
           </v-list-group>
@@ -167,9 +157,7 @@
             class="pl-10"
             :to="item.link"
             active-class="active"
-          >
-            {{ item.title }}
-          </v-list-item>
+          >{{ item.title }}</v-list-item>
         </v-list>
       </v-list-item-group>
     </v-navigation-drawer>
@@ -187,15 +175,8 @@
         >-->
         <v-layout class="page" style="margin-top: -48px; overflow: hidden;">
           <!-- <v-parallax  src="./assets/home/p1/bookkeeping2.png" style="width:100%;height:100%;padding:0" > -->
-          <v-img
-            src="./assets/home/p1/background_block.svg"
-            class="background"
-          ></v-img>
-          <img
-            src="./assets/home/p1/middle_block.png"
-            height="120%"
-            class="planet"
-          />
+          <v-img src="./assets/home/p1/background_block.svg" class="background"></v-img>
+          <img src="./assets/home/p1/middle_block.png" height="120%" class="planet" />
           <!-- <img src="./assets/home/p1/rocket.png" height="100%" class="rocket" > -->
           <img
             src="./assets/home/p1/bookkeeping2.png"
@@ -203,11 +184,7 @@
             class="book-keeping"
             v-rellax="{ speed: -10 }"
           />
-          <img
-            src="./assets/home/p1/right_block_dark.svg"
-            height="48.9%"
-            class="right-block"
-          />
+          <img src="./assets/home/p1/right_block_dark.svg" height="48.9%" class="right-block" />
           <div class="p1Text">
             <div class="p1rec"></div>
             <h1 class="p1t1">
@@ -232,60 +209,31 @@
           </transition>
         </v-layout>
         <v-layout class="page">
-          <v-img
-            src="./assets/home/p2/background_block.svg"
-            class="background"
-          ></v-img>
+          <v-img src="./assets/home/p2/background_block.svg" class="background"></v-img>
           <transition name="cardfade">
-            <v-card-title v-if="cardShow" class="p2t1"
-              >宇宙級服務與特色</v-card-title
-            >
+            <v-card-title v-if="cardShow" class="p2t1">宇宙級服務與特色</v-card-title>
           </transition>
           <transition name="cardfade">
             <div v-if="cardShow" class="feature-block">
               <div class="home-card pos1">
                 <img src="./assets/home/p2/feature_block_1.svg" height="100%" />
-                <img
-                  src="./assets/home/p2/block1.svg"
-                  height="30%"
-                  class="p2Icon"
-                />
-                <v-card-text class="p2t2"
-                  >社群記帳功能，讓父母與小孩共同記下生活中的每樣精采事物。</v-card-text
-                >
+                <img src="./assets/home/p2/block1.svg" height="30%" class="p2Icon" />
+                <v-card-text class="p2t2">社群記帳功能，讓父母與小孩共同記下生活中的每樣精采事物。</v-card-text>
               </div>
               <div class="home-card pos2">
                 <img src="./assets/home/p2/feature_block_2.svg" height="100%" />
-                <img
-                  src="./assets/home/p2/block2.svg"
-                  height="30%"
-                  class="p2Icon"
-                />
-                <v-card-text class="p2t2"
-                  >藉由交易紀錄，讓孩子學習審視自己的金錢流，培養金錢進與出的觀念。</v-card-text
-                >
+                <img src="./assets/home/p2/block2.svg" height="30%" class="p2Icon" />
+                <v-card-text class="p2t2">藉由交易紀錄，讓孩子學習審視自己的金錢流，培養金錢進與出的觀念。</v-card-text>
               </div>
               <div class="home-card pos1">
                 <img src="./assets/home/p2/feature_block_1.svg" height="100%" />
-                <img
-                  src="./assets/home/p2/block4.svg"
-                  height="30%"
-                  class="p2Icon"
-                />
-                <v-card-text class="p2t2"
-                  >在遊戲中使用回饋點數，讓孩子更加參與其中。</v-card-text
-                >
+                <img src="./assets/home/p2/block4.svg" height="30%" class="p2Icon" />
+                <v-card-text class="p2t2">在遊戲中使用回饋點數，讓孩子更加參與其中。</v-card-text>
               </div>
               <div class="home-card pos2">
                 <img src="./assets/home/p2/feature_block_2.svg" height="100%" />
-                <img
-                  src="./assets/home/p2/block3.svg"
-                  height="30%"
-                  class="p2Icon"
-                />
-                <v-card-text class="p2t2"
-                  >綁定永豐銀行信用卡，自動登入每筆消費金額，記帳輕鬆無負擔。</v-card-text
-                >
+                <img src="./assets/home/p2/block3.svg" height="30%" class="p2Icon" />
+                <v-card-text class="p2t2">綁定永豐銀行信用卡，自動登入每筆消費金額，記帳輕鬆無負擔。</v-card-text>
               </div>
             </div>
           </transition>
@@ -361,20 +309,13 @@
                 />
               </transition>
               <transition name="leftIn">
-                <img
-                  v-if="gameContent"
-                  src="./assets/home/p4/img.svg"
-                  height="50%"
-                  class="ship"
-                />
+                <img v-if="gameContent" src="./assets/home/p4/img.svg" height="50%" class="ship" />
               </transition>
               <transition name="cardfade">
                 <div v-if="gameContent" class="p3Text">
                   <h1 class="p3t1">宇宙 · 戰艦</h1>
                   <h1 class="p3t2">在遊戲中使用回饋點數，讓孩子也能樂於記帳</h1>
-                  <button color="white" class="p4btn" outlined>
-                    開啟你的星際探險
-                  </button>
+                  <button color="white" class="p4btn" outlined>開啟你的星際探險</button>
                 </div>
               </transition>
               <transition name="cardfade">
@@ -394,8 +335,7 @@
             <v-card-title
               class="pa-0 mb-8"
               style="font-weight:bold; font-size:16px"
-              >UIDD-FRONTER x Bank SinoPac</v-card-title
-            >
+            >UIDD-FRONTER x Bank SinoPac</v-card-title>
             <v-card-title
               class="pa-0 mb-4"
               style="font-weight:bold; font-size:16px; line-height:130%"
@@ -405,11 +345,7 @@
             </v-card-title>
           </v-flex>
           <v-flex xs2.5 sm2.5 md2.5 style="margin:auto;padding-left:2%;">
-            <v-card-title
-              class="pa-0 mb-6"
-              style="font-weight:bold;font-size:24px;"
-              >星際帳</v-card-title
-            >
+            <v-card-title class="pa-0 mb-6" style="font-weight:bold;font-size:24px;">星際帳</v-card-title>
 
             <v-card-text
               v-for="(item, index) in footerAccount"
@@ -418,15 +354,10 @@
               active-class="active"
               dense
               class="footerAccount"
-              >{{ item.title }}</v-card-text
-            >
+            >{{ item.title }}</v-card-text>
           </v-flex>
           <v-flex xs2.5 sm2.5 md2.5 style="margin:auto;">
-            <v-card-title
-              class="pa-0 mb-6"
-              style="font-weight:bold;font-size:24px;"
-              >宇宙戰艦</v-card-title
-            >
+            <v-card-title class="pa-0 mb-6" style="font-weight:bold;font-size:24px;">宇宙戰艦</v-card-title>
             <v-card-text
               v-for="(item, index) in footerGame"
               :key="index"
@@ -434,16 +365,9 @@
               active-class="active"
               dense
               class="footerAccount"
-              >{{ item.title }}</v-card-text
-            >
+            >{{ item.title }}</v-card-text>
           </v-flex>
-          <v-flex
-            xs3
-            sm3
-            md3
-            class="text-center"
-            style="margin:auto;border-left:3px white solid;"
-          >
+          <v-flex xs3 sm3 md3 class="text-center" style="margin:auto;border-left:3px white solid;">
             <v-card-text
               v-for="(item, index) in footerLink"
               :key="index"
@@ -451,8 +375,7 @@
               active-class="active"
               dense
               class="footerLink"
-              >{{ item.title }}</v-card-text
-            >
+            >{{ item.title }}</v-card-text>
           </v-flex>
         </v-layout>
         <!-- </div> -->
@@ -466,7 +389,7 @@
         <EditRecord
             @close="modalOpen = false" 
         ></EditRecord>
-      </div> -->
+      </div>-->
     </v-content>
 
     <v-dialog
@@ -476,12 +399,7 @@
       overlay-opacity="0.2"
       content-class="elevation-0 overflow-hidden"
     >
-      <v-progress-circular
-        :width="7"
-        :size="70"
-        indeterminate
-        color="primary"
-      ></v-progress-circular>
+      <v-progress-circular :width="7" :size="70" indeterminate color="primary"></v-progress-circular>
     </v-dialog>
 
     <GlobalDialog
@@ -530,44 +448,44 @@ let data = {
       child: [
         { icon: "mdi-chart-arc", title: "帳目一覽", link: "/accounting" },
         { icon: "mdi-chart-arc", title: "帳本管理", link: "/Ledger" },
-        { icon: "mdi-chart-arc", title: "自訂類別", link: "/Category" },
+        { icon: "mdi-chart-arc", title: "自訂類別", link: "/Category" }
       ],
       icon: "mdi-cash-multiple",
       title: "帳目",
       link: "/accounting",
-      active: true,
+      active: true
     },
     {
       child: [
         { icon: "mdi-cart-outline", title: "點數兌換", link: "/pointRedeem" },
         { icon: "mdi-gift-outline", title: "點數贈送", link: "/pointDelivery" },
-        { icon: "mdi-history", title: "歷史紀錄", link: "/pointHistory" },
+        { icon: "mdi-history", title: "歷史紀錄", link: "/pointHistory" }
       ],
       icon: "mdi-alpha-p-circle",
       title: "點數",
       link: "/pointRedeem",
-      active: true,
-    },
+      active: true
+    }
   ],
   menu: [
     { child: [], icon: "mdi-chart-arc", title: "統計", link: "/summary" },
     { child: [], icon: "", title: "認識星際帳", link: "" },
-    { child: [], icon: "", title: "如何使用", link: "" },
+    { child: [], icon: "", title: "如何使用", link: "" }
   ],
   footerAccount: [
     { title: "認識星際帳", link: "" },
     { title: "如何使用", link: "" },
-    { title: "記下你的第一筆精彩", link: "" },
+    { title: "記下你的第一筆精彩", link: "" }
   ],
   footerGame: [
     { title: "做好登艦準備", link: "" },
     { title: "如何成為一位優良艦長", link: "" },
-    { title: "開始星際航行", link: "" },
+    { title: "開始星際航行", link: "" }
   ],
   footerLink: [
     { title: "facebook", link: "" },
     { title: "instagram", link: "" },
-    { title: "twitter", link: "" },
+    { title: "twitter", link: "" }
   ],
   clear: { animeOver: true },
 
@@ -577,7 +495,7 @@ let data = {
   parents: true,
   account: true,
   accountContent: false,
-  gameContent: false,
+  gameContent: false
 };
 
 export default {
@@ -593,7 +511,7 @@ export default {
   },
   components: {
     GlobalSnackBar,
-    GlobalDialog,
+    GlobalDialog
     // EditRecord,
     //SideAccount  // 定義component
     // SideMenu
@@ -603,7 +521,7 @@ export default {
       $alert: this.$alert,
       $notification: this.$notification,
       $confirm: this.$confirm,
-      $clear: this.clear,
+      $clear: this.clear
     };
   },
   created() {
@@ -622,7 +540,7 @@ export default {
     },
     loading() {
       return this.$loading.status.isRunning;
-    },
+    }
   },
   watch: {
     login(val) {
@@ -633,7 +551,7 @@ export default {
       if (this.login && this.$route.name == null) {
         this.$router.push("/fronter_home");
       }
-    },
+    }
   },
   methods: {
     onScroll(e) {
@@ -690,7 +608,7 @@ export default {
         .then(() => {
           this.$alert.success("登入成功");
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           this.$alert.error("登入失敗");
         });
@@ -698,7 +616,7 @@ export default {
     toLogout() {
       this.$api
         .logout()
-        .then((res) => {
+        .then(res => {
           if (this.$route.name != null) this.$router.push("/");
         })
         .catch(console.log);
@@ -706,7 +624,7 @@ export default {
     getPoints() {
       this.$http
         .post("/user/pointCheck")
-        .then((res) => {
+        .then(res => {
           let message = "";
           if (res.data.perLogin)
             message += `獲得每日登入點數: ${res.data.perLogin}點\n`;
@@ -718,16 +636,16 @@ export default {
           } else this.$alert.info("沒有點數QQ");
         })
         .catch(ignoreNotLoginError)
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           this.$alert.error("領取失敗");
         });
-    },
+    }
   },
   destroyed() {
     window.removeEventListener("scroll", this.onScroll);
     this.$notification.closeAll();
-  },
+  }
 };
 </script>
 
