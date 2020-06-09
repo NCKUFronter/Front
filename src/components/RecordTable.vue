@@ -5,7 +5,7 @@
     <div class="header-background"></div>
     <v-data-table  class=" record" 
     hide-default-footer
-    items-per-page-options = [-1]
+    :items-per-page= "-1"
     :headers="headers" :items="filterAccountData" sort-by="money" >
       <!-- recordType -->
       

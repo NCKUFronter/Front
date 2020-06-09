@@ -5,14 +5,16 @@
       flat
       min-height="85vh"
       style="position:fixed;top:15%;right:0%;border-radius:0;"
+      class="scroll"
     >
       <v-navigation-drawer
         v-model="participants"
         hide-overlay
-        style="border-top-left-radius:4em;width:220px; min-height:85vh;background-color:#3D404E"
+        style="border-top-left-radius:4em;width:220px;z-index:3;min-height:85vh;background-color:#3D404E;"
         temporary
         right
         class="elevation-0"
+        
       >
         <v-card-title
           class="pl-12"
@@ -39,9 +41,10 @@
 
     <v-card flat class="account-all " v-if="!this.GLOBAL.newRecordModal">
       <v-layout row>
-        <v-flex xs12 sm9 md9 class="account-left">
+        <v-flex xs12 sm9 md9 class="account-left" >
           <v-card-title class="ma-0 pa-0">帳目一覽</v-card-title>
           <v-layout row class=" account-upper" style="margin-bottom:1%">
+            
             <v-flex xs6 sm6 md3 data-app class="pr-12">
               <v-select
                 v-model="ledgerSelected"
@@ -66,7 +69,7 @@
                 hide-details
                 solo
                 flat
-                prepend-inner-icon="money"
+                prepend-inner-icon="mdi-cash-usd"
                 full-width
                 color="white"
                 item-color="white"
@@ -99,6 +102,7 @@
                 :left="107"
                 transition="scroll-y-transition"
                 class="ma-auto"
+                @change="updateDate()"
               >
                 <template v-slot:activator="{ on, value }">
                   <div class="date" v-on="on">{{ value }}</div>
@@ -140,6 +144,7 @@
               :flowSelected="flowSelected"
               @delete="fetchRecords"
               @want-edit="editRecord"
+              
             />
 
             <!-- 原本用v-on:click控制modal變數，顯示modal，現在改以不同view -->
@@ -157,9 +162,9 @@
           <v-card flat class="ma-0 pa-0">
             <v-card-actions class="ma-0 pa-0">
               <v-spacer />
-              <bottom
+              <button
                 @click.stop="participants = !participants"
-                style="position:relative;background-color:transparent;z-index:2;height:fit-content;width:fit-content;margin-right:70px;"
+                style="position:relative;background-color:transparent;z-index:4;height:fit-content;width:fit-content;margin-right:70px;"
               >
                 <transition name="fade"
                   ><img
@@ -175,7 +180,7 @@
                     height="20px"
                     style="position: absolute;"
                 /></transition>
-              </bottom>
+              </button>
             </v-card-actions>
           </v-card>
           <!-- <div class="chart">
@@ -439,24 +444,24 @@ export default {
       console.log(this.engage_user);
       return this.engage_user;
     },
-    totalIncome() {
-      return this.records.reduce(
-        (sum, cur) => (cur.recordType[0] == "i" ? sum + cur.money : sum),
-        0
-      );
-    },
-    totalExpense() {
-      return this.records.reduce(
-        (sum, cur) => (cur.recordType[0] == "e" ? sum + cur.money : sum),
-        0
-      );
-    },
-    totalPoints() {
-      return this.records.reduce((sum, cur) => {
-        if (cur.rewardPoints != null) return sum + cur.rewardPoints;
-        else return sum;
-      }, 0);
-    },
+    // totalIncome() {
+    //   return this.records.reduce(
+    //     (sum, cur) => (cur.recordType[0] == "i" ? sum + cur.money : sum),
+    //     0
+    //   );
+    // },
+    // totalExpense() {
+    //   return this.records.reduce(
+    //     (sum, cur) => (cur.recordType[0] == "e" ? sum + cur.money : sum),
+    //     0
+    //   );
+    // },
+    // totalPoints() {
+    //   return this.records.reduce((sum, cur) => {
+    //     if (cur.rewardPoints != null) return sum + cur.rewardPoints;
+    //     else return sum;
+    //   }, 0);
+    // },
   },
   asyncComputed: {
     records: {
@@ -528,8 +533,8 @@ export default {
   },
   methods: {
     drawPie() {
-      console.log(this.filterAccountData);
-      console.log(this.userCategories);
+      // console.log(this.filterAccountData);
+      // console.log(this.userCategories);
       this.expenseData.length = 0;
       this.totalExpense = 0;
       this.incomeData.length = 0;
@@ -553,7 +558,32 @@ export default {
           color: element.color,
         });
       });
-      console.log(this.incomeData);
+      this.expenseData.push({
+          name: '未知',
+          value: 0,
+          color: '#D5CCB3',
+      });
+      this.incomeData.push({
+          name: '未知',
+          value: 0,
+          color: '#D5CCB3',
+      });
+      this.pointData.push({
+          name: '未知',
+          value: 0,
+          color: '#D5CCB3',
+      });
+
+      // console.log(this.incomeData);
+
+      //資料前處理，定義未知category
+      this.filterAccountData.forEach(element => {
+        if(!element.category){
+          // element=Object.assign({},element,{category:'未知'})
+          element.category=Object.assign({},{name:'未知',color:'#D5CCB3',icon:'mdi-tag-outline',_id:"-1"})
+        }
+        // console.log(element);
+      });
 
       //收入
       for (var i = 0; i < this.incomeData.length; i++) {
@@ -588,17 +618,22 @@ export default {
     initialDate() {
       this.userDate = getLocaleDate(new Date());
     },
-    getYearMonthDate(index) {
-      if (index == 1 || index == -1) {
-        let t = new Date(this.userDate);
-        t.setDate(t.getDate() + index);
-        this.userDate = getLocaleDate(t);
+    updateDate(){
+      // console.log('updateDate')
         this.preDate = getLocaleDate(
           new Date(this.userDate).setDate(new Date(this.userDate).getDate() - 1)
         );
         this.nextDate = getLocaleDate(
           new Date(this.userDate).setDate(new Date(this.userDate).getDate() + 1)
         );
+
+    },
+    getYearMonthDate(index) {
+      if (index == 1 || index == -1) {
+        let t = new Date(this.userDate);
+        t.setDate(t.getDate() + index);
+        this.userDate = getLocaleDate(t);
+        this.updateDate();
       }
     },
     click() {

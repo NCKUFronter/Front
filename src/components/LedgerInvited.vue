@@ -6,24 +6,24 @@
         <v-img  src="../assets/fronter/account/planet2.png" ></v-img>
         <v-card-title style="position:absolute;left:0;bottom:0;font-size:18px" class="pa-0 ma-0 ml-3">{{invitation.ledger.ledgerName}}</v-card-title>
       </div>
-      <div  style="background-color:#0c193f;height:50px" >
-        <!-- <v-card-text class="pa-0 ma-0 ml-3 pt-1" style="font-size:12px">帳本人數: {{invitation.ledger.users.length}}</v-card-text>
+      <div  style="background-color:#0c193f;" >
+        <v-card-text class="pa-0 ma-0 ml-3 pt-1" style="font-size:12px">帳本人數: {{invitation.ledger.users.length}}</v-card-text>
         <v-flex class="px-4 pb-2">
           <v-avatar
-            v-for="user in ledgerUser(invitation.ledger.users)"
-            :key="ledger._id + user._id"
+            v-for="(user,index) in ledgerUser(invitation.ledger.users)"
+            :key="index"
             size="22"     
             class="ma-1"
             style="background-color:#3d404e"
           >
             <img :src="user.photo" />
           </v-avatar>
-          <div v-if="ledger.users.length>6" style="position:relative;display:inline"> 
+          <div v-if="invitation.ledger.users.length>6" style="position:relative;display:inline"> 
           <v-avatar size="22" class="ma-1" style="background-color:#26282d;position: absolute;left:10px"></v-avatar>
           <v-avatar size="22" class="ma-1" style="background-color:#32343e;position: absolute;left:5px"></v-avatar>
           <v-avatar size="22" class="ma-1" style="background-color:#3d404e;;position: absolute;font-size:0.5em">+{{invitation.ledger.users.length-4}}</v-avatar>
           </div>
-        </v-flex> -->
+        </v-flex>
       </div>
         <!-- <v-card-actions>
           <v-spacer />
@@ -51,6 +51,7 @@
 </template>
 
 <script>
+import { confirmed } from "vee-validate/dist/rules";
 import { ignoreNotLoginError } from "../utils";
 export default {
   name: "ledgerInvited",
@@ -62,9 +63,21 @@ export default {
 
   },
   props: ["invitations",],
+  // asyncComputed: {
+  //   ledgerOtherUser:{
+  //     get() {
+  //       return this.$http
+  //         .get("/ledger/"+this.invitations.ledgerId, {
+  //           params: { _many: ["users"] }
+  //         })
+  //         .then(res => res.data);
+  //     },
+
+  //   }
+  // },
   methods:{
     ledgerUser(user){
-        console.log(user.length)
+        // console.log(user.length)
         if(user.length<=6){
           return user
         }else{

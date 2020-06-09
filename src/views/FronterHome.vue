@@ -1,13 +1,8 @@
 <template>
   <v-layout>
-    <v-flex v-if="this.$vuetify.breakpoint.mdAndUp">
-      <transition name="fade">
-        <img
-          v-show="vanish"
-          class="FH_page"
-          src="../assets/fronter/home/home_logo.svg"
-          width="45%"
-        />
+    <v-flex v-if="this.$vuetify.breakpoint.smAndUp">
+      <transition name="FH_fade">
+        <img v-show="vanish" class="FH_page" src="../assets/fronter/home/home_logo.svg" width="45%" />
       </transition>
 
       <v-flex v-if="vanish" class="FH_brand">FRONTER</v-flex>
@@ -19,9 +14,7 @@
           <v-flex v-show="show" class="FH_brand brand_des">FRONTER</v-flex>
         </transition>
         <transition name="sloganmove">
-          <v-flex v-show="show" class="FH_slogan slogan_des"
-            >A Brand-New Spending App</v-flex
-          >
+          <v-flex v-show="show" class="FH_slogan slogan_des">A Brand-New Spending App</v-flex>
         </transition>
         <transition name="slidedown">
           <v-flex v-show="show" class="FH_bar FH_fronter_bar"></v-flex>
@@ -31,8 +24,8 @@
         </transition>
       </v-flex>
     </v-flex>
-    <v-flex v-if="this.$vuetify.breakpoint.smAndDown">
-      <transition name="fade">
+    <v-flex v-if="this.$vuetify.breakpoint.xsAndDown">
+      <transition name="FH_fade">
         <img
           v-show="vanish"
           class="FH_page sm"
@@ -43,18 +36,14 @@
 
       <v-flex v-if="vanish" class="FH_brand sm">FRONTER</v-flex>
 
-      <v-flex v-if="vanish" class="FH_slogan sm"
-        >A Brand-New Spending App</v-flex
-      >
+      <v-flex v-if="vanish" class="FH_slogan sm">A Brand-New Spending App</v-flex>
 
       <v-flex>
         <transition name="brandmove">
           <v-flex v-show="show" class="FH_brand brand_des sm">FRONTER</v-flex>
         </transition>
         <transition name="sloganmove">
-          <v-flex v-show="show" class="FH_slogan slogan_des sm"
-            >A Brand-New Spending App</v-flex
-          >
+          <v-flex v-show="show" class="FH_slogan slogan_des sm">A Brand-New Spending App</v-flex>
         </transition>
         <transition name="slidedown">
           <v-flex v-show="show" class="FH_bar FH_fronter_bar sm"></v-flex>
@@ -72,10 +61,10 @@ let data = {
   menu: [
     { title: "帳目", link: "/accounting" },
     { title: "統記", link: "/summary" },
-    { title: "類別", link: "/point" },
+    { title: "類別", link: "/point" }
   ],
   show: false,
-  vanish: true,
+  vanish: true
 };
 
 export default {
@@ -109,16 +98,16 @@ export default {
     }, 1000);
     setTimeout(function() {
       self.show = !self.show;
-    }, 2000);
+    }, 3000);
     setTimeout(function() {
       self.$router.push("/accounting");
-    }, 3000);
+    }, 3500);
   },
 
   mounted: function() {
     this.$clear.animeOver = false;
   },
-  computed: {},
+  computed: {}
   // watch: {
   //   login(val) {
   //     if (this.login) {
@@ -173,13 +162,13 @@ export default {
   bottom: 45%;
 }
 .brand_des {
-  transform: translateX(43%) translateY(70%);
+  transform: translateX(10rem) translateY(5rem);
 }
 .brand_des.sm {
   transform: translateX(55%) translateY(60%);
 }
 .slogan_des {
-  transform: translateX(-41.5%) translateY(-20%);
+  transform: translateX(-9rem) translateY(1rem);
 }
 .slogan_des.sm {
   transform: translateX(-35%) translateY(-110%);
@@ -225,7 +214,7 @@ export default {
   width: 45%;
 }
 
-.fade-leave-active,
+.FH_fade-leave-active,
 .slidedown-enter-active,
 .slideup-enter-active,
 .sloganmove-enter-active,
@@ -242,7 +231,7 @@ export default {
 .brandmove-enter.sm {
   transform: translateX(0%) translateY(0%);
 }
-.fade-leave-to {
+.FH_fade-leave-to {
   transform: translateY(-25px);
   opacity: 0;
 }
@@ -271,6 +260,6 @@ export default {
 .slideup-leave-active,
 .sloganmove-leave-active,
 .brandmove-leave-active {
-  transition: all 0.2s;
+  transition: all 0.8s;
 }
 </style>

@@ -1,11 +1,17 @@
 <template>
+  <v-container  class="pa-0" >
     <v-row >
-    <v-flex xs6 sm3 md3 v-for="ledger of adminLedgers" :key="'admin_'+ledger._id" class="pa-3">
+      <v-flex xs12 sm6 md6>
+          <v-btn outlined style="border-radius:2em;width:100px;" class="ma-2" @click="createModal=true">新增帳本</v-btn>
+      </v-flex>
+    </v-row>
+    <v-row>
+    <v-flex xs6 sm3 md3  v-for="ledger of adminLedgers" :key="'admin_'+ledger._id" class="pa-3">
       <v-card flat style="border-radius:2em">
       <div class="pr-8 pl-8 pt-2 pb-2" style="background-color:#08112c;position: relative">
         <v-img  src="../assets/fronter/account/planet2.png" ></v-img>
         <v-card-title style="position:absolute;left:0;bottom:0;font-size:18px" class="pa-0 ma-0 ml-3"> {{ledger.ledgerName}}</v-card-title>
-        <v-card-actions class="pa-0 ma-0" style="position:absolute;right:5px;bottom:0;">
+        <!-- <v-card-actions class="pa-0 ma-0" style="position:absolute;right:5px;bottom:0;">
           <v-spacer />
           <v-btn class="pa-1 mb-1 ma-0 elevation-0" v-on:click="invite(ledger)"
           style="background-color:transparent;height:fit-content;width:fit-content;border-radius:0;"
@@ -17,7 +23,7 @@
           >
             <v-icon small>mdi-account-multiple-minus</v-icon>
           </v-btn>
-        </v-card-actions>
+        </v-card-actions> -->
       </div>
       <div  style="background-color:#0c193f">
         <v-card-text class="pa-0 ma-0 ml-3 pt-1" style="font-size:12px">帳本人數: {{ledger.users.length}}</v-card-text>
@@ -42,23 +48,44 @@
         <!-- if ledger.users.length>6 -->
       </div>
       </v-card>
+      <v-card-actions class="ma-0 mt-1 pa-0 px-7">
+        <v-spacer />
+        <v-btn  class="ma-0 px-1 pa-0 elevation-0" style="font-size:10px;height:fit-content;width:fit-content;border-radius:0;" v-on:click="invite(ledger)">邀請</v-btn>
+        <v-btn  class="ma-0 px-1 pa-0 elevation-0" style="font-size:10px;height:fit-content;width:fit-content;border-left:1px solid white;border-radius:0;" v-on:click="out(ledger)">剔除</v-btn>
+        <v-btn  class="ma-0 px-1 pa-0 elevation-0" style="font-size:10px;height:fit-content;width:fit-content;border-left:1px solid white;border-radius:0;">編輯</v-btn>
+        <v-btn  class="ma-0 px-1 pa-0 elevation-0" style="font-size:10px;height:fit-content;width:fit-content;border-left:1px solid white;border-radius:0;" v-on:click="deleteLedger(ledger)">刪除</v-btn>      
+      </v-card-actions>
     </v-flex>
+
+    <!-- 建立ledge model -->
+    <v-dialog v-model="createModal" width="unset">
+      <v-card class="modal" color="#3D404E" v-if="createModal">
+        <v-card-title>新建帳本</v-card-title>
+        <v-text-field v-model="newLedgerName" label="請輸入帳本名稱" class="px-4"></v-text-field>
+        <!-- <v-file-input accept="image/*" label="image upload" @change="onAddFiles"></v-file-input> -->
+        <v-card-actions>
+          <v-spacer />
+          <v-btn class="button" @click="createLedger">新增</v-btn>
+          <v-btn class="button" @click="createModal=false">取消</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <!-- 邀請modal -->
     <v-dialog v-model="inviteModal" width="unset">
-      <v-card class="modal" color="#fff7d3" v-if="inviteModal">
+      <v-card class="modal" color="#3D404E" v-if="inviteModal">
         <v-card-title>{{inviteLedger.ledgerName}}</v-card-title>
         <v-text-field v-model="inputEmail" label="請輸入邀請者email" type="email" class="px-4"></v-text-field>
         <v-card-actions>
           <v-spacer />
-          <v-btn class="button" v-on:click="confirmInvite()">邀請</v-btn>
-          <v-btn class="button" v-on:click="inviteModal=!inviteModal">取消</v-btn>
+          <v-btn class="button" outlined v-on:click="confirmInvite()">邀請</v-btn>
+          <v-btn class="button" outlined v-on:click="inviteModal=!inviteModal">取消</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
     <!-- 踢人out -->
     <v-dialog persistent v-model="outModal" width="unset">
-      <v-card class="modal" color="#fff7d3" v-if="outModal">
+      <v-card class="modal" color="#3D404E" v-if="outModal">
         <v-card-title>剔除使用者</v-card-title>
         <v-card-text>帳本名: {{outLedger.ledgerName}}</v-card-text>
         <v-select
@@ -72,13 +99,13 @@
         ></v-select>
         <v-card-actions>
           <v-spacer />
-          <v-btn class="button" v-on:click="confirmOut()">刪除</v-btn>
-          <v-btn class="button" v-on:click="outModal=!outModal">取消</v-btn>
+          <v-btn class="button" outlined v-on:click="confirmOut()">刪除</v-btn>
+          <v-btn class="button" outlined v-on:click="outModal=!outModal">取消</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
     </v-row>
-
+  </v-container>
 </template>
 
 <script>
@@ -95,12 +122,58 @@ export default {
       outModal: false,
       outUser: "",
       outLedger: null,
+
+      createModal: false,
+      newLedgerName: "",
+      newLedgerPhoto:"../assets/fronter/account/planet2.png",
   }),
   created(){
 
   },
   props: ["adminLedgers",],
   methods:{
+    // onAddFiles(files) {
+    //   var DWObject = Dynamsoft.WebTwainEnv.GetWebTwain('dwtcontrolContainer');
+    //   console.log(files);
+    //   if (DWObject.HowManyImagesInBuffer == 0){
+    //           alert("No images in buffer.");
+    //           return;               
+    //         }
+             
+    //   DWObject.SaveAsPNG("D:\\test.png", 0);
+    // },
+    createLedger() {
+      this.$confirm.open(`確認新增 "${this.newLedgerName}"?`, () => {
+        this.$http
+          .post("/ledger", { ledgerName: this.newLedgerName,photo:this.newLedgerPhoto })
+          .then(res => {
+            this.createModal = false;
+            this.update();
+            this.newLedgerName = "";
+            this.$alert.success("新增成功");
+          })
+          .catch(ignoreNotLoginError)
+          .catch(err => {
+            console.log(err)
+            this.$alert.error("新增失敗");
+          });
+      });
+    },
+    deleteLedger(ledger){
+      this.$confirm.open("確認刪除類別: " + ledger.name, () => {
+        this.$http
+          .delete("/ledger/" + ledger._id)
+          .then(res => {
+            this.update();
+            this.$alert.success("帳本刪除成功");
+          })
+          .catch(ignoreNotLoginError)
+          .catch(err => {
+            console.log(err);
+            this.$alert.error("'帳本刪除失敗");
+          });
+      });
+    },
     ledgerUser(user){
         console.log(user.length)
         if(user.length<=6){

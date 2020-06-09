@@ -9,6 +9,7 @@ $body-font-family: Roboto, "微軟正黑體", Arial, Helvetica, "sans-serif";
 @import "~vuetify/src/components/VSheet/VSheet";
 @import "~vuetify/src/components/VList/VList";
 @import "~vuetify/src/components/VTabs/VTabs";
+@import "~vuetify/src/components/VChip/VChip";
 
 //  case 1: 只有部份背景顏色改變
 .theme--dark.v-application {
@@ -23,8 +24,11 @@ $body-font-family: Roboto, "微軟正黑體", Arial, Helvetica, "sans-serif";
   background-color: #26282d;
 }
 
-
-  
+//category & recordtable chip
+.theme--dark.v-chip:not(.v-chip--active){
+  background: transparent;
+  border: 1px solid white;
+}  
 
 .v-application {
   font-family: $body-font-family !important;
@@ -80,7 +84,7 @@ $navigation-drawer-mobile-temporary-elevation: 8;
 }  
 
 .theme--dark.v-text-field--solo > .v-input__control > .v-input__slot{
-  background: #26282d !important;
+  background: transparent !important;
 }
 
 .v-list-group--active > .v-list-group__header .v-list-item__content{
