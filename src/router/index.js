@@ -125,38 +125,38 @@ const routes = [
     meta: {
       title: "歷史紀錄",
     },
-  // {
-  //   path: "/point",
-  //   // name: "PointManageName",
-  //   component: pointManage,
-  //   props: true,
-  //   children: [
-  //     {
-  //       path: "",
-  //       name: "PointRedeemName",
-  //       component: pointRedeem,
-  //       meta: {
-  //         title: "點數兌換",
-  //       },
-  //     },
-  //     {
-  //       path: "delivery",
-  //       name: "PointDeliveryName",
-  //       component: pointDelivery,
-  //       meta: {
-  //         title: "點數贈送",
-  //       },
-  //     },
-  //     {
-  //       path: "history",
-  //       name: "PointHistoryName",
-  //       component: pointHistory,
-  //       meta: {
-  //         title: "歷史紀錄",
-  //       },
-  //     },
-  //   ],
-    },
+    // {
+    //   path: "/point",
+    //   // name: "PointManageName",
+    //   component: pointManage,
+    //   props: true,
+    //   children: [
+    //     {
+    //       path: "",
+    //       name: "PointRedeemName",
+    //       component: pointRedeem,
+    //       meta: {
+    //         title: "點數兌換",
+    //       },
+    //     },
+    //     {
+    //       path: "delivery",
+    //       name: "PointDeliveryName",
+    //       component: pointDelivery,
+    //       meta: {
+    //         title: "點數贈送",
+    //       },
+    //     },
+    //     {
+    //       path: "history",
+    //       name: "PointHistoryName",
+    //       component: pointHistory,
+    //       meta: {
+    //         title: "歷史紀錄",
+    //       },
+    //     },
+    //   ],
+  },
 ];
 
 const router = new VueRouter({

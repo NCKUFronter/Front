@@ -915,9 +915,6 @@ html {
 
 .cardfade-leave-to {
   transform: translateY(-20px);
-  opacity: 0;
-}
-
 //leftIn
 .leftIn-enter-active,
 .leftIn-leave-active,
