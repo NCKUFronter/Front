@@ -43,6 +43,8 @@ let baseURL = null;
 if (process.env.NODE_ENV == "development") {
   baseURL = "http://localhost:3000/api";
 } else baseURL = "/api";
+Vue.prototype.baseURL = baseURL;
+// baseURL + '/img/ledger-user/xxxx.png'
 
 // const baseURL = "http://localhost:3000/api";
 //const baseURL = "https://uidd-backend.herokuapp.com/";

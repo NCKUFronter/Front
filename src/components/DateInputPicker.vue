@@ -44,6 +44,7 @@ export default {
   methods: {
     dateInput(value) {
       this.$emit("input", value);
+      this.$emit("change")
       this.menu = false;
     }
   }

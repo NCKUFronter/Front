@@ -1,11 +1,16 @@
 <template>
   <!-- <v-content style="padding:0;"> -->
   <v-container fluid style="padding:0;position:relative;">
-    <v-card flat min-height="85vh" style="position:fixed;top:15%;right:0%;border-radius:0;">
+    <v-card
+      flat
+      min-height="85vh"
+      style="position:fixed;top:15%;right:0%;border-radius:0;"
+      class="scroll"
+    >
       <v-navigation-drawer
         v-model="participants"
         hide-overlay
-        style="border-top-left-radius:4em;width:220px; min-height:85vh;background-color:#3D404E"
+        style="border-top-left-radius:4em;width:220px;z-index:3;min-height:85vh;background-color:#3D404E;"
         temporary
         right
         class="elevation-0"
@@ -56,7 +61,7 @@
                 hide-details
                 solo
                 flat
-                prepend-inner-icon="money"
+                prepend-inner-icon="mdi-cash-usd"
                 full-width
                 color="white"
                 item-color="white"
@@ -83,6 +88,7 @@
                 :left="107"
                 transition="scroll-y-transition"
                 class="ma-auto"
+                @change="updateDate()"
               >
                 <template v-slot:activator="{ on, value }">
                   <div class="date" v-on="on">{{ value }}</div>
@@ -141,9 +147,9 @@
           <v-card flat class="ma-0 pa-0">
             <v-card-actions class="ma-0 pa-0">
               <v-spacer />
-              <bottom
+              <button
                 @click.stop="participants = !participants"
-                style="position:relative;background-color:transparent;z-index:2;height:fit-content;width:fit-content;margin-right:70px;"
+                style="position:relative;background-color:transparent;z-index:4;height:fit-content;width:fit-content;margin-right:70px;"
               >
                 <transition name="fade">
                   <img
@@ -161,7 +167,7 @@
                     style="position: absolute;"
                   />
                 </transition>
-              </bottom>
+              </button>
             </v-card-actions>
           </v-card>
           <!-- <div class="chart">
@@ -186,6 +192,7 @@
                 style="font-size:0.8em;margin-left:4vw;"
               >總收入 {{ totalIncome }}</v-card-title>
               <v-chart :options="income" />
+              <!-- <v-avatar v-else size="80" style="border:1px solid white" class="ml-5"/> -->
             </div>
             <div
               flat
@@ -420,25 +427,25 @@ export default {
     user() {
       console.log(this.engage_user);
       return this.engage_user;
-    },
-    totalIncome() {
-      return this.records.reduce(
-        (sum, cur) => (cur.recordType[0] == "i" ? sum + cur.money : sum),
-        0
-      );
-    },
-    totalExpense() {
-      return this.records.reduce(
-        (sum, cur) => (cur.recordType[0] == "e" ? sum + cur.money : sum),
-        0
-      );
-    },
-    totalPoints() {
-      return this.records.reduce((sum, cur) => {
-        if (cur.rewardPoints != null) return sum + cur.rewardPoints;
-        else return sum;
-      }, 0);
     }
+    // totalIncome() {
+    //   return this.records.reduce(
+    //     (sum, cur) => (cur.recordType[0] == "i" ? sum + cur.money : sum),
+    //     0
+    //   );
+    // },
+    // totalExpense() {
+    //   return this.records.reduce(
+    //     (sum, cur) => (cur.recordType[0] == "e" ? sum + cur.money : sum),
+    //     0
+    //   );
+    // },
+    // totalPoints() {
+    //   return this.records.reduce((sum, cur) => {
+    //     if (cur.rewardPoints != null) return sum + cur.rewardPoints;
+    //     else return sum;
+    //   }, 0);
+    // },
   },
   asyncComputed: {
     records: {
@@ -510,8 +517,8 @@ export default {
   },
   methods: {
     drawPie() {
-      console.log(this.filterAccountData);
-      console.log(this.userCategories);
+      // console.log(this.filterAccountData);
+      // console.log(this.userCategories);
       this.expenseData.length = 0;
       this.totalExpense = 0;
       this.incomeData.length = 0;
@@ -535,7 +542,40 @@ export default {
           color: element.color
         });
       });
-      console.log(this.incomeData);
+      this.expenseData.push({
+        name: "未知",
+        value: 0,
+        color: "#D5CCB3"
+      });
+      this.incomeData.push({
+        name: "未知",
+        value: 0,
+        color: "#D5CCB3"
+      });
+      this.pointData.push({
+        name: "未知",
+        value: 0,
+        color: "#D5CCB3"
+      });
+
+      // console.log(this.incomeData);
+
+      //資料前處理，定義未知category
+      this.filterAccountData.forEach(element => {
+        if (!element.category) {
+          // element=Object.assign({},element,{category:'未知'})
+          element.category = Object.assign(
+            {},
+            {
+              name: "未知",
+              color: "#D5CCB3",
+              icon: "mdi-tag-outline",
+              _id: "-1"
+            }
+          );
+        }
+        // console.log(element);
+      });
 
       //收入
       for (var i = 0; i < this.incomeData.length; i++) {
@@ -547,7 +587,11 @@ export default {
             this.totalIncome += element.money;
           });
       }
-      this.income.series[0].data = this.incomeData;
+      if (this.totalIncome != 0) this.income.series[0].data = this.incomeData;
+      else
+        this.income.series[0].data = [
+          { name: "無資料", value: 0, color: "rgba(255,255,255,0.1)" }
+        ];
 
       //支出與點數
       for (var e = 0; e < this.expenseData.length; e++) {
@@ -561,8 +605,18 @@ export default {
             this.totalPoints += element.rewardPoints;
           });
       }
-      this.expense.series[0].data = this.expenseData;
-      this.point.series[0].data = this.pointData;
+      if (this.totalExpense != 0)
+        this.expense.series[0].data = this.expenseData;
+      else
+        this.expense.series[0].data = [
+          { name: "無資料", value: 0, color: "rgba(255,255,255,0.1)" }
+        ];
+
+      if (this.totalPoints != 0) this.point.series[0].data = this.pointData;
+      else
+        this.point.series[0].data = [
+          { name: "無資料", value: 0, color: "rgba(255,255,255,0.1)" }
+        ];
     },
     fetchRecords() {
       this.$asyncComputed.records.update();
@@ -570,17 +624,21 @@ export default {
     initialDate() {
       this.userDate = getLocaleDate(new Date());
     },
+    updateDate() {
+      // console.log('updateDate')
+      this.preDate = getLocaleDate(
+        new Date(this.userDate).setDate(new Date(this.userDate).getDate() - 1)
+      );
+      this.nextDate = getLocaleDate(
+        new Date(this.userDate).setDate(new Date(this.userDate).getDate() + 1)
+      );
+    },
     getYearMonthDate(index) {
       if (index == 1 || index == -1) {
         let t = new Date(this.userDate);
         t.setDate(t.getDate() + index);
         this.userDate = getLocaleDate(t);
-        this.preDate = getLocaleDate(
-          new Date(this.userDate).setDate(new Date(this.userDate).getDate() - 1)
-        );
-        this.nextDate = getLocaleDate(
-          new Date(this.userDate).setDate(new Date(this.userDate).getDate() + 1)
-        );
+        this.updateDate();
       }
     },
     click() {
