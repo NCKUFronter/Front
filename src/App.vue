@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar
       transition="slide-y-transition"
-      color="#ffffff00"
+      color=" #26282d"
       flat
       clipped
       height="50px"
