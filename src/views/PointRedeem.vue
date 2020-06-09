@@ -1,17 +1,29 @@
 <template>
-  <v-container>
+  <v-container fluid style="padding: 8% 5% 0% 2%;">
     <!-- v-if="!cartModal" -->
-    <v-row xs12 sm12 md12 v-if="!cartModal" class="sub-header">
-      <v-card-title class="offset-8">
-        <v-icon large>mdi-alpha-p-circle-outline</v-icon>
-        {{totalPoint}}
-      </v-card-title>
-
-      <v-spacer></v-spacer>
-
-      <v-badge :content="cart" :value="cart" color="#efca16" class="mt-4 mr-8">
-        <v-icon v-on:click="lookCart()" color="#cccccc" large>mdi-cart-arrow-right</v-icon>
-      </v-badge>
+    <v-row xs6 sm2 md2 lg2 v-if="!cartModal" class="sub-header d-flex">
+      <v-flex>
+        <v-card-title class="offset-8">
+          <v-icon size="30">mdi-alpha-p-circle-outline</v-icon>
+          {{totalPoint}}
+        </v-card-title>
+      </v-flex>
+      <v-flex xs6 sm2 md2 lg2>
+        <v-badge :content="cart" :value="cart" class="mt-4 mr-8">
+          <v-icon v-on:click="lookCart()" color="#cccccc" size="30">mdi-cart-arrow-right</v-icon>
+        </v-badge>
+      </v-flex>
+      <v-flex xs6 sm2 md2 lg2 class="d-flex align-center">
+        <v-select
+          v-model="propTypeSelected"
+          :items="goods"
+          item-text="name"
+          item-value="name"
+          label="name"
+          class="selector"
+          dense
+        ></v-select>
+      </v-flex>
     </v-row>
 
     <!-- cart -->
@@ -27,7 +39,7 @@
             <v-spacer />
             <v-card-title>總額 {{sumcart}}</v-card-title>
             <v-spacer />
-            <v-btn v-on:click="buy()" color="#efca16">確認購買</v-btn>
+            <v-btn v-on:click="buy()" color="#6d6b6b">確認購買</v-btn>
           </v-card-actions>
         </v-card>
       </div>
@@ -65,14 +77,12 @@
       </v-flex>
     </v-row>
     <v-row v-if="!loading && !cartModal">
-      <v-flex xs6 sm4 md3 v-for="item in goods" :key="item.name" class="item">
-        <v-card class="card py-2 elevation-4">
+      <v-flex xs6 sm4 md2 v-for="item in filterPropType" :key="item.name" class="item">
+        <v-card flat class="py-2">
           <v-img :src="item.photo" class="img"></v-img>
 
           <v-card-title class="pb-0">{{item.name}}</v-card-title>
-
           <v-card-text class="pb-0" style="font-size: 12px;">{{item.intro}}</v-card-text>
-
           <v-icon class="pb-1">mdi-alpha-p-circle-outline</v-icon>
           <v-card-subtitle class="pb-1">{{item.point}}</v-card-subtitle>
           <v-card-actions class="icon">
@@ -90,6 +100,7 @@
     </v-row>
   </v-container>
 </template>
+
 <script>
 // import PointRedeemCart from "../components/PointRedeemCart";
 import { ignoreNotLoginError } from "../utils";
@@ -114,7 +125,8 @@ export default {
       { text: "Point", value: "point" },
       { text: "Quantity", value: "quantity" }
     ],
-    sumPoint: 0
+    sumPoint: 0,
+    propTypeSelected: "All"
   }),
   components: {
     // PointRedeemCart
@@ -140,6 +152,11 @@ export default {
         total += element.point * element.quantity;
       });
       return total;
+    },
+    filterPropType() {
+      return this.propTypeSelected != "All"
+        ? this.goods.filter(item => item.name === this.propTypeSelected)
+        : this.goods;
     }
   },
   methods: {
@@ -231,10 +248,17 @@ export default {
 }
 .img {
   margin: 10px;
+  border-radius: 5px;
+}
+.py-2.theme--dark.v-sheet {
+  background-color: transparent;
+}
+.py-2 .v-card__text {
+  width: 90%;
 }
 .pb-0 {
   padding: 0;
-  margin: 0 10px;
+  margin: 10px 10px 10px 10px;
 }
 .pb-1 {
   padding: 0;
@@ -290,6 +314,6 @@ export default {
   margin-left: 10;
 }
 .back :hover {
-  color: #efca16;
+  color: #6d6b6b;
 }
 </style>

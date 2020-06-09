@@ -1,5 +1,5 @@
 <template>
-  <v-card flat>
+  <v-container fluid class="pointHistory" style="padding: 8% 5% 0% 2%;">
     <v-row>
       <v-flex xs6 sm2 md2 offset-6>
         <v-select v-model="typeSelected" :items="type" label="Type" class="selector" dense></v-select>
@@ -17,21 +17,25 @@
         ></v-text-field>
       </v-flex>
     </v-row>
-    <v-skeleton-loader type="table" v-if="loading"></v-skeleton-loader>
+    <v-skeleton-loader v-if="loading"></v-skeleton-loader>
     <v-data-table
-      :items-per-page="25"
+      :items-per-page="10"
       :headers="headers"
       :items="filterHistory"
       :search="search"
       no-data-text="無點數紀錄"
       sort-by="time"
       sort-desc
+      class="pointHistory"
       v-else
     >
-      <template v-slot:item.activity="{item}">{{ pointDescription(item) }}</template>
+      <template v-slot:item.activity="{item}">
+        <v-icon class="ma-4">{{typeIcon(item)}}</v-icon>
+        {{ pointDescription(item) }}
+      </template>
       <template v-slot:item.time="{item}">{{ item.time | getLocaleDate }}</template>
     </v-data-table>
-  </v-card>
+  </v-container>
 </template>
 
 <script>
@@ -42,6 +46,7 @@ export default {
     return {
       search: "",
       headers: [
+        // { text: "", value: "type", sortable: false },
         {
           text: "Activity",
           align: "start",
@@ -49,7 +54,6 @@ export default {
           value: "activity"
         },
         { text: "Point", value: "amount", sortable: true },
-        { text: "Type", value: "type", sortable: false },
         { text: "Time", value: "time", sortable: true }
       ],
       history: [],
@@ -74,6 +78,16 @@ export default {
           return `購買商品: ${item.toGoods.name} × ${item.quantity}`;
       }
       return "unknown";
+    },
+    typeIcon(item) {
+      switch (item.type) {
+        case "new":
+          return `mdi-new-box`;
+        case "transfer":
+          return `mdi-debug-step-over`;
+        case "consume":
+          return `mdi-basket-outline`;
+      }
     }
   },
   computed: {
@@ -112,4 +126,11 @@ export default {
 .search {
   margin: 5px 20px;
 }
+
+.pointHistory thead tr th {
+  background-color: rgba(252, 227, 0, 1);
+}
+/* .v-data-table-header thead tr:last-child th {
+  background-color: rgba(252, 227, 0, 0.849);
+} */
 </style>

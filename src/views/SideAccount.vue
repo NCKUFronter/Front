@@ -1,11 +1,7 @@
 <template>
   <!-- <v-content style="padding:0;"> -->
   <v-container fluid style="padding:0;position:relative;">
-    <v-card
-      flat
-      min-height="85vh"
-      style="position:fixed;top:15%;right:0%;border-radius:0;"
-    >
+    <v-card flat min-height="85vh" style="position:fixed;top:15%;right:0%;border-radius:0;">
       <v-navigation-drawer
         v-model="participants"
         hide-overlay
@@ -14,11 +10,7 @@
         right
         class="elevation-0"
       >
-        <v-card-title
-          class="pl-12"
-          style="font-size:0.8em;font-weight:bold;margin-top:70px"
-          >其他成員</v-card-title
-        >
+        <v-card-title class="pl-12" style="font-size:0.8em;font-weight:bold;margin-top:70px">其他成員</v-card-title>
         <v-list nav class="pa-0">
           <v-list-item
             v-for="(item, index) in engage_user.users"
@@ -26,22 +18,20 @@
             active-class="active"
             class="pl-10 pt-2"
           >
-            <v-avatar size="36"><img :src="item.photo"/></v-avatar>
-            <v-list-item-title
-              class="ml-4"
-              v-text="item.name"
-              style="font-weight:bold;"
-            ></v-list-item-title>
+            <v-avatar size="36">
+              <img :src="item.photo" />
+            </v-avatar>
+            <v-list-item-title class="ml-4" v-text="item.name" style="font-weight:bold;"></v-list-item-title>
           </v-list-item>
         </v-list>
       </v-navigation-drawer>
     </v-card>
 
-    <v-card flat class="account-all " v-if="!this.GLOBAL.newRecordModal">
+    <v-card flat class="account-all" v-if="!this.GLOBAL.newRecordModal">
       <v-layout row>
         <v-flex xs12 sm9 md9 class="account-left">
           <v-card-title class="ma-0 pa-0">帳目一覽</v-card-title>
-          <v-layout row class=" account-upper" style="margin-bottom:1%">
+          <v-layout row class="account-upper" style="margin-bottom:1%">
             <v-flex xs6 sm6 md3 data-app class="pr-12">
               <v-select
                 v-model="ledgerSelected"
@@ -73,13 +63,7 @@
               ></v-select>
             </v-flex>
 
-            <v-flex
-              xs12
-              sm12
-              md6
-              class="date-wrap"
-              @blur="dataPickerModal = false"
-            >
+            <v-flex xs12 sm12 md6 class="date-wrap" @blur="dataPickerModal = false">
               <!-- <i class="material-icons" v-on:click="getYearMonthDate(-1)">arrow_left</i> -->
               <v-card
                 flat
@@ -129,7 +113,7 @@
             <div class="expenses">
               <h6>總支出: {{totalExpense}}</h6>
             </div>
-          </div> -->
+            </div>-->
           </v-layout>
 
           <div class="account-down">
@@ -149,7 +133,7 @@
           </div>
           <!-- <v-btn icon large @click="newRecord" class="add-record elevation-8">
             <v-icon large color="#3D404E">mdi-plus</v-icon>
-        </v-btn> -->
+          </v-btn>-->
         </v-flex>
 
         <v-flex xs12 sm3 md3 class="account-right">
@@ -161,20 +145,22 @@
                 @click.stop="participants = !participants"
                 style="position:relative;background-color:transparent;z-index:2;height:fit-content;width:fit-content;margin-right:70px;"
               >
-                <transition name="fade"
-                  ><img
+                <transition name="fade">
+                  <img
                     v-if="!participants"
                     src="../assets/fronter/account/member_unclicked.svg"
                     height="20px"
                     style="position: absolute;"
-                /></transition>
-                <transition name="fade"
-                  ><img
+                  />
+                </transition>
+                <transition name="fade">
+                  <img
                     v-if="participants"
                     src="../assets/fronter/account/member_clicked.svg"
                     height="20px"
                     style="position: absolute;"
-                /></transition>
+                  />
+                </transition>
               </bottom>
             </v-card-actions>
           </v-card>
@@ -183,14 +169,13 @@
         </div>
         <div class="chart">
           <pie-chart :data="piedata" label-position="center"/>
-        </div> -->
+          </div>-->
           <v-card v-if="!participants" flat class="chart">
             <!-- style="border:2px solid red;" -->
             <v-card-title
               class="pa-0 mr-5"
               style="border-bottom:1px solid white;font-size:0.8em;font-weight:bold;margin-top:12.5vh; margin-left:4vw;"
-              >當日小計</v-card-title
-            >
+            >當日小計</v-card-title>
             <div
               v-if="this.flowSelected != '支出'"
               class="income"
@@ -199,8 +184,7 @@
               <v-card-title
                 class="pa-0"
                 style="font-size:0.8em;margin-left:4vw;"
-                >總收入 {{ totalIncome }}</v-card-title
-              >
+              >總收入 {{ totalIncome }}</v-card-title>
               <v-chart :options="income" />
             </div>
             <div
@@ -212,8 +196,7 @@
               <v-card-title
                 class="pa-0"
                 style="font-size:0.8em;margin-left:4vw;"
-                >總支出 {{ totalExpense }}</v-card-title
-              >
+              >總支出 {{ totalExpense }}</v-card-title>
               <v-chart :options="expense" />
             </div>
             <div
@@ -225,8 +208,7 @@
               <v-card-title
                 class="pa-0"
                 style="font-size:0.8em;margin-left:4vw;"
-                >總點數 {{ totalPoints }}</v-card-title
-              >
+              >總點數 {{ totalPoints }}</v-card-title>
               <v-chart :options="point" />
             </div>
           </v-card>
@@ -279,7 +261,7 @@ let data = {
     title: {},
     tooltip: {},
     legend: {
-      show: false,
+      show: false
     },
     series: [
       {
@@ -290,10 +272,10 @@ let data = {
         data: [],
         label: {
           show: false,
-          position: "center",
+          position: "center"
         },
         labelLine: {
-          show: false,
+          show: false
         },
         itemStyle: {
           normal: {
@@ -303,17 +285,17 @@ let data = {
               } else {
                 return params.color;
               }
-            },
-          },
-        },
-      },
-    ],
+            }
+          }
+        }
+      }
+    ]
   },
   expense: {
     title: {},
     tooltip: {},
     legend: {
-      show: false,
+      show: false
     },
     series: [
       {
@@ -323,10 +305,10 @@ let data = {
         data: [],
         label: {
           show: false,
-          position: "center",
+          position: "center"
         },
         labelLine: {
-          show: false,
+          show: false
         },
         itemStyle: {
           normal: {
@@ -336,17 +318,17 @@ let data = {
               } else {
                 return params.color;
               }
-            },
-          },
-        },
-      },
-    ],
+            }
+          }
+        }
+      }
+    ]
   },
   point: {
     title: {},
     tooltip: {},
     legend: {
-      show: false,
+      show: false
     },
     series: [
       {
@@ -356,10 +338,10 @@ let data = {
         data: [],
         label: {
           show: false,
-          position: "center",
+          position: "center"
         },
         labelLine: {
-          show: false,
+          show: false
         },
         itemStyle: {
           normal: {
@@ -369,12 +351,12 @@ let data = {
               } else {
                 return params.color;
               }
-            },
-          },
-        },
-      },
-    ],
-  },
+            }
+          }
+        }
+      }
+    ]
+  }
 };
 
 export default {
@@ -388,7 +370,7 @@ export default {
     DateInputPicker,
     EditRecord,
     RecordTable,
-    "v-chart": ECharts,
+    "v-chart": ECharts
   },
   created() {
     this.$clear.animeOver = true;
@@ -426,12 +408,12 @@ export default {
     },
     records: function() {
       this.drawPie();
-    },
+    }
   },
   computed: {
     filterAccountData() {
       // return this.filterLedgerData.filter(item => {
-      return this.records.filter((item) => {
+      return this.records.filter(item => {
         return getLocaleDate(item.date) === this.userDate;
       });
     },
@@ -456,7 +438,7 @@ export default {
         if (cur.rewardPoints != null) return sum + cur.rewardPoints;
         else return sum;
       }, 0);
-    },
+    }
   },
   asyncComputed: {
     records: {
@@ -466,9 +448,9 @@ export default {
           return this.$loading.insideLoading(
             this.$http
               .get(`/ledger/${this.ledgerSelected}/records`, {
-                params: { _one: ["category", "user"] },
+                params: { _one: ["category", "user"] }
               })
-              .then((res) => res.data)
+              .then(res => res.data)
           );
         } else {
           // 1. callback
@@ -484,47 +466,47 @@ export default {
           return this.$loading.insideLoading(
             this.$http
               .get(`/ledger/${this.ledgerSelected}/records`, {
-                params: { _one: ["category", "user"] },
+                params: { _one: ["category", "user"] }
               })
-              .then((res) => {
+              .then(res => {
                 console.log(res.data);
                 return this.flowSelected == "收入"
-                  ? res.data.filter((item) => item.recordType === "income")
-                  : res.data.filter((item) => item.recordType === "expense");
+                  ? res.data.filter(item => item.recordType === "income")
+                  : res.data.filter(item => item.recordType === "expense");
               })
           );
         }
       },
       default: [],
-      watch: ["ledgerSelected", "flowSelected"],
+      watch: ["ledgerSelected", "flowSelected"]
     },
     engage_user: {
       get() {
         return this.$loading.insideLoading(
           this.$http
             .get(`/ledger/${this.ledgerSelected}`, {
-              params: { _many: ["users"] },
+              params: { _many: ["users"] }
             })
-            .then((res) => res.data)
+            .then(res => res.data)
         );
       },
       default: [],
-      watch: ["ledgerSelected"],
+      watch: ["ledgerSelected"]
     },
     ledgers: {
       get() {
         return this.$loading.insideLoading(
-          this.$http.get(`/user/ledgers`).then((res) => res.data)
+          this.$http.get(`/user/ledgers`).then(res => res.data)
         );
       },
-      default: [],
+      default: []
     },
     userCategories: {
       get() {
-        return this.$http.get("/user/categories").then((res) => res.data);
+        return this.$http.get("/user/categories").then(res => res.data);
       },
-      default: [],
-    },
+      default: []
+    }
   },
   methods: {
     drawPie() {
@@ -536,21 +518,21 @@ export default {
       this.totalIncome = 0;
       this.pointData.length = 0;
       this.totalPoints = 0;
-      this.userCategories.forEach((element) => {
+      this.userCategories.forEach(element => {
         this.expenseData.push({
           name: element.name,
           value: 0,
-          color: element.color,
+          color: element.color
         });
         this.incomeData.push({
           name: element.name,
           value: 0,
-          color: element.color,
+          color: element.color
         });
         this.pointData.push({
           name: element.name,
           value: 0,
-          color: element.color,
+          color: element.color
         });
       });
       console.log(this.incomeData);
@@ -558,9 +540,9 @@ export default {
       //收入
       for (var i = 0; i < this.incomeData.length; i++) {
         this.filterAccountData
-          .filter((item) => item.recordType === "income")
-          .filter((item) => item.category.name === this.incomeData[i].name)
-          .forEach((element) => {
+          .filter(item => item.recordType === "income")
+          .filter(item => item.category.name === this.incomeData[i].name)
+          .forEach(element => {
             this.incomeData[i].value += element.money;
             this.totalIncome += element.money;
           });
@@ -570,9 +552,9 @@ export default {
       //支出與點數
       for (var e = 0; e < this.expenseData.length; e++) {
         this.filterAccountData
-          .filter((item) => item.recordType === "expense")
-          .filter((item) => item.category.name === this.expenseData[e].name)
-          .forEach((element) => {
+          .filter(item => item.recordType === "expense")
+          .filter(item => item.category.name === this.expenseData[e].name)
+          .forEach(element => {
             this.expenseData[e].value += element.money;
             this.totalExpense += element.money;
             this.pointData[e].value += element.rewardPoints;
@@ -614,8 +596,8 @@ export default {
       // this.selectedRecord = item;
       this.setRecordModal(true, item);
       // this.modalOpen = true;
-    },
-  },
+    }
+  }
 };
 </script>
 
