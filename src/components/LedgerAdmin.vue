@@ -8,8 +8,11 @@
     <v-row>
     <v-flex xs6 sm3 md3  v-for="ledger of adminLedgers" :key="'admin_'+ledger._id" class="pa-3">
       <v-card flat style="border-radius:2em">
-      <div class="pr-8 pl-8 pt-2 pb-2" style="background-color:#08112c;position: relative">
-        <v-img  src="../assets/fronter/account/planet2.png" ></v-img>
+      
+      <v-card style="background-color:#08112c;position: relative">
+        <v-img v-if="!ledger.photo" src="../assets/fronter/account/planet3.png" sizes="50%" height="180px" ></v-img>
+        <v-img v-else-if="ledger.photo.substring(0,5)=='https'" :src="ledger.photo" sizes="50%" height="180px"></v-img>
+        <v-img v-else :src="baseURL+ledger.photo" sizes="50%" height="180px" ></v-img>
         <v-card-title style="position:absolute;left:0;bottom:0;font-size:18px" class="pa-0 ma-0 ml-3"> {{ledger.ledgerName}}</v-card-title>
         <!-- <v-card-actions class="pa-0 ma-0" style="position:absolute;right:5px;bottom:0;">
           <v-spacer />
@@ -24,7 +27,7 @@
             <v-icon small>mdi-account-multiple-minus</v-icon>
           </v-btn>
         </v-card-actions> -->
-      </div>
+      </v-card>
       <div  style="background-color:#0c193f">
         <v-card-text class="pa-0 ma-0 ml-3 pt-1" style="font-size:12px">帳本人數: {{ledger.users.length}}</v-card-text>
         <v-flex class="px-4 pb-2">
@@ -62,11 +65,11 @@
       <v-card class="modal" color="#3D404E" v-if="createModal">
         <v-card-title>新建帳本</v-card-title>
         <v-text-field v-model="newLedgerName" label="請輸入帳本名稱" class="px-4"></v-text-field>
-        <!-- <v-file-input accept="image/*" label="image upload" @change="onAddFiles"></v-file-input> -->
+        <v-file-input multiple accept="image/*" label="image upload" @change="onAddFiles"></v-file-input>
         <v-card-actions>
           <v-spacer />
-          <v-btn class="button" @click="createLedger">新增</v-btn>
-          <v-btn class="button" @click="createModal=false">取消</v-btn>
+          <v-btn class="button" outlined @click="createLedger">新增</v-btn>
+          <v-btn class="button" outlined @click="cancelCreate">取消</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -75,6 +78,18 @@
       <v-card class="modal" color="#3D404E" v-if="inviteModal">
         <v-card-title>{{inviteLedger.ledgerName}}</v-card-title>
         <v-text-field v-model="inputEmail" label="請輸入邀請者email" type="email" class="px-4"></v-text-field>
+        <v-card-text class="px-4 pb-1">正在邀請</v-card-text>
+        <v-card flat class="px-4" color="#3D404E" max-height="12vh">
+          <v-avatar
+            v-for="(user,index) in inviteLedger.invitees"
+            :key="index"
+            size="22"     
+            class="ma-1"
+            style="background-color:#3d404e;border-radius:50%"
+          >
+            <img :src="user.photo" />
+          </v-avatar>
+        </v-card>
         <v-card-actions>
           <v-spacer />
           <v-btn class="button" outlined v-on:click="confirmInvite()">邀請</v-btn>
@@ -126,29 +141,31 @@ export default {
       createModal: false,
       newLedgerName: "",
       newLedgerPhoto:"../assets/fronter/account/planet2.png",
+      newLedger: new FormData(),
   }),
   created(){
-
+    console.log(this.adminLedgers)
   },
   props: ["adminLedgers",],
   methods:{
-    // onAddFiles(files) {
-    //   var DWObject = Dynamsoft.WebTwainEnv.GetWebTwain('dwtcontrolContainer');
-    //   console.log(files);
-    //   if (DWObject.HowManyImagesInBuffer == 0){
-    //           alert("No images in buffer.");
-    //           return;               
-    //         }
-             
-    //   DWObject.SaveAsPNG("D:\\test.png", 0);
-    // },
+    onAddFiles(files) {
+      console.log(files[files.length-1]);
+      this.newLedger.append("upPhoto",files[files.length-1])
+      console.log(this.newLedger)
+    },
     createLedger() {
+      if (this.newLedgerName == "") return this.$alert.error("新帳本名不得為空");
+      else this.newLedger.append("ledgerName",this.newLedgerName) 
+
+      // console.log(this.newLedger.keys())
+
       this.$confirm.open(`確認新增 "${this.newLedgerName}"?`, () => {
         this.$http
-          .post("/ledger", { ledgerName: this.newLedgerName,photo:this.newLedgerPhoto })
+          .post("/ledger", this.newLedger, {headers: {'Content-Type': "multipart/form-data"}})
           .then(res => {
             this.createModal = false;
-            this.update();
+            // this.update();
+            this.$emit("update");
             this.newLedgerName = "";
             this.$alert.success("新增成功");
           })
@@ -159,12 +176,17 @@ export default {
           });
       });
     },
+    cancelCreate(){
+      this.createModal=false;
+    },
     deleteLedger(ledger){
-      this.$confirm.open("確認刪除類別: " + ledger.name, () => {
+      console.log(ledger)
+      this.$confirm.open("確認刪除類別: " + ledger.ledgerName, () => {
         this.$http
           .delete("/ledger/" + ledger._id)
           .then(res => {
-            this.update();
+            // this.update();
+            this.$emit("update");
             this.$alert.success("帳本刪除成功");
           })
           .catch(ignoreNotLoginError)

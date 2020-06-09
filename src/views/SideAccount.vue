@@ -206,7 +206,8 @@
                 style="font-size:0.8em;margin-left:4vw;"
                 >總收入 {{ totalIncome }}</v-card-title
               >
-              <v-chart :options="income" />
+              <v-chart  :options="income" />
+              <!-- <v-avatar v-else size="80" style="border:1px solid white" class="ml-5"/> -->
             </div>
             <div
               flat
@@ -595,7 +596,8 @@ export default {
             this.totalIncome += element.money;
           });
       }
-      this.income.series[0].data = this.incomeData;
+      if(this.totalIncome!=0) this.income.series[0].data = this.incomeData;
+      else this.income.series[0].data=[{name:'無資料',value:0,color: 'rgba(255,255,255,0.1)'}]
 
       //支出與點數
       for (var e = 0; e < this.expenseData.length; e++) {
@@ -609,8 +611,11 @@ export default {
             this.totalPoints += element.rewardPoints;
           });
       }
-      this.expense.series[0].data = this.expenseData;
-      this.point.series[0].data = this.pointData;
+      if(this.totalExpense!=0) this.expense.series[0].data = this.expenseData;
+      else this.expense.series[0].data=[{name:'無資料',value:0,color: 'rgba(255,255,255,0.1)'}]
+
+      if(this.totalPoints!=0) this.point.series[0].data = this.pointData;
+      else this.point.series[0].data=[{name:'無資料',value:0,color: 'rgba(255,255,255,0.1)'}]
     },
     fetchRecords() {
       this.$asyncComputed.records.update();

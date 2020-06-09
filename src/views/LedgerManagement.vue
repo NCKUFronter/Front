@@ -9,8 +9,8 @@
     </v-tabs>
     <v-flex xs12 sm12 md12>
     <v-tabs-items v-model="tab" class="pa-2 pt-8">
-      <v-tab-item ><LedgerAdmin :adminLedgers="adminLedgers" @update="update()" /></v-tab-item>
-      <v-tab-item><LedgerEngage :engageLedgers="engageLedgers"/></v-tab-item>
+      <v-tab-item><LedgerAdmin :adminLedgers="adminLedgers" @update="update()" /></v-tab-item>
+      <v-tab-item><LedgerEngage :engageLedgers="engageLedgers" @update="update()"/></v-tab-item>
       <v-tab-item><LedgerInvited :invitations="invitations" @update="update()" /></v-tab-item>
     </v-tabs-items>
     </v-flex>
@@ -46,7 +46,7 @@ export default {
       get() {
         return this.$http
           .get("/user/ledgers", {
-            params: { _many: ["users"] }
+            params: { _many: ["users","invitees"] }
           })
           .then(res => {
             this.engageLedgers = [];

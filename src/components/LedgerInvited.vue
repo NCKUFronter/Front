@@ -2,10 +2,13 @@
     <v-row >
     <v-flex xs6 sm3 md3 v-for="invitation in invitations" :key="'invite'+invitation._id" class="pa-2">
       <v-card flat style="border-radius:2em">
-      <div class="pr-8 pl-8 pt-2 pb-2" style="background-color:#08112c;position: relative">
-        <v-img  src="../assets/fronter/account/planet2.png" ></v-img>
+      <v-card style="background-color:#08112c;position: relative">
+        <!-- <v-img  src="../assets/fronter/account/planet2.png" ></v-img> -->
+        <v-img v-if="!ledger.photo" src="../assets/fronter/account/planet3.png" sizes="50%" height="180px" ></v-img>
+        <v-img v-else-if="ledger.photo.substring(0,5)=='https'" :src="ledger.photo" sizes="50%" height="180px"></v-img>
+        <v-img v-else :src="baseURL+ledger.photo" sizes="50%" height="180px" ></v-img>
         <v-card-title style="position:absolute;left:0;bottom:0;font-size:18px" class="pa-0 ma-0 ml-3">{{invitation.ledger.ledgerName}}</v-card-title>
-      </div>
+      </v-card>
       <div  style="background-color:#0c193f;" >
         <v-card-text class="pa-0 ma-0 ml-3 pt-1" style="font-size:12px">帳本人數: {{invitation.ledger.users.length}}</v-card-text>
         <v-flex class="px-4 pb-2">
