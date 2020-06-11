@@ -38,8 +38,16 @@
 
         <v-btn
           icon
+          class="editCard"
+          v-if="category.userId != null"
+          v-on:click="edit(category)"
+        >
+          <v-icon>mdi-pencil</v-icon>
+        </v-btn>
+        <v-btn
+          icon
           class="deleteCard"
-          :disabled="category.userId == null"
+          v-if="category.userId != null"
           v-on:click="deleteCategory(category)"
         >
           <v-icon>mdi-close-circle</v-icon>
@@ -65,19 +73,21 @@
           hide-details
         ></v-combobox>
       </v-card>
-      <v-card-actions class="ma-0 mt-1 pa-0 px-7">
+      <!-- <v-card-actions class="ma-0 mt-1 pa-0 px-7">
         <v-spacer />
         <v-btn v-if="category.userId != null" @click="edit(category)" class="ma-0 px-1 pa-0 elevation-0" style="font-size:10px;height:fit-content;width:fit-content;border-radius:0;">編輯</v-btn>
-      </v-card-actions>
+      </v-card-actions> -->
     </v-flex>
 
     <!-- <v-flex xs12 sm6 md6> -->
-    <v-dialog v-model="newModal" width="unset">
-      <v-card class="modal" color="#3D404E" v-if="newModal" >
-        <div style="width:50vw">
-        <v-card-title>新增類別</v-card-title>
+    <v-dialog v-model="newModal" width="60vw">
+      <v-layout row class="pa-0 ma-0" style="background-color:#3D404E">
+      <v-flex xs12 sm8 md8>
+      <v-card flat class="modal px-4" color="#3D404E" v-if="newModal" >
+        <!-- <div style="width:50vw"> -->
+        <v-card-title v-if="oldCategory">編輯類別</v-card-title>
+        <v-card-title v-else>新增類別</v-card-title>
         <v-text-field v-model="newCategoryName" label="請輸入類別名稱" class="px-4"></v-text-field>
-
         <v-card-title>選擇顏色</v-card-title>
         <v-card flat class="mx-4 scroll" color="#3D404E" max-height="12vh">
           <v-btn ref="category"  @click="colorSelected(item)" 
@@ -103,8 +113,45 @@
           <v-btn v-else outlined class="button" @click="save">新增</v-btn>
           <v-btn outlined class="button" @click="cancel">取消</v-btn>
         </v-card-actions>
-        </div>
+        <!-- </div> -->
       </v-card>
+      </v-flex>
+
+      <!-- 預覽 -->
+      <v-flex xs12 sm4 md4 class="my-auto">
+        <v-card class="cardAll ma-5" style="border-radius:2em" :color="newCategoryColor">
+        <div class="pr-8 pl-8 pt-2 pb-2" style="width:100%;background-color:rgba(255,255,255,0.1);position: relative">
+        <v-icon style="width:100%" size="8em" >{{this.newCategoryIcon}}</v-icon>
+        <v-text-field
+          class="headline"
+          v-model="newCategoryName"
+          single-line
+          solo
+          dense
+          flat
+          hide-details
+          style="position:absolute;bottom:0;left:0;"
+        >
+        </v-text-field>
+        </div>
+
+        <v-combobox
+          multiple
+          v-model="newTag"
+          label="新增類別標籤"
+          append-icon
+          small-chips
+          deletable-chips
+          class="tag-input"
+          style="border-radius:0;width:100%"
+          :search-input.sync="search"
+          solo
+          flat
+          hide-details
+        ></v-combobox>
+      </v-card>
+      </v-flex>
+      </v-layout>
     </v-dialog>
     <!-- </v-flex> -->
 
@@ -285,6 +332,7 @@ export default {
       this.newCategoryName = item.name;
       this.newCategoryColor= item.color;
       this.newCategoryIcon = item.icon;
+      this.newTag=item.hashtags;
       this.oldCategory=true;
       this.modifyId=item._id;
     },
@@ -307,6 +355,7 @@ export default {
               name: this.newCategoryName,
               color: this.newCategoryColor,
               icon: this.newCategoryIcon,
+              hashtags: this.newTag,
             })
           )
           .then(res => {
@@ -332,7 +381,7 @@ export default {
           .insideLoading(
             this.$http.post("/category", {
               name: this.newCategoryName,
-              // hashtags: this.newTag,
+              hashtags: this.newTag,
               color: this.newCategoryColor,
               icon: this.newCategoryIcon,
             })
@@ -372,6 +421,12 @@ export default {
   top: 2%;
   right: 2%;
 }
+.editCard {
+  position: absolute;
+  top: 2%;
+  right: 12%;
+}
+
 .loadCard {
   margin-bottom: 20px;
 }

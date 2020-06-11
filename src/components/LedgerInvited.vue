@@ -2,7 +2,7 @@
     <v-row >
     <v-flex xs6 sm3 md3 v-for="invitation in invitations" :key="'invite'+invitation._id" class="pa-2">
       <v-card flat style="border-radius:2em">
-      <v-card style="background-color:#08112c;position: relative">
+      <v-card flat style="background-color:#08112c;position: relative">
         <!-- <v-img  src="../assets/fronter/account/planet2.png" ></v-img> -->
         <v-img v-if="!ledger.photo" src="../assets/fronter/account/planet3.png" sizes="50%" height="180px" ></v-img>
         <v-img v-else-if="ledger.photo.substring(0,5)=='https'" :src="ledger.photo" sizes="50%" height="180px"></v-img>

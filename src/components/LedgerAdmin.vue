@@ -9,7 +9,7 @@
     <v-flex xs6 sm3 md3  v-for="ledger of adminLedgers" :key="'admin_'+ledger._id" class="pa-3">
       <v-card flat style="border-radius:2em">
       
-      <v-card style="background-color:#08112c;position: relative">
+      <v-card flat style="background-color:#08112c;position: relative">
         <v-img v-if="!ledger.photo" src="../assets/fronter/account/planet3.png" sizes="50%" height="180px" ></v-img>
         <v-img v-else-if="ledger.photo.substring(0,5)=='https'" :src="ledger.photo" sizes="50%" height="180px"></v-img>
         <v-img v-else :src="baseURL+ledger.photo" sizes="50%" height="180px" ></v-img>
@@ -55,7 +55,7 @@
         <v-spacer />
         <v-btn  class="ma-0 px-1 pa-0 elevation-0" style="font-size:10px;height:fit-content;width:fit-content;border-radius:0;" v-on:click="invite(ledger)">邀請</v-btn>
         <v-btn  class="ma-0 px-1 pa-0 elevation-0" style="font-size:10px;height:fit-content;width:fit-content;border-left:1px solid white;border-radius:0;" v-on:click="out(ledger)">剔除</v-btn>
-        <v-btn  class="ma-0 px-1 pa-0 elevation-0" style="font-size:10px;height:fit-content;width:fit-content;border-left:1px solid white;border-radius:0;">編輯</v-btn>
+        <v-btn  class="ma-0 px-1 pa-0 elevation-0" style="font-size:10px;height:fit-content;width:fit-content;border-left:1px solid white;border-radius:0;" v-on:click="editLedger(ledger)">編輯</v-btn>
         <v-btn  class="ma-0 px-1 pa-0 elevation-0" style="font-size:10px;height:fit-content;width:fit-content;border-left:1px solid white;border-radius:0;" v-on:click="deleteLedger(ledger)">刪除</v-btn>      
       </v-card-actions>
     </v-flex>
@@ -63,12 +63,14 @@
     <!-- 建立ledge model -->
     <v-dialog v-model="createModal" width="unset">
       <v-card class="modal" color="#3D404E" v-if="createModal">
-        <v-card-title>新建帳本</v-card-title>
-        <v-text-field v-model="newLedgerName" label="請輸入帳本名稱" class="px-4"></v-text-field>
-        <v-file-input multiple accept="image/*" label="image upload" @change="onAddFiles"></v-file-input>
+        <v-card-title class="px-4" v-if="!editModal">新建帳本</v-card-title>
+        <v-card-title class="px-4" v-else>編輯帳本 {{newLedgerName}}</v-card-title>
+        <v-text-field prepend-icon="mdi-book" v-model="newLedgerName" label="請輸入帳本名稱" class="px-4"></v-text-field>
+        <v-file-input class="px-4" multiple accept="image/*" label="image upload" @change="onAddFiles"></v-file-input>
         <v-card-actions>
           <v-spacer />
-          <v-btn class="button" outlined @click="createLedger">新增</v-btn>
+          <v-btn v-if="!editModal" class="button" outlined @click="createLedger">新增</v-btn>
+          <v-btn v-else class="button" outlined @click="patchLedger">修改</v-btn>
           <v-btn class="button" outlined @click="cancelCreate">取消</v-btn>
         </v-card-actions>
       </v-card>
@@ -140,23 +142,31 @@ export default {
 
       createModal: false,
       newLedgerName: "",
-      newLedgerPhoto:"../assets/fronter/account/planet2.png",
+      ledgerPhotoChange:false,
       newLedger: new FormData(),
+
+      editModal:false,
+      editLedgerId:-1,
   }),
   created(){
-    console.log(this.adminLedgers)
+    // console.log(this.adminLedgers)
   },
   props: ["adminLedgers",],
   methods:{
     onAddFiles(files) {
-      console.log(files[files.length-1]);
+      // console.log(files[files.length-1]);
       this.newLedger.append("upPhoto",files[files.length-1])
-      console.log(this.newLedger)
+      this.ledgerPhotoChange=true;
+      // console.log(this.newLedgerPhoto)
     },
     createLedger() {
       if (this.newLedgerName == "") return this.$alert.error("新帳本名不得為空");
       else this.newLedger.append("ledgerName",this.newLedgerName) 
 
+      if (!this.ledgerPhotoChange) {
+        // console.log("no photo")
+        this.newLedger.append("photo","https://drive.google.com/uc?export=view&id=173suCuP2GwAmvwZQgPtDwGrSPg1wvM8m")
+      }
       // console.log(this.newLedger.keys())
 
       this.$confirm.open(`確認新增 "${this.newLedgerName}"?`, () => {
@@ -176,8 +186,47 @@ export default {
           });
       });
     },
+    patchLedger() {
+      if (this.newLedgerName == "") return this.$alert.error("帳本名不得為空");
+      else this.newLedger.append("ledgerName",this.newLedgerName) 
+
+      if (!this.ledgerPhotoChange) {
+        console.log("no photo")
+        this.newLedger.append("photo","https://drive.google.com/uc?export=view&id=173suCuP2GwAmvwZQgPtDwGrSPg1wvM8m")
+      }
+      // console.log(this.newLedger.keys())
+
+      this.$confirm.open(`確認修改 "${this.newLedgerName}"?`, () => {
+        this.$http
+          .patch("/ledger/"+this.editLedgerId, this.newLedger, {headers: {'Content-Type': "multipart/form-data"}})
+          .then(res => {
+            this.createModal = false;
+            this.editModal=false;
+            // this.update();
+            this.$emit("update");
+            this.newLedgerName = "";
+            this.$alert.success("修改成功");
+          })
+          .catch(ignoreNotLoginError)
+          .catch(err => {
+            console.log(err)
+            this.$alert.error("修改失敗");
+          });
+      });
+    },
     cancelCreate(){
       this.createModal=false;
+      this.editModal=false;
+      this.newLedger=new FormData();
+      this.newLedgerName='';
+      this.ledgerPhotoChange=false;
+    },
+    editLedger(ledger){
+      this.editLedgerId=ledger._id;
+      this.newLedgerName=ledger.ledgerName;
+      this.ledgerPhotoChange=true;
+      this.createModal=true;
+      this.editModal=true;
     },
     deleteLedger(ledger){
       console.log(ledger)
@@ -197,7 +246,7 @@ export default {
       });
     },
     ledgerUser(user){
-        console.log(user.length)
+        // console.log(user.length)
         if(user.length<=6){
           return user
         }else{
