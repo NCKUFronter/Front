@@ -222,7 +222,6 @@
           >
 
             <RecordTable
-              transition="slide-x-transition"
               :accountData="records"
               :userDate="userDate"
               :ledgerSelected="ledgerSelected"
