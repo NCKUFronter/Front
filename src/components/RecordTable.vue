@@ -1,15 +1,17 @@
 <template>
-  <div class="RT" >
-  <v-card flat class="scroll recordTable" style="height:60vh;"> 
+  <div class="RT">
+  <v-card flat class="scroll recordTable" style="height:60vh;" v-if="$vuetify.breakpoint.smAndUp"
+
+  > 
     <!-- class="scroll recordTable" -->
-    <div class="header-background"></div>
+    <!-- <div class="header-background"></div> -->
     <v-data-table  class=" record" 
     hide-default-footer
     :items-per-page= "-1"
     :headers="headers" :items="filterAccountData" sort-by="money" >
       <!-- recordType -->
       
-      <template v-slot:item.recordType="{ item }">
+      <template v-slot:item.user="{ item }">
         <!--v-chip :color="getColor(item.recordType)"-->
         <!-- <v-icon left>getIcon()</v-icon>-->
         <!-- <v-icon v-if="getIcon()==true">mdi-tray-minus</v-icon>
@@ -58,6 +60,61 @@
     </v-data-table>
   
   </v-card>
+  <v-card flat outlined class="scroll mobileRecordTable" style="height:72vh;" v-else > 
+    <!-- <v-data-table :headers="headers" :items="filterAccountData">
+              <template slot="items" slot-scope="props">
+                <tr style="display: block;position: relative;">
+                  <td>
+                    <ul class="flex-content">
+                      <li style="display: block;" class="flex-item" data-label="user">        
+                        <v-avatar size="36">
+                          <img :src="props.item.user.photo" />
+                        </v-avatar>
+                        </li>
+                      <li style="display: block;" class="flex-item" data-label="categoryId">{{ props.item.category.name }}</li>
+                      <li style="display: block;" class="flex-item" data-label="hashtags">
+                        <v-chip label small v-for="tag in prop.item.hashtags" :key="tag" class="mx-1">{{ tag }}</v-chip>
+                      </li>
+                      <li style="display: block;" class="flex-item" data-label="money">{{ props.item.money }}</li>
+                      <li style="display: block;" class="flex-item" data-label="rewardPoints">{{ props.item.rewardPoints }}</li>
+                      <li class="flex-item" data-label="from">{{ props.item.iron }}</li>
+                    </ul>
+                  </td>
+                </tr>
+              </template>
+    </v-data-table> -->
+    <v-simple-table
+    >
+    <template v-slot:default>
+      <thead>
+        <tr>
+          <th class="text-center px-1"></th>
+          <th class="text-center px-1">類別</th>
+          <th class="text-center px-1">標籤</th>
+          <th class="text-center px-1">金額</th>
+          <th class="text-center px-1">點數</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(item,index) in filterAccountData" :key="index" @click="$emit('want-edit',item)">
+          <td class="text-center px-1"><v-avatar size="34px"><img :src="item.user.photo" /> </v-avatar></td>
+          <td class="text-center px-1">
+            <v-avatar size="34px" :color="(item.category) ? item.category.color : '#d5ccb3'">
+            <v-icon size="24px">{{item.category.icon}}</v-icon>
+            <!-- {{ (item.category) ? item.category.name : '未知' }} -->
+            </v-avatar>
+          </td>
+          <td class="text-center px-1">
+            <v-chip label small v-for="tag in item.hashtags" :key="tag" class="mx-1">{{ tag }}</v-chip>
+          </td>
+          <td class="text-center px-1">{{ item.money }}</td>
+          <td class="text-center px-1">{{ item.rewardPoints }}</td>
+        </tr>
+      </tbody>
+    </template>
+
+    </v-simple-table>
+  </v-card>
   </div>
 </template>
 
@@ -79,7 +136,7 @@ export default {
       headers: [
         {
           text: "", //"現金流",
-          value: "recordType"
+          value: "user"
         },
         {
           text: "類別",
@@ -198,8 +255,8 @@ export default {
 </script>
 
 <style >
-
-.recordTable .theme--dark.v-data-table tbody tr:not(:last-child) td:not(.v-data-table__mobile-row), .theme--dark.v-data-table tbody tr:not(:last-child) th:not(.v-data-table__mobile-row) {
+.recordTable .theme--dark.v-data-table tbody tr:not(:last-child) td:not(.v-data-table__mobile-row), .theme--dark.v-data-table tbody tr:not(:last-child) th:not(.v-data-table__mobile-row) ,
+.mobileRecordTable .theme--dark.v-data-table tbody tr:not(:last-child) td:not(.v-data-table__mobile-row), .theme--dark.v-data-table tbody tr:not(:last-child) th:not(.v-data-table__mobile-row) {
     border-bottom: none;
 }
 
@@ -238,7 +295,9 @@ export default {
 
 
 .recordTable .v-data-table-header th,
-.recordTable .v-data-table tbody tr
+.recordTable .v-data-table tbody tr,
+.mobileRecordTable .v-data-table-header th,
+.mobileRecordTable .v-data-table tbody tr
 {
   height: 8vh;
 }
@@ -254,7 +313,8 @@ export default {
   border-radius: 10px ! important;
 }
 
-.recordTable .v-chip--label {
+.recordTable .v-chip--label ,
+.mobileRecordTable .v-chip--label {
     border-radius: 10px !important;
 }
 

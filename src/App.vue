@@ -5,23 +5,23 @@
       color=" #26282d"
       flat
       clipped
-      height="50px"
-      class="pa-4"
       fixed
+      class="pa-2"
     >
-      <v-layout>
-        <v-flex v-if="clear.animeOver && $vuetify.breakpoint.smAndDown">
+      <!-- <v-layout row style="height:100%"> -->
+        <!-- <v-flex xs1 sm1 md1 v-if="clear.animeOver && $vuetify.breakpoint.smAndDown"> -->
           <v-app-bar-nav-icon
             @click.stop="drawer = !drawer"
-            v-if="login"
-            class="d-flex align-center justify-center pa-4"
+            v-if="login && clear.animeOver && $vuetify.breakpoint.smAndDown"
+            class="px-4"
+            style="height:100%"
           ></v-app-bar-nav-icon>
-        </v-flex>
-        <v-flex v-if="login && clear.animeOver" class="d-flex align-center justify-center pa-4">
-          <h1 class="logo d-flex align-center">
-            <div>FRONTER</div>
+        <!-- </v-flex> -->
+        <!-- <v-flex xs3 sm3 md3 v-if="login && clear.animeOver" class="pa-4"> -->
+          <h1 class="logo px-8" v-if="login && clear.animeOver">
+            FRONTER
           </h1>
-        </v-flex>
+        <!-- </v-flex> -->
         <!-- v-if="login && $vuetify.breakpoint.smAndDown" -->
 
         <!-- <v-app-bar transition="slide-y-transition" color="transparent" clipped-left flat app dense>
@@ -31,8 +31,9 @@
         <img src="./assets/Fronter.png" class="mt-2"/>
         <div v-if="login">星，際帳</div>
         </h1>-->
-        <v-flex v-if="login && clear.animeOver" class="d-flex align-center justify-center pa-4">
-          <v-form>
+        <!-- <v-flex xs4 sm5 md5 v-if="login && clear.animeOver  && $vuetify.breakpoint.smAndUp" class="px-4"> -->
+          <v-spacer/>
+          <v-form style="height:100%;width:45%" class="px-8">
             <v-text-field
               background-color="#3d404e"
               color="#fff"
@@ -41,22 +42,23 @@
               label="Search here"
               filled
               shaped
+              hide-details
+              v-if="login && clear.animeOver  && $vuetify.breakpoint.smAndUp"
             ></v-text-field>
           </v-form>
-        </v-flex>
+        <!-- </v-flex> -->
         <!-- <v-col v-if="login && clear.animeOver" class="d-flex align-center justify-end">
-        
         </v-col>-->
-        <v-spacer />
-        <v-spacer />
-        <v-flex v-if="login && clear.animeOver" class="d-flex align-center justify-end pa-4">
-          <v-icon>mdi-bell-outline</v-icon>
-
-          <h3>{{ profile.name }}</h3>
-        </v-flex>
-        <v-flex class="d-flex align-center justify-end" v-if="clear.animeOver">
+        <!-- <v-flex xs3 sm3 md3 v-if="login && clear.animeOver" class="pa-4 mr-auto" > -->
+          <v-spacer/>
+          <v-icon class="px-1" v-if="login && clear.animeOver" size="30px">mdi-bell-outline</v-icon> 
+          <v-card-title class="pa-0 pr-8" v-if="login && clear.animeOver && $vuetify.breakpoint.smAndUp" style="font-size:22px;font-weight:bold;">
+            {{ profile.name }}
+          </v-card-title>
+        <!-- </v-flex> -->
+        <!-- <v-flex xs1 sm1 md1 class="pa-4" v-if="clear.animeOver"> -->
           <!-- peraonal account -->
-          <v-menu offset-y>
+          <v-menu offset-y v-if="clear.animeOver">
             <template v-slot:activator="{ on }">
               <v-btn icon v-on="on">
                 <v-icon large color="white">mdi-account-circle</v-icon>
@@ -99,8 +101,8 @@
               </v-btn>
             </v-card>
           </v-menu>
-        </v-flex>
-      </v-layout>
+        <!-- </v-flex> -->
+      <!-- </v-layout> -->
     </v-app-bar>
 
     <v-navigation-drawer
@@ -109,6 +111,7 @@
       class="nav-drawer"
       style="top:15%;width:220px; border-top-right-radius: 4em; background-color:#3D404E"
       app
+      width="200px"
       v-if="login && clear.animeOver"
       :permanent="$vuetify.breakpoint.mdAndUp"
       :temporary="$vuetify.breakpoint.smAndDown"
@@ -129,8 +132,7 @@
             :key="'menu_'+index"
             :class="{ 'menu-item': true, disabled: !item.link }"
             class="pl-0"
-            :to="item.link"
-            value="false"
+            @click="$router.push(item.link) && setRecordModal(false)"
           >
             <!-- v-model="item.active" -->
             <template v-slot:activator>
@@ -168,7 +170,7 @@
       </v-list-item-group>
     </v-navigation-drawer>
 
-    <v-content>
+    <v-content style="max-width:100vw">
       <!-- id="scroll-target" class="overflow-y-auto"  -->
       <!-- <v-app-bar class="mx-auto overflow-hidden" color="#efca16" elevate-on-scroll clipped-left app>
       </v-app-bar>-->
@@ -387,7 +389,7 @@
         <!-- </div> -->
       </v-container>
 
-      <div v-else>
+      <div v-else >
         <!-- class="px-4" -->
         <router-view></router-view>
       </div>
@@ -658,6 +660,9 @@ export default {
 </script>
 
 <style lang="scss">
+.theme--dark.v-app-bar.v-toolbar.v-sheet{
+  background-color:#26282d !important;
+}
 html {
   margin: 0;
   padding: 0;

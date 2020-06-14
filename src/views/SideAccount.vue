@@ -1,16 +1,21 @@
 <template>
   <!-- <v-content style="padding:0;"> -->
-  <v-container fluid style="padding:0;position:relative;">
-    <v-card
+    <!-- height:100vh;overflow:hidden; -->
+  <v-container class="account" fluid style="padding: 70px 50px 50px 50px;height:100vh;overflow:hidden; ">
+  <div v-if="$vuetify.breakpoint.smAndUp" style="height:70px"></div>
+  
+  <!-- for table & computer -->
+  <v-card
       flat
       min-height="85vh"
-      style="position:fixed;top:15%;right:0%;border-radius:0;"
+      style="position:fixed;top:15%;right:0%;border-radius:0;z-index:3;"
       class="scroll"
+      v-if="$vuetify.breakpoint.smAndUp"
     >
       <v-navigation-drawer
         v-model="participants"
         hide-overlay
-        style="border-top-left-radius:4em;width:220px;z-index:3;min-height:85vh;background-color:#3D404E;"
+        style="border-top-left-radius:4em;width:220px;min-height:85vh;background-color:#3D404E;"
         temporary
         right
         class="elevation-0"
@@ -30,14 +35,96 @@
           </v-list-item>
         </v-list>
       </v-navigation-drawer>
+  </v-card>
+
+  <!--for mobile -->
+  <v-card
+      flat
+      min-height="85vh"
+      style="position:fixed;top:15%;right:0%;border-radius:0;"
+      :style="participants?'z-index:3;':''"
+      class="scroll"
+      v-else
+    >
+      <v-navigation-drawer
+        v-model="participants"
+        hide-overlay
+        style="border-top-left-radius:4em;width:220px;min-height:85vh;background-color:#3D404E;height:60vh"
+        temporary
+        right
+        class="elevation-0 chart px-3"
+      >
+            <v-card-title
+              class="pa-0 mr-5"
+              style="border-bottom:1px solid white;font-size:1em;font-weight:bold;margin-top:7vh; margin-left:4vw;"
+            >當日小計</v-card-title>
+            <div
+              v-if="this.flowSelected != '支出'"
+              class="income"
+              style="height:28%;padding:0;margin:0"
+            >
+              <v-card-title
+                class="pa-0"
+                style="font-size:1em;margin-left:4vw;"
+              >總收入 {{ totalIncome }}</v-card-title>
+              <v-chart :options="income" />
+              <!-- <v-avatar v-else size="80" style="border:1px solid white" class="ml-5"/> -->
+            </div>
+            <div
+              flat
+              v-if="this.flowSelected != '收入'"
+              class="expense"
+              style="height:28%;padding:0;margin:0"
+            >
+              <v-card-title
+                class="pa-0"
+                style="font-size:1em;margin-left:4vw;"
+              >總支出 {{ totalExpense }}</v-card-title>
+              <v-chart :options="expense" />
+            </div>
+            <div
+              flat
+              v-if="this.flowSelected != '收入'"
+              class="point"
+              style="height:28%;padding:0;margin:0"
+            >
+              <v-card-title
+                class="pa-0"
+                style="font-size:1em;margin-left:4vw;"
+              >總點數 {{ totalPoints }}</v-card-title>
+              <v-chart :options="point" />
+            </div>
+      </v-navigation-drawer>
     </v-card>
 
     <v-card flat class="account-all" v-if="!this.GLOBAL.newRecordModal">
       <v-layout row>
         <v-flex xs12 sm9 md9 class="account-left">
           <v-card-title class="ma-0 pa-0">帳目一覽</v-card-title>
-          <v-layout row class="account-upper" style="margin-bottom:1%">
-            <v-flex xs6 sm6 md3 data-app class="pr-12">
+          <button
+            v-if="$vuetify.breakpoint.xsOnly"
+                @click.stop="participants = !participants"
+                style="position:fixed;right:60px;top:75px;background-color:transparent;z-index:4;height:fit-content;width:fit-content;"
+              >
+                <transition name="fade">
+                  <img
+                    v-if="!participants"
+                    src="../assets/fronter/account/member_unclicked.svg"
+                    height="18px"
+                    style="position: absolute;"
+                  />
+                </transition>
+                <transition name="fade">
+                  <img
+                    v-if="participants"
+                    src="../assets/fronter/account/member_clicked.svg"
+                    height="18px"
+                    style="position: absolute;"
+                  />
+                </transition>
+          </button>
+          <v-layout row class="account-upper" style="margin-bottom:15px">
+            <v-flex xs5 sm6 md3 data-app :class="$vuetify.breakpoint.smAndUp ? 'pr-5' : 'pr-0'">
               <v-select
                 v-model="ledgerSelected"
                 :items="ledgers"
@@ -45,7 +132,7 @@
                 hide-details
                 solo
                 flat
-                prepend-inner-icon="book"
+                :prepend-inner-icon="$vuetify.breakpoint.smAndUp ? 'book' : ''"
                 item-text="ledgerName"
                 item-value="_id"
                 full-width
@@ -53,7 +140,8 @@
                 item-color="white"
               ></v-select>
             </v-flex>
-            <v-flex xs6 sm6 md3 data-app class="pr-12">
+
+            <v-flex xs3 sm6 md3 data-app :class="$vuetify.breakpoint.smAndUp ? 'pr-5' : 'pr-0'">
               <v-select
                 v-model="flowSelected"
                 :items="flow"
@@ -61,20 +149,21 @@
                 hide-details
                 solo
                 flat
-                prepend-inner-icon="mdi-cash-usd"
+                :prepend-inner-icon="$vuetify.breakpoint.smAndUp ? 'mdi-cash-usd' : ''"
                 full-width
                 color="white"
                 item-color="white"
               ></v-select>
             </v-flex>
 
-            <v-flex xs12 sm12 md6 class="date-wrap" @blur="dataPickerModal = false">
+            <v-flex xs4 sm12 md6 class="date-wrap" @blur="dataPickerModal = false">
               <!-- <i class="material-icons" v-on:click="getYearMonthDate(-1)">arrow_left</i> -->
               <v-card
                 flat
                 class="ma-auto"
                 v-on:click="getYearMonthDate(-1)"
                 style="position:relative;"
+                v-if="$vuetify.breakpoint.smAndUp "
               >
                 <div>{{ preDate }}</div>
                 <div
@@ -91,7 +180,9 @@
                 @change="updateDate()"
               >
                 <template v-slot:activator="{ on, value }">
-                  <div class="date" v-on="on">{{ value }}</div>
+                  <div class="date" v-on="on">{{ value }}
+                    <!-- <v-icon v-if="$vuetify.breakpoint.xsOnly" class="dateIcon" size="24px">mdi-menu-down</v-icon> -->
+                  </div>
                 </template>
               </DateInputPicker>
 
@@ -100,6 +191,7 @@
                 class="ma-auto"
                 v-on:click="getYearMonthDate(1)"
                 style="position:relative;"
+                v-if="$vuetify.breakpoint.smAndUp "
               >
                 <div>{{ nextDate }}</div>
                 <div
@@ -122,8 +214,15 @@
             </div>-->
           </v-layout>
 
-          <div class="account-down">
+          <div class="account-down"
+            v-touch="{
+              left: () => getYearMonthDate(1),
+              right: () => getYearMonthDate(-1),
+            }"
+          >
+
             <RecordTable
+              transition="slide-x-transition"
               :accountData="records"
               :userDate="userDate"
               :ledgerSelected="ledgerSelected"
@@ -142,14 +241,14 @@
           </v-btn>-->
         </v-flex>
 
-        <v-flex xs12 sm3 md3 class="account-right">
+        <v-flex xs12 sm3 md3 class="account-right" v-if="$vuetify.breakpoint.smAndUp">
           <!-- style="border:2px solid blue" -->
           <v-card flat class="ma-0 pa-0">
             <v-card-actions class="ma-0 pa-0">
               <v-spacer />
               <button
                 @click.stop="participants = !participants"
-                style="position:relative;background-color:transparent;z-index:4;height:fit-content;width:fit-content;margin-right:70px;"
+                style="position:relative;right:-40px;background-color:transparent;z-index:4;height:fit-content;width:fit-content;margin-right:70px;"
               >
                 <transition name="fade">
                   <img
@@ -176,7 +275,7 @@
         <div class="chart">
           <pie-chart :data="piedata" label-position="center"/>
           </div>-->
-          <v-card v-if="!participants" flat class="chart">
+          <v-card v-if="!participants" flat class="chart" style="position:relative;right:-40px;">
             <!-- style="border:2px solid red;" -->
             <v-card-title
               class="pa-0 mr-5"
@@ -223,6 +322,7 @@
       </v-layout>
     </v-card>
     <div class="account-edit" v-if="this.GLOBAL.newRecordModal">
+      <div v-if="$vuetify.breakpoint.xsOnly" style="height:70px"></div>
       <EditRecord
         @close="setRecordModal(false)"
         @add="fetchRecords"
@@ -248,9 +348,9 @@ import ECharts from "vue-echarts/components/ECharts";
 let data = {
   // modalOpen: false,
   ledgerSelected: "1", //希望預設0=mainAccount
-  flowSelected: "全部項目",
+  flowSelected: "全部",
   // ledger: ["All", "Main Account", "Bank SinoPac"],
-  flow: ["支出", "收入", "全部項目"],
+  flow: ["支出", "收入", "全部"],
   userDate: getLocaleDate(new Date()),
   preDate: getLocaleDate(new Date().setDate(new Date().getDate() - 1)),
   nextDate: getLocaleDate(new Date().setDate(new Date().getDate() + 1)),
@@ -451,7 +551,7 @@ export default {
     records: {
       get() {
         if (this.ledgerSelected == null || this.flowSelected == null) return [];
-        if (this.flowSelected == "全部項目") {
+        if (this.flowSelected == "全部") {
           return this.$loading.insideLoading(
             this.$http
               .get(`/ledger/${this.ledgerSelected}/records`, {
@@ -682,7 +782,7 @@ export default {
 }
 
 .account-all {
-  padding: 8% 0% 0% 2%;
+  // padding: 8% 0% 0% 2%;
   position: relative;
 }
 
@@ -712,6 +812,7 @@ export default {
   .date {
     cursor: pointer;
   }
+  
 
   input {
     text-align: center;
@@ -727,6 +828,7 @@ export default {
   margin: 0 5%;
   justify-content: center;
 }
+
 .point {
   margin: auto;
 }

@@ -1,31 +1,39 @@
 <template>
-    <v-card flat style="padding: 8% 0% 2% 7%;">
+    <v-card flat>
         <form class="modal-content" >
         <v-layout row>
-            <v-flex xs12 sm3 md3
-            style="border-right: solid 3px #dddee2;">
+            <v-flex xs12 sm5 md4
+            v-if="$vuetify.breakpoint.smAndUp"
+            style="border-right: solid 2px #dddee2;"
+            :style="$vuetify.breakpoint.mdAndUp?'padding: 0% 5% 0% 5%':'padding: 0% 1% 0% 4%'"
+            >
                 <!-- <v-card v-for="item in userCategories" :key="item" > -->
                   <v-btn ref="category"  @click="categorySelect(item)" 
                   v-for="(item,index) in userCategories" :key="index" class="cate elevation-0" 
-                  style="margin:5%;height:fit-content;width:80px;border-radius:50px;background-color:#3D404E;">
-                    <v-avatar :color="item.color" size="80"  :style="cateCircle(item)" >
+                  style="margin:5%;height:80px;width:80px;border-radius:50px;background-color:#26282d;"
+                  :style="cateCircle(item)"
+                  >
+                    <v-avatar :color="item.color" size="70" >
                         <span style="color:#3D404E; font-weight:bold">{{item.name}}</span>
                     </v-avatar>
                   </v-btn>
                 <!-- </v-card> -->
             </v-flex>
-            <v-flex xs12 sm8 md8 class="ml-7" style="padding:2% 15%">
+            <v-flex xs12 sm7 md8  :style="$vuetify.breakpoint.smAndUp?'padding:2% 18% 2% 12%':'padding:2% 2%'">
                 <div class="modal-flow row">
-                <h3 @click="form.recordType = 'expense'" :class="{ 'flow-selected': !isIncome, col: 1 }">
+                <h3 @click="form.recordType = 'expense'" :class="{ 'flow-selected': !isIncome, col: 1 }"
+                :style="$vuetify.breakpoint.mdAndUp?'height: 5em;margin:0% 8%;':'height: 3.5em;margin:0% 2%;'"
+                >
                     <!-- <v-icon class="pb-3">mdi-cash-minus</v-icon> -->
                     支出
                 </h3>
-                <h3 @click="form.recordType = 'income'" :class="{ 'flow-selected': isIncome, col: 1 }">
+                <h3 @click="form.recordType = 'income'" :class="{ 'flow-selected': isIncome, col: 1 }"
+                :style="$vuetify.breakpoint.mdAndUp?'height: 5em;margin:0% 8%;':'height: 3.5em;margin:0% 2%;'"
+                >
                     <!-- <v-icon class="pb-3">mdi-cash-plus</v-icon> -->
                     收入
                 </h3>
                 </div>
-
                 
                 <DateInputPicker
                     v-model="form.date"
@@ -71,19 +79,6 @@
                     </select-->
                 </div>
 
-                <!-- <div class="modal-cate">
-                    <v-select
-                    v-model="form.categoryId"
-                    dense
-                    prepend-icon="mdi-shape-outline"
-                    color="primary"
-                    item-text="name"
-                    item-value="_id"
-                    filled
-                    :items="userCategories"
-                    ></v-select>
-                </div> -->
-
                 <div class="modal-money">
                     <v-text-field
                     dense
@@ -97,6 +92,31 @@
                     ></v-text-field>
                 </div>
 
+                <div v-if="$vuetify.breakpoint.xsOnly" class="modal-cate align-center " style="line-height:1px;" >
+                  <v-icon  style="display:inline-block;vertical-align:50%">mdi-shape-outline</v-icon>
+                  <div style="margin-left:2vw;display:inline-block;white-space:nowrap;width:70vw;overflow-x:auto;overflow-y:hidden">                  
+                  <v-btn ref="category"  @click="categorySelect(item)" 
+                  v-for="(item,index) in userCategories" :key="index" class="cate elevation-0" 
+                  style="min-width:0px;margin:3px;height:60px;width:60px;border-radius:50px;background-color:#26282d;"
+                  :style="cateCircle(item)"
+                  >
+                    <v-avatar :color="item.color" size="50"  >
+                        <span style="color:#3D404E; font-weight:bold">{{item.name}}</span>
+                    </v-avatar>
+                  </v-btn>
+                </div>
+                    <!-- <v-select
+                    v-model="form.categoryId"
+                    dense
+                    prepend-icon="mdi-shape-outline"
+                    color="primary"
+                    item-text="name"
+                    item-value="_id"
+                    filled
+                    :items="userCategories"
+                    ></v-select> -->
+                </div>
+
                 <v-combobox
                     v-model="form.hashtags"
                     :items="categoryHashTags"
@@ -108,7 +128,7 @@
                     hide-details
                     prepend-icon="mdi-tag-multiple-outline"
                     color="white"
-                    style="margin:8% 0%"
+                    :style="$vuetify.breakpoint.xsOnly?'margin:6% 0% 8% 0%':'margin:8% 0%'"
                 >
                     <template v-slot:selection="{ attrs, item, select, selected }">
                     <v-chip
@@ -273,7 +293,7 @@ export default {
     cateCircle(item){
       // console.log(item)
       if(item._id==this.form.categoryId){
-        return 'border:double 5px #3D404E'
+        return `border:solid 1.8px ${item.color}`
       }else{
         return ''
       }
@@ -413,18 +433,19 @@ export default {
 
 .modal-flow {
   padding-left: 10%;
-
+  width: 100%;
   h3 {
-    margin-left: 5%;
-    height: 5em;
+    // margin-left: 5%;
     font-size: 1.2em;
-    padding-top:4%;
-    padding-right:10%;
+    // padding-top:4%;
+    // padding-right:10%;
+    // padding:5%;
     font-weight: normal;
     background-image: url(../assets/fronter/account/unclick.png) ;
-    background-size: 80%;
+    background-size: 100%;
     color: #dddee2;
     text-align: center;
+    
     cursor: pointer;
 
     &:hover {
@@ -446,13 +467,13 @@ export default {
 
       &:first-child {
         background-image: url(../assets/fronter/account/clicked.png) ;
-        background-size:80%;
+        background-size:100%;
         color: #3D404E;
       }
 
       &:nth-child(2) {
         background-image: url(../assets/fronter/account/clicked.png);
-        background-size:80%;
+        background-size:100%;
         color: #3D404E;
       }
 

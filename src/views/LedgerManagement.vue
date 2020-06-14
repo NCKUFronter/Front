@@ -1,19 +1,19 @@
 <template>
-  <v-container fluid style="padding: 8% 5% 0% 2%;">
+  <v-container class="ledger" fluid style="padding: 70px 50px 10px 50px;height:100vh;overflow:hidden" >
+    <div v-if="$vuetify.breakpoint.smAndUp" style="height:70px"></div>
     <v-row>
-    <v-card-title class="ma-0 pa-0">帳本管理</v-card-title>
-    <v-tabs v-model="tab">
+    <v-card-title class="ma-0 pa-0" >帳本管理</v-card-title>
+    <v-tabs v-model="tab" class="ma-0">
       <v-tab class="pl-0">你管理的帳本</v-tab>
       <v-tab>你參與的帳本</v-tab>
       <v-tab>邀請你的帳本</v-tab>
     </v-tabs>
-    <v-flex xs12 sm12 md12>
-    <v-tabs-items v-model="tab" class="pa-2 pt-8">
+    <v-tabs-items v-model="tab" class="pt-4">
       <v-tab-item><LedgerAdmin :adminLedgers="adminLedgers" @update="update()" /></v-tab-item>
       <v-tab-item><LedgerEngage :engageLedgers="engageLedgers" @update="update()"/></v-tab-item>
       <v-tab-item><LedgerInvited :invitations="invitations" @update="update()" /></v-tab-item>
     </v-tabs-items>
-    </v-flex>
+
     </v-row>
   </v-container>
 </template>
@@ -77,6 +77,9 @@ export default {
 
 };
 </script>
-<style scoped>
+<style>
+.ledger .v-tabs:not(.v-tabs--vertical):not(.v-tabs--right) > .v-slide-group--is-overflowing.v-tabs-bar--is-mobile:not(.v-tabs-bar--show-arrows):not(.v-slide-group--has-affixes) .v-slide-group__prev{
+  display: none;
+}
 
 </style>

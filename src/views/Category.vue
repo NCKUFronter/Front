@@ -1,8 +1,10 @@
 <template>
+  <v-container class="category" fluid style="padding: 70px 50px 50px 50px;">
+  <div v-if="$vuetify.breakpoint.smAndUp" style="height:70px"></div>
   <!-- ref: https://codepen.io/virtualadrian/pen/pOeVPX && Vuetify component: Card & Combobox & Chip-->
-  <v-row class="category" style="padding: 8% 5% 0% 2%;">
+  <v-row >
     <v-row v-if="loading">
-      <v-flex xs6 sm3 md3 v-for="item in 6" :key="item" class="pa-2">
+      <v-flex xs12 sm4 md3 v-for="item in 6" :key="item" class="pa-2">
         <v-boilerplate class="md-6" type=" table-heading,list-item-three-line"></v-boilerplate>
       </v-flex>
     </v-row>
@@ -11,11 +13,11 @@
       <v-card-title class="ma-0 pa-0">自訂類別</v-card-title>
       <v-btn @click="newModal=true" class="elevation-0 mt-2 mb-2" style="background-color:transparent;border:white solid 1px;border-radius:2em;">新增類別</v-btn>
     </v-flex>
-    <v-flex xs6 sm3 md3 v-for="category of categories" :key="category._id" class="pa-3">
+    <v-flex xs12 sm4 md3 v-for="category of categories" :key="category._id" class="pa-3">
       <v-card class="cardAll" style="border-radius:2em" :color="(category) ? category.color : '#d5ccb3'">
         <div class="pr-8 pl-8 pt-2 pb-2" style="width:100%;background-color:rgba(255,255,255,0.1);position: relative">
         <!-- <v-btn class="elevation-0" style="width:100%;height:fit-content;background-color:transparent"> -->
-        <v-icon style="width:100%" size="8em" >{{category.icon}}</v-icon>
+        <v-icon style="width:100%; opacity:0.6;padding:12px" size="8em" >{{category.icon}}</v-icon>
         <!-- </v-btn> -->
         <v-text-field
           class="headline"
@@ -44,6 +46,7 @@
         >
           <v-icon>mdi-pencil</v-icon>
         </v-btn>
+        
         <v-btn
           icon
           class="deleteCard"
@@ -79,8 +82,9 @@
       </v-card-actions> -->
     </v-flex>
 
-    <!-- <v-flex xs12 sm6 md6> -->
-    <v-dialog v-model="newModal" width="60vw">
+
+    <!-- for sm/md大小 -->
+    <v-dialog v-if="$vuetify.breakpoint.smAndUp" v-model="newModal" width="60vw">
       <v-layout row class="pa-0 ma-0" style="background-color:#3D404E">
       <v-flex xs12 sm8 md8>
       <v-card flat class="modal px-4" color="#3D404E" v-if="newModal" >
@@ -153,7 +157,83 @@
       </v-flex>
       </v-layout>
     </v-dialog>
-    <!-- </v-flex> -->
+
+    <v-dialog v-else v-model="newModal" width="100vw">
+      <v-layout row class="pa-0 ma-0" style="background-color:#3D404E">
+      <!-- 預覽 -->
+      <v-flex xs12 sm4 md4 class="my-auto" >
+        <v-card-title v-if="oldCategory">編輯類別</v-card-title>
+        <v-card-title v-else>新增類別</v-card-title>
+        <v-card-text class="px-4 py-0" style="font-weight:bold"><v-icon class="px-2" size="18px">mdi-pencil</v-icon>編輯類別名稱</v-card-text>
+        <v-card class="cardAll ma-5" style="border-radius:2em" :color="newCategoryColor">
+        <div class="pr-8 pl-8 pt-2 pb-2" style="width:100%;background-color:rgba(255,255,255,0.1);position: relative">
+        <v-icon style="width:100%" size="8em" >{{this.newCategoryIcon}}</v-icon>
+        <v-text-field
+          class="headline"
+          label="新增類別名稱"
+          v-model="newCategoryName"
+          single-line
+          solo
+          dense
+          flat
+          hide-details
+          style="position:absolute;bottom:0;left:0;"
+        >
+        </v-text-field>
+        </div>
+
+        <v-combobox
+          multiple
+          v-model="newTag"
+          label="新增類別標籤"
+          append-icon
+          small-chips
+          deletable-chips
+          class="tag-input"
+          style="border-radius:0;width:100%"
+          :search-input.sync="search"
+          solo
+          flat
+          hide-details
+        ></v-combobox>
+      </v-card>
+      </v-flex>
+
+      <v-flex xs12 sm8 md8>
+      <v-card flat class="modal px-4" color="#3D404E" v-if="newModal" >
+        <!-- <div style="width:50vw"> -->
+        <!-- <v-text-field v-model="newCategoryName" label="請輸入類別名稱" class="px-4"></v-text-field> -->
+        <v-card-text style="font-weight:bold" class="px-2 pt-0 pb-4"><v-icon class="px-2" size="18px">mdi-pencil</v-icon>編輯類別顏色</v-card-text>
+        <!-- <v-card-title>選擇顏色</v-card-title> -->
+        <v-card flat class="mx-4 scroll" color="#3D404E" max-height="12vh">
+          <v-btn ref="category"  @click="colorSelected(item)" 
+          v-for="(item,index) in categoryColor" :key="index" class="ma-1 elevation-0"
+          style="width:fit-content;height:fit-content;border-radius:50px;background-color:#3D404E;padding:2px" :style="colorCircle(item)">
+            <v-avatar :color="item" size="22" >
+            </v-avatar>
+          </v-btn> 
+        </v-card> 
+        <v-card-text style="font-weight:bold" class="px-2 py-4"><v-icon class="px-2" size="18px">mdi-pencil</v-icon>編輯類別圖示</v-card-text>
+        <!-- <v-card-title>選擇圖示</v-card-title> -->
+        <v-card flat class="mx-4 scroll" color="#3D404E" max-height="12vh">
+          <v-btn ref="category"  @click="iconSelected(item)" 
+          v-for="(item,index) in categoryIcon" :key="index" class="pa-1 elevation-0"
+          style="width:fit-content;height:fit-content;border-radius:50px;background-color:#3D404E;" :style="iconCircle(item)">
+            <v-icon>{{item}}</v-icon>
+          </v-btn> 
+        </v-card> 
+
+        <v-card-actions>
+          <v-spacer />
+          <v-btn v-if="oldCategory==true" outlined class="button" @click="modify">修改</v-btn>
+          <v-btn v-else outlined class="button" @click="save">新增</v-btn>
+          <v-btn outlined class="button" @click="cancel">取消</v-btn>
+        </v-card-actions>
+        <!-- </div> -->
+      </v-card>
+      </v-flex>
+      </v-layout>
+    </v-dialog>
 
     <!-- <v-flex xs6 sm3 md3 class="pa-2" v-if="!loading">
       <v-card>
@@ -194,6 +274,7 @@
     </v-flex> -->
     </v-row>
   </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -423,8 +504,8 @@ export default {
 }
 .editCard {
   position: absolute;
-  top: 2%;
-  right: 12%;
+  top: 15%;
+  right: 2%;
 }
 
 .loadCard {
