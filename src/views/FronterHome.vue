@@ -1,11 +1,17 @@
 <template style>
   <v-layout>
-    <v-flex v-if="this.$vuetify.breakpoint.smAndUp">
-      <transition name="FH_fade" id="maindiv">
-        <img v-show="vanish" class="FH_page" src="../assets/fronter/home/home_logo.svg" width="45%" />
+    <v-flex>
+      <transition name="FH_fade">
+        <img
+          ref="element"
+          v-show="vanish"
+          id="maindiv"
+          class="FH_page"
+          src="../assets/fronter/home/home_logo.svg"
+        />
       </transition>
 
-      <v-flex v-if="vanish" class="FH_brand">FRONTER</v-flex>
+      <!-- <v-flex v-if="vanish" class="FH_brand">FRONTER</v-flex> -->
 
       <v-flex v-if="vanish" class="FH_slogan">A Brand-New Spending App</v-flex>
 
@@ -21,35 +27,6 @@
         </transition>
         <transition name="slideup">
           <v-flex v-show="show" class="FH_bar FH_slogan_bar"></v-flex>
-        </transition>
-      </v-flex>
-    </v-flex>
-    <v-flex v-if="this.$vuetify.breakpoint.xsAndDown">
-      <transition name="FH_fade">
-        <img
-          v-show="vanish"
-          class="FH_page sm"
-          src="../assets/fronter/home/home_logo.svg"
-          style="width:85%;"
-        />
-      </transition>
-
-      <v-flex v-if="vanish" class="FH_brand sm">FRONTER</v-flex>
-
-      <v-flex v-if="vanish" class="FH_slogan sm">A Brand-New Spending App</v-flex>
-
-      <v-flex>
-        <transition name="brandmove">
-          <v-flex v-show="show" class="FH_brand brand_des sm">FRONTER</v-flex>
-        </transition>
-        <transition name="sloganmove">
-          <v-flex v-show="show" class="FH_slogan slogan_des sm">A Brand-New Spending App</v-flex>
-        </transition>
-        <transition name="slidedown">
-          <v-flex v-show="show" class="FH_bar FH_fronter_bar sm"></v-flex>
-        </transition>
-        <transition name="slideup">
-          <v-flex v-show="show" class="FH_bar FH_slogan_bar sm"></v-flex>
         </transition>
       </v-flex>
     </v-flex>
@@ -76,100 +53,143 @@ export default {
   data() {
     return data;
   },
-  components: {
-    // imageWidth() {
-    //   switch (this.$vuetify.breakpoint.name) {
-    //     case "xs":
-    //       return "220px";
-    //     case "sm":
-    //       return "400px";
-    //     case "md":
-    //       return "500px";
-    //     case "lg":
-    //       return "45%";
-    //     case "xl":
-    //       return "50%";
-    //   }
-    // }
-  },
+  components: {},
   created() {
     var self = this;
-    setTimeout(function() {
-      self.vanish = !self.vanish;
-      self.show = !self.show;
-    }, 1000);
-    setTimeout(function() {
-      self.show = !self.show;
-    }, 2000);
-    setTimeout(function() {
-      self.$router.push("/accounting");
-    }, 2500);
-    let root = document.documentElement;
-    root.style.setProperty("fullWidth", "-9rem");
+    // setTimeout(function() {
+    //   self.vanish = !self.vanish;
+    //   self.show = !self.show;
+    // }, 1000);
+    // setTimeout(function() {
+    //   self.show = !self.show;
+    // }, 2000);
+    // setTimeout(function() {
+    //   self.$router.push("/accounting");
+    // }, 2500);
   },
 
   mounted: function() {
     this.$clear.animeOver = false;
     this.fullHeight = window.innerHeight;
     this.fullWidth = window.innerWidth;
+
     window.onresize = () => {
       this.fullHeight = window.innerHeight;
       this.fullWidth = window.innerWidth;
+      var imgHeight = window.getComputedStyle(this.$refs.element).width;
+      let root = document.documentElement;
+
+      // main picture setting
+      if (this.$vuetify.breakpoint.smAndDown) {
+        root.style.setProperty("--img-width", this.fullWidth * 0.7 + "px");
+      } else {
+        root.style.setProperty("--img-width", this.fullWidth * 0.5 + "px");
+      }
+
+      if (this.$vuetify.breakpoint.smAndDown) {
+        root.style.setProperty("--img-left", this.fullWidth * 0.15 + "px");
+      } else {
+        root.style.setProperty("--img-left", this.fullWidth * 0.22 + "px");
+      }
+      if (this.$vuetify.breakpoint.smAndDown) {
+        root.style.setProperty("--img-height", this.fullHeight * 0.35 + "px");
+      } else {
+        root.style.setProperty("--img-height", this.fullHeight * 0.15 + "px");
+      }
+
+      // word setting
+
+      root.style.setProperty("--slogan-top", imgHeight);
+      root.style.setProperty("--slogan-right", this.fullWidth * 0.32 + "px");
+      if (this.$vuetify.breakpoint.smAndDown) {
+        root.style.setProperty("--slogan", this.fullHeight * 0.02 + "px");
+      } else {
+        root.style.setProperty("--slogan", this.fullHeight * 0.035 + "px");
+      }
+
+      // this.widthCenter = this.fullWidth * -0.09;
+      // root.style.setProperty("--slogan-move", this.widthCenter + "px");
     };
+
+    let root = document.documentElement;
+    var imgHeight = window.getComputedStyle(this.$refs.element).width;
+
+    //main picture setting
+    if (this.$vuetify.breakpoint.smAndDown) {
+      root.style.setProperty("--img-width", this.fullWidth * 0.7 + "px");
+    } else {
+      root.style.setProperty("--img-width", this.fullWidth * 0.5 + "px");
+    }
+
+    if (this.$vuetify.breakpoint.smAndDown) {
+      root.style.setProperty("--img-left", this.fullWidth * 0.15 + "px");
+    } else {
+      root.style.setProperty("--img-left", this.fullWidth * 0.22 + "px");
+    }
+    if (this.$vuetify.breakpoint.smAndDown) {
+      root.style.setProperty("--img-height", this.fullHeight * 0.35 + "px");
+    } else {
+      root.style.setProperty("--img-height", this.fullHeight * 0.15 + "px");
+    }
+    console.log(imgHeight);
+
+    // word setting
+    root.style.setProperty("--slogan-top", imgHeight);
+    root.style.setProperty("--slogan-right", this.fullWidth * 0.32 + "px");
+    if (this.$vuetify.breakpoint.smAndDown) {
+      root.style.setProperty("--slogan", this.fullHeight * 0.02 + "px");
+    } else {
+      root.style.setProperty("--slogan", this.fullHeight * 0.035 + "px");
+    }
+
+    // this.widthCenter = this.fullWidth * -0.09;
+    // root.style.setProperty("--slogan-move", this.widthCenter + "px");
   },
   computed: {}
-  // watch: {
-  //   login(val) {
-  //     if (this.login) {
-  //       this.$notification.connect();
-  //     } else this.$notification.closeAll();
-
-  //     if (this.login && this.$route.name == "FronterHomeName") {
-  //       this.$router.push("/accounting");
-  //     }
-  //   }
-  // }
 };
 </script>
 
 <style scoped lang="scss">
+img {
+  width: var(--img-width);
+  left: var(--img-left);
+  top: var(--img-height);
+}
+
 .FH_logo {
   color: white;
   font-weight: 400;
 }
 .FH_page {
   margin: auto;
-  left: 27.5vw;
-  top: 10vh;
   overflow: hidden;
   position: absolute;
   z-index: 1;
 }
-.FH_page.sm {
-  left: 8vw;
-  top: 25vh;
-}
+
 .FH_brand {
   font-family: Calibri;
   left: 30%;
-  color: #fff294;
   font-size: 500%;
+  top: 23%;
+
+  color: #fff294;
   color: #fff294;
   background-color: #ffffff00;
-  top: 23%;
   font-weight: bold;
   position: absolute;
   z-index: 2;
 }
-.FH_brand.sm {
-  font-size: 200%;
-  top: 35%;
-  left: 16.5%;
-}
-.FH_slogan.sm {
-  font-size: 90%;
-  right: 12%;
-  bottom: 45%;
+.FH_slogan {
+  font-size: var(--slogan);
+  right: var(--slogan-right);
+  top: var(--slogan-top);
+  color: #fff294;
+  font-family: Calibri;
+  background-color: #ffffff00;
+  position: absolute;
+  font-weight: bold;
+  z-index: 2;
 }
 .brand_des {
   transform: translateX(10rem) translateY(5rem);
@@ -178,22 +198,12 @@ export default {
   transform: translateX(55%) translateY(60%);
 }
 .slogan_des {
-  transform: translateX(var (fullWidth)) translateY(1rem);
+  transform: translate(var(--slogan-move), 1rem);
 }
 .slogan_des.sm {
-  transform: translateX(-35%) translateY(-110%);
+  transform: translateX(-35%, -110%);
 }
-.FH_slogan {
-  color: #fff294;
-  font-family: Calibri;
-  background-color: #ffffff00;
-  font-size: 155%;
-  position: absolute;
-  right: 30.9%;
-  font-weight: bold;
-  bottom: 37%;
-  z-index: 2;
-}
+
 .FH_bar {
   position: absolute;
   background-color: #fff294;
@@ -202,26 +212,14 @@ export default {
   z-index: 2;
   height: 6px;
 }
-.FH_bar.sm {
-  border-radius: 4px;
-  top: 47%;
-  height: 3px;
-}
 .FH_fronter_bar {
   width: 17.3vw;
   left: 27.5%;
 }
-.FH_fronter_bar.sm {
-  width: 40%;
-  left: 8.3%;
-}
+
 .FH_slogan_bar {
   right: 27.5%;
   width: 27.9vw;
-}
-.FH_slogan_bar.sm {
-  right: 7.2%;
-  width: 45%;
 }
 
 .FH_fade-leave-active,
