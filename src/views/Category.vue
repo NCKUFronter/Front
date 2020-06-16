@@ -486,9 +486,6 @@ export default {
 </script>
 
 <style scoped>
-
-
-
 .v-btn:not(.v-btn--round).v-size--default{
     min-width: 5px;
 }
