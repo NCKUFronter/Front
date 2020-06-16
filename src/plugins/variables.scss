@@ -24,17 +24,17 @@ $body-font-family: Roboto, "微軟正黑體", Arial, Helvetica, "sans-serif";
 // .theme--dark {
 //   background: #3d404e !important;
 // }
-.theme--dark.v-app-bar.v-toolbar.v-sheet.v-list.v-select.v-input.v-text-field{
+.theme--dark.v-app-bar.v-toolbar.v-sheet.v-list.v-select.v-input.v-text-field {
   background-color: #26282d;
 }
 
 
 
 //category & recordtable chip
-.theme--dark.v-chip:not(.v-chip--active){
+.theme--dark.v-chip:not(.v-chip--active) {
   background: transparent;
   border: 1px solid white;
-}  
+}
 
 // .theme--dark.v-input--is-disabled{
 //   color: white !important;
@@ -59,6 +59,10 @@ $date-picker-table-height: unset;
 
 .v-data-table th {
   font-size: 1rem !important;
+}
+
+.v-data-table tr {
+  height: 56px;
 }
 
 .sub-header {
@@ -89,31 +93,34 @@ $date-picker-table-height: unset;
   }
 }
 
-
 //Use for side Navigation Menu
-.v-application--is-ltr .v-list--shaped .v-list-item, .v-application--is-ltr .v-list--shaped .v-list-item::before, .v-application--is-ltr .v-list--shaped .v-list-item > .v-ripple__container{
+.v-application--is-ltr .v-list--shaped .v-list-item,
+.v-application--is-ltr .v-list--shaped .v-list-item::before,
+.v-application--is-ltr .v-list--shaped .v-list-item > .v-ripple__container {
   border-top-right-radius: 16px !important;
   border-bottom-right-radius: 16px !important;
-}  
+}
 
-.theme--dark.v-text-field--solo > .v-input__control > .v-input__slot{
+.theme--dark.v-text-field--solo > .v-input__control > .v-input__slot {
   background: transparent !important;
 }
 
-.v-list-group--active > .v-list-group__header .v-list-item__content{
+.v-list-group--active > .v-list-group__header .v-list-item__content {
   color: white;
 }
 
-.v-list-item-group .v-list-item--active{
+.v-list-item-group .v-list-item--active {
   color: white;
 }
-
 
 //Use v-tabs in LedgerManage
-.theme--dark.v-tabs > .v-tabs-bar{
-  background-color:transparent ;
+.theme--dark.v-tabs > .v-tabs-bar {
+  background-color: transparent;
 }
 
 .theme--dark.v-tabs-items {
-  background-color: transparent ;
+  background-color: transparent;
+}
+a:-webkit-any-link {
+  text-decoration: none;
 }

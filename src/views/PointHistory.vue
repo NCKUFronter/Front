@@ -1,6 +1,6 @@
 <template>
-  <v-container fluid class="pointHistory" style="padding: 8% 5% 0% 2%;">
-    <v-row>
+  <v-card flat style="padding: 8% 5% 0% 2%;background-color:#26282d">
+    <v-row class="pointSearch">
       <v-flex xs6 sm2 md2 offset-6>
         <v-select v-model="typeSelected" :items="type" label="Type" class="selector" dense></v-select>
       </v-flex>
@@ -29,13 +29,13 @@
       class="pointHistory"
       v-else
     >
-      <template v-slot:item.activity="{item}">
+      <template v-slot:item.activity="{item}" style="overflow:hidden;">
         <v-icon class="ma-4">{{typeIcon(item)}}</v-icon>
         {{ pointDescription(item) }}
       </template>
-      <template v-slot:item.time="{item}">{{ item.time | getLocaleDate }}</template>
+      <template v-slot:item.time="{item}" style="overflow:hidden;">{{ item.time | getLocaleDate }}</template>
     </v-data-table>
-  </v-container>
+  </v-card>
 </template>
 
 <script>
@@ -117,20 +117,25 @@ export default {
   }
 };
 </script>
-<style  scoped>
-.selector {
+<style>
+.pointSearch .selector {
   position: relative;
   top: 19px;
   margin: 5px 20px;
 }
-.search {
+.pointSearch .search {
   margin: 5px 20px;
 }
-
-.pointHistory thead tr th {
-  background-color: rgba(252, 227, 0, 1);
+.pointHistory .v-data-table-header {
+  background-color: rgba(255, 255, 255, 0.2);
 }
-/* .v-data-table-header thead tr:last-child th {
-  background-color: rgba(252, 227, 0, 0.849);
-} */
+.pointHistory tbody tr:not(:last-child) td:not(.v-data-table__mobile-row) {
+  border: none !important;
+}
+.pointHistory.v-data-table th:nth-child(1) {
+  border-top-left-radius: 5px;
+}
+.pointHistory.v-data-table th:nth-child(3) {
+  border-top-right-radius: 5px;
+}
 </style>
