@@ -10,6 +10,10 @@ $body-font-family: Roboto, "微軟正黑體", Arial, Helvetica, "sans-serif";
 @import "~vuetify/src/components/VList/VList";
 @import "~vuetify/src/components/VTabs/VTabs";
 @import "~vuetify/src/components/VChip/VChip";
+@import "~vuetify/src/components/VInput/VInput";
+@import "~vuetify/src/components/VAppBar/VAppBar";
+@import "~vuetify/src/components/VToolbar/VToolbar";
+
 
 //  case 1: 只有部份背景顏色改變
 .theme--dark.v-application {
@@ -24,11 +28,17 @@ $body-font-family: Roboto, "微軟正黑體", Arial, Helvetica, "sans-serif";
   background-color: #26282d;
 }
 
+
+
 //category & recordtable chip
 .theme--dark.v-chip:not(.v-chip--active) {
   background: transparent;
   border: 1px solid white;
 }
+
+// .theme--dark.v-input--is-disabled{
+//   color: white !important;
+// }
 
 .v-application {
   font-family: $body-font-family !important;
@@ -43,6 +53,9 @@ $body-font-family: Roboto, "微軟正黑體", Arial, Helvetica, "sans-serif";
 
 $navigation-drawer-mobile-temporary-elevation: 8;
 @import "~vuetify/src/components/VNavigationDrawer/VNavigationDrawer";
+
+$date-picker-table-height: unset;
+@import "~vuetify/src/components/VDatePicker/VDatePickerTable";
 
 .v-data-table th {
   font-size: 1rem !important;

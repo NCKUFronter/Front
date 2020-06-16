@@ -1,6 +1,7 @@
 <template>
-    <v-row >
-    <v-flex xs6 sm3 md3 v-for="ledger of engageLedgers" :key="ledger._id" class="pa-2">
+  <v-container fluid class="scroll" style="width:100vw;height:100vh;">
+    <v-row style="padding-bottom:50vh">
+    <v-flex xs12 sm4 md3 v-for="ledger of engageLedgers" :key="ledger._id" class="pa-2">
       <v-card flat style="border-radius:2em">
       <v-card flat style="background-color:#08112c;position: relative">
         <!-- <v-img  src="../assets/fronter/account/planet2.png" ></v-img> -->
@@ -61,7 +62,7 @@
     </v-dialog>
 
     </v-row>
-
+  </v-container>
 </template>
 
 <script>

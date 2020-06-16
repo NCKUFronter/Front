@@ -1,14 +1,13 @@
 <template>
-  <v-container  class="pa-0" >
-    <v-row >
-      <v-flex xs12 sm6 md6>
-          <v-btn outlined style="border-radius:2em;width:100px;" class="ma-2" @click="createModal=true">新增帳本</v-btn>
+  <v-container fluid class="scroll" style="width:100vw;height:100vh;">
+    <v-row>
+      <v-flex xs12 sm4 md3>
+          <v-btn outlined style="border-radius:2em;width:100px;" class="mx-4 mb-2" @click="createModal=true">新增帳本</v-btn>
       </v-flex>
     </v-row>
-    <v-row>
-    <v-flex xs6 sm3 md3  v-for="ledger of adminLedgers" :key="'admin_'+ledger._id" class="pa-3">
+    <v-row style="padding-bottom:50vh">
+    <v-flex xs12 sm4 md3  v-for="ledger of adminLedgers" :key="'admin_'+ledger._id" class="pa-3">
       <v-card flat style="border-radius:2em">
-      
       <v-card flat style="background-color:#08112c;position: relative">
         <v-img v-if="!ledger.photo" src="../assets/fronter/account/planet3.png" sizes="50%" height="180px" ></v-img>
         <v-img v-else-if="ledger.photo.substring(0,5)=='https'" :src="ledger.photo" sizes="50%" height="180px"></v-img>
@@ -155,17 +154,17 @@ export default {
   methods:{
     onAddFiles(files) {
       // console.log(files[files.length-1]);
-      this.newLedger.append("upPhoto",files[files.length-1])
+      this.newLedger.set("upPhoto",files[files.length-1])
       this.ledgerPhotoChange=true;
       // console.log(this.newLedgerPhoto)
     },
     createLedger() {
       if (this.newLedgerName == "") return this.$alert.error("新帳本名不得為空");
-      else this.newLedger.append("ledgerName",this.newLedgerName) 
+      else this.newLedger.set("ledgerName",this.newLedgerName) 
 
       if (!this.ledgerPhotoChange) {
         // console.log("no photo")
-        this.newLedger.append("photo","https://drive.google.com/uc?export=view&id=173suCuP2GwAmvwZQgPtDwGrSPg1wvM8m")
+        this.newLedger.set("photo","https://drive.google.com/uc?export=view&id=173suCuP2GwAmvwZQgPtDwGrSPg1wvM8m")
       }
       // console.log(this.newLedger.keys())
 
@@ -188,11 +187,11 @@ export default {
     },
     patchLedger() {
       if (this.newLedgerName == "") return this.$alert.error("帳本名不得為空");
-      else this.newLedger.append("ledgerName",this.newLedgerName) 
+      else this.newLedger.set("ledgerName",this.newLedgerName) 
 
       if (!this.ledgerPhotoChange) {
         console.log("no photo")
-        this.newLedger.append("photo","https://drive.google.com/uc?export=view&id=173suCuP2GwAmvwZQgPtDwGrSPg1wvM8m")
+        this.newLedger.set("photo","https://drive.google.com/uc?export=view&id=173suCuP2GwAmvwZQgPtDwGrSPg1wvM8m")
       }
       // console.log(this.newLedger.keys())
 
