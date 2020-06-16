@@ -14,7 +14,8 @@
                   :style="cateCircle(item)"
                   >
                     <v-avatar :color="item.color" size="70" >
-                        <span style="color:#3D404E; font-weight:bold">{{item.name}}</span>
+                      <v-icon color="white" size="45px">{{item.icon}}</v-icon>
+                      <!-- <span style="color:#3D404E; font-weight:bold">{{item.name}}</span> -->
                     </v-avatar>
                   </v-btn>
                 <!-- </v-card> -->
@@ -101,7 +102,8 @@
                   :style="cateCircle(item)"
                   >
                     <v-avatar :color="item.color" size="50"  >
-                        <span style="color:#3D404E; font-weight:bold">{{item.name}}</span>
+                      <v-icon color="white" size="30px">{{item.icon}}</v-icon>
+                      <!-- <span style="color:#3D404E; font-weight:bold">{{item.name}}</span> -->
                     </v-avatar>
                   </v-btn>
                 </div>

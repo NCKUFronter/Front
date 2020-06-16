@@ -7,30 +7,35 @@
   <!-- for table & computer -->
   <v-card
       flat
-      min-height="85vh"
-      style="position:fixed;top:15%;right:0%;border-radius:0;z-index:3;"
-      class="scroll"
-      v-if="$vuetify.breakpoint.smAndUp"
+      style="height:85vh;position:fixed;top:15%;right:0%;border-radius:0;"
+      :style="participants?'z-index:3;':''"
+      class="scroll" 
     >
+     <!-- min-height="85vh" -->
+    <!-- v-if="$vuetify.breakpoint.smAndUp" -->
       <v-navigation-drawer
         v-model="participants"
         hide-overlay
-        style="border-top-left-radius:4em;width:220px;min-height:85vh;background-color:#3D404E;"
+        style="border-top-left-radius:4em;width:220px;height:85vh;background-color:#3D404E;"
         temporary
         right
         class="elevation-0"
       >
-        <v-card-title class="pl-12" style="font-size:0.8em;font-weight:bold;margin-top:70px">其他成員</v-card-title>
-        <v-list nav class="pa-0">
+        <v-card-title class="pl-12 py-2" style="font-size:0.8em;font-weight:bold;margin-top:70px">其他成員</v-card-title>
+        <v-list nav class="pa-0" style="height:65vh;overflow-y:auto;overflow-x:hidden">
           <v-list-item
             v-for="(item, index) in engage_user.users"
             :key="index"
             active-class="active"
             class="pl-10 pt-2"
           >
-            <v-avatar size="36">
-              <img :src="item.photo" />
-            </v-avatar>
+            <div style="position:relative;">
+              <v-avatar size="36">
+                <img :src="item.photo" />
+              </v-avatar>
+              <!--display when online -->
+              <div style="background-color:#FED37A;height:10px;width:10px;border-radius:10px;position:absolute;top:0;right:-1px;z-index:5px"></div>
+            </div>
             <v-list-item-title class="ml-4" v-text="item.name" style="font-weight:bold;"></v-list-item-title>
           </v-list-item>
         </v-list>
@@ -42,16 +47,16 @@
       flat
       min-height="85vh"
       style="position:fixed;top:15%;right:0%;border-radius:0;"
-      :style="participants?'z-index:3;':''"
+      :style="mobilePieChart?'z-index:3;':''"
       class="scroll"
-      v-else
       v-touch="{
         left: () => getYearMonthDate(1),
         right: () => getYearMonthDate(-1),
       }"
     >
+    <!-- v-else -->
       <v-navigation-drawer
-        v-model="participants"
+        v-model="mobilePieChart"
         hide-overlay
         style="border-top-left-radius:4em;width:220px;min-height:85vh;background-color:#3D404E;height:60vh"
         temporary
@@ -105,33 +110,33 @@
     <v-card flat class="account-all" v-if="!this.GLOBAL.newRecordModal">
       <v-layout row>
         <v-flex xs12 sm9 md9 class="account-left">
-          <v-card-title class="ma-0 pa-0">帳目一覽</v-card-title>
-            <div class="px-4">
-            <!-- if ledger.users.length<=6 -->
-            <v-avatar
-              v-for="user in ledgerUser(engage_user.users)"
-              :key="user._id"
-              size="22"     
-              class="ma-1"
-              style="background-color:#3d404e"
-            >
-              <img :src="user.photo" />
-            </v-avatar>
-            <!-- v-if="ledger.users.length>6"  -->
-            <div v-if="engage_user.users.length>6" style="position:relative;display:inline"> 
-            <v-avatar size="22" class="ma-1" style="background-color:#26282d;position: absolute;left:10px"></v-avatar>
-            <v-avatar size="22" class="ma-1" style="background-color:#32343e;position: absolute;left:5px"></v-avatar>
-            <v-avatar size="22" class="ma-1" style="background-color:#3d404e;;position: absolute;font-size:0.5em">+{{engage_user.users.length-4}}</v-avatar>
-            </div>
+          <v-card-title class="ma-0 pa-0" style="display:inline;">帳目一覽</v-card-title>
+            <div class="px-4" v-if="$vuetify.breakpoint.xsOnly" @click="participants=!participants" style="display:inline;width:fit-content">
+              <!-- if ledger.users.length<=6 -->
+              <v-avatar
+                v-for="user in ledgerUser(engage_user.users)"
+                :key="user._id"
+                size="22"     
+                class="ma-1"
+                style="background-color:#3d404e"
+              >
+                <img :src="user.photo" />
+              </v-avatar>
+              <!-- v-if="ledger.users.length>6"  -->
+              <div v-if="engage_user.users.length>6" style="position:relative;display:inline;top:4px"> 
+              <v-avatar size="22" class="ma-1" style="background-color:#26282d;position: absolute;left:10px"></v-avatar>
+              <v-avatar size="22" class="ma-1" style="background-color:#32343e;position: absolute;left:5px"></v-avatar>
+              <v-avatar size="22" class="ma-1" style="background-color:#3d404e;;position: absolute;font-size:0.5em">+{{engage_user.users.length-4}}</v-avatar>
+              </div>
           </div>
           <button
             v-if="$vuetify.breakpoint.xsOnly"
-                @click.stop="participants = !participants"
+                @click.stop="mobilePieChart = !mobilePieChart"
                 style="position:fixed;right:60px;top:75px;background-color:transparent;z-index:4;height:fit-content;width:fit-content;"
               >
                 <transition name="fade">
                   <img
-                    v-if="!participants"
+                    v-if="!mobilePieChart"
                     src="../assets/fronter/account/member_unclicked.svg"
                     height="18px"
                     style="position: absolute;"
@@ -139,7 +144,7 @@
                 </transition>
                 <transition name="fade">
                   <img
-                    v-if="participants"
+                    v-if="mobilePieChart"
                     src="../assets/fronter/account/member_clicked.svg"
                     height="18px"
                     style="position: absolute;"
@@ -176,6 +181,7 @@
                 full-width
                 color="white"
                 item-color="white"
+              
               ></v-select>
             </v-flex>
 
@@ -379,6 +385,7 @@ let data = {
   dataPickerModal: false,
   accountData: [],
   participants: false,
+  mobilePieChart: false,
   //pie
   expenseData: [],
   totalExpense: 0,

@@ -1,6 +1,6 @@
 <template>
   <!-- ref: https://github.com/David-Desmaisons/Vue.D3.sunburst/tree/e3c61e84268861400116245ea8e9020e8113ea07 -->
-  <v-container fluid fill-height>
+  <v-container fluid class="ma-0" style="width:100vw;" >
     <!-- <div class="card-header">Sunburst</div>
     <div class="card-body father">-->
     <sunburst
@@ -10,13 +10,13 @@
       :inAnimationDuration="inAnimationDuration"
       :outAnimationDuration="outAnimationDuration"
     >
-      <template v-slot:menu>
-        <v-row class="py-4" justify="center">
-          <v-btn-toggle v-model="toggle_exclusive_perspective" mandatory>
+      <!-- <template v-slot:menu> -->
+        <!-- <v-row class="py-4" justify="center"> -->
+          <!-- <v-btn-toggle v-model="toggle_exclusive_perspective" mandatory>
             <v-btn value="personal">個人</v-btn>
             <v-btn value="ledger">帳本</v-btn>
             <v-btn value="points">點數</v-btn>
-          </v-btn-toggle>
+          </v-btn-toggle> -->
 
           <!--v-flex xs6 sm3 md3>
             <v-card flat class="time" xs6 sm3 md3>
@@ -27,8 +27,8 @@
               </v-btn-toggle>
             </v-card>
           </v-flex-->
-        </v-row>
-      </template>
+        <!-- </v-row> -->
+      <!-- </template> -->
 
       <template v-slot:legend="{ nodes, colorGetter, width }">
         <breadcrumbTrail
@@ -37,7 +37,6 @@
           :colorGetter="colorGetter"
           :from="nodes.zoomed"
           :width="width"
-          class="pt-6"
         />
       </template>
 
@@ -106,7 +105,7 @@ export default {
       minAngleDisplayed: 0.05, //設定角度多小的可被看見 if=0表全部都可被看見
       inAnimationDuration: 500, //動畫速度
       outAnimationDuration: 1000, //動畫速度
-      toggle_exclusive_perspective: "ledger",
+      // toggle_exclusive_perspective: "ledger",
       toggle_exclusive_time: "month",
       sunburstOrder: {
         ledger: ["ledger", "user", "recordType", "category"],
@@ -115,6 +114,7 @@ export default {
       }
     };
   },
+  props:["toggle_exclusive_perspective",],
   computed: {
     displayData() {
       return this.sunburstJson;
