@@ -6,7 +6,6 @@
       flat
       clipped
       fixed
-      height="100rem"
       class="pa-2"
     >
       <!-- <v-layout row style="height:100%"> -->
@@ -64,7 +63,7 @@
       <!-- peraonal account -->
       <v-menu offset-y v-if="clear.animeOver">
         <template v-slot:activator="{ on }">
-          <v-btn icon v-on="on">
+          <v-btn width="fit-content" height="fit-content" icon v-on="on">
             <v-icon large color="white">mdi-account-circle</v-icon>
           </v-btn>
         </template>
@@ -166,7 +165,8 @@
       </v-list-item-group>
     </v-navigation-drawer>
 
-    <v-content style="max-width:100vw">
+    <!-- for computer and tablet -->
+    <v-content style="max-width:100vw" v-if="$vuetify.breakpoint.smAndUp">
       <!-- id="scroll-target" class="overflow-y-auto"  -->
       <!-- <v-app-bar class="mx-auto overflow-hidden" color="#efca16" elevate-on-scroll clipped-left app>
       </v-app-bar>-->
@@ -394,6 +394,89 @@
             @close="modalOpen = false" 
         ></EditRecord>
       </div>-->
+    </v-content>
+
+    <!-- for mobile -->
+    <v-content style="max-width:100vw" v-else>
+      <v-container
+        id="scroll-target"
+        class="pa-0"
+        fluid
+        v-if="!login"
+        style="height:200vh;overflow:hidden"
+      >
+        <!-- mobile-page1 -->
+        <v-layout style="height:100vh;overflow: hidden;background-color:#26282D;position:relative">
+          <img src="./assets/mobile-home/account_rocket.png" height="100%" />
+          <img src="./assets/mobile-home/parents.png" height="100%" style="position:absolute" />
+          <div class="mobileP1Text">
+            <div class="mobileP1rec"></div>
+            <h1 class="mobileP1t1">
+              親子互動與
+              <br />教育的新體驗
+            </h1>
+            <h1 class="mobileP1t2">透過社群記帳與遊戲，讓父母從小培養孩子的金錢觀</h1>
+            <button color="white" class="mobileP1btn" outlined>開始使用</button>
+          </div>
+        </v-layout>
+
+        <!-- <v-layout class="scroll" style="height:100vh;width:300vw;overflow-y:hidden;overflow-x:auto;background-color:#26282D;position:relative"> -->
+        <!-- mobile-page2 -->
+        <v-layout
+          style="height:100vh;width:100vw;overflow:hidden;background-color:#26282D;position:relative"
+        ></v-layout>
+
+        <!-- mobile-page3 -->
+        <v-layout
+          style="height:100vh;width:100vw;overflow:hidden;background-color:#26282D;position:relative"
+        >
+          <img
+            src="./assets/mobile-home/phone.png"
+            height="25%"
+            style="position:absolute;top:15%;left:25%"
+          />
+          <div style="width:100%;position:absolute;top:45%;">
+            <h1 class="mobileP1t1 text-center">星 · 際帳</h1>
+            <h1 class="mobileP3t2 text-center">
+              在這裡，你可以體驗由永豐提供的智慧生活，
+              <br />記下日常消費的每筆帳目，並獲得回饋
+            </h1>
+            <button
+              class="mobileP3btn text-center mt-12"
+              style="background-color: #509883;width: 35%;margin: 40% 5% 0% 10%;"
+            >創建帳戶</button>
+            <button
+              class="mobileP3btn text-center mt-12"
+              style="background-color: #8ABA97;width: 35%;margin: 40% 10% 0% 5%;"
+            >登入</button>
+          </div>
+        </v-layout>
+
+        <!-- mobile-page4 -->
+        <v-layout
+          style="height:100vh;width:100vw;overflow:hidden;background-color:#26282D;position:relative"
+        >
+          <img
+            src="./assets/mobile-home/armada.png"
+            height="25%"
+            style="position:absolute;top:15%;left:25%"
+          />
+          <div style="width:100%;position:absolute;top:45%;">
+            <h1 class="mobileP1t1 text-center">宇宙 · 戰艦</h1>
+            <h1 class="mobileP3t2 text-center">在遊戲中使用回饋點數，讓孩子也能樂於記帳</h1>
+            <button
+              class="mobileP3btn"
+              style="background-color:#DF764C;width: 50%;margin:40% 25% 0% 25%;"
+            >開啟你的星際探險</button>
+          </div>
+        </v-layout>
+        <!-- </v-layout> -->
+      </v-container>
+
+      <div v-else>
+        <!-- class="px-4" -->
+        <router-view></router-view>
+      </div>
     </v-content>
 
     <!-- loading circle -->
@@ -812,7 +895,22 @@ html {
   right: 15%;
   margin-bottom: 8%;
 }
+.mobileP1rec {
+  height: 5px;
+  width: 40%;
+  background: #fff294;
+  position: relative;
+  left: -7%;
+  margin-bottom: 8%;
+}
 .p1Text {
+  position: absolute;
+  z-index: 7;
+  top: 25%;
+  left: 10%;
+  font-family: Microsoft YaHei UI, 微軟正黑體, Arial, Helvetica, sans-serif;
+}
+.mobileP1Text {
   position: absolute;
   z-index: 7;
   top: 25%;
@@ -827,12 +925,28 @@ html {
   font-family: Microsoft YaHei UI, 微軟正黑體, Arial, Helvetica, sans-serif;
   text-align: left;
 }
+.mobileP1t1 {
+  color: #fff294;
+  font-weight: bold;
+  font-size: 30px;
+  line-height: 120%;
+  font-family: Microsoft YaHei UI, 微軟正黑體, Arial, Helvetica, sans-serif;
+  text-align: left;
+}
 .p1t2 {
   color: white;
   font-weight: bold;
   font-size: 20px;
   margin: 8% 0%;
   text-align: left;
+}
+.mobileP1t2 {
+  color: white;
+  width: 75%;
+  font-size: 12px;
+  margin: 6% 0%;
+  text-align: left;
+  font-family: Microsoft YaHei UI, 微軟正黑體, Arial, Helvetica, sans-serif;
 }
 
 .p1btn {
@@ -847,9 +961,26 @@ html {
   align-items: flex-start;
 }
 
+.mobileP1btn {
+  border: solid white 1.5px;
+  width: 40%;
+  padding: 2%;
+  border-radius: 15px;
+  font-size: 14px;
+  color: white;
+  font-weight: bold;
+  font-family: Microsoft YaHei UI, 微軟正黑體, Arial, Helvetica, sans-serif;
+  align-items: flex-start;
+}
+
 .p1btn:hover {
   color: #fff294;
   border: solid #fff294 2px;
+}
+
+.mobileP1btn:hover {
+  color: #fff294;
+  border: solid #fff294 1.5px;
 }
 
 /* p2 */
@@ -981,7 +1112,13 @@ html {
   margin: 8% 0%;
   text-align: left;
 }
-
+.mobileP3t2 {
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  margin: 6% 0%;
+  text-align: left;
+}
 .p3btn {
   border: solid white 1px;
   width: 30%;
@@ -991,6 +1128,14 @@ html {
   color: white;
   font-family: Microsoft YaHei UI, 微軟正黑體, Arial, Helvetica, sans-serif;
   margin-left: 3%;
+}
+
+.mobileP3btn {
+  border-radius: 20px;
+  padding: 1%;
+  font-size: 14px;
+  color: white;
+  font-family: Microsoft YaHei UI, 微軟正黑體, Arial, Helvetica, sans-serif;
 }
 
 .p3btn:hover {

@@ -1,5 +1,5 @@
 <template>
-  <v-card style="padding: 8% 5% 0% 2%;background-color:#26282d">
+  <v-card flat style="padding: 8% 5% 0% 2%;background-color:#26282d">
     <v-row class="pointSearch">
       <v-flex xs6 sm2 md2 offset-6>
         <v-select v-model="typeSelected" :items="type" label="Type" class="selector" dense></v-select>

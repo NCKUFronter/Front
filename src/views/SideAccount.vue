@@ -45,6 +45,10 @@
       :style="participants?'z-index:3;':''"
       class="scroll"
       v-else
+      v-touch="{
+        left: () => getYearMonthDate(1),
+        right: () => getYearMonthDate(-1),
+      }"
     >
       <v-navigation-drawer
         v-model="participants"
@@ -57,7 +61,8 @@
             <v-card-title
               class="pa-0 mr-5"
               style="border-bottom:1px solid white;font-size:1em;font-weight:bold;margin-top:7vh; margin-left:4vw;"
-            >當日小計</v-card-title>
+            >{{userDate}}</v-card-title> 
+             <!-- 當日小計 -->
             <div
               v-if="this.flowSelected != '支出'"
               class="income"
@@ -101,6 +106,24 @@
       <v-layout row>
         <v-flex xs12 sm9 md9 class="account-left">
           <v-card-title class="ma-0 pa-0">帳目一覽</v-card-title>
+            <div class="px-4">
+            <!-- if ledger.users.length<=6 -->
+            <v-avatar
+              v-for="user in ledgerUser(engage_user.users)"
+              :key="user._id"
+              size="22"     
+              class="ma-1"
+              style="background-color:#3d404e"
+            >
+              <img :src="user.photo" />
+            </v-avatar>
+            <!-- v-if="ledger.users.length>6"  -->
+            <div v-if="engage_user.users.length>6" style="position:relative;display:inline"> 
+            <v-avatar size="22" class="ma-1" style="background-color:#26282d;position: absolute;left:10px"></v-avatar>
+            <v-avatar size="22" class="ma-1" style="background-color:#32343e;position: absolute;left:5px"></v-avatar>
+            <v-avatar size="22" class="ma-1" style="background-color:#3d404e;;position: absolute;font-size:0.5em">+{{engage_user.users.length-4}}</v-avatar>
+            </div>
+          </div>
           <button
             v-if="$vuetify.breakpoint.xsOnly"
                 @click.stop="participants = !participants"
@@ -716,6 +739,20 @@ export default {
         this.point.series[0].data = [
           { name: "無資料", value: 0, color: "rgba(255,255,255,0.1)" }
         ];
+    },
+    ledgerUser(user){
+        // console.log(user.length)
+        if(user.length<=6){
+          return user
+        }else{
+          var shortlist=[];
+          for (var i=0;i<4;i++){
+            shortlist.push(user[i])
+          }
+          return shortlist
+          // return user.splice(0,3)
+        }
+        
     },
     fetchRecords() {
       this.$asyncComputed.records.update();
