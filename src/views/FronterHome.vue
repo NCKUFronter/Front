@@ -30,7 +30,7 @@
           v-show="vanish"
           class="FH_page sm"
           src="../assets/fronter/home/home_logo.svg"
-          width="85%"
+          style="width:85%;"
         />
       </transition>
 
@@ -104,6 +104,8 @@ export default {
     setTimeout(function() {
       self.$router.push("/accounting");
     }, 2500);
+    let root = document.documentElement;
+    root.style.setProperty("fullWidth", "-9rem");
   },
 
   mounted: function() {
@@ -176,7 +178,7 @@ export default {
   transform: translateX(55%) translateY(60%);
 }
 .slogan_des {
-  transform: translateX(-9rem) translateY(1rem);
+  transform: translateX(var (fullWidth)) translateY(1rem);
 }
 .slogan_des.sm {
   transform: translateX(-35%) translateY(-110%);

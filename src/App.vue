@@ -2,108 +2,106 @@
   <v-app>
     <v-app-bar
       transition="slide-y-transition"
-      :color="(this.login && this.$route.name != 'FronterHomeName') ? '#26282d' : '#ffffff00'"
+      :color="(login && this.$route.name != 'FronterHomeName') ? '#26282d' : '#ffffff00'"
       flat
       clipped
-      height="100rem"
-      class="pa-4"
       fixed
+      height="100rem"
+      class="pa-2"
     >
-      <v-layout app>
-        <v-flex v-if="clear.animeOver && $vuetify.breakpoint.smAndDown">
-          <v-app-bar-nav-icon
-            @click.stop="drawer = !drawer"
-            v-if="login && clear.animeOver && $vuetify.breakpoint.smAndDown"
-            class="px-4"
-            style="height:100%"
-          ></v-app-bar-nav-icon>
-        </v-flex>
+      <!-- <v-layout row style="height:100%"> -->
+      <!-- <v-flex xs1 sm1 md1 v-if="clear.animeOver && $vuetify.breakpoint.smAndDown"> -->
+      <v-app-bar-nav-icon
+        @click.stop="drawer = !drawer"
+        v-if="login && clear.animeOver && $vuetify.breakpoint.smAndDown"
+        class="px-4"
+        style="height:100%"
+      ></v-app-bar-nav-icon>
+      <!-- </v-flex> -->
+      <!-- <v-flex xs3 sm3 md3 v-if="login && clear.animeOver" class="pa-4"> -->
+      <router-link to="/fronter_home">
+        <h1 class="logo px-8" v-if="login && clear.animeOver">FRONTER</h1>
+      </router-link>
+      <!-- </v-flex> -->
+      <!-- v-if="login && $vuetify.breakpoint.smAndDown" -->
 
-        <v-flex v-if="login && clear.animeOver" class="d-flex align-center justify-center pa-4">
-          <router-link to="/fronter_home">
-            <h1 class="logo d-flex align-center">
-              <div>FRONTER</div>
-            </h1>
-          </router-link>
-        </v-flex>
-
-        <!-- v-if="login && $vuetify.breakpoint.smAndDown" -->
-
-        <!-- <v-app-bar transition="slide-y-transition" color="transparent" clipped-left flat app dense>
+      <!-- <v-app-bar transition="slide-y-transition" color="transparent" clipped-left flat app dense>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="login"></v-app-bar-nav-icon>
       
       <h1 class="logo d-flex align-center">
         <img src="./assets/Fronter.png" class="mt-2"/>
         <div v-if="login">星，際帳</div>
-        </h1>-->
-        <!-- <v-flex xs4 sm5 md5 v-if="login && clear.animeOver  && $vuetify.breakpoint.smAndUp" class="px-4"> -->
-          <v-spacer/>
-          <v-form style="height:100%;width:45%" class="px-8">
-            <v-text-field
-              width="500px"
-              background-color="#3d404e"
-              color="#fff"
-              dense
-              prepend-inner-icon="mdi-magnify"
-              label="Search here"
-              filled
-              shaped
-              hide-details
-              v-if="login && clear.animeOver  && $vuetify.breakpoint.smAndUp"
-            ></v-text-field>
-          </v-form>
-        <!-- </v-flex> -->
-        <!-- <v-col v-if="login && clear.animeOver" class="d-flex align-center justify-end">
-        </v-col>-->
-        <!-- <v-flex xs3 sm3 md3 v-if="login && clear.animeOver" class="pa-4 mr-auto" > -->
-          <v-spacer/>
-          <v-icon class="px-1" v-if="login && clear.animeOver" size="30px">mdi-bell-outline</v-icon> 
-          <v-card-title class="pa-0 pr-8" v-if="login && clear.animeOver && $vuetify.breakpoint.smAndUp" style="font-size:22px;font-weight:bold;">
-            {{ profile.name }}
-          </v-card-title>
-        <!-- </v-flex> -->
-        <!-- <v-flex xs1 sm1 md1 class="pa-4" v-if="clear.animeOver"> -->
-          <!-- peraonal account -->
-          <v-menu offset-y v-if="clear.animeOver">
-            <template v-slot:activator="{ on }">
-              <v-btn icon v-on="on">
-                <v-icon large color="white">mdi-account-circle</v-icon>
-              </v-btn>
-            </template>
-            <v-card flat v-if="!login" class="pa-2">
-              <v-card-title class="justify-center">尚未登入</v-card-title>
-              <v-btn outlined block v-on:click="toLogin">
-                <v-icon small>mdi-google</v-icon>登入
-              </v-btn>
-              <v-btn outlined block v-on:click="doLogin('father@gmail.com')">
-                <v-icon>mdi-login-variant</v-icon>爸爸登入
-              </v-btn>
-              <v-btn outlined block v-on:click="doLogin('mother@gmail.com')">
-                <v-icon>mdi-login-variant</v-icon>媽媽登入
-              </v-btn>
-              <v-btn outlined block v-on:click="doLogin('child@gmail.com')">
-                <v-icon>mdi-login-variant</v-icon>小孩登入
-              </v-btn>
-            </v-card>
-            <v-card flat v-else class="pa-2 text-center">
-              <v-avatar size="128" class="elevation-4">
-                <img :src="profile.photo" />
-              </v-avatar>
-              <v-card-title class="pb-1 justify-center">{{ profile.name }}</v-card-title>
-              <!--v-card-subtitle>{{profile._id}}</v-card-subtitle-->
-              <v-card-text class="pb-0">{{ profile.email }}</v-card-text>
-              <v-btn outlined block color="#cccccc" disabled>
-                <v-icon>mdi-file-edit-outline</v-icon>綁定信用卡
-              </v-btn>
-              <v-btn outlined block @click="getPoints">
-                <v-icon>mdi-alpha-p-circle-outline</v-icon>每日點數
-              </v-btn>
-              <v-btn outlined block v-on:click="toLogout">
-                <v-icon>mdi-logout-variant</v-icon>登出
-              </v-btn>
-            </v-card>
-          </v-menu>
-        <!-- </v-flex> -->
+      </h1>-->
+      <!-- <v-flex xs4 sm5 md5 v-if="login && clear.animeOver  && $vuetify.breakpoint.smAndUp" class="px-4"> -->
+      <v-spacer />
+      <v-form style="height:100%;width:45%" class="px-8">
+        <v-text-field
+          width="500px"
+          background-color="#3d404e"
+          color="#fff"
+          dense
+          prepend-inner-icon="mdi-magnify"
+          label="Search here"
+          filled
+          shaped
+          hide-details
+          v-if="login && clear.animeOver  && $vuetify.breakpoint.smAndUp"
+        ></v-text-field>
+      </v-form>
+      <!-- </v-flex> -->
+      <!-- <v-col v-if="login && clear.animeOver" class="d-flex align-center justify-end">
+      </v-col>-->
+      <!-- <v-flex xs3 sm3 md3 v-if="login && clear.animeOver" class="pa-4 mr-auto" > -->
+      <v-spacer />
+      <v-icon class="px-1" v-if="login && clear.animeOver" size="30px">mdi-bell-outline</v-icon>
+      <v-card-title
+        class="pa-0 pr-8"
+        v-if="login && clear.animeOver && $vuetify.breakpoint.smAndUp"
+        style="font-size:22px;font-weight:bold;"
+      >{{ profile.name }}</v-card-title>
+      <!-- </v-flex> -->
+      <!-- <v-flex xs1 sm1 md1 class="pa-4" v-if="clear.animeOver"> -->
+      <!-- peraonal account -->
+      <v-menu offset-y v-if="clear.animeOver">
+        <template v-slot:activator="{ on }">
+          <v-btn icon v-on="on">
+            <v-icon large color="white">mdi-account-circle</v-icon>
+          </v-btn>
+        </template>
+        <v-card flat v-if="!login" class="pa-2">
+          <v-card-title class="justify-center">尚未登入</v-card-title>
+          <v-btn outlined block v-on:click="toLogin">
+            <v-icon small>mdi-google</v-icon>登入
+          </v-btn>
+          <v-btn outlined block v-on:click="doLogin('father@gmail.com')">
+            <v-icon>mdi-login-variant</v-icon>爸爸登入
+          </v-btn>
+          <v-btn outlined block v-on:click="doLogin('mother@gmail.com')">
+            <v-icon>mdi-login-variant</v-icon>媽媽登入
+          </v-btn>
+          <v-btn outlined block v-on:click="doLogin('child@gmail.com')">
+            <v-icon>mdi-login-variant</v-icon>小孩登入
+          </v-btn>
+        </v-card>
+        <v-card flat v-else class="pa-2 text-center">
+          <v-avatar size="128" class="elevation-4">
+            <img :src="profile.photo" />
+          </v-avatar>
+          <v-card-title class="pb-1 justify-center">{{ profile.name }}</v-card-title>
+          <!--v-card-subtitle>{{profile._id}}</v-card-subtitle-->
+          <v-card-text class="pb-0">{{ profile.email }}</v-card-text>
+          <v-btn outlined block color="#cccccc" disabled>
+            <v-icon>mdi-file-edit-outline</v-icon>綁定信用卡
+          </v-btn>
+          <v-btn outlined block @click="getPoints">
+            <v-icon>mdi-alpha-p-circle-outline</v-icon>每日點數
+          </v-btn>
+          <v-btn outlined block v-on:click="toLogout">
+            <v-icon>mdi-logout-variant</v-icon>登出
+          </v-btn>
+        </v-card>
+      </v-menu>
+      <!-- </v-flex> -->
       <!-- </v-layout> -->
     </v-app-bar>
 
@@ -387,7 +385,7 @@
         <!-- </div> -->
       </v-container>
 
-      <div v-else >
+      <div v-else>
         <!-- class="px-4" -->
         <router-view></router-view>
       </div>
@@ -658,9 +656,9 @@ export default {
 </script>
 
 <style lang="scss">
-.theme--dark.v-app-bar.v-toolbar.v-sheet{
-  background-color:#26282d !important;
-}
+// .theme--dark.v-app-bar.v-toolbar.v-sheet {
+//   background-color: #26282d !important;
+// }
 html {
   margin: 0;
   padding: 0;
