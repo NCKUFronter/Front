@@ -1,63 +1,72 @@
 <template>
-  <div class="RT" >
-  <v-card flat class="scroll recordTable" style="height:60vh;"> 
-    <!-- class="scroll recordTable" -->
-    <div class="header-background"></div>
-    <v-data-table  class=" record" 
-    hide-default-footer
-    :items-per-page= "-1"
-    :headers="headers" :items="filterAccountData" sort-by="money" >
-      <!-- recordType -->
-      
-      <template v-slot:item.recordType="{ item }">
-        <!--v-chip :color="getColor(item.recordType)"-->
-        <!-- <v-icon left>getIcon()</v-icon>-->
-        <!-- <v-icon v-if="getIcon()==true">mdi-tray-minus</v-icon>
-        <v-icon v-else>mdi-tray-plus</v-icon>-->
-        <!--{{item.recordType}}-->
-        <!--/v-chip-->
-        <v-avatar size="36">
-          <img :src="item.user.photo" />
-        </v-avatar>
-        <!-- <v-icon v-if="item.recordType[0]=='i'" color="green">mdi-cash-plus</v-icon>
-        <v-icon v-else color="red">mdi-cash-minus</v-icon> -->
-      </template>
+  <div class="RT">
+    <v-card flat class="scroll recordTable" style="height:60vh;">
+      <!-- class="scroll recordTable" -->
+      <div class="header-background"></div>
+      <v-data-table
+        class="record"
+        hide-default-footer
+        :items-per-page="-1"
+        :headers="headers"
+        :items="filterAccountData"
+        sort-by="money"
+      >
+        <!-- recordType -->
 
-      <!-- category -->
-      <template v-slot:item.categoryId="{ item }">
-        <v-chip :color="(item.category) ? item.category.color : '#d5ccb3'" key="item.category" label style="width:100%;height:5vh;" class="justify-center">{{ (item.category) ? item.category.name : '未知' }}</v-chip>
-      </template>
+        <template v-slot:item.recordType="{ item }">
+          <!--v-chip :color="getColor(item.recordType)"-->
+          <!-- <v-icon left>getIcon()</v-icon>-->
+          <!-- <v-icon v-if="getIcon()==true">mdi-tray-minus</v-icon>
+          <v-icon v-else>mdi-tray-plus</v-icon>-->
+          <!--{{item.recordType}}-->
+          <!--/v-chip-->
+          <v-avatar size="36">
+            <img :src="item.user.photo" />
+          </v-avatar>
+          <!-- <v-icon v-if="item.recordType[0]=='i'" color="green">mdi-cash-plus</v-icon>
+          <v-icon v-else color="red">mdi-cash-minus</v-icon>-->
+        </template>
 
-      <!-- hashtags -->
-      <template v-slot:item.hashtags="{ item }">
-        <v-chip label small v-for="tag in item.hashtags" :key="tag" class="mx-1">{{ tag }}</v-chip>
-      </template>
+        <!-- category -->
+        <template v-slot:item.categoryId="{ item }">
+          <v-chip
+            :color="(item.category) ? item.category.color : '#d5ccb3'"
+            key="item.category"
+            label
+            style="width:100%;height:5vh;"
+            class="justify-center"
+          >{{ (item.category) ? item.category.name : '未知' }}</v-chip>
+        </template>
 
-      <!-- detail -->
-      <!-- template v-slot:item.detail="{ item }">
+        <!-- hashtags -->
+        <template v-slot:item.hashtags="{ item }">
+          <v-chip label small v-for="tag in item.hashtags" :key="tag" class="mx-1">{{ tag }}</v-chip>
+        </template>
+
+        <!-- detail -->
+        <!-- template v-slot:item.detail="{ item }">
         <div>{{ item.detail }}</div>
-      </template-->
+        </template-->
 
-      <!-- money -->
-      <template v-slot:item.money="{ item }">
-        <div>{{ item.money }}</div>
-      </template>
+        <!-- money -->
+        <template v-slot:item.money="{ item }">
+          <div>{{ item.money }}</div>
+        </template>
 
-      <!-- ledger -->
-      <!--template v-slot:item.ledger="{ item }">
+        <!-- ledger -->
+        <!--template v-slot:item.ledger="{ item }">
         <div>{{ item.ledger }}</div>
-      </template-->
+        </template-->
 
-      <template v-slot:item.actions="{ item }">
-        <!-- <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon> -->
-        <div v-if="item.userId === $api.user.profile._id">
-          <v-icon small @click="$emit('want-edit',item)" class="mr-1">mdi-pencil</v-icon>
-          <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
-        </div>
-      </template>
-    </v-data-table>
-  
-  </v-card>
+        <template v-slot:item.actions="{ item }">
+          <!-- <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon> -->
+          <div v-if="item.userId === $api.user.profile._id">
+            <v-icon small @click="$emit('want-edit',item)" class="mr-1">mdi-pencil</v-icon>
+            <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
+          </div>
+        </template>
+      </v-data-table>
+    </v-card>
   </div>
 </template>
 
@@ -84,7 +93,7 @@ export default {
         {
           text: "類別",
           align: "center",
-          value: "categoryId",
+          value: "categoryId"
         },
         {
           text: "標籤",
@@ -128,17 +137,15 @@ export default {
       modalFlow: ["income", "expense"]
     };
   },
-  props: ["userDate", "ledgerSelected", "accountData","flowSelected"],
+  props: ["userDate", "ledgerSelected", "accountData", "flowSelected"],
   created() {},
   computed: {
-
     filterAccountData() {
       // return this.filterLedgerData.filter(item => {
       return this.accountData.filter(item => {
         return getLocaleDate(item.date) === this.userDate;
       });
-
-    },
+    }
 
     // filterLedgerData() {
     //   if (this.ledgerSelected != "All") {
@@ -151,20 +158,20 @@ export default {
     // }
   },
   methods: {
-    getCateColor(cate){
-      console.log(cate)
-      if(cate=="食物"){
-        return '#FED37A'
-      }else if(cate=="娛樂"){
-        return "#FFA863"
-      }else if(cate=="醫療"){
-        return "#DF764C"
-      }else if(cate=="交通"){
-        return "#8ABA97"
-      }else if(cate=="治裝"){
-        return "#50989E"
-      }else{
-        return "#D5CCB3"
+    getCateColor(cate) {
+      console.log(cate);
+      if (cate == "食物") {
+        return "#FED37A";
+      } else if (cate == "娛樂") {
+        return "#FFA863";
+      } else if (cate == "醫療") {
+        return "#DF764C";
+      } else if (cate == "交通") {
+        return "#8ABA97";
+      } else if (cate == "治裝") {
+        return "#50989E";
+      } else {
+        return "#D5CCB3";
       }
     },
     getColor(recordType) {
@@ -198,9 +205,16 @@ export default {
 </script>
 
 <style >
-
-.recordTable .theme--dark.v-data-table tbody tr:not(:last-child) td:not(.v-data-table__mobile-row), .theme--dark.v-data-table tbody tr:not(:last-child) th:not(.v-data-table__mobile-row) {
-    border-bottom: none;
+.recordTable
+  .theme--dark.v-data-table
+  tbody
+  tr:not(:last-child)
+  td:not(.v-data-table__mobile-row),
+.theme--dark.v-data-table
+  tbody
+  tr:not(:last-child)
+  th:not(.v-data-table__mobile-row) {
+  border-bottom: none;
 }
 
 /* width */
@@ -216,14 +230,12 @@ export default {
   border: 4px solid #26282d;
 }
 
-
 .scroll {
   overflow-y: auto;
-
 }
 
-.RT .theme--dark.v-card{
-  background-color: transparent ! important;
+.RT .theme--dark.v-card {
+  background-color: transparent !important;
 }
 
 .accountSelect,
@@ -232,30 +244,25 @@ export default {
   border-bottom: #cccccc 1px solid;
   margin-top: 10%;
   padding: 3%;
-  
 }
 
-
-
 .recordTable .v-data-table-header th,
-.recordTable .v-data-table tbody tr
-{
+.recordTable .v-data-table tbody tr {
   height: 8vh;
 }
 
-.recordTable{
+.recordTable {
   width: 100%;
   position: relative;
-  
 }
 
-.recordTable thead{
-  background-color: rgba(255,255,255,0.2);
-  border-radius: 10px ! important;
+.recordTable thead {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 10px !important;
 }
 
 .recordTable .v-chip--label {
-    border-radius: 10px !important;
+  border-radius: 10px !important;
 }
 
 /* .header-background{
@@ -268,10 +275,10 @@ export default {
 } */
 
 .theme--dark.v-tabs > .v-tabs-bar {
-    background-color: transparent;
+  background-color: transparent;
 }
 
-.v-data-table{
-  background-color: transparent ! important;
+.v-data-table {
+  background-color: transparent !important;
 }
 </style>

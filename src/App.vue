@@ -2,14 +2,14 @@
   <v-app>
     <v-app-bar
       transition="slide-y-transition"
-      color=" #26282d"
+      :color="(this.login && this.$route.name != 'FronterHomeName') ? '#26282d' : '#ffffff00'"
       flat
       clipped
-      height="50px"
+      height="100rem"
       class="pa-4"
       fixed
     >
-      <v-layout>
+      <v-layout app>
         <v-flex v-if="clear.animeOver && $vuetify.breakpoint.smAndDown">
           <v-app-bar-nav-icon
             @click.stop="drawer = !drawer"
@@ -17,11 +17,15 @@
             class="d-flex align-center justify-center pa-4"
           ></v-app-bar-nav-icon>
         </v-flex>
+
         <v-flex v-if="login && clear.animeOver" class="d-flex align-center justify-center pa-4">
-          <h1 class="logo d-flex align-center">
-            <div>FRONTER</div>
-          </h1>
+          <router-link to="/fronter_home">
+            <h1 class="logo d-flex align-center">
+              <div>FRONTER</div>
+            </h1>
+          </router-link>
         </v-flex>
+
         <!-- v-if="login && $vuetify.breakpoint.smAndDown" -->
 
         <!-- <v-app-bar transition="slide-y-transition" color="transparent" clipped-left flat app dense>
@@ -34,6 +38,7 @@
         <v-flex v-if="login && clear.animeOver" class="d-flex align-center justify-center pa-4">
           <v-form>
             <v-text-field
+              width="500px"
               background-color="#3d404e"
               color="#fff"
               dense
@@ -81,11 +86,7 @@
               <v-avatar size="128" class="elevation-4">
                 <img :src="profile.photo" />
               </v-avatar>
-              <v-card-title class="pb-1 justify-center">
-                {{
-                profile.name
-                }}
-              </v-card-title>
+              <v-card-title class="pb-1 justify-center">{{ profile.name }}</v-card-title>
               <!--v-card-subtitle>{{profile._id}}</v-card-subtitle-->
               <v-card-text class="pb-0">{{ profile.email }}</v-card-text>
               <v-btn outlined block color="#cccccc" disabled>
@@ -126,7 +127,7 @@
         <v-list shaped nav class="pa-0">
           <v-list-group
             v-for="(item, index) in menuWithChild"
-            :key="'menu_'+index"
+            :key="'menu_' + index"
             :class="{ 'menu-item': true, disabled: !item.link }"
             class="pl-0"
             :to="item.link"
@@ -141,24 +142,20 @@
 
             <v-list-item
               v-for="(child, index) in item.child"
-              :key="'menu_child_'+index"
+              :key="'menu_child_' + index"
               :class="{ 'menu-item': true, disabled: !child.link }"
               class="pl-10"
               :to="child.link"
               active-class="active"
             >
-              <v-list-item-title class="pl-8">
-                {{
-                child.title
-                }}
-              </v-list-item-title>
+              <v-list-item-title class="pl-8">{{ child.title }}</v-list-item-title>
             </v-list-item>
             <!-- <v-icon class="mr-2 pl-10">{{item.icon}}</v-icon> -->
           </v-list-group>
 
           <v-list-item
             v-for="(item, index) in menu"
-            :key="'menu_item'+index"
+            :key="'menu_item' + index"
             :class="{ 'menu-item': true, disabled: !item.link }"
             class="pl-10"
             :to="item.link"
@@ -355,7 +352,7 @@
 
             <v-card-text
               v-for="(item, index) in footerAccount"
-              :key="'footerAccount_'+index"
+              :key="'footerAccount_' + index"
               :to="item.link"
               active-class="active"
               dense
@@ -366,7 +363,7 @@
             <v-card-title class="pa-0 mb-6" style="font-weight:bold;font-size:24px;">宇宙戰艦</v-card-title>
             <v-card-text
               v-for="(item, index) in footerGame"
-              :key="'footerGame_'+index"
+              :key="'footerGame_' + index"
               :to="item.link"
               active-class="active"
               dense
@@ -376,7 +373,7 @@
           <v-flex xs3 sm3 md3 class="text-center" style="margin:auto;border-left:3px white solid;">
             <v-card-text
               v-for="(item, index) in footerLink"
-              :key="'footerLink_'+index"
+              :key="'footerLink_' + index"
               :to="item.link"
               active-class="active"
               dense

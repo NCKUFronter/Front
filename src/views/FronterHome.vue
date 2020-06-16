@@ -1,7 +1,7 @@
-<template>
+<template style>
   <v-layout>
     <v-flex v-if="this.$vuetify.breakpoint.smAndUp">
-      <transition name="FH_fade">
+      <transition name="FH_fade" id="maindiv">
         <img v-show="vanish" class="FH_page" src="../assets/fronter/home/home_logo.svg" width="45%" />
       </transition>
 
@@ -64,7 +64,9 @@ let data = {
     { title: "類別", link: "/point" }
   ],
   show: false,
-  vanish: true
+  vanish: true,
+  fullHeight: 0,
+  fullWidth: 0
 };
 
 export default {
@@ -98,14 +100,20 @@ export default {
     }, 1000);
     setTimeout(function() {
       self.show = !self.show;
-    }, 3000);
+    }, 2000);
     setTimeout(function() {
       self.$router.push("/accounting");
-    }, 3500);
+    }, 2500);
   },
 
   mounted: function() {
     this.$clear.animeOver = false;
+    this.fullHeight = window.innerHeight;
+    this.fullWidth = window.innerWidth;
+    window.onresize = () => {
+      this.fullHeight = window.innerHeight;
+      this.fullWidth = window.innerWidth;
+    };
   },
   computed: {}
   // watch: {
@@ -254,6 +262,7 @@ export default {
 .slideup-leave-to,
 .sloganmove-leave-to,
 .brandmove-leave-to {
+  transition: all 0.8s;
   opacity: 0;
 }
 .slidedown-leave-active,
