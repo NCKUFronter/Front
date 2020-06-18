@@ -11,7 +11,7 @@
         />
       </transition>
 
-      <!-- <v-flex v-if="vanish" class="FH_brand">FRONTER</v-flex> -->
+      <v-flex v-if="vanish" class="FH_brand">FRONTER</v-flex>
 
       <v-flex v-if="vanish" class="FH_slogan">A Brand-New Spending App</v-flex>
 
@@ -35,15 +35,11 @@
 
 <script>
 let data = {
-  menu: [
-    { title: "帳目", link: "/accounting" },
-    { title: "統記", link: "/summary" },
-    { title: "類別", link: "/point" }
-  ],
-  show: false,
-  vanish: true,
+  show: 0,
+  vanish: 1,
   fullHeight: 0,
-  fullWidth: 0
+  fullWidth: 0,
+  dialog: 1
 };
 
 export default {
@@ -54,96 +50,86 @@ export default {
     return data;
   },
   components: {},
-  created() {
-    var self = this;
-    // setTimeout(function() {
-    //   self.vanish = !self.vanish;
-    //   self.show = !self.show;
-    // }, 1000);
-    // setTimeout(function() {
-    //   self.show = !self.show;
-    // }, 2000);
-    // setTimeout(function() {
-    //   self.$router.push("/accounting");
-    // }, 2500);
-  },
+  created: function() {},
 
   mounted: function() {
+    var self = this;
+    setTimeout(function() {
+      self.vanish = !self.vanish;
+      self.show = !self.show;
+    }, 1000);
+    setTimeout(function() {
+      self.show = !self.show;
+    }, 2000);
+    setTimeout(function() {
+      self.$router.push("/accounting");
+    }, 2500);
     this.$clear.animeOver = false;
     this.fullHeight = window.innerHeight;
     this.fullWidth = window.innerWidth;
 
-    window.onresize = () => {
-      this.fullHeight = window.innerHeight;
-      this.fullWidth = window.innerWidth;
-      var imgHeight = window.getComputedStyle(this.$refs.element).width;
-      let root = document.documentElement;
-
-      // main picture setting
-      if (this.$vuetify.breakpoint.smAndDown) {
-        root.style.setProperty("--img-width", this.fullWidth * 0.7 + "px");
-      } else {
-        root.style.setProperty("--img-width", this.fullWidth * 0.5 + "px");
-      }
-
-      if (this.$vuetify.breakpoint.smAndDown) {
-        root.style.setProperty("--img-left", this.fullWidth * 0.15 + "px");
-      } else {
-        root.style.setProperty("--img-left", this.fullWidth * 0.22 + "px");
-      }
-      if (this.$vuetify.breakpoint.smAndDown) {
-        root.style.setProperty("--img-height", this.fullHeight * 0.35 + "px");
-      } else {
-        root.style.setProperty("--img-height", this.fullHeight * 0.15 + "px");
-      }
-
-      // word setting
-
-      root.style.setProperty("--slogan-top", imgHeight);
-      root.style.setProperty("--slogan-right", this.fullWidth * 0.32 + "px");
-      if (this.$vuetify.breakpoint.smAndDown) {
-        root.style.setProperty("--slogan", this.fullHeight * 0.02 + "px");
-      } else {
-        root.style.setProperty("--slogan", this.fullHeight * 0.035 + "px");
-      }
-
-      // this.widthCenter = this.fullWidth * -0.09;
-      // root.style.setProperty("--slogan-move", this.widthCenter + "px");
-    };
-
     let root = document.documentElement;
-    var imgHeight = window.getComputedStyle(this.$refs.element).width;
-
-    //main picture setting
+    // mobile
     if (this.$vuetify.breakpoint.smAndDown) {
-      root.style.setProperty("--img-width", this.fullWidth * 0.7 + "px");
-    } else {
+      console.log(this.fullWidth);
+      //main picture setting
+      root.style.setProperty("--img-width", this.fullWidth * 0.9 + "px");
+      root.style.setProperty("--img-left", this.fullWidth * 0.05 + "px");
+      root.style.setProperty("--img-height", this.fullHeight * 0.3 + "px");
+      // word setting
+      root.style.setProperty("--slogan", this.fullWidth * 0.04 + "px");
+      root.style.setProperty("--slogan-top", this.fullHeight * 0.55 + "px");
+      root.style.setProperty("--slogan-left", this.fullWidth * 0.45 + "px");
+      root.style.setProperty("--brand", this.fullWidth * 0.1 + "px");
+      root.style.setProperty("--brand-left", this.fullWidth * 0.15 + "px");
+      root.style.setProperty("--brand-top", this.fullHeight * 0.37 + "px");
+      //bar setting
+      root.style.setProperty("--bar-top", this.fullHeight * 0.5 + "px");
+      root.style.setProperty("--bar-height", this.fullHeight * 0.005 + "px");
+      root.style.setProperty("--bar-left-right", this.fullWidth * 0.1 + "px");
+      root.style.setProperty("--leftbar", this.fullWidth * 0.35 + "px");
+      root.style.setProperty("--rightbar", this.fullWidth * 0.46 + "px");
+      // move setting
+      root.style.setProperty("--slogan-moveX", this.fullWidth * -0.17 + "px");
+      root.style.setProperty("--slogan-moveY", this.fullHeight * -0.03 + "px");
+      root.style.setProperty("--brand-moveX", this.fullWidth * 0.17 + "px");
+      root.style.setProperty("--brand-moveY", this.fullHeight * 0.05 + "px");
+      // transition setting
+      root.style.setProperty("--slide-down", this.fullHeight * -0.032 + "px");
+      root.style.setProperty("--slide-Up", this.fullHeight * 0.08 + "px");
+      root.style.setProperty("--scaleX", "0.6");
+      root.style.setProperty("--scaleY", "0.5");
+    }
+    //tablet & laptop
+    else {
+      //main picture setting
       root.style.setProperty("--img-width", this.fullWidth * 0.5 + "px");
-    }
-
-    if (this.$vuetify.breakpoint.smAndDown) {
-      root.style.setProperty("--img-left", this.fullWidth * 0.15 + "px");
-    } else {
-      root.style.setProperty("--img-left", this.fullWidth * 0.22 + "px");
-    }
-    if (this.$vuetify.breakpoint.smAndDown) {
-      root.style.setProperty("--img-height", this.fullHeight * 0.35 + "px");
-    } else {
-      root.style.setProperty("--img-height", this.fullHeight * 0.15 + "px");
-    }
-    console.log(imgHeight);
-
-    // word setting
-    root.style.setProperty("--slogan-top", imgHeight);
-    root.style.setProperty("--slogan-right", this.fullWidth * 0.32 + "px");
-    if (this.$vuetify.breakpoint.smAndDown) {
-      root.style.setProperty("--slogan", this.fullHeight * 0.02 + "px");
-    } else {
+      root.style.setProperty("--img-left", this.fullWidth * 0.25 + "px");
+      root.style.setProperty("--img-height", this.fullHeight * 0.1 + "px");
+      // word setting
       root.style.setProperty("--slogan", this.fullHeight * 0.035 + "px");
+      root.style.setProperty("--slogan-top", this.fullHeight * 0.65 + "px");
+      root.style.setProperty("--slogan-left", this.fullWidth * 0.52 + "px");
+      root.style.setProperty("--brand", this.fullHeight * 0.12 + "px");
+      root.style.setProperty("--brand-left", this.fullWidth * 0.27 + "px");
+      root.style.setProperty("--brand-top", this.fullHeight * 0.27 + "px");
+      //bar setting
+      root.style.setProperty("--bar-top", this.fullHeight * 0.58 + "px");
+      root.style.setProperty("--bar-height", this.fullHeight * 0.008 + "px");
+      root.style.setProperty("--bar-left-right", this.fullWidth * 0.27 + "px");
+      root.style.setProperty("--leftbar", this.fullWidth * 0.2 + "px");
+      root.style.setProperty("--rightbar", this.fullWidth * 0.265 + "px");
+      // move setting
+      root.style.setProperty("--slogan-moveX", this.fullWidth * -0.12 + "px");
+      root.style.setProperty("--slogan-moveY", this.fullHeight * -0.03 + "px");
+      root.style.setProperty("--brand-moveX", this.fullWidth * 0.12 + "px");
+      root.style.setProperty("--brand-moveY", this.fullHeight * 0.09 + "px");
+      // transition setting
+      root.style.setProperty("--slide-down", this.fullHeight * -0.13 + "px");
+      root.style.setProperty("--slide-Up", this.fullHeight * 0.13 + "px");
+      root.style.setProperty("--scaleX", "0.6");
+      root.style.setProperty("--scaleY", "0.5");
     }
-
-    // this.widthCenter = this.fullWidth * -0.09;
-    // root.style.setProperty("--slogan-move", this.widthCenter + "px");
   },
   computed: {}
 };
@@ -156,10 +142,6 @@ img {
   top: var(--img-height);
 }
 
-.FH_logo {
-  color: white;
-  font-weight: 400;
-}
 .FH_page {
   margin: auto;
   overflow: hidden;
@@ -169,11 +151,10 @@ img {
 
 .FH_brand {
   font-family: Calibri;
-  left: 30%;
-  font-size: 500%;
-  top: 23%;
+  left: var(--brand-left);
+  font-size: var(--brand);
+  top: var(--brand-top);
 
-  color: #fff294;
   color: #fff294;
   background-color: #ffffff00;
   font-weight: bold;
@@ -182,7 +163,7 @@ img {
 }
 .FH_slogan {
   font-size: var(--slogan);
-  right: var(--slogan-right);
+  left: var(--slogan-left);
   top: var(--slogan-top);
   color: #fff294;
   font-family: Calibri;
@@ -192,70 +173,58 @@ img {
   z-index: 2;
 }
 .brand_des {
-  transform: translateX(10rem) translateY(5rem);
-}
-.brand_des.sm {
-  transform: translateX(55%) translateY(60%);
+  transform: translate(var(--brand-moveX), var(--brand-moveY));
 }
 .slogan_des {
-  transform: translate(var(--slogan-move), 1rem);
-}
-.slogan_des.sm {
-  transform: translateX(-35%, -110%);
+  transform: translate(var(--slogan-moveX), var(--slogan-moveY));
 }
 
 .FH_bar {
   position: absolute;
   background-color: #fff294;
   border-radius: 4px;
-  top: 55%;
+  top: var(--bar-top);
   z-index: 2;
-  height: 6px;
+  height: var(--bar-height);
 }
 .FH_fronter_bar {
-  width: 17.3vw;
-  left: 27.5%;
+  width: var(--leftbar);
+  left: var(--bar-left-right);
 }
 
 .FH_slogan_bar {
-  right: 27.5%;
-  width: 27.9vw;
+  right: var(--bar-left-right);
+  width: var(--rightbar);
 }
 
-.FH_fade-leave-active,
+.FH_fade-leave-active {
+  transition: all 0.7s;
+}
 .slidedown-enter-active,
 .slideup-enter-active,
 .sloganmove-enter-active,
 .brandmove-enter-active {
   transition: all 0.8s;
 }
-.sloganmove-enter-active.sm,
-.brandmove-enter-active.sm {
-  transition: all 0.8s;
-}
-.sloganmove-enter.sm {
-  transform: translateX(0%) translateY(0%);
-}
-.brandmove-enter.sm {
-  transform: translateX(0%) translateY(0%);
-}
+
 .FH_fade-leave-to {
   transform: translateY(-25px);
   opacity: 0;
 }
 .sloganmove-enter {
-  transform: translateX(0%) translateY(0%);
+  transform: translateX(0) translateY(0);
 }
 .brandmove-enter {
-  transform: translateX(0%) translateY(0%);
+  transform: translateX(0) translateY(0);
 }
 
 .slidedown-enter {
-  transform: translateY(-880%);
+  transform: translateY(var(--slide-down));
 }
 .slideup-enter {
   transform-origin: center;
-  transform: translateX(20%) translateY(1520%) scaleY(0.5) scaleX(0.6);
+  transform: translate(var(--slide-Up), var(--slide-Up))
+    scale(var(--scaleX), var(--scaleY));
 }
 
 .slidedown-leave-to,
