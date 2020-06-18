@@ -4,7 +4,7 @@ import Accounting from "../views/Accounting.vue";
 import SideAccount from "../views/SideAccount.vue";
 import Category from "../views/Category.vue";
 import LedgerManagement from "../views/LedgerManagement.vue";
-import Summary from "../views/Summary.vue";
+import Summary from "../views/SummaryManagement.vue";
 import pointManage from "../views/PointManage.vue";
 import pointHistory from "../views/PointHistory.vue";
 import pointDelivery from "../views/PointDelivery.vue";

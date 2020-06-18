@@ -284,10 +284,20 @@ export default {
   inject: ["$alert", "$confirm"],
   data: () => ({
     categoryIcon:["mdi-tag-outline",
-    "mdi-silverware-fork-knife","mdi-silverware-spoon","mdi-food","mdi-noodles","mdi-pasta","mdi-food-croissant","mdi-food-apple","mdi-food-variant","mdi-rice",
-    "mdi-bus","mdi-bus-stop","mdi-bus-side","mdi-train","mdi-airplane","mdi-subway-variant","mdi-car","mdi-car-hatchback","mdi-car-pickup","mdi-gas-station","mdi-bicycle","mdi-motorbike","mdi-moped",
-    "mdi-microphone","mdi-movie-open","mdi-movie-roll","mdi-filmstrip",
-    "mdi-hanger"
+    "mdi-silverware-fork-knife","mdi-silverware-spoon","mdi-food","mdi-noodles","mdi-pasta","mdi-food-croissant","mdi-food-apple","mdi-food-variant","mdi-rice","mdi-coffee","mdi-cookie","mdi-ice-pop","mdi-cake","mdi-hamburger","mdi-buffet","mdi-carrot",
+    "mdi-bus","mdi-bus-stop","mdi-bus-side","mdi-train","mdi-airplane","mdi-subway-variant","mdi-car","mdi-car-hatchback","mdi-car-pickup","mdi-gas-station","mdi-bicycle","mdi-motorbike","mdi-moped","mdi-parking",
+    "mdi-microphone","mdi-movie-open","mdi-movie-roll","mdi-filmstrip","mdi-bed","mdi-book-open-outline","mdi-bottle-wine","mdi-gamepad-variant","mdi-slot-machine","mdi-ferris-wheel","mdi-spa","mdi-theater",
+    "mdi-hanger","mdi-tshirt-crew-outline","mdi-lingerie","mdi-glasses","mdi-hat-fedora","mdi-shoe-formal","mdi-watch","mdi-necklace","mdi-bag-personal-outline",
+    "mdi-shopping-outline","mdi-cart","mdi-store",
+    "mdi-school","mdi-eraser",
+    "mdi-bank-transfer-out","mdi-atm","mdi-cash","mdi-charity","mdi-credit-card","mdi-cash-refund",
+    "mdi-umbrella","mdi-key-variant","mdi-battery","mdi-broom","mdi-dresser","mdi-bottle-tonic",
+    "mdi-cellphone","mdi-desktop-tower-monitor","mdi-floor-lamp","mdi-fridge-outline","mdi-headphones","mdi-laptop-windows","mdi-usb-flash-drive","mdi-speaker","mdi-mouse","mdi-tablet-ipad",
+    "mdi-hair-dryer-outline","mdi-lightbulb","mdi-printer","mdi-camcorder","mdi-camera","mdi-fan",
+    "mdi-desk","mdi-table-chair","mdi-clock-outline",
+    "mdi-swim","mdi-table-tennis","mdi-basketball","mdi-volleyball","mdi-bedmintion","mdi-weight-lifter",
+    "mdi-hospital-box-outline","mdi-doctor","mdi-pill","mdi-hospital-building",
+    "mdi-gift","mdi-paw","mdi-content-cut","mdi-home","mdi-pipe-wrench","mdi-car-settings","mdi-ticket-confirmation-outline","mdi-script-text-outline","mdi-hammer-scredriver","mdi-currency-usd","mdi-cash-multiple"
     ],
     categoryColor:[
       "#D5CCB3","#FED37A","#FFA863","#DF764C","#D04F57","#D04F82","#A24A8E",

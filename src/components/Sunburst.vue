@@ -1,6 +1,6 @@
 <template>
   <v-container fluid row class="graph">
-    <v-flex xs12 sm6 md6 class="chart">
+    <v-flex xs12 sm6 md8 class="chart">
       <!-- Use this slot to add information on top or bottom of the graph-->
       <slot
         class="legend"
@@ -18,8 +18,8 @@
         <slot :on="on" :actions="actions"></slot>
       </div>
     </v-flex>
-    <v-flex xs12 sm6 md6 class="report px-4">
-      <slot name="menu" :nodes="graphNodes"></slot>
+    <v-flex xs12 sm6 md4 class="report px-4">
+      <!-- <slot name="menu" :nodes="graphNodes"></slot> -->
       <slot name="report" :nodes="graphNodes"></slot>
     </v-flex>
   </v-container>

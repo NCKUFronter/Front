@@ -26,7 +26,7 @@
 
       <!-- <v-app-bar transition="slide-y-transition" color="transparent" clipped-left flat app dense>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="login"></v-app-bar-nav-icon>
-      
+
       <h1 class="logo d-flex align-center">
         <img src="./assets/Fronter.png" class="mt-2"/>
         <div v-if="login">星，際帳</div>
@@ -172,7 +172,7 @@
       </v-app-bar>-->
       <v-container id="scroll-target" class="all pa-0" fluid v-if="!login">
         <!-- class="overflow-y-auto" -->
-        <!-- <div 
+        <!-- <div
         v-scroll:#scroll-target="onScroll"
         align="center"
         class="all"
@@ -391,20 +391,23 @@
       </div>
       <!-- <div class="account-edit"  v-if="modalOpen">
         <EditRecord
-            @close="modalOpen = false" 
+            @close="modalOpen = false"
         ></EditRecord>
       </div>-->
     </v-content>
 
     <!-- for mobile -->
     <v-content style="max-width:100vw" v-else>
-      <v-container
-        id="scroll-target"
-        class="pa-0"
-        fluid
-        v-if="!login"
-        style="height:200vh;overflow:hidden"
+
+      <v-container id="scroll-target" class="pa-0" fluid v-if="!login" style="height:100vh;overflow-y:hidden;overflow-x:auto;"
+
       >
+        <!-- v-touch="{
+          left: () => getYearMonthDate(1),
+          right: () => getYearMonthDate(-1),
+        }" -->
+        <v-layout class="scroll" style="height:100vh;width:400vw;overflow-y:hidden;overflow-x:auto;background-color:#26282D;position:relative"        >
+        
         <!-- mobile-page1 -->
         <v-layout style="height:100vh;overflow: hidden;background-color:#26282D;position:relative">
           <img src="./assets/mobile-home/account_rocket.png" height="100%" />
@@ -420,7 +423,6 @@
           </div>
         </v-layout>
 
-        <!-- <v-layout class="scroll" style="height:100vh;width:300vw;overflow-y:hidden;overflow-x:auto;background-color:#26282D;position:relative"> -->
         <!-- mobile-page2 -->
         <v-layout
           style="height:100vh;width:100vw;overflow:hidden;background-color:#26282D;position:relative"
@@ -470,7 +472,7 @@
             >開啟你的星際探險</button>
           </div>
         </v-layout>
-        <!-- </v-layout> -->
+        </v-layout>
       </v-container>
 
       <div v-else>
