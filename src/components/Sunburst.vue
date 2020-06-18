@@ -1,6 +1,8 @@
 <template>
-  <v-container fluid row class="graph">
-    <v-flex xs12 sm6 md8 class="chart">
+  <v-container fluid row class="graph" style="overflow:auto">
+    <v-flex xs0 sm2 md2></v-flex>
+    <v-flex xs12 sm6 md6 class="chart" >
+      <!-- <v-card style="height:100%"> -->
       <!-- Use this slot to add information on top or bottom of the graph-->
       <slot
         class="legend"
@@ -10,15 +12,17 @@
         :nodes="graphNodes"
         :actions="actions"
       ></slot>
-      <div class="viewport" v-resize.throttle.250="resize">
+      <div class="viewport" v-resize.throttle.250="resize" style="height:75%;">
+        <div style="height:100%;position:absolute;"></div>
         <!-- Use this slot to add information on top of the graph -->
         <!-- <slot class="top" name="top" :colorGetter="colorGetter" :nodes="graphNodes" :actions="actions">
         </slot>-->
         <!-- Use this slot to add behaviors to the sunburst -->
         <slot :on="on" :actions="actions"></slot>
       </div>
+      <!-- </v-card> -->
     </v-flex>
-    <v-flex xs12 sm6 md4 class="report px-4">
+    <v-flex xs12 sm4 md3 class="report px-4">
       <!-- <slot name="menu" :nodes="graphNodes"></slot> -->
       <slot name="report" :nodes="graphNodes"></slot>
     </v-flex>
@@ -108,7 +112,7 @@ export default Vue.extend(sunburst).extend({
 
 .viewport {
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
   /* flex: 1 1 auto; */
   /* border: red 2px solid; */
 }

@@ -166,7 +166,8 @@ export default {
         {
           text: "標籤",
           align: "center",
-          value: "hashtags"
+          value: "hashtags",
+          sortable: false
         },
         {
           text: "金額",

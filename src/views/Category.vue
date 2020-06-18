@@ -158,7 +158,7 @@
       </v-layout>
     </v-dialog>
 
-    <v-dialog v-else v-model="newModal" width="100vw">
+    <v-dialog v-else v-model="newModal" width="100vw" >
       <v-layout row class="pa-0 ma-0" style="background-color:#3D404E">
       <!-- 預覽 -->
       <v-flex xs12 sm4 md4 class="my-auto" >

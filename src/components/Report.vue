@@ -1,28 +1,28 @@
 <template>
   <!--v-container fluid class="tree"-->
-  <v-card flat class="parent" v-if="current" color="#26282d">
-    <v-card flat color="#26282d">
-      <v-card-title style="justify-content:flex-end">{{current.data.name}}</v-card-title>
+  <v-card flat class="parent pa-8" v-if="current" color="#26282d">
+    <v-card flat color="#26282d"  >
+      <v-card-title class="pa-2 ml-auto" style="justify-content:flex-end;">{{current.data.name}}</v-card-title>
       <!--v-card-title class="justify-center">總覽</v-card-title-->
-      <v-simple-table class="total" dense>
+      <v-simple-table class="total ml-auto" dense style="width:fit-content">
         <template v-slot:default>
           <!-- <v-divider class="justify-center"></v-divider> -->
           <!-- 點數或不是最後一層的就顯示children -->
           <tbody v-if="current.children && current.children.length">
-            <tr v-for="child in current.children" :key="child.data.name">
-              <td class="text-right">{{ child.data.name }}</td>
-              <td class="text-right">{{ child.value }}</td>
+            <tr v-for="child in current.children" :key="child.data.name" style="height:fit-content">
+              <td class="text-right pa-2"><v-avatar size="10px" class="mx-5" :color="rgba(child.data.color)"></v-avatar>{{ child.data.name }}</td>
+              <td class="text-right pa-2">{{ child.value }}</td>
             </tr>
-            <tr>
-              <td class="text-right">總和</td>
-              <td class="text-right">{{current.value}}</td>
+            <tr style="height:fit-content">
+              <td class="text-right pa-2">總和</td>
+              <td class="text-right pa-2">{{current.value}}</td>
             </tr>
           </tbody>
           <!-- 不是點數且最後一層的hashtags資訊 -->
           <tbody v-else-if="current.hashtags && current.hashtags.length">
-            <tr v-for="taginfo of current.hashtags" :key="taginfo.name">
-              <td class="text-right">{{ taginfo.tag }}</td>
-              <td class="text-right">{{ taginfo.count }}</td>
+            <tr v-for="taginfo of current.hashtags" :key="taginfo.name" style="height:fit-content">
+              <td class="text-right pa-2">{{ taginfo.tag }}</td>
+              <td class="text-right pa-2">{{ taginfo.count }}</td>
             </tr>
           </tbody>
           <tbody v-else>
@@ -69,6 +69,13 @@ export default {
     current() {
       return this.nodes.clicked ? this.nodes.clicked : this.nodes.root;
     }
+  },
+  methods:{
+    rgba(obj) {
+      console.log(obj)
+      return `rgba(${obj.r},${obj.g},${obj.b},${obj.a})`;
+    }
+
   }
 };
 </script>
@@ -79,7 +86,7 @@ export default {
 }
 
 .parent {
-  padding: 2% 5%;
+  /* padding: 2% 5%; */
 }
 .parent
 .theme--dark.v-data-table tbody tr:not(:last-child) td:not(.v-data-table__mobile-row){

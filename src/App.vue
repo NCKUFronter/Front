@@ -2,11 +2,74 @@
   <v-app>
     <v-app-bar
       transition="slide-y-transition"
+      color="#ffffff00"
+      flat
+      clipped
+      fixed
+      class="pa-2"
+      v-if="!login"
+      style="z-index:8"
+    >
+    <h1>AeroA</h1>
+    <v-spacer/>
+    <v-menu offset-y v-if="clear.animeOver">
+      <template v-slot:activator="{ on }">
+        <v-btn width="fit-content" height="fit-content" v-on="on" color="transparent" class="elevation-0" style="font-size:20px;font-weight:bold">
+          星際帳
+        </v-btn>
+      </template>
+      <v-card flat class="pa-2">
+          <v-card-title class="justify-center">尚未登入</v-card-title>
+          <v-btn outlined block v-on:click="toLogin">
+            <v-icon small>mdi-google</v-icon>登入
+          </v-btn>
+          <v-btn outlined block v-on:click="doLogin('father@gmail.com')">
+            <v-icon>mdi-login-variant</v-icon>爸爸登入
+          </v-btn>
+          <v-btn outlined block v-on:click="doLogin('mother@gmail.com')">
+            <v-icon>mdi-login-variant</v-icon>媽媽登入
+          </v-btn>
+          <v-btn outlined block v-on:click="doLogin('child@gmail.com')">
+            <v-icon>mdi-login-variant</v-icon>小孩登入
+          </v-btn>
+      </v-card>
+    </v-menu>
+    <v-menu offset-y v-if="clear.animeOver">
+      <template v-slot:activator="{ on }">
+        <v-btn width="fit-content" height="fit-content" v-on="on" color="transparent" class="elevation-0" style="font-size:20px;font-weight:bold">
+          宇宙戰艦
+        </v-btn>
+      </template>
+      <v-card flat class="pa-2">
+          <v-card-title class="justify-center">尚未登入</v-card-title>
+          <v-btn outlined block v-on:click="toLogin">
+            <v-icon small>mdi-google</v-icon>登入
+          </v-btn>
+          <v-btn outlined block v-on:click="doLogin('father@gmail.com')">
+            <v-icon>mdi-login-variant</v-icon>爸爸登入
+          </v-btn>
+          <v-btn outlined block v-on:click="doLogin('mother@gmail.com')">
+            <v-icon>mdi-login-variant</v-icon>媽媽登入
+          </v-btn>
+          <v-btn outlined block v-on:click="doLogin('child@gmail.com')">
+            <v-icon>mdi-login-variant</v-icon>小孩登入
+          </v-btn>
+      </v-card>
+    </v-menu>
+
+    <v-btn width="fit-content" height="fit-content" color="transparent" class="elevation-0" style="font-size:20px;font-weight:bold">關於我們</v-btn>
+    <v-btn width="fit-content" height="fit-content" color="transparent" class="elevation-0" style="font-size:20px;font-weight:bold">聯絡我們</v-btn>
+
+
+    </v-app-bar>
+    <v-app-bar
+      transition="slide-y-transition"
       :color="(login && this.$route.name != 'FronterHomeName') ? '#26282d' : '#ffffff00'"
       flat
       clipped
       fixed
       class="pa-2"
+      v-else
     >
       <!-- <v-layout row style="height:100%"> -->
       <!-- <v-flex xs1 sm1 md1 v-if="clear.animeOver && $vuetify.breakpoint.smAndDown"> -->
@@ -131,7 +194,7 @@
             :key="'menu_' + index"
             :class="{ 'menu-item': true, disabled: !item.link }"
             class="pl-0"
-            @click="$router.push(item.link) && setRecordModal(false)"
+            @click="(item.title=='帳目'?($router.push(item.link) && setRecordModal(false)):$router.push(item.link))"
           >
             <!-- v-model="item.active" -->
             <template v-slot:activator>
@@ -146,6 +209,7 @@
               :class="{ 'menu-item': true, disabled: !child.link }"
               class="pl-10"
               :to="child.link"
+              @click="(child.title=='帳目一覽'?setRecordModal(false):null)"
               active-class="active"
             >
               <v-list-item-title class="pl-8">{{ child.title }}</v-list-item-title>
@@ -166,11 +230,11 @@
     </v-navigation-drawer>
 
     <!-- for computer and tablet -->
-    <v-content style="max-width:100vw" v-if="$vuetify.breakpoint.smAndUp">
+    <v-content style="max-width:100vw;" v-if="$vuetify.breakpoint.smAndUp">
       <!-- id="scroll-target" class="overflow-y-auto"  -->
       <!-- <v-app-bar class="mx-auto overflow-hidden" color="#efca16" elevate-on-scroll clipped-left app>
       </v-app-bar>-->
-      <v-container id="scroll-target" class="all pa-0" fluid v-if="!login">
+      <v-container id="scroll-target" class="all pa-0" fluid v-if="!login" style="margin-top:50px">
         <!-- class="overflow-y-auto" -->
         <!-- <div
         v-scroll:#scroll-target="onScroll"
@@ -206,9 +270,9 @@
             <img
               v-if="parents"
               src="./assets/home/p1/parents.svg"
-              height="70%"
+              height="65%"
               class="parents"
-              v-rellax="{ speed: -4.5 }"
+              v-rellax="{ speed: -6 }"
             />
           </transition>
         </v-layout>
@@ -221,22 +285,22 @@
             <div v-if="cardShow" class="feature-block">
               <div class="home-card pos1">
                 <img src="./assets/home/p2/feature_block_1.svg" height="100%" />
-                <img src="./assets/home/p2/block1.svg" height="30%" class="p2Icon" />
+                <img src="./assets/home/p2/1.svg" height="30%" class="p2Icon" />
                 <v-card-text class="p2t2">社群記帳功能，讓父母與小孩共同記下生活中的每樣精采事物。</v-card-text>
               </div>
               <div class="home-card pos2">
                 <img src="./assets/home/p2/feature_block_2.svg" height="100%" />
-                <img src="./assets/home/p2/block2.svg" height="30%" class="p2Icon" />
+                <img src="./assets/home/p2/2.svg" height="30%" class="p2Icon" />
                 <v-card-text class="p2t2">藉由交易紀錄，讓孩子學習審視自己的金錢流，培養金錢進與出的觀念。</v-card-text>
               </div>
               <div class="home-card pos1">
                 <img src="./assets/home/p2/feature_block_1.svg" height="100%" />
-                <img src="./assets/home/p2/block4.svg" height="30%" class="p2Icon" />
+                <img src="./assets/home/p2/3.svg" height="30%" class="p2Icon" />
                 <v-card-text class="p2t2">在遊戲中使用回饋點數，讓孩子更加參與其中。</v-card-text>
               </div>
               <div class="home-card pos2">
                 <img src="./assets/home/p2/feature_block_2.svg" height="100%" />
-                <img src="./assets/home/p2/block3.svg" height="30%" class="p2Icon" />
+                <img src="./assets/home/p2/4.svg" height="30%" class="p2Icon" />
                 <v-card-text class="p2t2">綁定永豐銀行信用卡，自動登入每筆消費金額，記帳輕鬆無負擔。</v-card-text>
               </div>
             </div>
@@ -880,7 +944,7 @@ html {
 .parents {
   position: absolute;
   z-index: 4;
-  top: 70%;
+  top: 65%;
   left: 12%;
 }
 .planet {

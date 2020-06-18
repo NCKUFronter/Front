@@ -146,9 +146,10 @@
                 </v-combobox>
 
                 <div class="modal-button row justify-center">
-                    <v-btn v-if="oldForm == null" @click="addRecord" class="add" color="#72aa8b">新增</v-btn>
-                    <v-btn v-else @click="editRecord" class="add" color="#72aa8b">修改</v-btn>
-                    <v-btn @click="onModalClose" class="cancel" color="#dddee2">取消</v-btn>
+                    <v-btn v-if="oldForm == null" @click="addRecord" class="add" color="#509883" :style="($vuetify.breakpoint.xsOnly && this.oldForm!=null)?'margin: 0 3%;width:20%':'margin: 0 9%;width:30%'">新增</v-btn>
+                    <v-btn v-else @click="editRecord" class="add" color="#509883" :style="($vuetify.breakpoint.xsOnly && this.oldForm!=null)?'margin: 0 3%;width:20%':'margin: 0 9%;width:30%'">修改</v-btn>
+                    <v-btn v-if="$vuetify.breakpoint.xsOnly && oldForm!=null" @click="deleteItem(oldForm)" class="delete" color="#72aa8b" style="margin: 0 3%;width:20%">刪除</v-btn>
+                    <v-btn @click="onModalClose" class="cancel" color="#dddee2" :style="($vuetify.breakpoint.xsOnly && this.oldForm!=null)?'margin: 0 3%;width:20%':'margin: 0 9%;width:30%'">取消</v-btn>
                 </div>
                 
             </v-flex>              
@@ -184,7 +185,7 @@ let data = {
 
 export default {
   name: "EditRecord",
-  inject: ["$alert"],
+  inject: ["$alert", "$confirm"],
   props: {
     userDate: {
       type: String,
@@ -287,6 +288,23 @@ export default {
     }
   },
   methods: {
+      deleteItem(item) {
+      this.$emit("delete", item);
+      this.$confirm.open("確認刪除此帳目?", () => {
+        this.$api
+          .deleteRecord(item._id)
+          .then(() => {
+            this.$alert.success("帳目刪除成功");
+            this.$emit("delete", item);
+            this.onModalClose();
+          })
+          .catch(ignoreNotLoginError)
+          .catch(err => {
+            this.$alert.success("帳目刪除失敗");
+            console.log(err);
+          });
+      });
+    },
     categorySelect(item){
       // console.log(item)
       this.form.categoryId=item._id;
@@ -564,13 +582,12 @@ export default {
 
 /* modal-button */
 .add,
+.delete,
 .cancel {
-  margin: 0 9%;
   font-size: 15px;
   font: bold;
   text-decoration: none;
   border-style: none;
-  width: 30%;
   border-radius: 10px;
   &:hover {
     opacity: 70%;

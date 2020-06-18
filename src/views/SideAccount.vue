@@ -29,13 +29,12 @@
             active-class="active"
             class="pl-10 pt-2"
           >
-            <div style="position:relative;">
-              <v-avatar size="36">
-                <img :src="item.photo" />
+
+              <v-avatar size="36" style="border:solid #FED37A 1.5px">
+                <img :src="item.photo" style="height:28px;width:28px;border-radius:28px;"/>
               </v-avatar>
-              <!--display when online -->
-              <div style="background-color:#FED37A;height:10px;width:10px;border-radius:10px;position:absolute;top:0;right:-1px;z-index:5px"></div>
-            </div>
+              
+            <!-- </div> -->
             <v-list-item-title class="ml-4" v-text="item.name" style="font-weight:bold;"></v-list-item-title>
           </v-list-item>
         </v-list>
@@ -355,6 +354,7 @@
         @close="setRecordModal(false)"
         @add="fetchRecords"
         @update="fetchRecords"
+        @delete="fetchRecords"
         :userDate="userDate"
         :oldForm="this.GLOBAL.selectedRecord"
         :ledgerSelected="ledgerSelected"

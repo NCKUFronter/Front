@@ -13,21 +13,8 @@
         <v-img v-else-if="ledger.photo.substring(0,5)=='https'" :src="ledger.photo" sizes="50%" height="180px"></v-img>
         <v-img v-else :src="baseURL+ledger.photo" sizes="50%" height="180px" ></v-img>
         <v-card-title style="position:absolute;left:0;bottom:0;font-size:18px" class="pa-0 ma-0 ml-3"> {{ledger.ledgerName}}</v-card-title>
-        <!-- <v-card-actions class="pa-0 ma-0" style="position:absolute;right:5px;bottom:0;">
-          <v-spacer />
-          <v-btn class="pa-1 mb-1 ma-0 elevation-0" v-on:click="invite(ledger)"
-          style="background-color:transparent;height:fit-content;width:fit-content;border-radius:0;"
-          >
-            <v-icon small>mdi-account-multiple-plus</v-icon>
-          </v-btn>
-          <v-btn class="pa-1 mb-1 ma-0 elevation-0" v-on:click="out(ledger)"
-          style="background-color:transparent;height:fit-content;width:fit-content;border-radius:0;"
-          >
-            <v-icon small>mdi-account-multiple-minus</v-icon>
-          </v-btn>
-        </v-card-actions> -->
       </v-card>
-      <div  style="background-color:#0c193f">
+      <div  style="background-color:#0c193f;position:relative">
         <v-card-text class="pa-0 ma-0 ml-3 pt-1" style="font-size:12px">帳本人數: {{ledger.users.length}}</v-card-text>
         <v-flex class="px-4 pb-2">
           <!-- if ledger.users.length<=6 -->
@@ -46,6 +33,18 @@
           <v-avatar size="22" class="ma-1" style="background-color:#32343e;position: absolute;left:5px"></v-avatar>
           <v-avatar size="22" class="ma-1" style="background-color:#3d404e;;position: absolute;font-size:0.5em">+{{ledger.users.length-4}}</v-avatar>
           </div>
+          <v-card-actions class="pa-0 ma-0" style="position:absolute;right:5px;bottom:10px;">
+          <v-spacer />
+          <v-btn class="pa-1 mb-1 ma-0 elevation-0" v-on:click="invite(ledger)"
+          style="background-color:transparent;height:fit-content;width:fit-content;border-radius:0;">
+            <v-icon>mdi-dots-vertical</v-icon>
+          </v-btn>
+          <!-- <v-btn class="pa-1 mb-1 ma-0 elevation-0" v-on:click="out(ledger)"
+          style="background-color:transparent;height:fit-content;width:fit-content;border-radius:0;"
+          >
+            <v-icon small>mdi-account-multiple-minus</v-icon>
+          </v-btn> -->
+        </v-card-actions>
         </v-flex>
         <!-- if ledger.users.length>6 -->
       </div>
