@@ -50,19 +50,6 @@ export default {
     return data;
   },
   components: {},
-  created() {
-    var self = this;
-    setTimeout(function() {
-      self.vanish = !self.vanish;
-      self.show = !self.show;
-    }, 1000);
-    setTimeout(function() {
-      self.show = !self.show;
-    }, 2000);
-    setTimeout(function() {
-      self.$router.push("/accounting");
-    }, 2500);
-  },
 
   mounted: function() {
     var self = this;
