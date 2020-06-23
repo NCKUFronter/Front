@@ -1,41 +1,98 @@
 <template>
-  <v-card flat style="padding: 8% 5% 0% 2%;background-color:#26282d">
-    <v-row class="pointSearch">
-      <v-flex xs6 sm2 md2 offset-6>
-        <v-select v-model="typeSelected" :items="type" label="Type" class="selector" dense></v-select>
-      </v-flex>
-      <v-spacer></v-spacer>
-      <v-flex xs6 sm4 md4>
-        <v-text-field
-          v-model="search"
-          append-icon="mdi-magnify"
-          label="Search"
-          single-line
-          hide-details
-          no-results-text
-          class="search"
-        ></v-text-field>
-      </v-flex>
-    </v-row>
-    <v-skeleton-loader v-if="loading"></v-skeleton-loader>
-    <v-data-table
-      :items-per-page="10"
-      :headers="headers"
-      :items="filterHistory"
-      :search="search"
-      no-data-text="無點數紀錄"
-      sort-by="time"
-      sort-desc
-      class="pointHistory"
-      v-else
+  <v-container>
+    <!-- laptop -->
+    <v-card
+      v-if="$vuetify.breakpoint.smAndUp"
+      flat
+      style="padding: 90px 10px 10px 10px;background-color:#26282d"
     >
-      <template v-slot:item.activity="{item}" style="overflow:hidden;">
-        <v-icon class="ma-4">{{typeIcon(item)}}</v-icon>
-        {{ pointDescription(item) }}
-      </template>
-      <template v-slot:item.time="{item}" style="overflow:hidden;">{{ item.time | getLocaleDate }}</template>
-    </v-data-table>
-  </v-card>
+      <v-row class="pointSearch" style>
+        <v-spacer></v-spacer>
+        <v-col xs6 sm2 md2 offset-6>
+          <v-select v-model="typeSelected" :items="type" label="Type" class="selector" dense></v-select>
+        </v-col>
+        <v-col xs6 sm4 md4>
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search"
+            single-line
+            hide-details
+            no-results-text
+            class="search"
+          ></v-text-field>
+        </v-col>
+      </v-row>
+
+      <v-card flat style="height:70vh;background-color:#ffffff00;" class="scroll">
+        <v-skeleton-loader v-if="loading"></v-skeleton-loader>
+        <v-data-table
+          :items-per-page="10"
+          :headers="headers"
+          :items="filterHistory"
+          :search="search"
+          no-data-text="無點數紀錄"
+          sort-by="time"
+          sort-desc
+          class="pointHistory"
+          v-else
+        >
+          <template v-slot:item.activity="{item}" style="overflow:hidden;">
+            <v-icon class="ma-4">{{typeIcon(item)}}</v-icon>
+            {{ pointDescription(item) }}
+          </template>
+          <template
+            v-slot:item.time="{item}"
+            style="overflow:hidden;"
+          >{{ item.time | getLocaleDate }}</template>
+        </v-data-table>
+      </v-card>
+    </v-card>
+    <!-- mobile -->
+    <v-card v-else flat style="padding: 70px 10px 10px 10px;background-color:#26282d">
+      <v-row class="pointSearch" style>
+        <v-spacer></v-spacer>
+        <v-col xs6 sm2 md2 offset-6>
+          <v-select v-model="typeSelected" :items="type" label="Type" class="selector" dense></v-select>
+        </v-col>
+        <v-col xs6 sm4 md4>
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search"
+            single-line
+            hide-details
+            no-results-text
+            class="search"
+          ></v-text-field>
+        </v-col>
+      </v-row>
+
+      <v-card flat style="height:70vh;background-color:#ffffff00;" class="scroll">
+        <v-skeleton-loader v-if="loading"></v-skeleton-loader>
+        <v-data-table
+          :items-per-page="10"
+          :headers="headers"
+          :items="filterHistory"
+          :search="search"
+          no-data-text="無點數紀錄"
+          sort-by="time"
+          sort-desc
+          class="pointHistory mobilePointHistory"
+          v-else
+        >
+          <template v-slot:item.activity="{item}" style="overflow:hidden;">
+            <v-icon class="ma-4">{{typeIcon(item)}}</v-icon>
+            {{ pointDescription(item) }}
+          </template>
+          <template
+            v-slot:item.time="{item}"
+            style="overflow:hidden;"
+          >{{ item.time | getLocaleDate }}</template>
+        </v-data-table>
+      </v-card>
+    </v-card>
+  </v-container>
 </template>
 
 <script>
@@ -137,5 +194,8 @@ export default {
 }
 .pointHistory.v-data-table th:nth-child(3) {
   border-top-right-radius: 5px;
+}
+.mobilePointHistory.v-application--is-ltr .v-data-footer__pagination {
+  margin: 0 10px 0 10px;
 }
 </style>

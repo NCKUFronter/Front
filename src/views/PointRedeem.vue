@@ -1,7 +1,12 @@
 <template>
-  <v-container fluid style="padding: 8% 5% 0% 2%;">
+  <v-container
+    fluid
+    style="padding: 120px 0px 10px 50px;position:fixed; max-width:1250px;"
+    v-if="$vuetify.breakpoint.mdAndUp"
+  >
     <!-- v-if="!cartModal" -->
-    <v-row xs6 sm2 md2 lg2 v-if="!cartModal" class="sub-header d-flex">
+    <!-- laptop title-->
+    <v-row xs6 sm2 md2 lg2 v-if="!cartModal " class="sub-header d-flex">
       <v-flex>
         <v-card-title class="offset-8">
           <v-icon size="30">mdi-alpha-p-circle-outline</v-icon>
@@ -26,10 +31,10 @@
       </v-flex>
     </v-row>
 
-    <!-- cart -->
-    <v-flex xs12 sm12 md12 v-if="cartModal">
+    <!-- laptop cart -->
+    <v-flex xs12 sm12 md12 v-if="cartModal && $vuetify.breakpoint.mdAndUp">
       <div class="sub-header">
-        <v-card flat>
+        <v-card flat style="background-color: #ffffff00;">
           <v-card-actions class="icon">
             <v-btn icon class="back">
               <v-icon @click="cartModal=!cartModal" large>mdi-arrow-left-circle</v-icon>
@@ -43,61 +48,168 @@
           </v-card-actions>
         </v-card>
       </div>
-
-      <v-data-table
-        v-model="selected"
-        :headers="headers"
-        :items="redeemGoods"
-        :single-select="false"
-        item-key="_id"
-        show-select
-        class="elevation-1 col-12"
-        hide-default-footer
-      >
-        <template v-slot:item.name="{ item }">
-          <v-img :src="item.photo" class="cartImg"></v-img>
-          <div class="cartContent">
-            <v-card-title class="cartT">{{item.name}}</v-card-title>
-            <v-card-text class="cartT" style="font-size: 12px;">{{item.intro}}</v-card-text>
-          </div>
-        </template>
-        <template v-slot:item.point="{ item }">{{(item.point*item.quantity)}}</template>
-        <template v-slot:item.quantity="{ item }">
-          <v-icon v-on:click="modifyQuantity(item,-1)" class="cartquant">mdi-menu-left</v-icon>
-          <h4 class="cartQuant">{{ item.quantity }}</h4>
-          <v-icon v-on:click="modifyQuantity(item,1)" class="cartQuant">mdi-menu-right</v-icon>
-        </template>
-      </v-data-table>
+      <v-card flat class="scroll" style="height:70vh;background-color:#ffffff00;">
+        <v-data-table
+          v-model="selected"
+          :headers="headers"
+          :items="redeemGoods"
+          :single-select="false"
+          item-key="_id"
+          show-select
+          class="elevation-1 col-12"
+          hide-default-footer
+        >
+          <template v-slot:item.name="{ item }">
+            <v-img :src="item.photo" class="cartImg mt-3"></v-img>
+            <div class="cartContent">
+              <v-card-title class="cartT">{{item.name}}</v-card-title>
+              <v-card-text class="cartT" style="font-size: 12px;">{{item.intro}}</v-card-text>
+            </div>
+          </template>
+          <template v-slot:item.point="{ item }">{{(item.point*item.quantity)}}</template>
+          <template v-slot:item.quantity="{ item }">
+            <v-icon v-on:click="modifyQuantity(item,-1)" class="cartquant">mdi-menu-left</v-icon>
+            <h4 class="cartQuant">{{ item.quantity }}</h4>
+            <v-icon v-on:click="modifyQuantity(item,1)" class="cartQuant">mdi-menu-right</v-icon>
+          </template>
+        </v-data-table>
+      </v-card>
     </v-flex>
 
     <!-- goods -->
-    <v-row v-if="loading">
-      <v-flex xs6 sm4 md3 v-for="item in 8" :key="item" class="item">
-        <v-skeleton-loader type="card" :loading="loading"></v-skeleton-loader>
+    <v-card flat style="height:70vh;background-color:#ffffff00;" class="scroll">
+      <v-row v-if="loading">
+        <v-flex xs6 sm4 md3 v-for="item in 8" :key="item" class="item">
+          <v-skeleton-loader type="card" :loading="loading"></v-skeleton-loader>
+        </v-flex>
+      </v-row>
+      <v-row v-if="!loading && !cartModal">
+        <v-flex xs6 sm4 md2 v-for="item in filterPropType" :key="item.name" class="item">
+          <v-card flat class="py-2 px-2">
+            <v-img :src="item.photo" class="img"></v-img>
+
+            <v-card-title class="pb-0">{{item.name}}</v-card-title>
+            <v-card-text class="pb-0" style="font-size: 12px;">{{item.intro}}</v-card-text>
+            <v-icon class="pb-1">mdi-alpha-p-circle-outline</v-icon>
+            <v-card-subtitle class="pb-1">{{item.point}}</v-card-subtitle>
+            <v-card-actions class="icon mb-0" style="float:right;padding:0 0 0 0;">
+              <!-- <v-btn icon v-on:click="addLike(item)">
+                            <v-icon @click="heart++">mdi-heart</v-icon>
+              </v-btn>-->
+
+              <v-btn icon v-on:click="addCart(item)">
+                <v-icon size="20">mdi-cart-arrow-down</v-icon>
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-flex>
+      </v-row>
+    </v-card>
+  </v-container>
+  <v-container fluid style="padding: 55px 5px 10px 50px;position:fixed;max-width:350px;" v-else>
+    <!-- mobile title-->
+    <v-row
+      xs6
+      sm2
+      md2
+      lg2
+      v-if="!cartModal && $vuetify.breakpoint.smAndDown"
+      class="sub-header d-flex"
+    >
+      <v-flex>
+        <v-card-title class="mt-6 pa-0">
+          <v-icon size="25">mdi-alpha-p-circle-outline</v-icon>
+          {{totalPoint}}
+        </v-card-title>
+      </v-flex>
+      <v-flex xs4 sm2 md2 lg2>
+        <v-badge :content="cart" :value="cart" class="mt-6">
+          <v-icon v-on:click="lookCart()" color="#cccccc" size="25">mdi-cart-arrow-right</v-icon>
+        </v-badge>
+      </v-flex>
+      <v-flex xs4 sm2 md2 lg2 class="mt-4 d-flex align-center">
+        <v-select
+          v-model="propTypeSelected"
+          :items="goods"
+          item-text="name"
+          item-value="name"
+          label="name"
+          class="selector"
+          dense
+        ></v-select>
       </v-flex>
     </v-row>
-    <v-row v-if="!loading && !cartModal">
-      <v-flex xs6 sm4 md2 v-for="item in filterPropType" :key="item.name" class="item">
-        <v-card flat class="py-2">
-          <v-img :src="item.photo" class="img"></v-img>
+    <!-- mobile cart -->
 
-          <v-card-title class="pb-0">{{item.name}}</v-card-title>
-          <v-card-text class="pb-0" style="font-size: 12px;">{{item.intro}}</v-card-text>
-          <v-icon class="pb-1">mdi-alpha-p-circle-outline</v-icon>
-          <v-card-subtitle class="pb-1">{{item.point}}</v-card-subtitle>
+    <v-flex xs12 sm12 v-if="cartModal && $vuetify.breakpoint.smAndDown">
+      <div class="sub-header">
+        <v-card flat style="background-color: #ffffff00;">
           <v-card-actions class="icon">
-            <v-spacer></v-spacer>
-            <!-- <v-btn icon v-on:click="addLike(item)">
-                            <v-icon @click="heart++">mdi-heart</v-icon>
-            </v-btn>-->
-
-            <v-btn icon v-on:click="addCart(item)">
-              <v-icon>mdi-cart-arrow-down</v-icon>
+            <v-btn icon class="back mt-3">
+              <v-icon size="25" @click="cartModal=!cartModal">mdi-arrow-left-circle</v-icon>
             </v-btn>
+            <v-icon size="25" class="mt-3">mdi-alpha-p-circle-outline</v-icon>
+            <v-card-title class="pa-0 mt-3" style="font-size:15px;">{{totalPoint}}</v-card-title>
+            <v-spacer />
+            <v-card-title class="pa-0 mt-3" style="font-size:15px;">總額 {{sumcart}}</v-card-title>
+            <v-spacer />
+            <v-btn v-on:click="buy()" class="pa-0 mt-3" color="#6d6b6b" style="font-size:12px;">確認購買</v-btn>
           </v-card-actions>
         </v-card>
-      </v-flex>
-    </v-row>
+      </div>
+
+      <v-card flat class="scroll" style=" height:83vh;background-color: #ffffff00;">
+        <v-data-table
+          v-model="selected"
+          :headers="headers"
+          :items="redeemGoods"
+          :single-select="false"
+          item-key="_id"
+          show-select
+          class="elevation-1 col-12 redeemCart"
+          hide-default-footer
+        >
+          <template v-slot:item.name="{ item }">
+            <v-img :src="item.photo" class="cartImg mt-3"></v-img>
+            <div class="cartContent">
+              <v-card-title class="cartT">{{item.name}}</v-card-title>
+              <v-card-text class="cartT" style="font-size: 12px;">{{item.intro}}</v-card-text>
+            </div>
+          </template>
+          <template v-slot:item.point="{ item }">{{(item.point*item.quantity)}}</template>
+          <template v-slot:item.quantity="{ item }">
+            <v-icon v-on:click="modifyQuantity(item,-1)" class="cartquant">mdi-menu-left</v-icon>
+            <h4 class="cartQuant">{{ item.quantity }}</h4>
+            <v-icon v-on:click="modifyQuantity(item,1)" class="cartQuant">mdi-menu-right</v-icon>
+          </template>
+        </v-data-table>
+      </v-card>
+    </v-flex>
+    <!-- goods -->
+    <v-card flat style="height:83vh;background-color:#ffffff00;" class="scroll">
+      <v-row v-if="loading">
+        <v-flex xs6 sm4 md3 v-for="item in 8" :key="item" class="item">
+          <v-skeleton-loader type="card" :loading="loading"></v-skeleton-loader>
+        </v-flex>
+      </v-row>
+      <v-row v-if="!loading && !cartModal">
+        <v-flex xs6 sm4 md2 v-for="item in filterPropType" :key="item.name" class="item">
+          <v-card flat class="py-2 px-2">
+            <v-img :src="item.photo" class="img"></v-img>
+
+            <v-card-title class="pb-0">{{item.name}}</v-card-title>
+            <v-card-text class="pb-0" style="font-size: 12px;">{{item.intro}}</v-card-text>
+            <v-icon class="pb-1">mdi-alpha-p-circle-outline</v-icon>
+            <v-card-subtitle class="pb-1">{{item.point}}</v-card-subtitle>
+            <v-card-actions class="pa-0 mb-0" style="float:right;">
+              <v-btn icon v-on:click="addCart(item)">
+                <v-icon size="20">mdi-cart-arrow-down</v-icon>
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-flex>
+      </v-row>
+    </v-card>
   </v-container>
 </template>
 
@@ -242,7 +354,7 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style>
 .item {
   padding: 5px;
 }
@@ -315,5 +427,31 @@ export default {
 }
 .back :hover {
   color: #6d6b6b;
+}
+
+.redeemCart .v-responsive {
+  position: absolute;
+  right: 0px;
+  z-index: 2;
+}
+.v-card__title.cartT,
+.v-card__text.cartT {
+  padding: 0px;
+}
+.redeemCart .v-card__title.cartT,
+.v-card__text.cartT {
+  padding: 0px;
+}
+.redeemCart .v-data-table__mobile-row__cell {
+  display: block;
+}
+.redeemCart .cartImg {
+  height: 75px;
+  width: 75px;
+}
+.redeemCart .col {
+  text-align: right;
+  position: relative;
+  top: 50px;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid style="padding: 8% 5% 0% 2%;">
+  <v-container fluid style="padding:120px 50px 10px 50px;">
     <v-row class="sub-header">
       <v-spacer></v-spacer>
       <v-card-title>
