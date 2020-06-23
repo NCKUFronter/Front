@@ -37,6 +37,7 @@
           :colorGetter="colorGetter"
           :from="nodes.zoomed"
           :width="width"
+          class="breadcrumbTrail"
         />
       </template>
 
@@ -158,6 +159,7 @@ export default {
 </script>
 
 <style scoped>
+
 .row1 {
   margin: 1% 10%;
 }

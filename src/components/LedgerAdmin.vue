@@ -35,7 +35,8 @@
           </div>
           <v-card-actions class="pa-0 ma-0" style="position:absolute;right:5px;bottom:10px;">
           <v-spacer />
-          <v-btn class="pa-1 mb-1 ma-0 elevation-0" v-on:click="invite(ledger)"
+          <!-- v-on:click=" " -->
+          <v-btn class="pa-1 mb-1 ma-0 elevation-0" 
           style="background-color:transparent;height:fit-content;width:fit-content;border-radius:0;">
             <v-icon>mdi-dots-vertical</v-icon>
           </v-btn>

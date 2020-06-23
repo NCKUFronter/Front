@@ -1,7 +1,7 @@
 <template>
   <v-container fluid row class="graph" style="overflow:auto">
     <v-flex xs0 sm2 md2></v-flex>
-    <v-flex xs12 sm6 md6 class="chart" >
+    <v-flex xs12 sm6 md6 class="chart" style="z-index:3">
       <!-- <v-card style="height:100%"> -->
       <!-- Use this slot to add information on top or bottom of the graph-->
       <slot
@@ -11,7 +11,9 @@
         :colorGetter="colorGetter"
         :nodes="graphNodes"
         :actions="actions"
+
       ></slot>
+
       <div class="viewport" v-resize.throttle.250="resize" style="height:75%;">
         <div style="height:100%;position:absolute;"></div>
         <!-- Use this slot to add information on top of the graph -->
@@ -45,7 +47,7 @@ class LevelColorUtil {
   }
 
   nextColor(node) {
-    if (node.level == 0) return { r: 255, g: 255, b: 255, a: 1 };
+    if (node.level == 0) return { r: 255, g: 255, b: 255, a: 0 };
 
     let baseColor = node.level != 1 ? node.parent.color : this.baseColor;
     const key = rgba(baseColor) + node.level;
@@ -96,7 +98,7 @@ export default Vue.extend(sunburst).extend({
     onData(data) {
       this.constructor.super.options.methods.onData.call(this, data);
       const pathes = this.getPathes();
-      pathes.style("stroke", "#fff");
+      pathes.style("stroke", "#26282D");
     }
   }
 });

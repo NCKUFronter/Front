@@ -1,8 +1,8 @@
 <template>
   <!--v-container fluid class="tree"-->
-  <v-card flat class="parent pa-8" v-if="current" color="#26282d">
-    <v-card flat color="#26282d"  >
-      <v-card-title class="pa-2 ml-auto" style="justify-content:flex-end;">{{current.data.name}}</v-card-title>
+  <v-card flat class="parent py-4" v-if="current" color="#26282d">
+    <v-card flat :class="($vuetify.breakpoint.smAndUp)?'':'scroll'" color="#26282d" :style="($vuetify.breakpoint.smAndUp)?'':'max-height:35vh;'"  >
+      <v-card-title class="pa-2 ml-auto" style="justify-content:flex-end;"><v-avatar size="10px" class="mx-5" :color="rgba(current.data.color)"></v-avatar>{{current.data.name}}</v-card-title>
       <!--v-card-title class="justify-center">總覽</v-card-title-->
       <v-simple-table class="total ml-auto" dense style="width:fit-content">
         <template v-slot:default>
@@ -18,10 +18,11 @@
               <td class="text-right pa-2">{{current.value}}</td>
             </tr>
           </tbody>
+          
           <!-- 不是點數且最後一層的hashtags資訊 -->
           <tbody v-else-if="current.hashtags && current.hashtags.length">
             <tr v-for="taginfo of current.hashtags" :key="taginfo.name" style="height:fit-content">
-              <td class="text-right pa-2">{{ taginfo.tag }}</td>
+              <td class="text-right pa-2"><v-avatar size="10px" class="mx-5" :color="rgba(child.data.color)"></v-avatar>{{ taginfo.tag }}</td>
               <td class="text-right pa-2">{{ taginfo.count }}</td>
             </tr>
           </tbody>

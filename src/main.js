@@ -17,6 +17,11 @@ import "echarts/lib/component/legend";
 import "echarts/lib/component/title.js";
 Vue.component("v-chart", ECharts);
 
+//scroll one page
+import vueAwesomeSwiper from 'vue-awesome-swiper';
+import 'swiper/css/swiper.css';
+Vue.use(vueAwesomeSwiper)
+
 // import "roboto-fontface/css/roboto/roboto-fontface.css";
 // import "@mdi/font/css/materialdesignicons.css";
 
@@ -34,6 +39,7 @@ Vue.prototype.setRecordModal = function(bool, item) {
   this.$router.push("/accounting");
   this.$router.push("/empty");
   this.$router.go(-1);
+  
   this.GLOBAL.selectedRecord = item;
 };
 
