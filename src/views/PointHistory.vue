@@ -49,7 +49,7 @@
       </v-card>
     </v-card>
     <!-- mobile -->
-    <v-card v-else flat style="padding: 70px 10px 10px 10px;background-color:#26282d">
+    <v-card v-else flat style="padding: 70px 22px 10px 22px;background-color:#26282d">
       <v-row class="pointSearch" style>
         <v-spacer></v-spacer>
         <v-col xs6 sm2 md2 offset-6>

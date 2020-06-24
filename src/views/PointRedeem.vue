@@ -106,7 +106,7 @@
       </v-row>
     </v-card>
   </v-container>
-  <v-container fluid style="padding: 55px 5px 10px 50px;position:fixed;max-width:350px;" v-else>
+  <v-container fluid style="padding: 47px 22px 10px 50px;position:fixed;max-width:350px;" v-else>
     <!-- mobile title-->
     <v-row
       xs6
@@ -170,13 +170,18 @@
           hide-default-footer
         >
           <template v-slot:item.name="{ item }">
-            <v-img :src="item.photo" class="cartImg mt-3"></v-img>
+            <v-img :src="item.photo" style="height:100px;width:100px;" contain></v-img>
             <div class="cartContent">
-              <v-card-title class="cartT">{{item.name}}</v-card-title>
-              <v-card-text class="cartT" style="font-size: 12px;">{{item.intro}}</v-card-text>
+              <v-card-text class="cartT mt-1" style="font-size: 20px;text-align:left;">{{item.name}}</v-card-text>
+              <v-card-text
+                class="cartT mt-1"
+                style="font-size: 12px;text-align:left;"
+              >{{item.intro}}</v-card-text>
             </div>
           </template>
-          <template v-slot:item.point="{ item }">{{(item.point*item.quantity)}}</template>
+          <template v-slot:item.point="{ item }">
+            <v-card-text style="font-size: 20px;">{{(item.point*item.quantity)}}</v-card-text>
+          </template>
           <template v-slot:item.quantity="{ item }">
             <v-icon v-on:click="modifyQuantity(item,-1)" class="cartquant">mdi-menu-left</v-icon>
             <h4 class="cartQuant">{{ item.quantity }}</h4>
@@ -197,11 +202,11 @@
           <v-card flat class="py-2 px-2">
             <v-img :src="item.photo" class="img"></v-img>
 
-            <v-card-title class="pb-0">{{item.name}}</v-card-title>
-            <v-card-text class="pb-0" style="font-size: 12px;">{{item.intro}}</v-card-text>
+            <v-card-title class="pa-0 ml-3">{{item.name}}</v-card-title>
+            <v-card-text class="pa-0 ml-3" style="font-size: 12px;">{{item.intro}}</v-card-text>
             <v-icon class="pb-1">mdi-alpha-p-circle-outline</v-icon>
-            <v-card-subtitle class="pb-1">{{item.point}}</v-card-subtitle>
-            <v-card-actions class="pa-0 mb-0" style="float:right;">
+            <v-card-subtitle class="pb-1 pl-0">{{item.point}}</v-card-subtitle>
+            <v-card-actions class="pa-0 mt-0" style="float:right;">
               <v-btn icon v-on:click="addCart(item)">
                 <v-icon size="20">mdi-cart-arrow-down</v-icon>
               </v-btn>
@@ -428,30 +433,26 @@ export default {
 .back :hover {
   color: #6d6b6b;
 }
-
+.redeemCart .cartContent {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 0px;
+}
+.redeemCart .cartT {
+  padding: 0px;
+}
 .redeemCart .v-responsive {
-  position: absolute;
-  right: 0px;
-  z-index: 2;
-}
-.v-card__title.cartT,
-.v-card__text.cartT {
-  padding: 0px;
-}
-.redeemCart .v-card__title.cartT,
-.v-card__text.cartT {
-  padding: 0px;
+  display: flex;
 }
 .redeemCart .v-data-table__mobile-row__cell {
-  display: block;
+  display: inline-block;
+  width: 200px;
 }
-.redeemCart .cartImg {
-  height: 75px;
-  width: 75px;
+.redeemCart .v-input--selection-controls__ripple {
+  display: none;
 }
-.redeemCart .col {
-  text-align: right;
-  position: relative;
-  top: 50px;
+.redeemCart .v-data-table__checkbox.v-simple-checkbox {
+  left: 0px;
 }
 </style>
