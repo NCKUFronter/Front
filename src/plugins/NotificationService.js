@@ -9,7 +9,9 @@ function getUserId() {
 }
 
 function makeMessage(obj) {
-  switch (obj.type) { //事件種類
+  switch (
+    obj.type //事件種類
+  ) {
     case "point":
       if (obj.action == "transfer") {
         return `"${obj.from.name}" 給予 "你" 點數${obj.body.amount}點`;
@@ -44,8 +46,15 @@ function makeMessage(obj) {
         return `${obj.from.name} 在帳本 "${obj.ledger.ledgerName}" 刪除一筆帳目`;
       }
       throw "No available record Message";
-    default:
-      return "xxxxxx";
+    case "user":
+      if (obj.action == "online") {
+        return `${obj.from.name} 上線`;
+      } else if (obj.action == "offline") {
+        return `${obj.from.name} 下線`;
+      }
+      break;
+    // default:
+    //return "xxxxxx";
   }
 }
 
@@ -69,6 +78,7 @@ export class NotificationService {
       console.log(e);
       this.checkNewNotification();
     };
+    this.onlineUser = Vue.observable({});
   }
 
   readToken() {
@@ -86,15 +96,48 @@ export class NotificationService {
     this.handleNewNotification(obj);
   }
 
+  handleOnlineUserInfo(obj) {
+    if (obj.type == "init" && obj.action == "onlineUser") {
+      for(const _id in obj.onlineUser) {
+        Vue.set(this.onlineUser, _id, obj.onlineUser[_id]);
+      }
+      return;
+    }
+
+    if (obj.type == "user" && obj.action == "online") {
+      Vue.set(this.onlineUser, obj.from._id, 1);
+      this.onlineUser[obj.from._id] = 1;
+      return;
+    } else if (obj.type == "user" && obj.action == "offline") {
+      Vue.set(this.onlineUser, obj.from._id, 0);
+      return;
+    }
+
+    // 可能是新加入的關係人，加到上線的使用者裡
+    if (
+      obj.from._id != getUserId() &&
+      obj.type === "invitation" &&
+      obj.action === "answer" &&
+      obj.body.answer === true
+    ) {
+      this.onlineUser[obj.from._id] = 1;
+    }
+  }
+
   handleNewNotification(obj) {
+    console.log(obj);
+    this.handleOnlineUserInfo(obj);
     if (obj.from._id != getUserId()) {
-      this.snackbar.open(makeMessage(obj), null, {
-        color: "info",
-        timeout: 2000,
-        data: {
-          photo: obj.from.photo,
-        },
-      });
+      const msg = makeMessage(obj);
+      if (msg) {
+        this.snackbar.open(msg, null, {
+          color: "info",
+          timeout: 2000,
+          data: {
+            photo: obj.from.photo,
+          },
+        });
+      }
     }
     // if (obj.type === "invitation") this.update.ledger++;
   }
@@ -107,7 +150,6 @@ export class NotificationService {
       withCredentials: true,
     });
     this.sse.onmessage = (e) => {
-      console.log(e);
       localStorage.setItem(N_KEY, e.data);
       //單人多視窗時，只會有一個視窗與sse連線，其他視窗去連localstorage
       //setItem即為連線視窗將東西塞到localstorage

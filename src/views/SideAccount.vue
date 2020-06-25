@@ -30,8 +30,8 @@
             class="pl-10 pt-2"
           >
 
-              <v-avatar size="36" style="border:solid #FED37A 1.5px">
-                <img :src="item.photo" style="height:28px;width:28px;border-radius:28px;"/>
+              <v-avatar size="36" :style="onlineUserStyle(item)">
+                <img :src="item.photo" style="height:28px;width:28px;border-radius:28px"/>
               </v-avatar>
               
             <!-- </div> -->
@@ -497,7 +497,7 @@ let data = {
 
 export default {
   name: "SideAccount",
-  inject: ["$clear"],
+  inject: ["$clear", "$notification"],
   data() {
     return data;
   },
@@ -645,6 +645,10 @@ export default {
     }
   },
   methods: {
+    onlineUserStyle(user) {
+      const isOnline = Boolean(this.$notification.onlineUser[user._id])
+      return isOnline ? "border:solid #FED37A 1.5px": "";
+    },
     drawPie() {
       // console.log(this.filterAccountData);
       // console.log(this.userCategories);
