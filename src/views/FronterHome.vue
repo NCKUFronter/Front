@@ -107,7 +107,7 @@ export default {
       root.style.setProperty("--img-height", this.fullHeight * 0.1 + "px");
       // word setting
       root.style.setProperty("--slogan", this.fullHeight * 0.035 + "px");
-      root.style.setProperty("--slogan-top", this.fullHeight * 0.65 + "px");
+      root.style.setProperty("--slogan-top", this.fullHeight * 0.6 + "px");
       root.style.setProperty("--slogan-left", this.fullWidth * 0.52 + "px");
       root.style.setProperty("--brand", this.fullHeight * 0.12 + "px");
       root.style.setProperty("--brand-left", this.fullWidth * 0.27 + "px");
@@ -120,9 +120,9 @@ export default {
       root.style.setProperty("--rightbar", this.fullWidth * 0.265 + "px");
       // move setting
       root.style.setProperty("--slogan-moveX", this.fullWidth * -0.12 + "px");
-      root.style.setProperty("--slogan-moveY", this.fullHeight * -0.03 + "px");
+      root.style.setProperty("--slogan-moveY", this.fullHeight * -0.009 + "px");
       root.style.setProperty("--brand-moveX", this.fullWidth * 0.12 + "px");
-      root.style.setProperty("--brand-moveY", this.fullHeight * 0.09 + "px");
+      root.style.setProperty("--brand-moveY", this.fullHeight * 0.12 + "px");
       // transition setting
       root.style.setProperty("--slide-down", this.fullHeight * -0.13 + "px");
       root.style.setProperty("--slide-Up", this.fullHeight * 0.13 + "px");

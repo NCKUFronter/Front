@@ -9,15 +9,22 @@
       v-if="!login"
       style="z-index:8;width:100vw;"
     >
-    <h1 :style="($vuetify.breakpoint.smAndUp)?'font-size:40px;':'font-size:24px;'">FRONTER</h1>
-    <v-spacer/>
-    <v-menu offset-y v-if="clear.animeOver">
-      <template v-slot:activator="{ on }">
-        <v-btn width="fit-content" height="fit-content" v-on="on" color="transparent" class="elevation-0" :class="($vuetify.breakpoint.smAndUp)?'pa-5':'pa-2'" style="font-weight:bold" :style="($vuetify.breakpoint.smAndUp)?'font-size:22px;':'font-size:15px;'">
-          星．際帳
-        </v-btn>
-      </template>
-      <v-card flat class="pa-2">
+      <h1 :style="($vuetify.breakpoint.smAndUp)?'font-size:40px;':'font-size:24px;'">FRONTER</h1>
+      <v-spacer />
+      <v-menu offset-y v-if="clear.animeOver">
+        <template v-slot:activator="{ on }">
+          <v-btn
+            width="fit-content"
+            height="fit-content"
+            v-on="on"
+            color="transparent"
+            class="elevation-0"
+            :class="($vuetify.breakpoint.smAndUp)?'pa-5':'pa-2'"
+            style="font-weight:bold"
+            :style="($vuetify.breakpoint.smAndUp)?'font-size:22px;':'font-size:15px;'"
+          >星．際帳</v-btn>
+        </template>
+        <v-card flat class="pa-2">
           <v-card-title class="justify-center">尚未登入</v-card-title>
           <v-btn outlined block v-on:click="toLogin">
             <v-icon small>mdi-google</v-icon>登入
@@ -31,15 +38,22 @@
           <v-btn outlined block v-on:click="doLogin('child@gmail.com')">
             <v-icon>mdi-login-variant</v-icon>小孩登入
           </v-btn>
-      </v-card>
-    </v-menu>
-    <v-menu offset-y v-if="clear.animeOver">
-      <template v-slot:activator="{ on }">
-        <v-btn width="fit-content" height="fit-content" v-on="on" color="transparent" class="elevation-0" :class="($vuetify.breakpoint.smAndUp)?'pa-5':'pa-2'" style="font-weight:bold" :style="($vuetify.breakpoint.smAndUp)?'font-size:22px;':'font-size:15px;'">
-          宇宙．戰艦
-        </v-btn>
-      </template>
-      <v-card flat class="pa-2">
+        </v-card>
+      </v-menu>
+      <v-menu offset-y v-if="clear.animeOver">
+        <template v-slot:activator="{ on }">
+          <v-btn
+            width="fit-content"
+            height="fit-content"
+            v-on="on"
+            color="transparent"
+            class="elevation-0"
+            :class="($vuetify.breakpoint.smAndUp)?'pa-5':'pa-2'"
+            style="font-weight:bold"
+            :style="($vuetify.breakpoint.smAndUp)?'font-size:22px;':'font-size:15px;'"
+          >宇宙．戰艦</v-btn>
+        </template>
+        <v-card flat class="pa-2">
           <v-card-title class="justify-center">尚未登入</v-card-title>
           <v-btn outlined block v-on:click="toLogin">
             <v-icon small>mdi-google</v-icon>登入
@@ -53,13 +67,19 @@
           <v-btn outlined block v-on:click="doLogin('child@gmail.com')">
             <v-icon>mdi-login-variant</v-icon>小孩登入
           </v-btn>
-      </v-card>
-    </v-menu>
+        </v-card>
+      </v-menu>
 
-    <v-btn width="fit-content" height="fit-content" color="transparent" class="elevation-0" :class="($vuetify.breakpoint.smAndUp)?'pa-5':'pa-2'" style="font-weight:bold" :style="($vuetify.breakpoint.smAndUp)?'font-size:22px;':'font-size:15px;'">關於我們</v-btn>
-    <!-- <v-btn width="fit-content" height="fit-content" color="transparent" class="elevation-0 pa-1" :class="($vuetify.breakpoint.smAndUp)?'pa-5':'pa-2'" style="font-weight:bold" :style="($vuetify.breakpoint.smAndUp)?'font-size:25px;':'font-size:15px;'">聯絡我們</v-btn> -->
-
-
+      <v-btn
+        width="fit-content"
+        height="fit-content"
+        color="transparent"
+        class="elevation-0"
+        :class="($vuetify.breakpoint.smAndUp)?'pa-5':'pa-2'"
+        style="font-weight:bold"
+        :style="($vuetify.breakpoint.smAndUp)?'font-size:22px;':'font-size:15px;'"
+      >關於我們</v-btn>
+      <!-- <v-btn width="fit-content" height="fit-content" color="transparent" class="elevation-0 pa-1" :class="($vuetify.breakpoint.smAndUp)?'pa-5':'pa-2'" style="font-weight:bold" :style="($vuetify.breakpoint.smAndUp)?'font-size:25px;':'font-size:15px;'">聯絡我們</v-btn> -->
     </v-app-bar>
     <v-app-bar
       transition="slide-y-transition"
@@ -114,19 +134,47 @@
       </v-col>-->
       <!-- <v-flex xs3 sm3 md3 v-if="login && clear.animeOver" class="pa-4 mr-auto" > -->
       <v-spacer />
-      <v-icon class="px-1" v-if="login && clear.animeOver" size="30px">mdi-bell-outline</v-icon>
+      <v-spacer />
+      <!-- bell notification -->
+      <v-menu :close-on-content-click="true" offset-y v-if="login && clear.animeOver">
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            @click="ring"
+            outlined
+            style="border:none;width:100px;"
+            fab
+            max-height="40px"
+            max-width="40px"
+            v-bind="attrs"
+            v-on="on"
+          >
+            <v-icon class="px-1" v-if="login && clear.animeOver" size="30px">mdi-bell-outline</v-icon>
+          </v-btn>
+        </template>
+
+        <v-list>
+          <v-list-item v-for="(item, index) in messageNotification" :key="index" @click="ring">
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+      <!-- user's name -->
+
       <v-card-title
         class="pa-0 pr-8"
         v-if="login && clear.animeOver && $vuetify.breakpoint.smAndUp"
         style="font-size:22px;font-weight:bold;"
       >{{ profile.name }}</v-card-title>
+
       <!-- </v-flex> -->
       <!-- <v-flex xs1 sm1 md1 class="pa-4" v-if="clear.animeOver"> -->
+
       <!-- peraonal account -->
       <v-menu offset-y v-if="clear.animeOver">
         <template v-slot:activator="{ on }">
-          <v-btn width="fit-content" height="fit-content" icon v-on="on">
-            <v-icon large color="white">mdi-account-circle</v-icon>
+          <v-btn width="fit-content" height="fit-content" v-on="on" fab>
+            <v-img :src="profile.photo" style="width:30px;height:30px;border-radius:50%;"></v-img>
+            <!-- <v-icon large color="white">mdi-account-circle</v-icon> -->
           </v-btn>
         </template>
         <v-card flat v-if="!login" class="pa-2">
@@ -461,43 +509,99 @@
 
     <!-- for mobile -->
     <v-content id="scroll-target" style="max-width:100vw" v-else>
-
-      <v-container  class="pa-0" fluid v-if="!login" style="height:100vh;">
+      <v-container class="pa-0" fluid v-if="!login" style="height:100vh;">
         <!-- <v-card v-scroll:#scroll-target="onScroll"> -->
-
 
         <!-- <swiper class="swiper" :options="swiperOption"> -->
         <!-- mobile-page1 -->
         <!-- <swiper-slide> -->
         <v-layout row style="height:100vh;overflow:hidden;position:relative">
-          <v-flex xs6 style="height:100%;background-color:#26282D;position:relative" >
-            <img src="./assets/home-mobile/ledger.png" height="35%" style="position:absolute;right:0;top:10%" />
-            <v-card-title class="pa-2" style="position:absolute;right:0;bottom:35%;color:#FFF294;font-weight:bold;line-height:1.1;font-size:2rem;text-align:right">社群記帳×<br/>RPG遊戲</v-card-title>
-            <v-card-title class="pa-2" style="position:absolute;right:0;bottom:30%;color:white;font-weight:bold;line-height:1.2;font-size:0.8rem;text-align:right">透過記帳與遊戲<br/>讓父母從小培養孩子的金錢觀</v-card-title>
+          <v-flex xs6 style="height:100%;background-color:#26282D;position:relative">
+            <img
+              src="./assets/home-mobile/ledger.png"
+              height="35%"
+              style="position:absolute;right:0;top:10%"
+            />
+            <v-card-title
+              class="pa-2"
+              style="position:absolute;right:0;bottom:35%;color:#FFF294;font-weight:bold;line-height:1.1;font-size:2rem;text-align:right"
+            >
+              社群記帳×
+              <br />RPG遊戲
+            </v-card-title>
+            <v-card-title
+              class="pa-2"
+              style="position:absolute;right:0;bottom:30%;color:white;font-weight:bold;line-height:1.2;font-size:0.8rem;text-align:right"
+            >
+              透過記帳與遊戲
+              <br />讓父母從小培養孩子的金錢觀
+            </v-card-title>
           </v-flex>
-          <v-flex xs6  style="height:100%;background-color:#3D404E;position:relative" >
-
+          <v-flex xs6 style="height:100%;background-color:#3D404E;position:relative">
             <swiper class="swiper" :options="swiperOption">
-            <swiper-slide>
-            <img src="./assets/home-mobile/game.png" height="50%" style="position:absolute;left:0;bottom:10%" />
-            <v-card-title class="pa-2" style="position:absolute;left:0;top:24%;color:#FFF294;font-weight:bold;line-height:1.1;font-size:2.4rem;text-align:left">FRONTER</v-card-title>
-            <v-card-title class="pa-2" style="position:absolute;left:0;top:30%;color:white;font-weight:bold;line-height:1.3;font-size:0.9rem;text-align:left">創造親子互動與教育<br/>的新體驗</v-card-title>
-            </swiper-slide>
-            
-            <swiper-slide>
-            <img src="./assets/home-mobile/fronter-1.png" height="50%" style="position:absolute;left:-85%;bottom:16%" />
-            <v-card-title class="pa-2" style="position:absolute;left:0;top:24%;color:#FFF294;font-weight:bold;line-height:1.1;font-size:2.4rem;text-align:left">星．際帳</v-card-title>
-            <v-card-title class="pa-2" style="position:absolute;left:0;top:31%;color:white;font-weight:bold;line-height:1.3;font-size:1rem;text-align:left">透過共享帳本<br/>讓家庭管理金流更方便</v-card-title>            
-            </swiper-slide>
-            
-            <swiper-slide>
-            <img src="./assets/home-mobile/armada-2.png" height="50%" style="position:absolute;left:-85%;bottom:16%" />
-            <v-card-title class="pa-2" style="position:absolute;left:0;top:25%;color:#FFF294;font-weight:bold;line-height:1.1;font-size:2.1rem;text-align:left">宇宙．戰艦</v-card-title>
-            <v-card-title class="pa-2" style="position:absolute;left:0;top:31%;color:white;font-weight:bold;line-height:1.3;font-size:1rem;text-align:left">在遊戲中使用回饋點數<br/>讓孩子也能樂於記帳</v-card-title>
-            </swiper-slide>
+              <swiper-slide>
+                <img
+                  src="./assets/home-mobile/game.png"
+                  height="50%"
+                  style="position:absolute;left:0;bottom:10%"
+                />
+                <v-card-title
+                  class="pa-2"
+                  style="position:absolute;left:0;top:24%;color:#FFF294;font-weight:bold;line-height:1.1;font-size:2.4rem;text-align:left"
+                >FRONTER</v-card-title>
+                <v-card-title
+                  class="pa-2"
+                  style="position:absolute;left:0;top:30%;color:white;font-weight:bold;line-height:1.3;font-size:0.9rem;text-align:left"
+                >
+                  創造親子互動與教育
+                  <br />的新體驗
+                </v-card-title>
+              </swiper-slide>
+
+              <swiper-slide>
+                <img
+                  src="./assets/home-mobile/fronter-1.png"
+                  height="50%"
+                  style="position:absolute;left:-85%;bottom:16%"
+                />
+                <v-card-title
+                  class="pa-2"
+                  style="position:absolute;left:0;top:24%;color:#FFF294;font-weight:bold;line-height:1.1;font-size:2.4rem;text-align:left"
+                >星．際帳</v-card-title>
+                <v-card-title
+                  class="pa-2"
+                  style="position:absolute;left:0;top:31%;color:white;font-weight:bold;line-height:1.3;font-size:1rem;text-align:left"
+                >
+                  透過共享帳本
+                  <br />讓家庭管理金流更方便
+                </v-card-title>
+              </swiper-slide>
+
+              <swiper-slide>
+                <img
+                  src="./assets/home-mobile/armada-2.png"
+                  height="50%"
+                  style="position:absolute;left:-85%;bottom:16%"
+                />
+                <v-card-title
+                  class="pa-2"
+                  style="position:absolute;left:0;top:25%;color:#FFF294;font-weight:bold;line-height:1.1;font-size:2.1rem;text-align:left"
+                >宇宙．戰艦</v-card-title>
+                <v-card-title
+                  class="pa-2"
+                  style="position:absolute;left:0;top:31%;color:white;font-weight:bold;line-height:1.3;font-size:1rem;text-align:left"
+                >
+                  在遊戲中使用回饋點數
+                  <br />讓孩子也能樂於記帳
+                </v-card-title>
+              </swiper-slide>
             </swiper>
           </v-flex>
-          <img src="./assets/home-mobile/star.png" height="100%" style="position:absolute;top:0;left:0" />
+          <img
+            src="./assets/home-mobile/star.png"
+            height="100%"
+            style="position:absolute;top:0;left:0"
+          />
         </v-layout>
         <!-- </swiper-slide> -->
 
@@ -517,7 +621,7 @@
           <img src="./assets/home-mobile/star.png" height="100%" style="position:absolute;top:0;left:0" />
           <v-btn class="py-1 px-8" color="#50989E" style="height:fit-content;font-size:0.8rem;font-weight:bold;border-radius:50px;position:absolute;bottom:8%;left:35%" >創建帳戶</v-btn>
         </v-layout>
-        </swiper-slide> -->
+        </swiper-slide>-->
 
         <!-- mobile-page3 -->
         <!-- <swiper-slide>
@@ -535,37 +639,54 @@
           <img src="./assets/home-mobile/star.png" height="100%" style="position:absolute;top:0;left:0" />
           <v-btn class="py-1 px-8" color="#DF764C" style="height:fit-content;font-size:0.8rem;font-weight:bold;border-radius:50px;position:absolute;bottom:8%;left:28%" >開啟你的星際探險</v-btn>
         </v-layout>
-        </swiper-slide> -->
+        </swiper-slide>-->
 
         <!-- mobile-page4 -->
         <!-- <swiper-slide> -->
         <v-layout row style="height:100%;overflow:hidden;position:relative">
-          <v-flex xs6 style="height:100%;background-color:#26282D;position:relative" >
-              <div class="px-8" style="width:100%;margin-top:100%">
-                <img class="pa-2" src="./assets/home/p2/1.svg" width="50%" style="margin:auto" />
-                <v-card-text class="pa-2" style="font-size:0.9rem;">社群記帳功能，讓父母與小孩共同記下生活中的每樣精采事物。</v-card-text>
-              </div>
-              <div class="px-8" style="width:100%;margin-top:10%">
-                <img class="pa-2" src="./assets/home/p2/3.svg"  width="50%" />
-                <v-card-text class="pa-2" style="font-size:0.9rem;">在遊戲中使用回饋點數，讓孩子更加參與其中。</v-card-text>
-              </div>
-
+          <v-flex xs6 style="height:100%;background-color:#26282D;position:relative">
+            <div class="px-8" style="width:100%;margin-top:100%">
+              <img class="pa-2" src="./assets/home/p2/1.svg" width="50%" style="margin:auto" />
+              <v-card-text class="pa-2" style="font-size:0.9rem;">社群記帳功能，讓父母與小孩共同記下生活中的每樣精采事物。</v-card-text>
+            </div>
+            <div class="px-8" style="width:100%;margin-top:10%">
+              <img class="pa-2" src="./assets/home/p2/3.svg" width="50%" />
+              <v-card-text class="pa-2" style="font-size:0.9rem;">在遊戲中使用回饋點數，讓孩子更加參與其中。</v-card-text>
+            </div>
           </v-flex>
-          <v-flex xs6 style="height:100%;background-color:#3D404E;position:relative;overflow-x:hidden" >
-              <div class="px-8" style="width:100%;margin-top:100%">
-                <img class="pa-2" src="./assets/home/p2/2.svg"  width="50%" />
-                <v-card-text class="pa-2" style="font-size:0.9rem;">藉由交易紀錄，讓孩子學習審視自己的金錢流，培養金錢進與出的觀念。</v-card-text>
-              </div>
-              <div class="px-8" style="width:100%;margin-top:10%">
-                <img class="pa-2" src="./assets/home/p2/4.svg"  width="50%" />
-                <v-card-text class="pa-2" style="font-size:0.9rem;">綁定永豐銀行信用卡，自動登入每筆消費金額，記帳輕鬆無負擔。</v-card-text>
-              </div>
+          <v-flex
+            xs6
+            style="height:100%;background-color:#3D404E;position:relative;overflow-x:hidden"
+          >
+            <div class="px-8" style="width:100%;margin-top:100%">
+              <img class="pa-2" src="./assets/home/p2/2.svg" width="50%" />
+              <v-card-text class="pa-2" style="font-size:0.9rem;">藉由交易紀錄，讓孩子學習審視自己的金錢流，培養金錢進與出的觀念。</v-card-text>
+            </div>
+            <div class="px-8" style="width:100%;margin-top:10%">
+              <img class="pa-2" src="./assets/home/p2/4.svg" width="50%" />
+              <v-card-text class="pa-2" style="font-size:0.9rem;">綁定永豐銀行信用卡，自動登入每筆消費金額，記帳輕鬆無負擔。</v-card-text>
+            </div>
           </v-flex>
-          <v-card class="pa-2" flat color="transparent" style="position:absolute;top:8%;left:19%;width:fit-content">
-          <v-card-title class="pa-0 justify-center" style="color:#FFF294;font-weight:bold;line-height:1.1;font-size:2.6rem;">FRONTER</v-card-title>
-          <v-card-title class="pa-0 justify-center" style="color:white;font-weight:bold;line-height:1.3;font-size:1.2rem;">創造親子互動與教育的新體驗</v-card-title>
+          <v-card
+            class="pa-2"
+            flat
+            color="transparent"
+            style="position:absolute;top:8%;left:19%;width:fit-content"
+          >
+            <v-card-title
+              class="pa-0 justify-center"
+              style="color:#FFF294;font-weight:bold;line-height:1.1;font-size:2.6rem;"
+            >FRONTER</v-card-title>
+            <v-card-title
+              class="pa-0 justify-center"
+              style="color:white;font-weight:bold;line-height:1.3;font-size:1.2rem;"
+            >創造親子互動與教育的新體驗</v-card-title>
           </v-card>
-          <img src="./assets/home-mobile/star.png" height="100%" style="position:absolute;top:0;left:0" />
+          <img
+            src="./assets/home-mobile/star.png"
+            height="100%"
+            style="position:absolute;top:0;left:0"
+          />
         </v-layout>
         <!-- </swiper-slide> -->
         <!-- </swiper> -->
@@ -623,8 +744,7 @@ import GlobalSnackBar, { initSnackbarData } from "./components/GlobalSnackBar";
 import GlobalDialog, { initDialogData } from "./components/GlobalDialog";
 import { ignoreNotLoginError } from "./utils";
 import { NotificationService } from "./plugins/NotificationService";
-import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
-
+import { Swiper, SwiperSlide } from "vue-awesome-swiper";
 
 // 定義component,不是global,只有APP知道
 //import SideAccount from './components/SideAccount.vue'
@@ -676,8 +796,15 @@ let data = {
     { title: "instagram", link: "" },
     { title: "twitter", link: "" }
   ],
+  messageNotification: [
+    { title: "Click Me" },
+    { title: "Click Me" },
+    { title: "Click Me" },
+    { title: "Click Me" }
+  ],
   clear: { animeOver: true },
 
+  bellRing: false,
   drawer: false,
   offsetTop: 0,
   cardShow: false,
@@ -685,26 +812,24 @@ let data = {
   account: true,
   accountContent: false,
   gameContent: false,
-  swiperOption:{
-    notNextTick:true,
-    direction:'vertical',
-    grabCursor:true,
-    setWrapperSize:true,
-    autoHeight:true,
-    slidesPerView:1,
-    mousewheel:true,
-    mousewheelControl:true,
-    height:window.innerHeight,
-    resistanceRatio:0,
-    observeParents:true
+  swiperOption: {
+    notNextTick: true,
+    direction: "vertical",
+    grabCursor: true,
+    setWrapperSize: true,
+    autoHeight: true,
+    slidesPerView: 1,
+    mousewheel: true,
+    mousewheelControl: true,
+    height: window.innerHeight,
+    resistanceRatio: 0,
+    observeParents: true
   }
 };
-
 
 export default {
   name: "App",
   data() {
-    
     this.$alert = initSnackbarData();
     this.$notification = new NotificationService(
       initSnackbarData(),
@@ -717,7 +842,7 @@ export default {
     GlobalSnackBar,
     GlobalDialog,
     Swiper,
-    SwiperSlide,
+    SwiperSlide
     // EditRecord,
     //SideAccount  // 定義component
     // SideMenu
@@ -847,6 +972,10 @@ export default {
           console.log(err);
           this.$alert.error("領取失敗");
         });
+    },
+    ring() {
+      console.log("ring");
+      this.bellRing = !this.bellRing;
     }
   },
   destroyed() {
@@ -1322,5 +1451,9 @@ html {
 .theme--dark.v-input input,
 .theme--dark.v-input textarea {
   color: #6d6b6b;
+}
+.bellBtn:hover {
+  cursor: pointer;
+  background-color: #b3b2b2;
 }
 </style>

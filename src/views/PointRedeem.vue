@@ -56,13 +56,13 @@
           :single-select="false"
           item-key="_id"
           show-select
-          class="elevation-1 col-12"
+          class="elevation-1 col-12 redeemCart"
           hide-default-footer
         >
           <template v-slot:item.name="{ item }">
-            <v-img :src="item.photo" class="cartImg mt-3"></v-img>
-            <div class="cartContent">
-              <v-card-title class="cartT">{{item.name}}</v-card-title>
+            <v-img :src="item.photo" class="cartImg mt-3" contain></v-img>
+            <div class="cartContent mt-3 mb-3">
+              <v-card-text class="cartT" style="font-size: 20px;">{{item.name}}</v-card-text>
               <v-card-text class="cartT" style="font-size: 12px;">{{item.intro}}</v-card-text>
             </div>
           </template>
@@ -106,7 +106,7 @@
       </v-row>
     </v-card>
   </v-container>
-  <v-container fluid style="padding: 47px 22px 10px 50px;position:fixed;max-width:350px;" v-else>
+  <v-container fluid style="padding: 47px 20px 10px 40px;position:fixed;max-width:350px;" v-else>
     <!-- mobile title-->
     <v-row
       xs6
@@ -171,7 +171,7 @@
         >
           <template v-slot:item.name="{ item }">
             <v-img :src="item.photo" style="height:100px;width:100px;" contain></v-img>
-            <div class="cartContent">
+            <div class="cartContent" style="width:100px;">
               <v-card-text class="cartT mt-1" style="font-size: 20px;text-align:left;">{{item.name}}</v-card-text>
               <v-card-text
                 class="cartT mt-1"
@@ -405,12 +405,11 @@ export default {
   height: 50px;
   width: 50px;
   display: inline-block;
-  margin: 0 5px;
+  margin: 0 0;
 }
 .cartContent {
   display: inline-block;
-  margin: 10px;
-  padding: 0;
+  padding: 0 0;
 }
 .cartSum {
   display: inline-block;
