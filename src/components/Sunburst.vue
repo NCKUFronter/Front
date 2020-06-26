@@ -1,6 +1,5 @@
 <template>
   <v-container fluid row class="graph" style="overflow:auto">
-    <v-flex xs0 sm2 md2></v-flex>
     <v-flex xs12 sm6 md6 class="chart" style="z-index:3">
       <!-- <v-card style="height:100%"> -->
       <!-- Use this slot to add information on top or bottom of the graph-->
@@ -24,7 +23,7 @@
       </div>
       <!-- </v-card> -->
     </v-flex>
-    <v-flex xs12 sm4 md3 class="report px-4">
+    <v-flex xs12 sm4 md4 class="report px-4">
       <!-- <slot name="menu" :nodes="graphNodes"></slot> -->
       <slot name="report" :nodes="graphNodes"></slot>
     </v-flex>

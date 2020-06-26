@@ -9,9 +9,9 @@
       <v-tab>點數</v-tab>
     </v-tabs>
     <v-tabs-items v-model="tab" class="pt-4">
-      <v-tab-item><SummaryContent toggle_exclusive_perspective="personal" /></v-tab-item>
-      <v-tab-item><SummaryContent toggle_exclusive_perspective="ledger" /></v-tab-item>
-      <v-tab-item><SummaryContent toggle_exclusive_perspective="points" /></v-tab-item>
+      <v-tab-item><SummaryContent toggle_exclusive_perspective="personal" orderList="personalOrderList" /></v-tab-item>
+      <v-tab-item><SummaryContent toggle_exclusive_perspective="ledger" orderList="ledgerOrderList"/></v-tab-item>
+      <v-tab-item><SummaryContent toggle_exclusive_perspective="points" orderList="pointOrderList"/></v-tab-item>
     </v-tabs-items>
     </v-row>
   </v-container>
@@ -23,6 +23,23 @@ export default {
     data(){
         return{
             tab: null,
+            ledgerOrderlist:[
+              {value:'ledger',text:'帳本'},
+              {value:'recordType',text:'收支'},
+              {value:'user',text:'成員'},
+              {value:'category',text:'類別'},
+            ],
+            personalOrderlist:[
+              {value:'ledger',text:'帳本'},
+              {value:'recordType',text:'收支'},
+              {value:'category',text:'類別'},
+            ],
+            pointOrderlist:[
+              {value:'ledger',text:'帳本'},
+              {value:'recordType',text:'收支'},
+              {value:'user',text:'成員'},
+              {value:'category',text:'類別'},
+            ],
         };
     },
     components:{
