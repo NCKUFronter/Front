@@ -62,7 +62,6 @@
 
     <v-flex xs12 sm9 md9>
     <sunburst
-      v-if="!sunburstJson.length"
       class="sunburst"
       :data="displayData"
       :minAngleDisplayed="minAngleDisplayed"
@@ -118,7 +117,7 @@
         <report slot="report" :nodes="nodes" />
       </template>
     </sunburst>
-    <div v-else style="background-color:white;border:2px solid white; border-radius:50px;width:100px;height:100px"></div>
+
     </v-flex>
 
     <!-- for mobile -->
