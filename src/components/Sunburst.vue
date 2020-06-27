@@ -13,7 +13,7 @@
 
       ></slot>
 
-      <div class="viewport" v-resize.throttle.250="resize" style="height:75%;">
+      <div class="viewport" v-resize.throttle.250="resize" style="height:70%;">
         <div style="height:100%;position:absolute;"></div>
         <!-- Use this slot to add information on top of the graph -->
         <!-- <slot class="top" name="top" :colorGetter="colorGetter" :nodes="graphNodes" :actions="actions">
@@ -97,7 +97,7 @@ export default Vue.extend(sunburst).extend({
     onData(data) {
       this.constructor.super.options.methods.onData.call(this, data);
       const pathes = this.getPathes();
-      pathes.style("stroke", "#26282D");
+      pathes.style("stroke", "white");
     }
   }
 });

@@ -62,6 +62,7 @@
 
     <v-flex xs12 sm9 md9>
     <sunburst
+      v-if="!sunburstJson.length"
       class="sunburst"
       :data="displayData"
       :minAngleDisplayed="minAngleDisplayed"
@@ -117,6 +118,7 @@
         <report slot="report" :nodes="nodes" />
       </template>
     </sunburst>
+    <div v-else style="background-color:white;border:2px solid white; border-radius:50px;width:100px;height:100px"></div>
     </v-flex>
 
     <!-- for mobile -->
@@ -367,8 +369,7 @@ export default {
         this.endDate=new Date(end.getFullYear(),end.getMonth()+1,1).toISOString()
         this.calculateList=[...this.orderSelected];
         this.$asyncComputed.sunburstJson.update();
-        console.log(this.startDate)
-        console.log(this.endDate)
+        console.log(this.sunburstJson)
       }else{
         return this.$alert.error("統計排序不得為空")
       }
