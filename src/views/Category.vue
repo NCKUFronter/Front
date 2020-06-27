@@ -14,8 +14,8 @@
       <v-btn @click="newModal=true" class="elevation-0 mt-2 mb-2" style="background-color:transparent;border:white solid 1px;border-radius:2em;">新增類別</v-btn>
     </v-flex>
     <v-flex xs12 sm4 md3 v-for="category of categories" :key="category._id" class="pa-3">
-      <v-card class="cardAll" style="border-radius:2em" :color="(category) ? category.color : '#d5ccb3'">
-        <div class="pr-8 pl-8 pt-2 pb-2" style="width:100%;background-color:rgba(255,255,255,0.1);position: relative">
+      <v-card class="cardAll" style="border-radius:2em;width:100%" :color="(category) ? category.color : '#d5ccb3'">
+        <div style="width:100%;background-color:rgba(255,255,255,0.1);position: relative">
         <!-- <v-btn class="elevation-0" style="width:100%;height:fit-content;background-color:transparent"> -->
         <v-icon style="width:100%; opacity:0.6;padding:12px" size="8em" >{{category.icon}}</v-icon>
         <!-- </v-btn> -->
@@ -124,11 +124,12 @@
       <!-- 預覽 -->
       <v-flex xs12 sm4 md4 class="my-auto">
         <v-card class="cardAll ma-5" style="border-radius:2em" :color="newCategoryColor">
-        <div class="pr-8 pl-8 pt-2 pb-2" style="width:100%;background-color:rgba(255,255,255,0.1);position: relative">
+        <div style="width:100%;background-color:rgba(255,255,255,0.1);position: relative">
         <v-icon style="width:100%" size="8em" >{{this.newCategoryIcon}}</v-icon>
         <v-text-field
           class="headline"
           v-model="newCategoryName"
+          label="新增類別名稱"
           single-line
           solo
           dense
@@ -165,8 +166,8 @@
         <v-card-title v-if="oldCategory">編輯類別</v-card-title>
         <v-card-title v-else>新增類別</v-card-title>
         <v-card-text class="px-4 py-0" style="font-weight:bold"><v-icon class="px-2" size="18px">mdi-pencil</v-icon>編輯類別名稱</v-card-text>
-        <v-card class="cardAll ma-5" style="border-radius:2em" :color="newCategoryColor">
-        <div class="pr-8 pl-8 pt-2 pb-2" style="width:100%;background-color:rgba(255,255,255,0.1);position: relative">
+        <v-card class="cardAll my-5 mx-8" style="border-radius:2em" :color="newCategoryColor">
+        <div style="width:100%;background-color:rgba(255,255,255,0.1);position: relative">
         <v-icon style="width:100%" size="8em" >{{this.newCategoryIcon}}</v-icon>
         <v-text-field
           class="headline"
