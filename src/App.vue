@@ -308,7 +308,7 @@
               <br />教育的新體驗
             </h1>
             <h1 class="p1t2">透過社群記帳與遊戲，讓父母從小培養孩子的金錢觀</h1>
-            <button color="white" class="p1btn" outlined>開始使用</button>
+            <!-- <button color="white" class="p1btn" outlined>開始使用</button> -->
           </div>
 
           <!-- </v-parallax> -->
@@ -411,7 +411,7 @@
               <transition name="rightIn">
                 <img
                   v-if="gameContent"
-                  src="./assets/home/p4/img_background.svg"
+                  src="./assets/home/p4/text_background.svg"
                   height="115%"
                   class="img4-background"
                 />
@@ -419,7 +419,7 @@
               <transition name="leftIn">
                 <img
                   v-if="gameContent"
-                  src="./assets/home/p4/text_background.svg"
+                  src="./assets/home/p4/img_background.svg"
                   height="100%"
                   class="text4-background"
                 />
