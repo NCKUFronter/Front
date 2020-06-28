@@ -3,6 +3,64 @@
   <v-container fluid class="ma-0" style="width:100vw;" >
     <!-- <div class="card-header">Sunburst</div>
     <div class="card-body father">-->
+      <v-layout row>
+      <v-flex xs0 sm2 md3 v-if="$vuetify.breakpoint.smAndUp">
+      <v-card class="my-4" color="transparent" flat :class="$vuetify.breakpoint.smAndUp ? 'px-10' : ''">
+        <v-card-title style="display:inline"><v-icon class="mr-3">event</v-icon>時間區段</v-card-title>  
+        <v-menu
+          v-model="menu2"
+          :close-on-content-click="false"
+          :nudge-right="40"
+          transition="scale-transition"
+          offset-y
+          min-width="290px"
+          
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-text-field
+              v-model="dateRangeText"
+              readonly
+              v-bind="attrs"
+              v-on="on"
+              class="mx-4"
+            ></v-text-field>
+          </template>
+          <v-date-picker 
+            v-model="date" 
+            @input="menu2 = false"
+            type="month"  
+            range
+          ></v-date-picker>
+        </v-menu>
+      </v-card>
+      <v-card color="transparent" flat :class="$vuetify.breakpoint.mdAndUp ? 'px-10' : ''">
+        <v-card-title style="display:inline"><v-icon class="mr-3">mdi-order-bool-descending</v-icon>統計順序</v-card-title>
+        <div v-for="(item,index) in this.sunburstOrder[this.toggle_exclusive_perspective].length" :key="index">
+        <v-select
+          v-model="orderSelected[index]"
+          :items="orderList"
+          :label="(orderSelected[index]==undefined)?('Layer '+(index+1)):orderSelected[index]"
+          hide-details
+          no-data-text="please click RESET first"
+          solo
+          flat
+          :prepend-inner-icon="(index==0) ?' ':'mdi-chevron-right'"
+          full-width
+          color="white"
+          item-color="white"
+          v-on:change="removeSelected(index)"
+        ></v-select>
+        <!-- v-on:change="removeSelected(index)" -->
+        </div>
+        <v-card-actions class="my-2">
+          <v-spacer/>
+          <v-btn outlined @click="reset" color="#dddee2" style="font-weight:bold;">Reset</v-btn>
+          <v-btn @click="calculate" color="#dddee2" style="font-weight:bold;color:#26282D">Calculate</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-flex>
+
+    <v-flex xs12 sm9 md9>
     <sunburst
       class="sunburst"
       :data="displayData"
@@ -59,7 +117,106 @@
         <report slot="report" :nodes="nodes" />
       </template>
     </sunburst>
+
+    </v-flex>
+
+    <!-- for mobile -->
+    <button
+      v-if="$vuetify.breakpoint.xsOnly"
+      @click.stop="setting = !setting"
+      style="position:fixed;right:60px;top:75px;background-color:transparent;z-index:4;height:fit-content;width:fit-content;"
+    >
+      <transition name="fade">
+        <img
+          v-if="!setting"
+          src="../assets/fronter/account/member_unclicked.svg"
+          height="18px"
+          style="position: absolute;"
+      />
+      </transition>
+      <transition name="fade">
+        <img
+          v-if="setting"
+          src="../assets/fronter/account/member_clicked.svg"
+          height="18px"
+          style="position: absolute;"
+        />
+      </transition>
+    </button>
+    <v-card
+      flat
+      min-height="85vh"
+      style="position:fixed;top:15%;right:0%;border-radius:0;"
+      :style="setting?'z-index:3;':'z-index:0'"
+      class="scroll"
+      color="transparent"
+      v-if="$vuetify.breakpoint.xsOnly"
+    >
+      <v-navigation-drawer
+        v-model="setting"
+        hide-overlay
+        style="border-top-left-radius:4em;width:220px;min-height:85vh;background-color:#3D404E;height:60vh"
+        temporary
+        right
+        class="elevation-0 chart px-3 "
+      >
+      <v-card class="my-4" color="transparent" flat style="padding-top:20%">
+        <v-card-title style="display:inline;font-weight:bold"><v-icon class="mr-3">event</v-icon>時間區段</v-card-title>  
+        <v-menu
+          v-model="menu2"
+          :close-on-content-click="false"
+          :nudge-right="40"
+          transition="scale-transition"
+          offset-y
+          min-width="290px"
+          
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-text-field
+              v-model="dateRangeText"
+              readonly
+              v-bind="attrs"
+              v-on="on"
+              class="mx-4"
+            ></v-text-field>
+          </template>
+          <v-date-picker 
+            v-model="date" 
+            @input="menu2 = false"
+            type="month"  
+            range
+          ></v-date-picker>
+        </v-menu>
+      </v-card>
+      <v-card color="transparent" flat class="ma-0">
+        <v-card-title class="py-0" style="font-weight:bold"><v-icon class="mr-3">mdi-order-bool-descending</v-icon>統計順序</v-card-title>
+        <div v-for="(item,index) in this.sunburstOrder[this.toggle_exclusive_perspective].length" :key="index">
+        <v-select
+          v-model="orderSelected[index]"
+          :items="orderList"
+          :label="(orderSelected[index]==undefined)?('Layer '+(index+1)):orderSelected[index]"
+          hide-details
+          no-data-text="please click RESET first"
+          solo
+          flat
+          :prepend-inner-icon="(index==0) ?' ':'mdi-chevron-right'"
+          full-width
+          color="white"
+          item-color="white"
+          v-on:change="removeSelected(index)"
+        ></v-select>
+        <!-- v-on:change="removeSelected(index)" -->
+        </div>
+        <v-card-actions class="my-5">
+          <v-spacer/>
+          <v-btn outlined @click="reset" color="#dddee2" style="font-weight:bold;">Reset</v-btn>
+          <v-btn @click="calculate" color="#dddee2" style="font-weight:bold;color:#26282D">Calculate</v-btn>
+        </v-card-actions>
+      </v-card>
+      </v-navigation-drawer>
+    </v-card>
     <!-- </div> -->
+    </v-layout>
   </v-container>
 </template>
 
@@ -112,11 +269,35 @@ export default {
         ledger: ["ledger", "user", "recordType", "category"],
         personal: ["recordType", "ledger", "category"],
         points: ["flow", "type", "subtype", "user"]
-      }
+      },
+      orderSelected:[],
+      orderList:[],
+      date: [new Date().toISOString().substr(0, 7),],
+      menu2: false,
+      // sunburstJson:null,
+      calculateList:[],
+      startDate:null,
+      endDate:null,
+      setting:false,
     };
   },
+  inject: ["$alert"],
   props:["toggle_exclusive_perspective",],
+  created(){
+    this.orderSelected=[...this.sunburstOrder[this.toggle_exclusive_perspective]]
+    this.calculateList=[...this.sunburstOrder[this.toggle_exclusive_perspective]]
+    var start=new Date(this.date[0])
+    this.startDate=new Date(start.getFullYear(),start.getMonth(),2).toISOString()
+    var end=new Date(this.date[0])
+    this.endDate=new Date(end.getFullYear(),end.getMonth()+1,1).toISOString()
+    console.log(this.startDate)
+    console.log(this.endDate)
+  },
   computed: {
+    dateRangeText () {
+      this.sortDates();
+      return this.date.join(' ~ ')
+    },
     displayData() {
       return this.sunburstJson;
       /*
@@ -135,7 +316,7 @@ export default {
         const type = this.toggle_exclusive_perspective;
         return this.$http
           .get(`/statistic/${type}`, {
-            params: { order: this.sunburstOrder[type] }
+            params: { order: this.calculateList,start: this.startDate,end: this.endDate}
           })
           .then(res => {
             const json = res.data;
@@ -146,7 +327,55 @@ export default {
       default: {}
     }
   },
-  methods: {},
+  methods: {
+    sortDates(){
+      this.date.sort();
+    },
+    removeSelected(idx){
+      console.log("remove")
+      var i;
+      for(i=0;i<this.orderList.length;i++){
+        if(this.orderSelected[idx]==this.orderList[i]){
+          this.orderList.splice(i,1)
+        }
+      }
+    },
+    reset(){
+      this.orderList=[...this.sunburstOrder[this.toggle_exclusive_perspective]];
+      this.orderSelected=[];
+      this.date=[new Date().toISOString().substr(0, 7),],
+      this.calculateList=[];
+      console.log(this.orderList)
+    },
+    calculate(){
+      var i;
+      var empty=false;
+      for(i=0;i<this.sunburstOrder[this.toggle_exclusive_perspective].length;i++){
+        if(this.orderSelected[i]==undefined){
+          empty=true;
+          break;
+        }
+      }
+      if(!empty){
+        var start=new Date(this.date[0])
+        this.startDate=new Date(start.getFullYear(),start.getMonth(),2).toISOString()
+        var end;
+        if(this.date[1]==undefined){
+          end=new Date(this.date[0])
+        }else{
+          end=new Date(this.date[1])
+        }
+        this.endDate=new Date(end.getFullYear(),end.getMonth()+1,1).toISOString()
+        this.calculateList=[...this.orderSelected];
+        this.$asyncComputed.sunburstJson.update();
+        console.log(this.sunburstJson)
+      }else{
+        return this.$alert.error("統計排序不得為空")
+      }
+      
+    }
+
+  },
   components: {
     sunburst,
     nodeInfoDisplayer,
