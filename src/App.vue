@@ -184,11 +184,14 @@
       <v-spacer />
       <v-spacer />
       <!-- bell notification -->
-      <v-menu :close-on-content-click="true" offset-y 
+      <v-menu
+        :close-on-content-click="true"
+        offset-y
         nudge-left="40"
         min-width="250"
         max-width="400"
-        v-if="login && clear.animeOver">
+        v-if="login && clear.animeOver"
+      >
         <template v-slot:activator="{ on, attrs }">
           <v-btn
             @click="ring"
@@ -215,9 +218,9 @@
               <img :src="info.photo" />
             </v-avatar>
             <span style="color:#26282D">{{ info.message }}</span>
-            <span style="color:#333333;position:absolute;right:10px;bottom:0;font-size:12px">
-              {{ timeString(info.time) }}
-            </span>
+            <span
+              style="color:#333333;position:absolute;right:10px;bottom:0;font-size:12px"
+            >{{ timeString(info.time) }}</span>
           </v-list-item>
           <v-list-item v-if="$notification.data.messages.length == 0" class="text-center">
             <span style="color:#26282D">尚無任何即時通知</span>
@@ -891,14 +894,7 @@
       <v-progress-circular :width="7" :size="70" indeterminate color="primary"></v-progress-circular>
     </v-dialog>
 
-    <GlobalDialog
-      :state="$confirm.state"
-      prominent
-      persistent
-      text
-      border="top"
-      icon="mdi-help"
-    ></GlobalDialog>
+    <GlobalDialog :state="$confirm.state" prominent persistent text border="top" icon="mdi-help"></GlobalDialog>
     <GlobalSnackBar dismissible top :state="$alert.state"></GlobalSnackBar>
     <GlobalSnackBar
       bottom
@@ -924,13 +920,6 @@
     outlined
     style="width:100vw;height:100vh;background-color:#000019; border:none;border-radius:0px;"
   >
-    <v-card
-      flat
-      outlined
-      style="z-index:5;background-color:#ffffff00;border:none;width:100%;height:100%;"
-      @click="nextSlide1()"
-      v-if="toggle1"
-    ></v-card>
     <transition name="info_fade">
       <h1
         :style="($vuetify.breakpoint.smAndUp)?'font-size:40px;':'font-size:24px;'"
@@ -970,6 +959,13 @@
         src="./assets/knowFronter.svg"
       ></v-img>
     </transition>
+    <v-card
+      flat
+      outlined
+      style="z-index:7;background-color:#ffffff00;border:none;width:100%;height:100%;"
+      @click="nextSlide1()"
+      v-if="toggle1"
+    ></v-card>
     <v-card
       flat
       outlined
