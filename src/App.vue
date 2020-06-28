@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app v-if="!viewIntro">
     <v-app-bar
       transition="slide-y-transition"
       color="#ffffff00"
@@ -11,6 +11,7 @@
     >
       <h1 :style="($vuetify.breakpoint.smAndUp)?'font-size:40px;':'font-size:24px;'">FRONTER</h1>
       <v-spacer />
+
       <v-menu offset-y v-if="clear.animeOver">
         <template v-slot:activator="{ on }">
           <v-btn
@@ -37,6 +38,9 @@
           </v-btn>
           <v-btn outlined block v-on:click="doLogin('child@gmail.com')">
             <v-icon>mdi-login-variant</v-icon>小孩登入
+          </v-btn>
+          <v-btn outlined block @click="getToIntro()">
+            <v-icon>mdi-cursor-default-click-outline</v-icon>深入了解
           </v-btn>
         </v-card>
       </v-menu>
@@ -69,7 +73,6 @@
           </v-btn>
         </v-card>
       </v-menu>
-
       <v-btn
         width="fit-content"
         height="fit-content"
@@ -115,6 +118,8 @@
       </h1>-->
       <!-- <v-flex xs4 sm5 md5 v-if="login && clear.animeOver  && $vuetify.breakpoint.smAndUp" class="px-4"> -->
       <v-spacer />
+      <v-spacer />
+      <!-- searching bar -->
       <v-form style="height:100%;width:45%" class="px-8">
         <v-text-field
           width="500px"
@@ -735,6 +740,255 @@
       </template>
     </GlobalSnackBar>
   </v-app>
+  <!-- Intro Page -->
+  <v-card
+    v-else
+    class="introPage"
+    flat
+    outlined
+    style="width:100vw;height:100vh;background-color:#000019; border:none;border-radius:0px;"
+  >
+    <transition name="info_fade">
+      <h1
+        :style="($vuetify.breakpoint.smAndUp)?'font-size:40px;':'font-size:24px;'"
+        style="position:absolute;color:#ffffff;width:200px;left:10px;top:10px;"
+        @click="nextSlide1()"
+        v-if="toggle1"
+      >FRONTER</h1>
+    </transition>
+    <transition name="info_fade">
+      <v-card
+        :style="($vuetify.breakpoint.smAndUp)?'top:35%;left:37%;':'top:48%;left:5%;'"
+        flat
+        outlined
+        style="z-index:2;background-color:#ffffff00;border:none;position:absolute;"
+        @click="nextSlide1()"
+        v-if="toggle1"
+      >
+        <v-card-text
+          :style="($vuetify.breakpoint.smAndUp)?'font-size:50px;':'font-size:25px;'"
+          style="text-align:center;font-weight:700;color:#ffffff;"
+        >認識星記帳</v-card-text>
+        <v-card-text
+          :style="($vuetify.breakpoint.smAndUp)?'font-size:14px;':'font-size:12px;'"
+          style="text-align:center;font-weight:normal;color:#ffffff;"
+        >
+          星記帳是全新的記帳體驗，
+          <br />與你的家人共享帳本，
+          <br />從現實的消費中積攢星記帳中的虛擬點數，
+          <br />兌換點數將為您在《宇宙戰艦》中提升更好的遊戲體驗，
+          <br />
+        </v-card-text>
+      </v-card>
+    </transition>
+    <transition name="info_fade">
+      <v-img
+        @click="nextSlide1()"
+        v-if="toggle0"
+        class="infoImg"
+        :style="($vuetify.breakpoint.smAndUp)?'width:70vw;left:13.5%;':'width:80vw;left:10%;top:25%;'"
+        style="z-index:1;"
+        src="./assets/knowFronter.svg"
+      ></v-img>
+    </transition>
+
+    <transition name="info_fade">
+      <v-card
+        flat
+        outlined
+        :style="($vuetify.breakpoint.smAndUp)?'top:33.3%;left:18.4%;':'top:15%;left:7%;'"
+        style="z-index:4;background-color:#ffffff00;border:none;position:absolute;"
+        @click="nextSlide2()"
+        v-if="toggle2"
+      >
+        <br :style="($vuetify.breakpoint.smAndUp)?'':'display:none;'" />
+        <v-card-text
+          :style="($vuetify.breakpoint.smAndUp)?'font-size:40px;':'font-size:20px;'"
+          style="text-align:left;font-weight:700;color:#ffffff;"
+        >社群帳本</v-card-text>
+        <br :style="($vuetify.breakpoint.smAndUp)?'':'display:none;'" />
+        <hr
+          style="background-color:#ffffff;border:none;"
+          :style="($vuetify.breakpoint.smAndUp)?'height:3px;width:14vw;':'height:2px;width:35vw;'"
+        />
+        <br :style="($vuetify.breakpoint.smAndUp)?'':'display:none;'" />
+        <v-card-text
+          :style="($vuetify.breakpoint.smAndUp)?'font-size:20px;':'font-size:13px;'"
+          style="text-align:left;font-weight:700;color:#ffffff;"
+        >
+          打破資產階級的高牆
+          <br />
+          <br />你的錢就是我的錢
+          <br />
+          <br />我的錢還是我的錢
+          <br />
+          <br />社會主義萬歲
+          <br />
+          <br />火箭隊萬歲
+          <br />
+          <br />搜難油
+          <br />
+          <br />哈哈哈哈哈哈哈哈哈
+        </v-card-text>
+      </v-card>
+    </transition>
+    <transition name="info_fade">
+      <v-img
+        @click="nextSlide4()"
+        v-if="toggle2"
+        flat
+        class="infoImg"
+        src="./assets/01.svg"
+        :style="($vuetify.breakpoint.smAndUp)?'width:20vw;left: 12%; bottom: 40%;':'width:70vw; height:60vh; left: 15%; top:25%;'"
+        style="z-index:2;position:absolute;"
+      ></v-img>
+    </transition>
+    <transition name="info_fade">
+      <v-img
+        @click="nextSlide4()"
+        v-if="toggle2"
+        flat
+        class="infoImg"
+        src="./assets/firstPlant.svg"
+        :style="($vuetify.breakpoint.smAndUp)?'width:75vw;left: 48%; bottom: 12%;':'width:70vw; height:60vh; left: 15%; top:25%;'"
+        style="z-index:2;position:absolute;"
+      ></v-img>
+    </transition>
+    <transition name="info_fade">
+      <v-card
+        flat
+        outlined
+        :style="($vuetify.breakpoint.smAndUp)?'bottom:30%;right:20%;':'top:15%;left:7%;'"
+        style="z-index:4;background-color:#ffffff00;border:none;position:absolute;"
+        @click="nextSlide3()"
+        v-if="toggle3"
+      >
+        <br :style="($vuetify.breakpoint.smAndUp)?'':'display:none;'" />
+        <v-card-text
+          :style="($vuetify.breakpoint.smAndUp)?'font-size:40px;':'font-size:20px;'"
+          style="text-align:left;font-weight:700;color:#ffffff;"
+        >點數紅利</v-card-text>
+        <br :style="($vuetify.breakpoint.smAndUp)?'':'display:none;'" />
+        <hr
+          style="background-color:#ffffff;border:none;"
+          :style="($vuetify.breakpoint.smAndUp)?'height:3px;width:14vw;':'height:2px;width:35vw;'"
+        />
+        <br :style="($vuetify.breakpoint.smAndUp)?'':'display:none;'" />
+        <v-card-text
+          :style="($vuetify.breakpoint.smAndUp)?'font-size:20px;':'font-size:13px;'"
+          style="text-align:left;font-weight:700;color:#ffffff;"
+        >
+          不會玩遊戲？
+          <br />
+          <br />三個字
+          <br />
+          <br />「你沒有童年」
+        </v-card-text>
+      </v-card>
+    </transition>
+    <transition name="info_fade">
+      <v-img
+        @click="nextSlide4()"
+        v-if="toggle3"
+        flat
+        class="infoImg"
+        src="./assets/02.svg"
+        :style="($vuetify.breakpoint.smAndUp)?'width:20vw;right: 12%; bottom:30%;':'width:70vw; height:60vh; left: 15%; top:25%;'"
+        style="z-index:2;position:absolute;"
+      ></v-img>
+    </transition>
+    <transition name="info_fade">
+      <v-img
+        @click="nextSlide4()"
+        v-if="toggle3"
+        flat
+        class="infoImg"
+        src="./assets/secondPlant.svg"
+        :style="($vuetify.breakpoint.smAndUp)?'width:60vw;right: 50%; bottom: 20%;':'width:70vw; height:60vh; left: 15%; top:25%;'"
+        style="z-index:2;position:absolute;"
+      ></v-img>
+    </transition>
+    <transition name="info_fade">
+      <v-card
+        flat
+        outlined
+        :style="($vuetify.breakpoint.smAndUp)?'top:33%;left:18%;':'top:15%;left:7%;'"
+        style="z-index:4;background-color:#ffffff00;border:none;position:absolute;"
+        @click="nextSlide4()"
+        v-if="toggle4"
+      >
+        <br :style="($vuetify.breakpoint.smAndUp)?'':'display:none;'" />
+        <v-card-text
+          :style="($vuetify.breakpoint.smAndUp)?'font-size:40px;':'font-size:20px;'"
+          style="text-align:left;font-weight:700;color:#ffffff;"
+        >統計圖</v-card-text>
+        <br :style="($vuetify.breakpoint.smAndUp)?'':'display:none;'" />
+        <hr
+          style="background-color:#ffffff;border:none;"
+          :style="($vuetify.breakpoint.smAndUp)?'height:3px;':'height:2px;width:35vw;'"
+        />
+        <br :style="($vuetify.breakpoint.smAndUp)?'':'display:none;'" />
+        <v-card-text
+          :style="($vuetify.breakpoint.smAndUp)?'font-size:20px;':'font-size:13px;'"
+          style="text-align:left;font-weight:700;color:#ffffff;"
+        >
+          宇宙中數不清的星宇塵埃
+          <br />
+          <br />如何才能細數出星河之間
+          <br />
+          <br />我們仍能相遇的可能性？
+        </v-card-text>
+      </v-card>
+    </transition>
+    <transition name="info_fade">
+      <v-img
+        @click="nextSlide4()"
+        v-if="toggle4"
+        flat
+        class="infoImg"
+        src="./assets/03.svg"
+        :style="($vuetify.breakpoint.smAndUp)?'width:25vw;left: 12%; bottom: 40%;':'width:70vw; height:60vh; left: 15%; top:25%;'"
+        style="z-index:2;position:absolute;"
+      ></v-img>
+    </transition>
+    <transition name="info_fade">
+      <v-img
+        @click="nextSlide4()"
+        v-if="toggle4"
+        flat
+        class="infoImg"
+        src="./assets/chart.png"
+        :style="($vuetify.breakpoint.smAndUp)?'width:60vw;left: 50%; bottom: 2%;':'width:70vw; height:60vh; left: 15%; top:25%;'"
+        style="z-index:2;position:absolute;"
+      ></v-img>
+    </transition>
+    <transition name="info_fade">
+      <v-card
+        flat
+        outlined
+        :style="($vuetify.breakpoint.smAndUp)?'top:30%;left:32%;':'top:25%;left:16%;'"
+        style="background-color:#ffffff00;border:none;position:absolute;"
+        v-if="toggle6"
+      >
+        <v-card-text
+          :style="($vuetify.breakpoint.smAndUp)?'font-size:50px;':'font-size:25px;'"
+          style="text-align:center;font-weight:700;color:#ffffff;"
+        >立即登入使用星記帳</v-card-text>
+      </v-card>
+    </transition>
+
+    <!-- v-on:click="toLogin" v-on:click="doLogin('father@gmail.com')"-->
+    <transition name="info_fade">
+      <v-btn
+        v-on:click="doLogin('father@gmail.com');closeIntro()"
+        v-if="toggle6"
+        rounded
+        color="#ffffff00"
+        :style="($vuetify.breakpoint.smAndUp)?'left: 45%;top: 50%;':'left: 37%;top: 35%;'"
+        style="color:#ffffff;position:absolute;border: 2px solid #ffffff;"
+      >登入</v-btn>
+    </transition>
+  </v-card>
 </template>
 
 <script>
@@ -778,12 +1032,10 @@ let data = {
   ],
   menu: [
     { child: [], icon: "mdi-chart-arc", title: "統計", link: "/summary" },
-    { child: [], icon: "", title: "認識星際帳", link: "" },
-    { child: [], icon: "", title: "如何使用", link: "" }
+    { child: [], icon: "", title: "認識星際帳", link: "/webInfo" }
   ],
   footerAccount: [
     { title: "認識星際帳", link: "" },
-    { title: "如何使用", link: "" },
     { title: "記下你的第一筆精彩", link: "" }
   ],
   footerGame: [
@@ -803,6 +1055,14 @@ let data = {
     { title: "Click Me" }
   ],
   clear: { animeOver: true },
+  viewIntro: false,
+  toggle0: true,
+  toggle1: false,
+  toggle2: false,
+  toggle3: false,
+  toggle4: false,
+
+  toggle6: false,
 
   bellRing: false,
   drawer: false,
@@ -812,6 +1072,7 @@ let data = {
   account: true,
   accountContent: false,
   gameContent: false,
+
   swiperOption: {
     notNextTick: true,
     direction: "vertical",
@@ -976,6 +1237,42 @@ export default {
     ring() {
       console.log("ring");
       this.bellRing = !this.bellRing;
+    },
+    getToIntro() {
+      this.viewIntro = true;
+      this.toggle0 = true;
+      this.toggle6 = false;
+      let self = this;
+      setTimeout(function() {
+        self.toggle1 = true;
+      }, 1000);
+    },
+    nextSlide1() {
+      this.toggle0 = !this.toggle0;
+      this.toggle1 = !this.toggle1;
+      this.toggle2 = !this.toggle2;
+    },
+    nextSlide2() {
+      this.toggle2 = !this.toggle2;
+      this.toggle3 = !this.toggle3;
+    },
+    nextSlide3() {
+      this.toggle3 = !this.toggle3;
+      this.toggle4 = !this.toggle4;
+    },
+    nextSlide4() {
+      if (this.toggle4) {
+        this.toggle4 = !this.toggle4;
+
+        this.toggle6 = !this.toggle6;
+      } else if (this.toggle2) {
+        this.nextSlide2();
+      } else if (this.toggle3) {
+        this.nextSlide3();
+      }
+    },
+    closeIntro() {
+      this.viewIntro = false;
     }
   },
   destroyed() {
@@ -1455,5 +1752,22 @@ html {
 .bellBtn:hover {
   cursor: pointer;
   background-color: #b3b2b2;
+}
+
+// for info page
+.introPage {
+  font-family: Roboto, 微軟正黑體, Arial, Helvetica, sans-serif;
+}
+.infoImg:hover {
+  cursor: pointer;
+}
+.info_fade-enter-active {
+  transition: all 0.8s;
+}
+.info_fade-leave-active {
+  transition: all 0.4s;
+}
+.info_fade-leave-to {
+  opacity: 0;
 }
 </style>

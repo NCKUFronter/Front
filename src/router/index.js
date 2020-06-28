@@ -14,6 +14,7 @@ import fronterHome from "../views/FronterHome.vue";
 import global_ from "../components/Global.vue";
 import Vuetify from "vuetify/lib";
 import VueRellax from "vue-rellax";
+import webInfo from "../components/webInfo.vue";
 
 Vue.use(VueRellax);
 
@@ -89,6 +90,7 @@ const routes = [
   //   ],
   // },
   { path: "/fronter_home", name: "FronterHomeName", component: fronterHome },
+  { path: "/webInfo", name: "webInfoName", component: webInfo },
   {
     path: "/personal",
     name: "PersonalAccountName",
