@@ -49,7 +49,7 @@
       </v-card>
     </v-card>
     <!-- mobile -->
-    <v-card v-else flat style="padding: 70px 22px 10px 22px;background-color:#26282d">
+    <v-card v-else flat style="padding: 27px 22px 10px 22px;background-color:#26282d">
       <v-row class="pointSearch" style>
         <v-spacer></v-spacer>
         <v-col xs6 sm2 md2 offset-6>
@@ -68,7 +68,7 @@
         </v-col>
       </v-row>
 
-      <v-card flat style="height:70vh;background-color:#ffffff00;" class="scroll">
+      <v-card flat style="height:75vh;background-color:#ffffff00;" class="scroll">
         <v-skeleton-loader v-if="loading"></v-skeleton-loader>
         <v-data-table
           :items-per-page="10"

@@ -8,54 +8,62 @@
     <transition name="info_fade">
       <h1
         :style="($vuetify.breakpoint.smAndUp)?'font-size:40px;':'font-size:24px;'"
-        style="z-index:5;position:absolute;color:#ffffff;width:200px;left:10px;top:10px;"
-        @click="nextSlide1()"
+        style="z-index:6;position:absolute;color:#ffffff;width:200px;left:10px;top:10px;"
         v-if="toggle1"
       >FRONTER</h1>
     </transition>
     <transition name="info_fade">
       <v-card
-        :style="($vuetify.breakpoint.smAndUp)?'top:35%;left:37%;':'top:48%;left:5%;'"
+        :style="($vuetify.breakpoint.smAndUp)?'top:35%;left:40%;':'top:48%;left:22%;'"
         flat
         outlined
-        style="z-index:2;background-color:#ffffff00;border:none;position:absolute;"
-        @click="nextSlide1()"
+        style="z-index:6;background-color:#ffffff00;border:none;position:absolute;"
         v-if="toggle1"
       >
         <v-card-text
           :style="($vuetify.breakpoint.smAndUp)?'font-size:50px;':'font-size:25px;'"
-          style="text-align:center;font-weight:700;color:#ffffff;"
+          style="text-align:center;font-weight:bold;color:#ffffff;"
         >認識星記帳</v-card-text>
         <v-card-text
           :style="($vuetify.breakpoint.smAndUp)?'font-size:14px;':'font-size:12px;'"
-          style="text-align:center;font-weight:normal;color:#ffffff;"
+          style="text-align:center;font-weight:bold;color:#ffffff;"
         >
-          星記帳是全新的記帳體驗，
-          <br />與你的家人共享帳本，
-          <br />從現實的消費中積攢星記帳中的虛擬點數，
-          <br />兌換點數將為您在《宇宙戰艦》中提升更好的遊戲體驗，
-          <br />
+          星記帳
+          <br />是全新的記帳體驗
+          <br />共享帳本、點數紅利、統計圖表
+          <br />三位一體，實現劃時代的星記帳
         </v-card-text>
       </v-card>
     </transition>
     <transition name="info_fade">
       <v-img
-        @click="nextSlide1()"
         v-if="toggle0"
         class="infoImg"
-        :style="($vuetify.breakpoint.smAndUp)?'width:69vw;left:13.5%;':'width:80vw;left:10%;top:25%;'"
-        style="z-index:1;"
+        :style="($vuetify.breakpoint.smAndUp)?'width:70vw;left:13.5%;':'width:80vw;left:10%;top:25%;'"
+        style="z-index:5;position:fixed;"
         src="../assets/knowFronter.svg"
       ></v-img>
     </transition>
-
+    <v-card
+      flat
+      outlined
+      style="z-index:6;background-color:#ffffff00;border:none;width:100%;height:100%;"
+      @click="nextSlide1()"
+      v-if="toggle1"
+    ></v-card>
+    <v-card
+      flat
+      outlined
+      style="z-index:6;background-color:#ffffff00;border:none;width:100%;height:100%;"
+      @click="nextSlide2()"
+      v-if="toggle2"
+    ></v-card>
     <transition name="info_fade">
       <v-card
         flat
         outlined
-        :style="($vuetify.breakpoint.smAndUp)?'top:33.3%;left:18.4%;':'top:15%;left:7%;'"
+        :style="($vuetify.breakpoint.smAndUp)?'top:33.3%;left:18.4%;':'top:20%;left:7%;'"
         style="z-index:4;background-color:#ffffff00;border:none;position:absolute;"
-        @click="nextSlide2()"
         v-if="toggle2"
       >
         <br :style="($vuetify.breakpoint.smAndUp)?'':'display:none;'" />
@@ -91,33 +99,38 @@
     </transition>
     <transition name="info_fade">
       <v-img
-        @click="nextSlide4()"
         v-if="toggle2"
         flat
         class="infoImg"
         src="../assets/01.svg"
-        :style="($vuetify.breakpoint.smAndUp)?'width:20vw;left: 12%; bottom: 40%;':'width:70vw; height:60vh; left: 15%; top:25%;'"
+        :style="($vuetify.breakpoint.smAndUp)?'width:20vw;left: 12%; bottom: 40%;':'width:30vw; left: 4%; top:12%;'"
         style="z-index:2;position:absolute;"
       ></v-img>
     </transition>
     <transition name="info_fade">
       <v-img
-        @click="nextSlide4()"
+        class="infoImg"
         v-if="toggle2"
         flat
-        class="infoImg"
         src="../assets/firstPlant.svg"
-        :style="($vuetify.breakpoint.smAndUp)?'width:75vw;left: 48%; bottom: 12%;':'width:70vw; height:60vh; left: 15%; top:25%;'"
-        style="z-index:2;position:absolute;"
+        :style="($vuetify.breakpoint.smAndUp)?'width:75vw;left: 48%; bottom: 12%;':'width:80vw; left: 45%; top:0%;'"
+        style="z-index:2;position:fixed;"
       ></v-img>
     </transition>
+    <v-card
+      flat
+      outlined
+      style="z-index:5;background-color:#ffffff00;border:none;width:100%;height:100%;"
+      @click="nextSlide3()"
+      v-if="toggle3"
+    ></v-card>
+
     <transition name="info_fade">
       <v-card
         flat
         outlined
-        :style="($vuetify.breakpoint.smAndUp)?'bottom:30%;right:20%;':'top:15%;left:7%;'"
-        style="z-index:4;background-color:#ffffff00;border:none;position:absolute;"
-        @click="nextSlide3()"
+        :style="($vuetify.breakpoint.smAndUp)?'bottom:30%;right:20%;':'top:27%;right:4%;'"
+        style="z-index:6;background-color:#ffffff00;border:none;position:absolute;"
         v-if="toggle3"
       >
         <br :style="($vuetify.breakpoint.smAndUp)?'':'display:none;'" />
@@ -145,33 +158,37 @@
     </transition>
     <transition name="info_fade">
       <v-img
-        @click="nextSlide4()"
         v-if="toggle3"
         flat
         class="infoImg"
         src="../assets/02.svg"
-        :style="($vuetify.breakpoint.smAndUp)?'width:20vw;right: 12%; bottom:30%;':'width:70vw; height:60vh; left: 15%; top:25%;'"
+        :style="($vuetify.breakpoint.smAndUp)?'width:20vw;right: 12%; bottom:30%;':'width:30vw;right: 4%; top:20%;'"
         style="z-index:2;position:absolute;"
       ></v-img>
     </transition>
     <transition name="info_fade">
       <v-img
-        @click="nextSlide4()"
         v-if="toggle3"
         flat
         class="infoImg"
         src="../assets/secondPlant.svg"
-        :style="($vuetify.breakpoint.smAndUp)?'width:60vw;right: 50%; bottom: 20%;':'width:70vw; height:60vh; left: 15%; top:25%;'"
+        :style="($vuetify.breakpoint.smAndUp)?'width:60vw;right: 50%; bottom: 20%;':'width:70%; right:40%; top:10%;'"
         style="z-index:2;position:absolute;"
       ></v-img>
     </transition>
+    <v-card
+      flat
+      outlined
+      style="position:absolute;z-index:6;background-color:#ffffff00;border:none;width:100%;height:100%;"
+      @click="nextSlide4()"
+      v-if="toggle4"
+    ></v-card>
     <transition name="info_fade">
       <v-card
         flat
         outlined
-        :style="($vuetify.breakpoint.smAndUp)?'top:33%;left:18%;':'top:15%;left:7%;'"
+        :style="($vuetify.breakpoint.smAndUp)?'top:33%;left:18%;':'top:16%;left:10%;'"
         style="z-index:4;background-color:#ffffff00;border:none;position:absolute;"
-        @click="nextSlide4()"
         v-if="toggle4"
       >
         <br :style="($vuetify.breakpoint.smAndUp)?'':'display:none;'" />
@@ -182,7 +199,7 @@
         <br :style="($vuetify.breakpoint.smAndUp)?'':'display:none;'" />
         <hr
           style="background-color:#ffffff;border:none;"
-          :style="($vuetify.breakpoint.smAndUp)?'height:3px;':'height:2px;width:35vw;'"
+          :style="($vuetify.breakpoint.smAndUp)?'height:3px;':'height:2px;'"
         />
         <br :style="($vuetify.breakpoint.smAndUp)?'':'display:none;'" />
         <v-card-text
@@ -199,24 +216,20 @@
     </transition>
     <transition name="info_fade">
       <v-img
-        @click="nextSlide4()"
         v-if="toggle4"
-        flat
         class="infoImg"
         src="../assets/03.svg"
-        :style="($vuetify.breakpoint.smAndUp)?'width:25vw;left: 12%; bottom: 40%;':'width:70vw; height:60vh; left: 15%; top:25%;'"
+        :style="($vuetify.breakpoint.smAndUp)?'width:25vw;left: 12%; bottom: 40%;':'width:30vw; left: 15%; top:10%;'"
         style="z-index:2;position:absolute;"
       ></v-img>
     </transition>
     <transition name="info_fade">
       <v-img
-        @click="nextSlide4()"
         v-if="toggle4"
-        flat
         class="infoImg"
         src="../assets/chart.png"
-        :style="($vuetify.breakpoint.smAndUp)?'width:60vw;left: 50%; bottom: 2%;':'width:70vw; height:60vh; left: 15%; top:25%;'"
-        style="z-index:2;position:absolute;"
+        :style="($vuetify.breakpoint.smAndUp)?'width:60vw;left: 50%; bottom: 2%;':'width:80vw; left: 34%; top:40%;'"
+        style="z-index:4;position:fixed;"
       ></v-img>
     </transition>
   </v-card>
@@ -228,7 +241,8 @@ let data = {
   toggle1: false,
   toggle2: false,
   toggle3: false,
-  toggle4: false
+  toggle4: false,
+  toggle5: false
 };
 export default {
   name: "webInfoName",
@@ -237,8 +251,10 @@ export default {
     return data;
   },
   mounted: function() {
-    var self = this;
-    self.$clear.animeOver = false;
+    this.$clear.animeOver = false;
+    this.toggle0 = true;
+    this.toggle5 = false;
+    let self = this;
     setTimeout(function() {
       self.toggle1 = true;
     }, 1000);
@@ -258,14 +274,8 @@ export default {
       this.toggle4 = !this.toggle4;
     },
     nextSlide4() {
-      if (this.toggle4) {
-        this.toggle4 = !this.toggle4;
-        this.$router.push("/accounting");
-      } else if (this.toggle2) {
-        this.nextSlide2();
-      } else if (this.toggle3) {
-        this.nextSlide3();
-      }
+      this.toggle4 = !this.toggle4;
+      this.$router.push("/accounting");
     }
   }
 };

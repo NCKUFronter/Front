@@ -196,7 +196,7 @@
             v-bind="attrs"
             v-on="on"
           >
-            <v-icon class="px-1" v-if="login && clear.animeOver" size="30px">mdi-bell-outline</v-icon>
+            <v-icon class="px-1 mt-1" v-if="login && clear.animeOver" size="30px">mdi-bell-outline</v-icon>
           </v-btn>
         </template>
 
@@ -206,23 +206,16 @@
           </v-list-item>
         </v-list>
       </v-menu>
-      <!-- user's name -->
-
-      <v-card-title
-        class="pa-0 pr-8"
-        v-if="login && clear.animeOver && $vuetify.breakpoint.smAndUp"
-        style="font-size:22px;font-weight:bold;"
-      >{{ profile.name }}</v-card-title>
 
       <!-- </v-flex> -->
       <!-- <v-flex xs1 sm1 md1 class="pa-4" v-if="clear.animeOver"> -->
 
       <!-- peraonal account -->
-      <v-menu offset-y v-if="clear.animeOver">
+      <!-- <v-menu offset-y v-if="clear.animeOver">
         <template v-slot:activator="{ on }">
           <v-btn width="fit-content" height="fit-content" v-on="on" fab>
             <v-img :src="profile.photo" style="width:30px;height:30px;border-radius:50%;"></v-img>
-            <!-- <v-icon large color="white">mdi-account-circle</v-icon> -->
+            <v-icon large color="white">mdi-account-circle</v-icon>
           </v-btn>
         </template>
         <v-card flat v-if="!login" class="pa-2">
@@ -245,7 +238,7 @@
             <img :src="profile.photo" />
           </v-avatar>
           <v-card-title class="pb-1 justify-center">{{ profile.name }}</v-card-title>
-          <!--v-card-subtitle>{{profile._id}}</v-card-subtitle-->
+          v-card-subtitle>{{profile._id}}</v-card-subtitle>
           <v-card-text class="pb-0">{{ profile.email }}</v-card-text>
           <v-btn outlined block color="#cccccc" disabled>
             <v-icon>mdi-file-edit-outline</v-icon>綁定信用卡
@@ -257,7 +250,75 @@
             <v-icon>mdi-logout-variant</v-icon>登出
           </v-btn>
         </v-card>
-      </v-menu>
+      </v-menu>-->
+
+      <!-- user's name -->
+
+      <v-card-title
+        class="pa-0 pr-8 mt-1"
+        v-if="login && clear.animeOver && $vuetify.breakpoint.smAndUp"
+        style="z-index:8;font-size:22px;font-weight:bold;"
+      >{{ profile.name }}</v-card-title>
+
+      <!-- personal profile -->
+      <v-btn
+        width="fit-content"
+        height="fit-content"
+        @click="profileDrawer = !profileDrawer"
+        v-if="login && clear.animeOver"
+        fab
+      >
+        <v-img
+          :src="profile.photo"
+          style="z-index:8;width:35px;height:35px;border-radius:50%;"
+          :style="(profileDrawer) ? 'background-color:#26282D;':'background-color:#474C59;'"
+        ></v-img>
+      </v-btn>
+      <v-navigation-drawer
+        right
+        v-model="profileDrawer"
+        hide-overlay
+        :style="($vuetify.breakpoint.smAndUp) ? 'width:16%':'width:45%;'"
+        style="top:15%; background-color:#3D404E"
+        app
+        v-if="login && clear.animeOver "
+        temporary
+      >
+        <v-list-item-group>
+          <v-list-item-content>
+            <br />
+            <br />
+            <v-list-title
+              :class="($vuetify.breakpoint.smAndUp) ? 'pb-0 ml-11':'ml-6'"
+              style="font-weight:bold;"
+              :style="($vuetify.breakpoint.smAndUp) ? 'font-size:18px;':'font-size:15px;'"
+            >{{ profile.email }}</v-list-title>
+
+            <v-btn
+              outlined
+              block
+              :class="($vuetify.breakpoint.smAndUp) ? 'mt-3 ml-6':'mt-3 ml-6'"
+              retain-focus-on-click
+              style="background-color:#ffffff00;border:none;font-weight:bold;"
+              :style="($vuetify.breakpoint.smAndUp) ? 'font-size:18px;':'font-size:15px;'"
+              @click="getPoints"
+            >
+              <v-icon>mdi-alpha-p-circle-outline</v-icon>每日點數
+            </v-btn>
+
+            <v-btn
+              outlined
+              block
+              :class="($vuetify.breakpoint.smAndUp) ? 'mt-3 ml-11':'ml-10'"
+              style="background-color:#ffffff00;border:none;font-weight:bold;"
+              :style="($vuetify.breakpoint.smAndUp) ? 'font-size:18px;':'font-size:15px;'"
+              v-on:click="toLogout"
+            >
+              <v-icon>mdi-logout-variant</v-icon>登出
+            </v-btn>
+          </v-list-item-content>
+        </v-list-item-group>
+      </v-navigation-drawer>
       <!-- </v-flex> -->
       <!-- </v-layout> -->
     </v-app-bar>
@@ -437,8 +498,8 @@
                     在這裡，你可以體驗由永豐提供的智慧生活，記下日常
                     <br />消費的每筆帳目，並獲得回饋
                   </h1>
-                  <button color="white" class="p3btn" outlined>創建帳戶</button>
-                  <button color="white" class="p3btn" outlined>登入</button>
+                  <button @click="getToIntro" color="white" class="p3btn infoImg" outlined>深入了解</button>
+                  <button @click="toLogin" color="white" class="p3btn infoImg" outlined>登入</button>
                 </div>
               </transition>
               <transition name="cardfade">
@@ -509,15 +570,28 @@
           </v-flex>
           <v-flex xs2.5 sm2.5 md2.5 style="margin:auto;padding-left:2%;">
             <v-card-title class="pa-0 mb-6" style="font-weight:bold;font-size:24px;">星際帳</v-card-title>
-
             <v-card-text
+              @click="getToIntro"
+              active-class="active"
+              dense
+              class="footerAccount ma-0 pa-0"
+            >認識星際帳</v-card-text>
+            <v-card-text
+              @click="toLogin"
+              active-class="active"
+              dense
+              class="footerAccount ma-0 pa-0"
+            >記下你的第一筆精彩</v-card-text>
+
+            <!-- <v-card-text
               v-for="(item, index) in footerAccount"
               :key="'footerAccount_' + index"
               :to="item.link"
               active-class="active"
               dense
               class="footerAccount ma-0 pa-0"
-            >{{ item.title }}</v-card-text>
+            >{{ item.title }}</v-card-text>-->
+            <br />
           </v-flex>
           <v-flex xs2.5 sm2.5 md2.5 style="margin:auto;">
             <v-card-title class="pa-0 mb-6" style="font-weight:bold;font-size:24px;">宇宙戰艦</v-card-title>
@@ -832,57 +906,65 @@
     outlined
     style="width:100vw;height:100vh;background-color:#000019; border:none;border-radius:0px;"
   >
+    <v-card
+      flat
+      outlined
+      style="z-index:5;background-color:#ffffff00;border:none;width:100%;height:100%;"
+      @click="nextSlide1()"
+      v-if="toggle1"
+    ></v-card>
     <transition name="info_fade">
       <h1
         :style="($vuetify.breakpoint.smAndUp)?'font-size:40px;':'font-size:24px;'"
         style="position:absolute;color:#ffffff;width:200px;left:10px;top:10px;"
-        @click="nextSlide1()"
         v-if="toggle1"
       >FRONTER</h1>
     </transition>
     <transition name="info_fade">
       <v-card
-        :style="($vuetify.breakpoint.smAndUp)?'top:35%;left:37%;':'top:48%;left:5%;'"
+        :style="($vuetify.breakpoint.smAndUp)?'top:35%;left:40%;':'top:48%;left:22%;'"
         flat
         outlined
         style="z-index:2;background-color:#ffffff00;border:none;position:absolute;"
-        @click="nextSlide1()"
         v-if="toggle1"
       >
         <v-card-text
           :style="($vuetify.breakpoint.smAndUp)?'font-size:50px;':'font-size:25px;'"
-          style="text-align:center;font-weight:700;color:#ffffff;"
+          style="text-align:center;font-weight:bold;color:#ffffff;"
         >認識星記帳</v-card-text>
         <v-card-text
           :style="($vuetify.breakpoint.smAndUp)?'font-size:14px;':'font-size:12px;'"
-          style="text-align:center;font-weight:normal;color:#ffffff;"
+          style="text-align:center;font-weight:bold;color:#ffffff;"
         >
-          星記帳是全新的記帳體驗，
-          <br />與你的家人共享帳本，
-          <br />從現實的消費中積攢星記帳中的虛擬點數，
-          <br />兌換點數將為您在《宇宙戰艦》中提升更好的遊戲體驗，
-          <br />
+          星記帳
+          <br />是全新的記帳體驗
+          <br />共享帳本、點數紅利、統計圖表
+          <br />三位一體，實現劃時代的星記帳
         </v-card-text>
       </v-card>
     </transition>
     <transition name="info_fade">
       <v-img
-        @click="nextSlide1()"
         v-if="toggle0"
         class="infoImg"
         :style="($vuetify.breakpoint.smAndUp)?'width:70vw;left:13.5%;':'width:80vw;left:10%;top:25%;'"
-        style="z-index:1;"
+        style="z-index:1;position:fixed;"
         src="./assets/knowFronter.svg"
       ></v-img>
     </transition>
-
+    <v-card
+      flat
+      outlined
+      style="z-index:5;background-color:#ffffff00;border:none;width:100%;height:100%;"
+      @click="nextSlide2()"
+      v-if="toggle2"
+    ></v-card>
     <transition name="info_fade">
       <v-card
         flat
         outlined
-        :style="($vuetify.breakpoint.smAndUp)?'top:33.3%;left:18.4%;':'top:15%;left:7%;'"
+        :style="($vuetify.breakpoint.smAndUp)?'top:33.3%;left:18.4%;':'top:20%;left:7%;'"
         style="z-index:4;background-color:#ffffff00;border:none;position:absolute;"
-        @click="nextSlide2()"
         v-if="toggle2"
       >
         <br :style="($vuetify.breakpoint.smAndUp)?'':'display:none;'" />
@@ -918,33 +1000,38 @@
     </transition>
     <transition name="info_fade">
       <v-img
-        @click="nextSlide4()"
         v-if="toggle2"
         flat
         class="infoImg"
         src="./assets/01.svg"
-        :style="($vuetify.breakpoint.smAndUp)?'width:20vw;left: 12%; bottom: 40%;':'width:70vw; height:60vh; left: 15%; top:25%;'"
+        :style="($vuetify.breakpoint.smAndUp)?'width:20vw;left: 12%; bottom: 40%;':'width:30vw; left: 4%; top:12%;'"
         style="z-index:2;position:absolute;"
       ></v-img>
     </transition>
     <transition name="info_fade">
       <v-img
-        @click="nextSlide4()"
+        class="infoImg"
         v-if="toggle2"
         flat
-        class="infoImg"
         src="./assets/firstPlant.svg"
-        :style="($vuetify.breakpoint.smAndUp)?'width:75vw;left: 48%; bottom: 12%;':'width:70vw; height:60vh; left: 15%; top:25%;'"
-        style="z-index:2;position:absolute;"
+        :style="($vuetify.breakpoint.smAndUp)?'width:75vw;left: 48%; bottom: 12%;':'width:80vw; left: 45%; top:0%;'"
+        style="z-index:2;position:fixed;"
       ></v-img>
     </transition>
+    <v-card
+      flat
+      outlined
+      style="z-index:5;background-color:#ffffff00;border:none;width:100%;height:100%;"
+      @click="nextSlide3()"
+      v-if="toggle3"
+    ></v-card>
+
     <transition name="info_fade">
       <v-card
         flat
         outlined
-        :style="($vuetify.breakpoint.smAndUp)?'bottom:30%;right:20%;':'top:15%;left:7%;'"
+        :style="($vuetify.breakpoint.smAndUp)?'bottom:30%;right:20%;':'top:27%;right:4%;'"
         style="z-index:4;background-color:#ffffff00;border:none;position:absolute;"
-        @click="nextSlide3()"
         v-if="toggle3"
       >
         <br :style="($vuetify.breakpoint.smAndUp)?'':'display:none;'" />
@@ -972,33 +1059,37 @@
     </transition>
     <transition name="info_fade">
       <v-img
-        @click="nextSlide4()"
         v-if="toggle3"
         flat
         class="infoImg"
         src="./assets/02.svg"
-        :style="($vuetify.breakpoint.smAndUp)?'width:20vw;right: 12%; bottom:30%;':'width:70vw; height:60vh; left: 15%; top:25%;'"
+        :style="($vuetify.breakpoint.smAndUp)?'width:20vw;right: 12%; bottom:30%;':'width:30vw;right: 4%; top:20%;'"
         style="z-index:2;position:absolute;"
       ></v-img>
     </transition>
     <transition name="info_fade">
       <v-img
-        @click="nextSlide4()"
         v-if="toggle3"
         flat
         class="infoImg"
         src="./assets/secondPlant.svg"
-        :style="($vuetify.breakpoint.smAndUp)?'width:60vw;right: 50%; bottom: 20%;':'width:70vw; height:60vh; left: 15%; top:25%;'"
+        :style="($vuetify.breakpoint.smAndUp)?'width:60vw;right: 50%; bottom: 20%;':'width:70%; right:40%; top:10%;'"
         style="z-index:2;position:absolute;"
       ></v-img>
     </transition>
+    <v-card
+      flat
+      outlined
+      style="position:absolute;z-index:5;background-color:#ffffff00;border:none;width:100%;height:100%;"
+      @click="nextSlide4()"
+      v-if="toggle4"
+    ></v-card>
     <transition name="info_fade">
       <v-card
         flat
         outlined
-        :style="($vuetify.breakpoint.smAndUp)?'top:33%;left:18%;':'top:15%;left:7%;'"
+        :style="($vuetify.breakpoint.smAndUp)?'top:33%;left:18%;':'top:16%;left:10%;'"
         style="z-index:4;background-color:#ffffff00;border:none;position:absolute;"
-        @click="nextSlide4()"
         v-if="toggle4"
       >
         <br :style="($vuetify.breakpoint.smAndUp)?'':'display:none;'" />
@@ -1009,7 +1100,7 @@
         <br :style="($vuetify.breakpoint.smAndUp)?'':'display:none;'" />
         <hr
           style="background-color:#ffffff;border:none;"
-          :style="($vuetify.breakpoint.smAndUp)?'height:3px;':'height:2px;width:35vw;'"
+          :style="($vuetify.breakpoint.smAndUp)?'height:3px;':'height:2px;'"
         />
         <br :style="($vuetify.breakpoint.smAndUp)?'':'display:none;'" />
         <v-card-text
@@ -1026,24 +1117,20 @@
     </transition>
     <transition name="info_fade">
       <v-img
-        @click="nextSlide4()"
         v-if="toggle4"
-        flat
         class="infoImg"
         src="./assets/03.svg"
-        :style="($vuetify.breakpoint.smAndUp)?'width:25vw;left: 12%; bottom: 40%;':'width:70vw; height:60vh; left: 15%; top:25%;'"
+        :style="($vuetify.breakpoint.smAndUp)?'width:25vw;left: 12%; bottom: 40%;':'width:30vw; left: 15%; top:10%;'"
         style="z-index:2;position:absolute;"
       ></v-img>
     </transition>
     <transition name="info_fade">
       <v-img
-        @click="nextSlide4()"
         v-if="toggle4"
-        flat
         class="infoImg"
         src="./assets/chart.png"
-        :style="($vuetify.breakpoint.smAndUp)?'width:60vw;left: 50%; bottom: 2%;':'width:70vw; height:60vh; left: 15%; top:25%;'"
-        style="z-index:2;position:absolute;"
+        :style="($vuetify.breakpoint.smAndUp)?'width:60vw;left: 50%; bottom: 2%;':'width:80vw; left: 34%; top:40%;'"
+        style="z-index:4;position:fixed;"
       ></v-img>
     </transition>
     <transition name="info_fade">
@@ -1052,7 +1139,7 @@
         outlined
         :style="($vuetify.breakpoint.smAndUp)?'top:30%;left:32%;':'top:25%;left:16%;'"
         style="background-color:#ffffff00;border:none;position:absolute;"
-        v-if="toggle6"
+        v-if="toggle5"
       >
         <v-card-text
           :style="($vuetify.breakpoint.smAndUp)?'font-size:50px;':'font-size:25px;'"
@@ -1065,10 +1152,10 @@
     <transition name="info_fade">
       <v-btn
         v-on:click="doLogin('father@gmail.com');closeIntro()"
-        v-if="toggle6"
+        v-if="toggle5"
         rounded
         color="#ffffff00"
-        :style="($vuetify.breakpoint.smAndUp)?'left: 45%;top: 50%;':'left: 37%;top: 35%;'"
+        :style="($vuetify.breakpoint.smAndUp)?'left: 45%;top: 50%;':'left: 43%;top: 35%;'"
         style="color:#ffffff;position:absolute;border: 2px solid #ffffff;"
       >登入</v-btn>
     </transition>
@@ -1145,8 +1232,9 @@ let data = {
   toggle2: false,
   toggle3: false,
   toggle4: false,
+  toggle5: false,
 
-  toggle6: false,
+  profileDrawer: false,
 
   bellRing: false,
   drawer: false,
@@ -1325,11 +1413,12 @@ export default {
     getToIntro() {
       this.viewIntro = true;
       this.toggle0 = true;
-      this.toggle6 = false;
+      this.toggle5 = false;
       let self = this;
       setTimeout(function() {
         self.toggle1 = true;
       }, 1000);
+      console.log(this.toggle0);
     },
     nextSlide1() {
       this.toggle0 = !this.toggle0;
@@ -1345,15 +1434,8 @@ export default {
       this.toggle4 = !this.toggle4;
     },
     nextSlide4() {
-      if (this.toggle4) {
-        this.toggle4 = !this.toggle4;
-
-        this.toggle6 = !this.toggle6;
-      } else if (this.toggle2) {
-        this.nextSlide2();
-      } else if (this.toggle3) {
-        this.nextSlide3();
-      }
+      this.toggle4 = !this.toggle4;
+      this.toggle5 = !this.toggle5;
     },
     closeIntro() {
       this.viewIntro = false;
