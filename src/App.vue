@@ -184,7 +184,11 @@
       <v-spacer />
       <v-spacer />
       <!-- bell notification -->
-      <v-menu :close-on-content-click="true" offset-y v-if="login && clear.animeOver">
+      <v-menu :close-on-content-click="true" offset-y 
+        nudge-left="40"
+        min-width="250"
+        max-width="400"
+        v-if="login && clear.animeOver">
         <template v-slot:activator="{ on, attrs }">
           <v-btn
             @click="ring"
@@ -200,9 +204,23 @@
           </v-btn>
         </template>
 
-        <v-list>
-          <v-list-item v-for="(item, index) in messageNotification" :key="index" @click="ring">
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
+        <v-list color="#dddee2" class="black--text">
+          <v-list-item
+            class="my-1"
+            v-for="(info, index) in $notification.data.messages"
+            :key="index"
+            @click="ring"
+          >
+            <v-avatar v-if="info.photo" class="mr-2">
+              <img :src="info.photo" />
+            </v-avatar>
+            <span style="color:#26282D">{{ info.message }}</span>
+            <span style="color:#333333;position:absolute;right:10px;bottom:0;font-size:12px">
+              {{ timeString(info.time) }}
+            </span>
+          </v-list-item>
+          <v-list-item v-if="$notification.data.messages.length == 0" class="text-center">
+            <span style="color:#26282D">尚無任何即時通知</span>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -803,7 +821,7 @@
       :state="$confirm.state"
       prominent
       persistent
-      outlined
+      text
       border="top"
       icon="mdi-help"
     ></GlobalDialog>
@@ -1231,6 +1249,10 @@ export default {
     }
   },
   methods: {
+    timeString(time) {
+      const date = new Date(time);
+      return `${date.getHours()}:${date.getMinutes()}`;
+    },
     onScroll(e) {
       // console.log(e);
       var posY =

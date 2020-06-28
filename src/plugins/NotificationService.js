@@ -66,13 +66,15 @@ export class NotificationService {
 
   storage_el; // event listener
 
+  messages;
+
   constructor(snackbar, baseURL) {
     this.baseURL = baseURL;
     this.last_token = this.readToken();
     this.snackbar = snackbar;
-    this.update = Vue.observable({
-      ledger: 0,
-      user: 0,
+    this.data = Vue.observable({
+      read: true,
+      messages: [],
     });
     this.storage_el = (e) => {
       console.log(e);
@@ -98,7 +100,7 @@ export class NotificationService {
 
   handleOnlineUserInfo(obj) {
     if (obj.type == "init" && obj.action == "onlineUser") {
-      for(const _id in obj.onlineUser) {
+      for (const _id in obj.onlineUser) {
         Vue.set(this.onlineUser, _id, obj.onlineUser[_id]);
       }
       return;
@@ -130,6 +132,11 @@ export class NotificationService {
     if (obj.from._id != getUserId()) {
       const msg = makeMessage(obj);
       if (msg) {
+        this.data.messages.unshift({
+          message: msg,
+          photo: obj.from.photo,
+          time: obj.time,
+        });
         this.snackbar.open(msg, null, {
           color: "info",
           timeout: 2000,

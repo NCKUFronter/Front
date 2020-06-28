@@ -11,7 +11,7 @@ import pointDelivery from "../views/PointDelivery.vue";
 import pointRedeem from "../views/PointRedeem.vue";
 import personalAccount from "../views/PersonalAccount.vue";
 import fronterHome from "../views/FronterHome.vue";
-import global_ from "../components/Global.vue";
+// import global_ from "../components/Global.vue";
 import Vuetify from "vuetify/lib";
 import VueRellax from "vue-rellax";
 import webInfo from "../components/webInfo.vue";
@@ -28,11 +28,13 @@ const routes = [
       title: "首頁",
     },
   },
+  /*
   {
     path: "/empty",
     name: "globalName",
     component: global_,
   },
+  */
   {
     path: "/accounting",
     name: "SideAccountName",

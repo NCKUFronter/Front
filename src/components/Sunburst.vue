@@ -1,7 +1,8 @@
 <template>
   <v-container fluid row class="graph" style="overflow:auto">
-    <v-flex xs12 sm6 md6 class="chart" style="z-index:3">
+    <v-flex xs12 sm7 md7 class="chart" style="z-index:3">
       <!-- <v-card style="height:100%"> -->
+      <!-- Use this slot to add information on top or bottom of the graph-->
       <!-- Use this slot to add information on top or bottom of the graph-->
       <slot
         class="legend"
@@ -10,7 +11,6 @@
         :colorGetter="colorGetter"
         :nodes="graphNodes"
         :actions="actions"
-
       ></slot>
 
       <div class="viewport" v-resize.throttle.250="resize" style="height:70%;">
@@ -23,7 +23,7 @@
       </div>
       <!-- </v-card> -->
     </v-flex>
-    <v-flex xs12 sm4 md4 class="report px-4">
+    <v-flex xs12 sm5 md5 offset-sm="1" offset-md="1" class="report px-4">
       <!-- <slot name="menu" :nodes="graphNodes"></slot> -->
       <slot name="report" :nodes="graphNodes"></slot>
     </v-flex>
@@ -97,7 +97,7 @@ export default Vue.extend(sunburst).extend({
     onData(data) {
       this.constructor.super.options.methods.onData.call(this, data);
       const pathes = this.getPathes();
-      pathes.style("stroke", "white");
+      pathes.style("stroke", "#26282D");
     }
   }
 });
