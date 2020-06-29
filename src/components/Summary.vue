@@ -1,6 +1,6 @@
 <template>
   <!-- ref: https://github.com/David-Desmaisons/Vue.D3.sunburst/tree/e3c61e84268861400116245ea8e9020e8113ea07 -->
-  <v-container fluid class="ma-0 ">
+  <v-container fluid class="ma-0 fill-height">
     <!-- <div class="card-header">Sunburst</div>
     <div class="card-body father">-->
     <v-layout row>
@@ -32,10 +32,7 @@
           <v-card-title style="display:inline">
             <v-icon class="mr-3">mdi-order-bool-descending</v-icon>統計順序
           </v-card-title>
-          <div
-            v-for="(item,index) in this.sunburstOrder[this.summary_type].length"
-            :key="index"
-          >
+          <div v-for="(item,index) in this.sunburstOrder[this.summary_type].length" :key="index">
             <v-select
               v-model="orderSelected[index]"
               :items="orderList"
@@ -92,7 +89,7 @@
           <!-- </v-row> -->
           <!-- </template> -->
 
-          <template v-slot:head="{ nodes, colorGetter, width }">
+          <!--template v-slot:head="{ nodes, colorGetter, width }">
             <breadcrumbTrail
               :current="nodes.mouseOver"
               :root="nodes.root"
@@ -101,7 +98,7 @@
               :width="width"
               class="breadcrumbTrail"
             />
-          </template>
+          </template-->
 
           <template v-slot:legend="{ nodes, colorGetter, width }">
             <breadcrumbTrail
@@ -202,10 +199,7 @@
             <v-card-title class="py-0" style="font-weight:bold">
               <v-icon class="mr-3">mdi-order-bool-descending</v-icon>統計順序
             </v-card-title>
-            <div
-              v-for="(item,index) in this.sunburstOrder[this.summary_type].length"
-              :key="index"
-            >
+            <div v-for="(item,index) in this.sunburstOrder[this.summary_type].length" :key="index">
               <v-select
                 v-model="orderSelected[index]"
                 :items="orderList"
@@ -276,10 +270,10 @@ export default {
   name: "app-summary",
   data() {
     const orderlist = {
-        ledger: ["ledger", "user", "recordType", "category"],
-        personal: ["recordType", "ledger", "category"],
-        points: ["flow", "type", "subtype", "user"]
-    }
+      ledger: ["ledger", "user", "recordType", "category"],
+      personal: ["recordType", "ledger", "category"],
+      points: ["flow", "type", "subtype", "user"]
+    };
     return {
       sumPersonal,
       sumLedger,
@@ -287,7 +281,7 @@ export default {
       minAngleDisplayed: 0.05, //設定角度多小的可被看見 if=0表全部都可被看見
       inAnimationDuration: 500, //動畫速度
       outAnimationDuration: 1000, //動畫速度
-      // toggle_exclusive_perspective: "ledger",
+      // summary_type: "ledger",
       toggle_exclusive_time: "month",
       sunburstOrder: orderlist,
       orderSelected: [],
@@ -309,9 +303,7 @@ export default {
     }
   },
   created() {
-    this.orderSelected = [
-      ...this.sunburstOrder[this.summary_type]
-    ];
+    this.orderSelected = [...this.sunburstOrder[this.summary_type]];
     /*
     this.calculateList = [
       ...this.sunburstOrder[this.summary_type]
@@ -340,10 +332,10 @@ export default {
     displayData() {
       return this.sunburstJson;
       /*
-      if (this.toggle_exclusive_perspective == "ledger") {
+      if (this.summary_type == "ledger") {
         // return this.sumLedger;
         return this.sunburstJson;
-      } else if (this.toggle_exclusive_perspective == "personal") {
+      } else if (this.summary_type == "personal") {
         return this.sunburstJson;
       } else return this.example;
     */
@@ -362,16 +354,15 @@ export default {
           })
           .then(res => {
             const json = res.data;
-            if(!json.children) return {};
             summaryAddParent(json);
             return json;
           })
           .catch(error => {
-            console.error(error.response)
-            console.error(error.request)
+            console.error(error.response);
+            console.error(error.request);
           });
       },
-      default: {},
+      default: {}
     }
   },
   methods: {
@@ -388,9 +379,7 @@ export default {
       }
     },
     reset() {
-      this.orderList = [
-        ...this.sunburstOrder[this.toggle_exclusive_perspective]
-      ];
+      this.orderList = [...this.sunburstOrder[this.summary_type]];
       this.orderSelected = [];
       (this.date = [new Date().toISOString().substr(0, 7)]),
         (this.calculateList = []);
@@ -399,11 +388,7 @@ export default {
     calculate() {
       var i;
       var empty = false;
-      for (
-        i = 0;
-        i < this.sunburstOrder[this.toggle_exclusive_perspective].length;
-        i++
-      ) {
+      for (i = 0; i < this.sunburstOrder[this.summary_type].length; i++) {
         if (this.orderSelected[i] == undefined) {
           empty = true;
           break;

@@ -12,7 +12,7 @@
       <h1 :style="($vuetify.breakpoint.smAndUp)?'font-size:40px;':'font-size:24px;'">FRONTER</h1>
       <v-spacer />
 
-      <v-menu offset-y v-if="clear.animeOver">
+      <v-menu offset-y v-if="clear.animeOver" nudge-left="30">
         <template v-slot:activator="{ on }">
           <v-btn
             width="fit-content"
