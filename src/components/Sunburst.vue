@@ -1,9 +1,18 @@
 <template>
-  <v-container fluid row class="graph" style="overflow:auto">
-    <v-flex xs12 sm7 md7 class="chart" style="z-index:3">
+  <v-container fluid row class="graph fill-height" style="overflow:auto">
+    <v-flex xs12 sm8 md8 class="chart" style="z-index:3">
       <!-- <v-card style="height:100%"> -->
       <!-- Use this slot to add information on top or bottom of the graph-->
       <!-- Use this slot to add information on top or bottom of the graph-->
+      <!--slot
+        class="legend"
+        name="head"
+        :width="width"
+        :colorGetter="colorGetter"
+        :nodes="graphNodes"
+        :actions="actions"
+      ></slot-->
+
       <slot
         class="legend"
         name="legend"
@@ -14,16 +23,17 @@
       ></slot>
 
       <div class="viewport" v-resize.throttle.250="resize" style="height:70%;">
-        <div style="height:100%;position:absolute;"></div>
+        <!--div style="height:100%;position:absolute;"></div-->
         <!-- Use this slot to add information on top of the graph -->
         <!-- <slot class="top" name="top" :colorGetter="colorGetter" :nodes="graphNodes" :actions="actions">
         </slot>-->
         <!-- Use this slot to add behaviors to the sunburst -->
         <slot :on="on" :actions="actions"></slot>
+        <span class="center_text">{{centerText}}</span>
       </div>
       <!-- </v-card> -->
     </v-flex>
-    <v-flex xs12 sm5 md5 offset-sm="1" offset-md="1" class="report px-4">
+    <v-flex xs12 sm4 md4 class="report px-4">
       <!-- <slot name="menu" :nodes="graphNodes"></slot> -->
       <slot name="report" :nodes="graphNodes"></slot>
     </v-flex>
@@ -46,7 +56,7 @@ class LevelColorUtil {
   }
 
   nextColor(node) {
-    if (node.level == 0) return { r: 255, g: 255, b: 255, a: 0 };
+    if (node.level == 0) return { r: 255, g: 255, b: 255, a: 0.1 };
 
     let baseColor = node.level != 1 ? node.parent.color : this.baseColor;
     const key = rgba(baseColor) + node.level;
@@ -81,6 +91,14 @@ export default Vue.extend(sunburst).extend({
     this.colorUtil = new LevelColorUtil(this.baseColor);
   },
   computed: {
+    centerText() {
+      if (!this.graphNodes.root) return "查無資料";
+      else if (this.graphNodes.root.value == 0) return "查無資料";
+      else if (this.graphNodes.clicked) {
+        if (this.graphNodes.clicked.parent) return "回上層";
+        else return "";
+      } else return "";
+    },
     colorGetter() {
       return d => {
         if (d.data) d = d.data;
@@ -113,8 +131,17 @@ export default Vue.extend(sunburst).extend({
 
 .viewport {
   width: 100%;
+  min-height: 50vh;
   /* height: 100%; */
-  /* flex: 1 1 auto; */
+  /*flex: 1 1 auto;*/
   /* border: red 2px solid; */
+}
+
+.center_text {
+  position: absolute;
+  text-align: center;
+  top: 46%;
+  width: 100%;
+  pointer-events: none;
 }
 </style>
