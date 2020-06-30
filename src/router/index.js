@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Accounting from "../views/Accounting.vue";
 import SideAccount from "../views/SideAccount.vue";
 import Category from "../views/Category.vue";
+import AboutUs from "../views/AboutUs.vue";
 import LedgerManagement from "../views/LedgerManagement.vue";
 import Summary from "../views/SummaryManagement.vue";
 import pointManage from "../views/PointManage.vue";
@@ -31,6 +32,11 @@ const routes = [
     path: "/empty",
     name: "globalName",
     component: global_,
+  },
+  {
+    path: "/aboutFRONTER",
+    name: "aboutUsName",
+    component: AboutUs,
   },
   {
     path: "/accounting",

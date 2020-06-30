@@ -9,7 +9,7 @@
       v-if="!login"
       style="z-index:8;width:100vw;"
     >
-      <h1 :style="($vuetify.breakpoint.smAndUp)?'font-size:40px;':'font-size:24px;'">FRONTER</h1>
+      <v-btn class="elevation-0" color="transparent" :style="($vuetify.breakpoint.smAndUp)?'font-size:40px;':'font-size:24px;'" @click="jumpToHome()">FRONTER</v-btn>
       <v-spacer />
       <v-menu offset-y v-if="clear.animeOver">
         <template v-slot:activator="{ on }">
@@ -79,6 +79,7 @@
         :class="($vuetify.breakpoint.smAndUp)?'pa-5':'pa-2'"
         style="font-weight:bold"
         :style="($vuetify.breakpoint.smAndUp)?'font-size:18px;':'font-size:15px;'"
+        @click="jumpToAboutUs()"
       >關於我們</v-btn>
       <!-- <v-btn width="fit-content" height="fit-content" color="transparent" class="elevation-0 pa-1" :class="($vuetify.breakpoint.smAndUp)?'pa-5':'pa-2'" style="font-weight:bold" :style="($vuetify.breakpoint.smAndUp)?'font-size:25px;':'font-size:15px;'">聯絡我們</v-btn> -->
     </v-app-bar>
@@ -282,13 +283,17 @@
       <!-- id="scroll-target" class="overflow-y-auto"  -->
       <!-- <v-app-bar class="mx-auto overflow-hidden" color="#efca16" elevate-on-scroll clipped-left app>
       </v-app-bar>-->
-      <v-container id="scroll-target" class="all pa-0" fluid v-if="!login" style="margin-top:50px">
+      <v-container id="scroll-target" class="all pa-0" fluid v-if="!login && $route.name!='aboutUsName'" style="margin-top:50px">
+        <!-- <div v-if="">
+          <router-view></router-view>
+        </div> -->
         <!-- class="overflow-y-auto" -->
         <!-- <div
         v-scroll:#scroll-target="onScroll"
         align="center"
         class="all"
         >-->
+        <!-- <div v-else> -->
         <v-layout class="page" style="margin-top: -48px; overflow: hidden;">
           <!-- <v-parallax  src="./assets/home/p1/bookkeeping2.png" style="width:100%;height:100%;padding:0" > -->
           <v-img src="./assets/home/p1/background_block.svg" class="background"></v-img>
@@ -494,6 +499,7 @@
             >{{ item.title }}</v-card-text>
           </v-flex>
         </v-layout>
+        <!-- </div> -->
         <!-- </div> -->
       </v-container>
 
@@ -716,6 +722,7 @@ import { Swiper, SwiperSlide } from "vue-awesome-swiper";
 // import SideMenu from './components/SideMenu.vue'
 let data = {
   // modalOpen: false,
+  aboutUs:false,
   offset: true,
   menuWithChild: [
     {
@@ -851,6 +858,14 @@ export default {
     }
   },
   methods: {
+    jumpToHome(){
+      this.$router.push("/");
+      this.aboutUs=false;
+    },
+    jumpToAboutUs(){
+      this.$router.push("/aboutFRONTER");
+      this.aboutUs=true;
+    },
     onScroll(e) {
       // console.log(e);
       var posY =
