@@ -1,126 +1,213 @@
 <template>
-    <v-container v-if="$vuetify.breakpoint.smAndUp" class="ma-0 pa-0" fluid style="height:100vh;overflow:hidden;display:flex;align-items: center;position:relative" >
-        <div style="width:100%;height:80%;background-color:#3D404E;">
-            <v-card flat color="transparent" style="height:100%;display: flex;align-items: center;">
-                <!-- logo -->
-                <div class="ma-auto" style="display:block" v-if="this.selected==0">
-                <img src="../assets/aboutUs/set.png" width="40%" class="ma-auto" style="display:block;"/>
-                <v-card flat color="transparent" class="ma-auto" style="display:block;width:fit-content">
-                    <v-btn icon class="ma-2"><v-icon large>mdi-facebook</v-icon></v-btn>
-                    <v-btn icon class="ma-2"><v-icon large>mdi-instagram</v-icon></v-btn>
-                    <v-btn icon class="ma-2"><v-icon large>mdi-twitter</v-icon></v-btn>
-                </v-card>
-                </div>
-                <!-- wish -->
-                <div class="my-auto" style="display:flex; align-items:center; padding:0% 20%" v-else-if="this.selected==1">
-                <img src="../assets/aboutUs/wish.png" width="40%" style="display:block;"/>
-                <v-card flat color="transparent" style="display:block;width:fit-content;">
-                    <v-card-title class="mx-2 my-4 pa-0" style="font-weight: bold;font-size:3.5rem;color:#F7EB92">陳位旭</v-card-title>
-                    <v-card-title class="ma-2 pa-0" style="font-weight: bold;font-size:1.2rem">PM / Gaming / Script</v-card-title>
-                    <v-card-title class="mx-2 my-8 pa-0" style="font-weight: bold;font-size:1.6rem">"凡事求個緣, idea不用選"</v-card-title>
-                    <div>
-                    <v-btn icon class="ma-2" ><v-icon large>mdi-facebook</v-icon></v-btn>
-                    <v-btn icon class="ma-2"><v-icon large>mdi-instagram</v-icon></v-btn>
-                    <!-- <v-btn icon class="ma-2"><v-icon large>mdi-twitter</v-icon></v-btn> -->
-                    </div>
-                </v-card>
-                </div>
-                <!-- yi -->
-                <div class="my-auto" style="display:flex; align-items:center; padding:0% 20%" v-else-if="this.selected==2">
-                <img src="../assets/aboutUs/yi.png" width="40%" style="display:block;"/>
-                <v-card flat color="transparent" style="display:block;width:fit-content;">
-                    <v-card-title class="mx-2 my-4 pa-0" style="font-weight: bold;font-size:3.5rem;color:#F7EB92">陳庭毅</v-card-title>
-                    <v-card-title class="ma-2 pa-0" style="font-weight: bold;font-size:1.2rem">Back / Designer / Gaming</v-card-title>
-                    <v-card-title class="mx-2 my-8 pa-0" style="font-weight: bold;font-size:1.6rem">"0°C=32°F, 0°C+0°C=64°F"</v-card-title>
-                    <div>
-                    <v-btn icon class="ma-2" ><v-icon large>mdi-facebook</v-icon></v-btn>
-                    <v-btn icon class="ma-2" ><v-icon large>mdi-instagram</v-icon></v-btn>
-                    <!-- <v-btn icon class="ma-2"><v-icon large>mdi-twitter</v-icon></v-btn> -->
-                    </div>
-                </v-card>
-                </div>
-                <!-- han -->
-                <div class="my-auto" style="display:flex; align-items:center; padding:0% 20%" v-else-if="this.selected==3">
-                <img src="../assets/aboutUs/han.png" width="40%" style="display:block;"/>
-                <v-card flat color="transparent" style="display:block;width:fit-content;">
-                    <v-card-title class="mx-2 my-4 pa-0" style="font-weight: bold;font-size:3.5rem;color:#F7EB92">蔡函璇</v-card-title>
-                    <v-card-title class="ma-2 pa-0" style="font-weight: bold;font-size:1.2rem">Full Track</v-card-title>
-                    <v-card-title class="mx-2 my-8 pa-0" style="font-weight: bold;font-size:1.6rem">"魔鬼藏在細節裡"</v-card-title>
-                    <div>
-                    <v-btn icon class="ma-2" ><v-icon large>mdi-facebook</v-icon></v-btn>
-                    <v-btn icon class="ma-2"><v-icon large>mdi-instagram</v-icon></v-btn>
-                    <!-- <v-btn icon class="ma-2"><v-icon large>mdi-twitter</v-icon></v-btn> -->
-                    </div>
-                </v-card>
-                </div>
-                <!-- matt -->
-                <div class="my-auto" style="display:flex; align-items:center; padding:0% 20%" v-else-if="this.selected==4">
-                <img src="../assets/aboutUs/matt.png" width="40%" style="display:block;"/>
-                <v-card flat color="transparent" style="display:block;width:fit-content;">
-                    <v-card-title class="mx-2 my-4 pa-0" style="font-weight: bold;font-size:3.5rem;color:#F7EB92">王崇名</v-card-title>
-                    <v-card-title class="ma-2 pa-0" style="font-weight: bold;font-size:1.2rem">Front / App</v-card-title>
-                    <v-card-title class="mx-2 my-8 pa-0" style="font-weight: bold;font-size:1.6rem">"擔心未來就跟以為嚼口香糖就能解代數一樣"</v-card-title>
-                    <div>
-                    <v-btn icon class="ma-2"><v-icon large>mdi-facebook</v-icon></v-btn>
-                    <v-btn icon class="ma-2"><v-icon large>mdi-instagram</v-icon></v-btn>
-                    <!-- <v-btn icon class="ma-2"><v-icon large>mdi-twitter</v-icon></v-btn> -->
-                    </div>
-                </v-card>
-                </div>
-                <!-- xin -->
-                <div class="my-auto" style="display:flex; align-items:center; padding:0% 20%" v-else-if="this.selected==5">
-                <img src="../assets/aboutUs/xin.png" width="40%" style="display:block;"/>
-                <v-card flat color="transparent" style="display:block;width:fit-content;">
-                    <v-card-title class="mx-2 my-4 pa-0" style="font-weight: bold;font-size:3.5rem;color:#F7EB92">劉心鈺</v-card-title>
-                    <v-card-title class="ma-2 pa-0" style="font-weight: bold;font-size:1.2rem">Front / App</v-card-title>
-                    <v-card-title class="mx-2 my-8 pa-0" style="font-weight: bold;font-size:1.6rem">"把興趣放在比夢想更高得位置"</v-card-title>
-                    <div>
-                    <v-btn icon class="ma-2" ><v-icon large>mdi-facebook</v-icon></v-btn>
-                    <v-btn icon class="ma-2" ><v-icon large>mdi-instagram</v-icon></v-btn>
-                    <!-- <v-btn icon class="ma-2"><v-icon large>mdi-twitter</v-icon></v-btn> -->
-                    </div>
-                </v-card>
-                </div>
-                <!-- yo -->
-                <div class="my-auto" style="display:flex; align-items:center; padding:0% 20%" v-else-if="this.selected==6">
-                <img src="../assets/aboutUs/yo.png" width="40%" style="display:block;"/>
-                <v-card flat color="transparent" style="display:block;width:fit-content;">
-                    <v-card-title class="mx-2 my-4 pa-0" style="font-weight: bold;font-size:3.5rem;color:#F7EB92">郭芮佑</v-card-title>
-                    <v-card-title class="ma-2 pa-0" style="font-weight: bold;font-size:1.2rem">Designer</v-card-title>
-                    <v-card-title class="mx-2 my-8 pa-0" style="font-weight: bold;font-size:1.6rem">"該做的就是要馬上做免得忘記"</v-card-title>
-                    <div>
-                    <v-btn icon class="ma-2" ><v-icon large>mdi-facebook</v-icon></v-btn>
-                    <v-btn icon class="ma-2" ><v-icon large>mdi-instagram</v-icon></v-btn>
-                    <!-- <v-btn icon class="ma-2"><v-icon large>mdi-twitter</v-icon></v-btn> -->
-                    </div>
-                </v-card>
-                </div>
-            </v-card>
+  <v-container
+    class="ma-0 pa-0"
+    fluid
+    style="height:100vh;overflow:hidden;display:flex;align-items: center;position:relative"
+    v-if="$vuetify.breakpoint.smAndUp"
+  >
+    <div style="width:100%;height:80%;background-color:#3D404E;">
+      <v-card flat color="transparent" style="height:100%;display: flex;align-items: center;">
+        <!-- logo -->
+        <div class="ma-auto" style="display:block" v-if="this.selected==0">
+          <img src="../assets/aboutUs/set.png" width="40%" class="ma-auto" style="display:block;" />
+          <v-card flat color="transparent" class="ma-auto" style="display:block;width:fit-content">
+            <v-btn icon class="ma-2">
+              <v-icon large>mdi-facebook</v-icon>
+            </v-btn>
+            <v-btn icon class="ma-2">
+              <v-icon large>mdi-instagram</v-icon>
+            </v-btn>
+            <v-btn icon class="ma-2">
+              <v-icon large>mdi-twitter</v-icon>
+            </v-btn>
+          </v-card>
         </div>
-        <v-card flat color="transparent" style="position:absolute;bottom:3%;width:100%">
-            <div class="ma-auto member" style="display:block;width:fit-content">
-            <v-btn class="ma-2 elevation-0" @click="memberSelect(0)" @mouseover="memberSelect(0)"
-                style="min-width:0px;margin:3px;height:100px;width:100px;border-radius:50px;background-color:#F7EB92;"
-                :style="(this.selected==0)?'border:7px double #3D404E':''"
-            >
-                <v-img src="../assets/aboutUs/logo.png" contain height="60px" style=""/>
-            </v-btn>
-
-
-            <v-btn class="ma-2 elevation-0" @click="memberSelect(1)" @mouseover="memberSelect(1)"
-                style="min-width:0px;margin:3px;height:100px;width:100px;border-radius:50px;background-color:#FFA863;"
-                :style="(this.selected==1)?'border:7px double #3D404E':''"
-            >
-                <v-img src="../assets/aboutUs/wish.png" contain height="130px" style="position:relative;bottom:20px" />
-            
-            </v-btn>
-
-            <v-btn class="ma-2 elevation-0" @click="memberSelect(2)"  @mouseover="memberSelect(2)"
-                style="min-width:0px;margin:3px;height:100px;width:100px;border-radius:50px;background-color:#D04F57;"
-                :style="(this.selected==2)?'border:7px double #3D404E':''"
-            >
-                <v-img src="../assets/aboutUs/yi.png" contain height="120px" style="position:relative;bottom:25px" />
-            </v-btn>
+        <!-- wish -->
+        <div
+          class="my-auto"
+          style="display:flex; align-items:center; padding:0% 20%"
+          v-else-if="this.selected==1"
+        >
+          <img src="../assets/aboutUs/wish.png" width="40%" style="display:block;" />
+          <v-card flat color="transparent" style="display:block;width:fit-content;">
+            <v-card-title
+              class="mx-2 my-4 pa-0"
+              style="font-weight: bold;font-size:3.5rem;color:#F7EB92"
+            >陳位旭</v-card-title>
+            <v-card-title
+              class="ma-2 pa-0"
+              style="font-weight: bold;font-size:1.2rem"
+            >PM / Gaming / Script</v-card-title>
+            <v-card-title
+              class="mx-2 my-8 pa-0"
+              style="font-weight: bold;font-size:1.6rem"
+            >"凡事求個緣, idea不用選"</v-card-title>
+            <div>
+              <v-btn icon class="ma-2">
+                <v-icon large>mdi-facebook</v-icon>
+              </v-btn>
+              <v-btn icon class="ma-2">
+                <v-icon large>mdi-instagram</v-icon>
+              </v-btn>
+              <!-- <v-btn icon class="ma-2"><v-icon large>mdi-twitter</v-icon></v-btn> -->
+            </div>
+          </v-card>
+        </div>
+        <!-- yi -->
+        <div
+          class="my-auto"
+          style="display:flex; align-items:center; padding:0% 20%"
+          v-else-if="this.selected==2"
+        >
+          <img src="../assets/aboutUs/yi.png" width="40%" style="display:block;" />
+          <v-card flat color="transparent" style="display:block;width:fit-content;">
+            <v-card-title
+              class="mx-2 my-4 pa-0"
+              style="font-weight: bold;font-size:3.5rem;color:#F7EB92"
+            >陳庭毅</v-card-title>
+            <v-card-title
+              class="ma-2 pa-0"
+              style="font-weight: bold;font-size:1.2rem"
+            >Back / Designer / Gaming</v-card-title>
+            <v-card-title
+              class="mx-2 my-8 pa-0"
+              style="font-weight: bold;font-size:1.6rem"
+            >"0°C=32°F, 0°C+0°C=64°F"</v-card-title>
+            <div>
+              <v-btn icon class="ma-2">
+                <v-icon large>mdi-facebook</v-icon>
+              </v-btn>
+              <v-btn icon class="ma-2">
+                <v-icon large>mdi-instagram</v-icon>
+              </v-btn>
+              <!-- <v-btn icon class="ma-2"><v-icon large>mdi-twitter</v-icon></v-btn> -->
+            </div>
+          </v-card>
+        </div>
+        <!-- han -->
+        <div
+          class="my-auto"
+          style="display:flex; align-items:center; padding:0% 20%"
+          v-else-if="this.selected==3"
+        >
+          <img src="../assets/aboutUs/han.png" width="40%" style="display:block;" />
+          <v-card flat color="transparent" style="display:block;width:fit-content;">
+            <v-card-title
+              class="mx-2 my-4 pa-0"
+              style="font-weight: bold;font-size:3.5rem;color:#F7EB92"
+            >蔡函璇</v-card-title>
+            <v-card-title class="ma-2 pa-0" style="font-weight: bold;font-size:1.2rem">Full Track</v-card-title>
+            <v-card-title
+              class="mx-2 my-8 pa-0"
+              style="font-weight: bold;font-size:1.6rem"
+            >"魔鬼藏在細節裡"</v-card-title>
+            <div>
+              <v-btn icon class="ma-2">
+                <v-icon large>mdi-facebook</v-icon>
+              </v-btn>
+              <v-btn icon class="ma-2">
+                <v-icon large>mdi-instagram</v-icon>
+              </v-btn>
+              <!-- <v-btn icon class="ma-2"><v-icon large>mdi-twitter</v-icon></v-btn> -->
+            </div>
+          </v-card>
+        </div>
+        <!-- matt -->
+        <div
+          class="my-auto"
+          style="display:flex; align-items:center; padding:0% 20%"
+          v-else-if="this.selected==4"
+        >
+          <img src="../assets/aboutUs/matt.png" width="40%" style="display:block;" />
+          <v-card flat color="transparent" style="display:block;width:fit-content;">
+            <v-card-title
+              class="mx-2 my-4 pa-0"
+              style="font-weight: bold;font-size:3.5rem;color:#F7EB92"
+            >王崇名</v-card-title>
+            <v-card-title class="ma-2 pa-0" style="font-weight: bold;font-size:1.2rem">Front / App</v-card-title>
+            <v-card-title
+              class="mx-2 my-8 pa-0"
+              style="font-weight: bold;font-size:1.6rem"
+            >"擔心未來就跟以為嚼口香糖就能解代數一樣"</v-card-title>
+            <div>
+              <v-btn icon class="ma-2">
+                <v-icon large>mdi-facebook</v-icon>
+              </v-btn>
+              <v-btn icon class="ma-2">
+                <v-icon large>mdi-instagram</v-icon>
+              </v-btn>
+              <!-- <v-btn icon class="ma-2"><v-icon large>mdi-twitter</v-icon></v-btn> -->
+            </div>
+          </v-card>
+        </div>
+        <!-- xin -->
+        <div
+          class="my-auto"
+          style="display:flex; align-items:center; padding:0% 20%"
+          v-else-if="this.selected==5"
+        >
+          <img src="../assets/aboutUs/xin.png" width="40%" style="display:block;" />
+          <v-card flat color="transparent" style="display:block;width:fit-content;">
+            <v-card-title
+              class="mx-2 my-4 pa-0"
+              style="font-weight: bold;font-size:3.5rem;color:#F7EB92"
+            >劉心鈺</v-card-title>
+            <v-card-title class="ma-2 pa-0" style="font-weight: bold;font-size:1.2rem">Front / App</v-card-title>
+            <v-card-title
+              class="mx-2 my-8 pa-0"
+              style="font-weight: bold;font-size:1.6rem"
+            >"把興趣放在比夢想更高得位置"</v-card-title>
+            <div>
+              <v-btn icon class="ma-2">
+                <v-icon large>mdi-facebook</v-icon>
+              </v-btn>
+              <v-btn icon class="ma-2">
+                <v-icon large>mdi-instagram</v-icon>
+              </v-btn>
+              <!-- <v-btn icon class="ma-2"><v-icon large>mdi-twitter</v-icon></v-btn> -->
+            </div>
+          </v-card>
+        </div>
+        <!-- yo -->
+        <div
+          class="my-auto"
+          style="display:flex; align-items:center; padding:0% 20%"
+          v-else-if="this.selected==6"
+        >
+          <img src="../assets/aboutUs/yo.png" width="40%" style="display:block;" />
+          <v-card flat color="transparent" style="display:block;width:fit-content;">
+            <v-card-title
+              class="mx-2 my-4 pa-0"
+              style="font-weight: bold;font-size:3.5rem;color:#F7EB92"
+            >郭芮佑</v-card-title>
+            <v-card-title class="ma-2 pa-0" style="font-weight: bold;font-size:1.2rem">Designer</v-card-title>
+            <v-card-title
+              class="mx-2 my-8 pa-0"
+              style="font-weight: bold;font-size:1.6rem"
+            >"該做的就是要馬上做免得忘記"</v-card-title>
+            <div>
+              <v-btn icon class="ma-2">
+                <v-icon large>mdi-facebook</v-icon>
+              </v-btn>
+              <v-btn icon class="ma-2">
+                <v-icon large>mdi-instagram</v-icon>
+              </v-btn>
+              <!-- <v-btn icon class="ma-2"><v-icon large>mdi-twitter</v-icon></v-btn> -->
+            </div>
+          </v-card>
+        </div>
+      </v-card>
+    </div>
+    <v-card flat color="transparent" style="position:absolute;bottom:3%;width:100%">
+      <div class="ma-auto member" style="display:block;width:fit-content">
+        <v-btn
+          class="ma-2 elevation-0"
+          @click="memberSelect(0)"
+          style="min-width:0px;margin:3px;height:100px;width:100px;border-radius:50px;background-color:#F7EB92;"
+          :style="(this.selected==0)?'border:7px double #3D404E':''"
+        >
+          <v-img src="../assets/aboutUs/logo.png" contain height="60px" style />
+        </v-btn>
 
             <v-btn class="ma-2 elevation-0" @click="memberSelect(3)"  @mouseover="memberSelect(3)"
                 style="min-width:0px;margin:3px;height:100px;width:100px;border-radius:50px;background-color:#5D63AF;"
@@ -369,11 +456,12 @@ export default {
             // }
         }
     }
-}
+  }
+
 </script>
 <style>
 .member .v-responsive {
-max-width: 130px;
+  max-width: 130px;
 }
 :root {
   --swiper-theme-color: #F7EB92 !important;

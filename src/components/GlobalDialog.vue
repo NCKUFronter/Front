@@ -17,8 +17,7 @@
       :icon="realIcon"
       :dismissible="realDismissible"
       :border="border"
-      class="mb-0"
-      style="background-color:#3D404E;"
+      class="mb-0 confirmWin"
     >
       <slot :state="state"></slot>
       <div v-if="!$scopedSlots.default" class="black--text">{{state.message}}</div>
@@ -109,3 +108,14 @@ export default {
   }
 };
 </script>
+
+<style>
+.confirmWin.v-alert.mb-0.confirmWin.v-sheet.theme--dark.v-alert--border.v-alert--prominent.v-alert--text.v-alert--border-top.warning--text {
+  color: #26282d !important;
+  caret-color: #26282d !important;
+}
+.confirmWin
+  .v-icon.notranslate.v-alert__icon.mdi.mdi-help.theme--dark.warning--text {
+  color: #26282d !important;
+}
+</style>

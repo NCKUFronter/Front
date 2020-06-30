@@ -316,7 +316,6 @@ export default {
       this.$api
         .login(email, "0000")
         .then(() => {
-
           this.$alert.success("登入成功");
           this.$router.push("/");
 

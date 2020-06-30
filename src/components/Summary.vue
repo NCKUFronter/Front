@@ -158,7 +158,7 @@
         flat
         min-height="85vh"
         style="position:fixed;top:15%;right:0%;border-radius:0;"
-        :style="setting?'z-index:3;':'z-index:0'"
+        :style="setting?'z-index:3;':'z-index:-1'"
         class="scroll"
         color="transparent"
         v-if="$vuetify.breakpoint.xsOnly"

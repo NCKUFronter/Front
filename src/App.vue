@@ -176,8 +176,8 @@
         :close-on-content-click="true"
         offset-y
         nudge-left="40"
-        min-width="250"
-        max-width="400"
+        min-width="250px"
+        max-height="400px"
         v-if="login && clear.animeOver"
       >
         <template v-slot:activator="{ on, attrs }">
@@ -297,11 +297,11 @@
           <v-list-item-content>
             <br />
             <br />
-            <v-list-title
+            <v-list-item
               :class="($vuetify.breakpoint.smAndUp) ? 'pb-0 ml-11':'ml-6'"
               style="font-weight:bold;"
               :style="($vuetify.breakpoint.smAndUp) ? 'font-size:17px;':'font-size:15px;'"
-            >{{ profile.email }}</v-list-title>
+            >{{ profile.email }}</v-list-item>
 
             <v-btn
               outlined
@@ -403,7 +403,7 @@
       <v-container id="scroll-target" class="all pa-0" fluid v-if="!login && $route.name!='aboutUsName' && $route.name!='webInfoName'" style="margin-top:50px">
         <!-- <div v-if="">
           <router-view></router-view>
-        </div> -->
+        </div>-->
         <!-- class="overflow-y-auto" -->
         <!-- <div
         v-scroll:#scroll-target="onScroll"
