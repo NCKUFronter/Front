@@ -53,6 +53,7 @@ export default {
 
   mounted: function() {
     var self = this;
+    self.vanish = true;
     setTimeout(function() {
       self.vanish = !self.vanish;
       self.show = !self.show;
@@ -62,7 +63,7 @@ export default {
     }, 2000);
     setTimeout(function() {
       self.$router.push("/accounting");
-    }, 2500);
+    }, 2100);
     this.$clear.animeOver = false;
     this.fullHeight = window.innerHeight;
     this.fullWidth = window.innerWidth;
@@ -197,7 +198,7 @@ img {
 }
 
 .FH_fade-leave-active {
-  transition: all 0.7s;
+  transition: all 0.8s;
 }
 .slidedown-enter-active,
 .slideup-enter-active,
@@ -237,6 +238,6 @@ img {
 .slideup-leave-active,
 .sloganmove-leave-active,
 .brandmove-leave-active {
-  transition: all 0.8s;
+  transition: all 0.15s;
 }
 </style>

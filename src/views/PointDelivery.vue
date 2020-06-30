@@ -1,9 +1,12 @@
 <template>
-  <v-container fluid style="padding:120px 50px 10px 50px;">
+  <v-container
+    fluid
+    :style="($vuetify.breakpoint.smAndUp)?'padding:120px 50px 10px 50px;':'padding:48px 50px 10px 50px;'"
+  >
     <v-row class="sub-header">
       <v-spacer></v-spacer>
-      <v-card-title>
-        <v-icon large>mdi-alpha-p-circle-outline</v-icon>
+      <v-card-title class="mt-2 pa-0">
+        <v-icon size="25">mdi-alpha-p-circle-outline</v-icon>
         {{totalPoint}}
       </v-card-title>
     </v-row>
@@ -22,7 +25,8 @@
             ></v-text-field>
           </ValidationProvider>
 
-          <v-icon>mdi-arrow-right-bold</v-icon>
+          <v-icon v-if="$vuetify.breakpoint.smAndUp">mdi-arrow-right-bold</v-icon>
+          <v-icon v-else size="30">mdi-arrow-down-bold</v-icon>
 
           <ValidationProvider v-slot="{ errors }" name="select" rules="required">
             <v-select

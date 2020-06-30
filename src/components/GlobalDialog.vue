@@ -10,6 +10,7 @@
     <v-alert
       :text="text"
       :outlined="outlined"
+      :dark="dark"
       :prominent="prominent"
       :type="type"
       :color="state.color"
@@ -17,13 +18,14 @@
       :dismissible="realDismissible"
       :border="border"
       class="mb-0"
+      style="background-color:#3D404E;"
     >
       <slot :state="state"></slot>
       <div v-if="!$scopedSlots.default" class="black--text">{{state.message}}</div>
       <div v-if="!$scopedSlots.default" class="row ma-0">
         <v-spacer />
-        <v-btn text @click="onConfirm()" dense>確認</v-btn>
-        <v-btn text @click="onCancel()">取消</v-btn>
+        <v-btn color="black" text @click="onConfirm()" dense>確認</v-btn>
+        <v-btn color="black" text @click="onCancel()">取消</v-btn>
       </div>
     </v-alert>
   </v-dialog>
@@ -73,6 +75,7 @@ export default {
     dismissible: Boolean,
     border: String,
     icon: String,
+    dark: Boolean,
     state: {
       type: Object,
       required: true
