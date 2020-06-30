@@ -232,17 +232,42 @@
         style="z-index:4;position:fixed;"
       ></v-img>
     </transition>
+    <transition name="info_fade">
+      <v-card
+        flat
+        outlined
+        :style="($vuetify.breakpoint.smAndUp)?'top:30%;left:32%;':'top:25%;left:16%;'"
+        style="background-color:#ffffff00;border:none;position:absolute;"
+        v-if="toggle5"
+      >
+        <v-card-text
+          :style="($vuetify.breakpoint.smAndUp)?'font-size:50px;':'font-size:25px;'"
+          style="text-align:center;font-weight:700;color:#ffffff;"
+        >立即登入使用星記帳</v-card-text>
+      </v-card>
+    </transition>
+    <transition name="info_fade">
+      <v-btn
+        v-on:click="doLogin('father@gmail.com')"
+        v-if="toggle5"
+        rounded
+        color="#ffffff00"
+        :style="($vuetify.breakpoint.smAndUp)?'left:47%;top: 50%;':'left: 43%;top: 35%;'"
+        style="color:#ffffff;position:absolute;border: 2px solid #ffffff;"
+      >登入</v-btn>
+    </transition>
   </v-card>
 </template>
 
 <script>
+import { ignoreNotLoginError } from "../utils";
 let data = {
   toggle0: true,
   toggle1: false,
   toggle2: false,
   toggle3: false,
   toggle4: false,
-  toggle5: false
+  toggle5: false,
 };
 export default {
   name: "webInfoName",
@@ -259,6 +284,11 @@ export default {
       self.toggle1 = true;
     }, 1000);
   },
+  computed:{
+    login() {
+      return this.$api.user.login;
+    },
+  },
   methods: {
     nextSlide1() {
       this.toggle0 = !this.toggle0;
@@ -274,9 +304,38 @@ export default {
       this.toggle4 = !this.toggle4;
     },
     nextSlide4() {
+      if(this.login == false){
       this.toggle4 = !this.toggle4;
-      this.$router.push("/accounting");
-    }
+      this.toggle5 = !this.toggle5;
+      }
+      else{
+        this.$router.push('/accounting');
+      }
+    },
+    doLogin(email) {
+      this.$api
+        .login(email, "0000")
+        .then(() => {
+
+          this.$alert.success("登入成功");
+          this.$router.push("/");
+
+        })
+        .catch(err => {
+          console.log(err);
+          this.$alert.error("登入失敗");
+        });
+      
+    },
+    toLogout() {
+      this.$api
+        .logout()
+        .then(res => {
+          if (this.$route.name != null) this.$router.push("/");
+        })
+        .catch(console.log);
+        
+    },
   }
 };
 </script>

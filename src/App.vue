@@ -1,15 +1,16 @@
 <template>
-  <v-app v-if="!viewIntro">
+<!-- v-if="!viewIntro" -->
+  <v-app>
     <v-app-bar
       transition="slide-y-transition"
       color="#ffffff00"
       flat
       clipped
       fixed
-      v-if="!login"
+      v-if="!login && $route.name!='webInfoName'"
       style="z-index:8;width:100vw;"
     >
-      <v-btn class="elevation-0" color="transparent" :style="($vuetify.breakpoint.smAndUp)?'font-size:40px;':'font-size:24px;'" @click="jumpToHome()">FRONTER</v-btn>
+      <v-btn class="elevation-0" color="transparent" :style="($vuetify.breakpoint.smAndUp)?'font-size:40px;':'font-size:24px;'" @click="jumpTo('/')">FRONTER</v-btn>
       <v-spacer />
 
       <v-menu offset-y v-if="clear.animeOver" nudge-left="30">
@@ -30,7 +31,7 @@
 
           <v-btn
             block
-            @click="getToIntro()"
+            @click="jumpTo('/webInfo')"
             class="elevation-0"
             color="transparent"
             style="color:#26282D;font-weight:bold"
@@ -124,7 +125,7 @@
         :class="($vuetify.breakpoint.smAndUp)?'pa-5':'pa-2'"
         style="font-weight:bold"
         :style="($vuetify.breakpoint.smAndUp)?'font-size:18px;':'font-size:15px;'"
-        @click="jumpToAboutUs()"
+        @click="jumpTo('/aboutFRONTER')"
       >關於我們</v-btn>
       <!-- <v-btn width="fit-content" height="fit-content" color="transparent" class="elevation-0 pa-1" :class="($vuetify.breakpoint.smAndUp)?'pa-5':'pa-2'" style="font-weight:bold" :style="($vuetify.breakpoint.smAndUp)?'font-size:25px;':'font-size:15px;'">聯絡我們</v-btn> -->
     </v-app-bar>
@@ -385,8 +386,9 @@
             v-for="(item, index) in menu"
             :key="'menu_item' + index"
             :class="{ 'menu-item': true, disabled: !item.link }"
-            class="pl-10"
-            :to="item.link"
+            class="pl-10"  
+            :to='item.link'         
+            @click="(item.title=='認識星際帳'? jumpTo('/webInfo'):jumpTo('/summary'))"
             active-class="active"
           >{{ item.title }}</v-list-item>
         </v-list>
@@ -398,7 +400,7 @@
       <!-- id="scroll-target" class="overflow-y-auto"  -->
       <!-- <v-app-bar class="mx-auto overflow-hidden" color="#efca16" elevate-on-scroll clipped-left app>
       </v-app-bar>-->
-      <v-container id="scroll-target" class="all pa-0" fluid v-if="!login && $route.name!='aboutUsName'" style="margin-top:50px">
+      <v-container id="scroll-target" class="all pa-0" fluid v-if="!login && $route.name!='aboutUsName' && $route.name!='webInfoName'" style="margin-top:50px">
         <!-- <div v-if="">
           <router-view></router-view>
         </div> -->
@@ -583,7 +585,7 @@
           <v-flex xs2.5 sm2.5 md2.5 style="margin:auto;padding-left:2%;">
             <v-card-title class="pa-0 mb-6" style="font-weight:bold;font-size:24px;">星際帳</v-card-title>
             <v-card-text
-              @click="getToIntro"
+              @click="jumpTo('/webInfo')"
               active-class="active"
               dense
               class="footerAccount ma-0 pa-0"
@@ -644,7 +646,7 @@
 
     <!-- for mobile -->
     <v-content id="scroll-target" style="max-width:100vw" v-else>
-      <v-container class="pa-0" fluid v-if="!login" style="height:100vh;weight:50vw;">
+      <v-container class="pa-0" fluid v-if="!login & $route.name!='aboutUsName'" style="height:100vh;weight:50vw;">
         <!-- <v-card v-scroll:#scroll-target="onScroll"> -->
 
         <!-- <swiper class="swiper" :options="swiperOption"> -->
@@ -905,7 +907,7 @@
     </GlobalSnackBar>
   </v-app>
   <!-- Intro Page -->
-  <v-card
+  <!-- <v-card
     v-else
     class="introPage"
     flat
@@ -928,11 +930,11 @@
         v-if="toggle1"
       >
         <v-card-text
-          :style="($vuetify.breakpoint.smAndUp)?'font-size:50px;':'font-size:25px;'"
+          :style="($vuetify.breakpoint.smAndUp)?'font-size:50px;':'font-size:25px;margin-top:30%'"
           style="text-align:center;font-weight:bold;color:#ffffff;"
         >認識星記帳</v-card-text>
         <v-card-text
-          :style="($vuetify.breakpoint.smAndUp)?'font-size:14px;':'font-size:12px;'"
+          :style="($vuetify.breakpoint.smAndUp)?'font-size:14px;':'font-size:15px;'"
           style="text-align:center;font-weight:bold;color:#ffffff;"
         >
           星記帳
@@ -969,7 +971,7 @@
       <v-card
         flat
         outlined
-        :style="($vuetify.breakpoint.smAndUp)?'top:33.3%;left:18.4%;':'top:20%;left:7%;'"
+        :style="($vuetify.breakpoint.smAndUp)?'top:33.3%;left:18.4%;':'top:30%;left:7%;'"
         style="z-index:4;background-color:#ffffff00;border:none;position:absolute;"
         v-if="toggle2"
       >
@@ -1152,7 +1154,6 @@
       </v-card>
     </transition>
 
-    <!-- v-on:click="toLogin" v-on:click="doLogin('father@gmail.com')"-->
     <transition name="info_fade">
       <v-btn
         v-on:click="doLogin('father@gmail.com');closeIntro()"
@@ -1163,7 +1164,7 @@
         style="color:#ffffff;position:absolute;border: 2px solid #ffffff;"
       >登入</v-btn>
     </transition>
-  </v-card>
+  </v-card> -->
 </template>
 
 <script>
@@ -1180,7 +1181,6 @@ import { Swiper, SwiperSlide } from "vue-awesome-swiper";
 // import SideMenu from './components/SideMenu.vue'
 let data = {
   // modalOpen: false,
-  aboutUs:false,
   offset: true,
   menuWithChild: [
     {
@@ -1231,6 +1231,7 @@ let data = {
     { title: "Click Me" }
   ],
   clear: { animeOver: true },
+
   viewIntro: false,
   toggle0: true,
   toggle1: false,
@@ -1240,7 +1241,6 @@ let data = {
   toggle5: false,
 
   profileDrawer: false,
-
   bellRing: false,
   drawer: false,
   offsetTop: 0,
@@ -1267,6 +1267,7 @@ let data = {
 
 export default {
   name: "App",
+  // props:['login'],
   data() {
     this.$alert = initSnackbarData();
     this.$notification = new NotificationService(
@@ -1290,7 +1291,8 @@ export default {
       $alert: this.$alert,
       $notification: this.$notification,
       $confirm: this.$confirm,
-      $clear: this.clear
+      $clear: this.clear,
+      $login: this.login
     };
   },
   created() {
@@ -1324,13 +1326,16 @@ export default {
     }
   },
   methods: {
-    jumpToHome(){
-      this.$router.push("/");
-      this.aboutUs=false;
-    },
-    jumpToAboutUs(){
-      this.$router.push("/aboutFRONTER");
-      this.aboutUs=true;
+    jumpTo(path){
+      if(path == '/webInfo'){
+        if(this.login){
+          this.$router.push({name: 'webInfoName',params: {id: true}})
+        }  
+        else{
+          this.$router.push({name: 'webInfoName',params: {id: false}})
+        }
+      }
+      this.$router.push(path);
     },
     timeString(time) {
       const date = new Date(time);
@@ -1383,17 +1388,21 @@ export default {
     toLogin() {
       // this.$api.login("father@gmail.com", "0000").catch(console.log);
       window.location = "/api/login/auth/google";
+      this.login = true;
     },
     doLogin(email) {
       this.$api
         .login(email, "0000")
         .then(() => {
+          this.login = true;
           this.$alert.success("登入成功");
+          
         })
         .catch(err => {
           console.log(err);
           this.$alert.error("登入失敗");
         });
+      
     },
     toLogout() {
       this.$api
@@ -1402,6 +1411,7 @@ export default {
           if (this.$route.name != null) this.$router.push("/");
         })
         .catch(console.log);
+        
     },
     getPoints() {
       this.$http
@@ -1427,16 +1437,16 @@ export default {
       console.log("ring");
       this.bellRing = !this.bellRing;
     },
-    getToIntro() {
-      this.viewIntro = true;
-      this.toggle0 = true;
-      this.toggle5 = false;
-      let self = this;
-      setTimeout(function() {
-        self.toggle1 = true;
-      }, 1000);
-      console.log(this.toggle0);
-    },
+    // getToIntro() {
+    //   this.viewIntro = true;
+    //   this.toggle0 = true;
+    //   this.toggle5 = false;
+    //   let self = this;
+    //   setTimeout(function() {
+    //     self.toggle1 = true;
+    //   }, 1000);
+    //   console.log(this.toggle0);
+    // },
     nextSlide1() {
       this.toggle0 = !this.toggle0;
       this.toggle1 = !this.toggle1;

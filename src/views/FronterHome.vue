@@ -71,7 +71,6 @@ export default {
     let root = document.documentElement;
     // mobile
     if (this.$vuetify.breakpoint.smAndDown) {
-      console.log(this.fullWidth);
       //main picture setting
       root.style.setProperty("--img-width", this.fullWidth * 0.9 + "px");
       root.style.setProperty("--img-left", this.fullWidth * 0.05 + "px");

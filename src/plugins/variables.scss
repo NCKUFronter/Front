@@ -29,7 +29,10 @@ $body-font-family: Roboto, "微軟正黑體", Arial, Helvetica, "sans-serif";
   background-color: #26282d;
 }
 
-
+// @import "~swiper/css/swiper.css";
+// :root {
+//   --swiper-theme-color: #F7EB92 !important;
+// }
 
 //category & recordtable chip
 .theme--dark.v-chip:not(.v-chip--active) {
