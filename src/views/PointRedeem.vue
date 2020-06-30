@@ -85,14 +85,17 @@
       </v-row>
       <v-row v-if="!loading && !cartModal">
         <v-flex xs6 sm4 md2 v-for="item in filterPropType" :key="item.name" class="item">
-          <v-card flat class="py-2 px-2">
+          <v-card flat class="goodsDiscri">
             <v-img :src="item.photo" class="img"></v-img>
 
-            <v-card-title class="pb-0">{{item.name}}</v-card-title>
-            <v-card-text class="pb-0" style="font-size: 12px;">{{item.intro}}</v-card-text>
-            <v-icon class="pb-1">mdi-alpha-p-circle-outline</v-icon>
-            <v-card-subtitle class="pb-1">{{item.point}}</v-card-subtitle>
-            <v-card-actions class="icon mb-0" style="float:right;padding:0 0 0 0;">
+            <v-card-text
+              class="pb-0 ma-0"
+              style="font-size:20px;color:#ffffff;font-weight:normal;"
+            >{{item.name}}</v-card-text>
+            <v-card-text class="py-0 ma-0 mb-3" style="font-size: 12px;">{{item.intro}}</v-card-text>
+            <v-icon class="pb-1 pl-1">mdi-alpha-p-circle-outline</v-icon>
+            <v-card-subtitle class="pb-1" style="font-size:20px;">{{item.point}}</v-card-subtitle>
+            <v-card-actions class="icon mb-0 pr-4" style="float:right;padding:0 0 0 0;">
               <!-- <v-btn icon v-on:click="addLike(item)">
                             <v-icon @click="heart++">mdi-heart</v-icon>
               </v-btn>-->
@@ -368,6 +371,9 @@ export default {
   border-radius: 5px;
 }
 .py-2.theme--dark.v-sheet {
+  background-color: transparent;
+}
+.goodsDiscri.theme--dark.v-sheet {
   background-color: transparent;
 }
 .py-2 .v-card__text {

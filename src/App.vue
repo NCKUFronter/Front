@@ -163,20 +163,6 @@
       <v-spacer />
       <v-spacer />
       <!-- searching bar -->
-      <v-form style="height:100%;width:45%" class="px-8">
-        <v-text-field
-          width="500px"
-          background-color="#3d404e"
-          color="#fff"
-          dense
-          prepend-inner-icon="mdi-magnify"
-          label="Search here"
-          filled
-          shaped
-          hide-details
-          v-if="login && clear.animeOver  && $vuetify.breakpoint.smAndUp"
-        ></v-text-field>
-      </v-form>
       <!-- </v-flex> -->
       <!-- <v-col v-if="login && clear.animeOver" class="d-flex align-center justify-end">
       </v-col>-->
@@ -312,13 +298,13 @@
             <v-list-title
               :class="($vuetify.breakpoint.smAndUp) ? 'pb-0 ml-11':'ml-6'"
               style="font-weight:bold;"
-              :style="($vuetify.breakpoint.smAndUp) ? 'font-size:18px;':'font-size:15px;'"
+              :style="($vuetify.breakpoint.smAndUp) ? 'font-size:17px;':'font-size:15px;'"
             >{{ profile.email }}</v-list-title>
 
             <v-btn
               outlined
               block
-              :class="($vuetify.breakpoint.smAndUp) ? 'mt-3 ml-6':'mt-3 ml-6'"
+              :class="($vuetify.breakpoint.smAndUp) ? 'mt-3 ml-6 pa-0':'mt-3 ml-6'"
               retain-focus-on-click
               style="background-color:#ffffff00;border:none;font-weight:bold;"
               :style="($vuetify.breakpoint.smAndUp) ? 'font-size:18px;':'font-size:15px;'"
@@ -330,7 +316,7 @@
             <v-btn
               outlined
               block
-              :class="($vuetify.breakpoint.smAndUp) ? 'mt-3 ml-11':'ml-10'"
+              :class="($vuetify.breakpoint.smAndUp) ? 'ml-11':'ml-10'"
               style="background-color:#ffffff00;border:none;font-weight:bold;"
               :style="($vuetify.breakpoint.smAndUp) ? 'font-size:18px;':'font-size:15px;'"
               v-on:click="toLogout"
@@ -1007,8 +993,6 @@
           <br />火箭隊萬歲
           <br />
           <br />搜難油
-          <br />
-          <br />哈哈哈哈哈哈哈哈哈
         </v-card-text>
       </v-card>
     </transition>

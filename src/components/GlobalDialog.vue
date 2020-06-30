@@ -18,6 +18,7 @@
       :dismissible="realDismissible"
       :border="border"
       class="mb-0"
+      style="background-color:#3D404E;"
     >
       <slot :state="state"></slot>
       <div v-if="!$scopedSlots.default" class="black--text">{{state.message}}</div>
