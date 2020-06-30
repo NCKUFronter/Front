@@ -1,25 +1,26 @@
 <template>
-  <v-card
+<v-container fluid class="ma-0 pa-0" style="width:100vw;height:100vh;background-color:#000019;">
+  <swiper class="swiper" :options="swiperOption" >
+  <!-- <v-card
     class="introPage"
     flat
     outlined
     style="z-index:5;width:100vw;height:100vh;background-color:#000019; border:none;border-radius:0px;"
-  >
-    <transition name="info_fade">
-      <h1
-        :style="($vuetify.breakpoint.smAndUp)?'font-size:40px;':'font-size:24px;'"
-        style="z-index:6;position:absolute;color:#ffffff;width:200px;left:10px;top:10px;"
-        v-if="toggle1"
-      >FRONTER</h1>
-    </transition>
-    <transition name="info_fade">
+  > -->
+  <swiper-slide style="height:100vh;width:100vw;"> 
+  <v-layout style="width:100vw;height:100vh;overflow:hidden;">
+    <!-- <transition name="info_fade"> -->
+
+      <!-- v-if="toggle1" -->
+    <!-- </transition> -->
+    <!-- <transition name="info_fade"> -->
       <v-card
-        :style="($vuetify.breakpoint.smAndUp)?'top:35%;left:40%;':'top:48%;left:22%;'"
+        :style="($vuetify.breakpoint.smAndUp)?'top:35%;left:40%;':'top:47%;left:22%;'"
         flat
         outlined
-        style="z-index:6;background-color:#ffffff00;border:none;position:absolute;"
-        v-if="toggle1"
+        style="z-index:2;background-color:#ffffff00;border:none;position:absolute;"
       >
+      <!-- v-if="toggle1" -->
         <v-card-text
           :style="($vuetify.breakpoint.smAndUp)?'font-size:50px;':'font-size:25px;'"
           style="text-align:center;font-weight:bold;color:#ffffff;"
@@ -34,38 +35,46 @@
           <br />三位一體，實現劃時代的星記帳
         </v-card-text>
       </v-card>
-    </transition>
-    <transition name="info_fade">
+    <!-- </transition> -->
+    <!-- <transition name="info_fade"> -->
       <v-img
-        v-if="toggle0"
+        
         class="infoImg"
-        :style="($vuetify.breakpoint.smAndUp)?'width:70vw;left:13.5%;':'width:80vw;left:10%;top:25%;'"
-        style="z-index:5;position:fixed;"
+        contain
+        :style="($vuetify.breakpoint.smAndUp)?'height:100vh;':'width:100vw;top:25%;'"
+        style="z-index:1;position:absolute;"
         src="../assets/knowFronter.svg"
       ></v-img>
-    </transition>
-    <v-card
+      <!-- v-if="toggle0" -->
+    <!-- </transition> -->
+    <!-- <v-card
       flat
       outlined
       style="z-index:6;background-color:#ffffff00;border:none;width:100%;height:100%;"
       @click="nextSlide1()"
-      v-if="toggle1"
-    ></v-card>
-    <v-card
+    ></v-card> -->
+    <!-- v-if="toggle1" -->
+  </v-layout>
+  </swiper-slide>
+
+  <!-- p2 -->
+  <swiper-slide style="height:100vh"> 
+  <v-layout style="width:100vw;height:100vh;overflow:hidden;position:relative;background-color:#000019">
+    <!-- <v-card
       flat
       outlined
       style="z-index:6;background-color:#ffffff00;border:none;width:100%;height:100%;"
       @click="nextSlide2()"
       v-if="toggle2"
-    ></v-card>
-    <transition name="info_fade">
+    ></v-card> -->
+    <!-- <transition name="info_fade"> -->
       <v-card
         flat
         outlined
-        :style="($vuetify.breakpoint.smAndUp)?'top:33.3%;left:18.4%;':'top:20%;left:7%;'"
-        style="z-index:4;background-color:#ffffff00;border:none;position:absolute;"
-        v-if="toggle2"
+        :style="($vuetify.breakpoint.smAndUp)?'top:28%;left:18.4%;':'top:33%;left:7%;'"
+        style="z-index:4;background-color:#ffffff00;border:none;position:absolute;"  
       >
+      <!-- v-if="toggle2" -->
         <br :style="($vuetify.breakpoint.smAndUp)?'':'display:none;'" />
         <v-card-text
           :style="($vuetify.breakpoint.smAndUp)?'font-size:40px;':'font-size:20px;'"
@@ -96,43 +105,49 @@
           <br />哈哈哈哈哈哈哈哈哈
         </v-card-text>
       </v-card>
-    </transition>
-    <transition name="info_fade">
+    <!-- </transition> -->
+    <!-- <transition name="info_fade"> -->
       <v-img
-        v-if="toggle2"
         flat
         class="infoImg"
         src="../assets/01.svg"
-        :style="($vuetify.breakpoint.smAndUp)?'width:20vw;left: 12%; bottom: 40%;':'width:30vw; left: 4%; top:12%;'"
+        :style="($vuetify.breakpoint.smAndUp)?'width:20vw;left: 12%; bottom: 43%;':'width:30vw; left: 4%; top:20%;'"
         style="z-index:2;position:absolute;"
       ></v-img>
-    </transition>
-    <transition name="info_fade">
+      <!-- v-if="toggle2" -->
+    <!-- </transition> -->
+    <!-- <transition name="info_fade"> -->
       <v-img
         class="infoImg"
-        v-if="toggle2"
         flat
         src="../assets/firstPlant.svg"
-        :style="($vuetify.breakpoint.smAndUp)?'width:75vw;left: 48%; bottom: 12%;':'width:80vw; left: 45%; top:0%;'"
-        style="z-index:2;position:fixed;"
+        :style="($vuetify.breakpoint.smAndUp)?'width:72vw;left: 48%; bottom: 10%;':'width:100vw; left: 40%; top:-2%;'"
+        style="z-index:2;position:absolute;"
       ></v-img>
-    </transition>
-    <v-card
+       <!-- v-if="toggle2" -->
+    <!-- </transition> -->
+  </v-layout>
+  </swiper-slide>
+
+  <!-- p3 -->
+  <swiper-slide style="height:100vh"> 
+  <v-layout style="width:100vw;height:100vh;overflow:hidden;position:relative;background-color:#000019">
+    <!-- <v-card
       flat
       outlined
       style="z-index:5;background-color:#ffffff00;border:none;width:100%;height:100%;"
       @click="nextSlide3()"
       v-if="toggle3"
-    ></v-card>
+    ></v-card> -->
 
-    <transition name="info_fade">
+    <!-- <transition name="info_fade"> -->
       <v-card
         flat
         outlined
-        :style="($vuetify.breakpoint.smAndUp)?'bottom:30%;right:20%;':'top:27%;right:4%;'"
+        :style="($vuetify.breakpoint.smAndUp)?'bottom:30%;right:20%;':'top:55%;right:4%;'"
         style="z-index:6;background-color:#ffffff00;border:none;position:absolute;"
-        v-if="toggle3"
       >
+      <!-- v-if="toggle3" -->
         <br :style="($vuetify.breakpoint.smAndUp)?'':'display:none;'" />
         <v-card-text
           :style="($vuetify.breakpoint.smAndUp)?'font-size:40px;':'font-size:20px;'"
@@ -155,42 +170,49 @@
           <br />「你沒有童年」
         </v-card-text>
       </v-card>
-    </transition>
-    <transition name="info_fade">
+    <!-- </transition> -->
+    <!-- <transition name="info_fade"> -->
       <v-img
-        v-if="toggle3"
         flat
         class="infoImg"
         src="../assets/02.svg"
-        :style="($vuetify.breakpoint.smAndUp)?'width:20vw;right: 12%; bottom:30%;':'width:30vw;right: 4%; top:20%;'"
+        :style="($vuetify.breakpoint.smAndUp)?'width:20vw;right: 12%; bottom:30%;':'width:30vw;right: 4%; top:45%;'"
         style="z-index:2;position:absolute;"
       ></v-img>
-    </transition>
-    <transition name="info_fade">
+      <!-- v-if="toggle3" -->
+    <!-- </transition> -->
+    <!-- <transition name="info_fade"> -->
       <v-img
-        v-if="toggle3"
         flat
         class="infoImg"
         src="../assets/secondPlant.svg"
-        :style="($vuetify.breakpoint.smAndUp)?'width:60vw;right: 50%; bottom: 20%;':'width:70%; right:40%; top:10%;'"
+        :style="($vuetify.breakpoint.smAndUp)?'width:60vw;right: 50%; bottom: 20%;':'width:100%; right:40%; top:5%;'"
         style="z-index:2;position:absolute;"
       ></v-img>
-    </transition>
-    <v-card
+      <!-- v-if="toggle3" -->
+    <!-- </transition> -->
+  </v-layout>
+  </swiper-slide>
+
+  <!-- p4 -->
+  <swiper-slide style="height:100vh"> 
+  <v-layout @click="nextSlide4()" @mousewheel="nextSlide4()" style="width:100vw;height:100vh;overflow:hidden;position:relative;background-color:#000019">
+    <!-- <v-card
       flat
       outlined
       style="position:absolute;z-index:6;background-color:#ffffff00;border:none;width:100%;height:100%;"
       @click="nextSlide4()"
       v-if="toggle4"
-    ></v-card>
-    <transition name="info_fade">
+    ></v-card> -->
+    <!-- <transition name="info_fade"> -->
       <v-card
         flat
         outlined
-        :style="($vuetify.breakpoint.smAndUp)?'top:33%;left:18%;':'top:16%;left:10%;'"
+        :style="($vuetify.breakpoint.smAndUp)?'top:33%;left:18%;':'top:18%;left:8%;'"
         style="z-index:4;background-color:#ffffff00;border:none;position:absolute;"
-        v-if="toggle4"
+        
       >
+      <!-- v-if="toggle4" -->
         <br :style="($vuetify.breakpoint.smAndUp)?'':'display:none;'" />
         <v-card-text
           :style="($vuetify.breakpoint.smAndUp)?'font-size:40px;':'font-size:20px;'"
@@ -213,33 +235,43 @@
           <br />我們仍能相遇的可能性？
         </v-card-text>
       </v-card>
-    </transition>
-    <transition name="info_fade">
+    <!-- </transition> -->
+    <!-- <transition name="info_fade"> -->
       <v-img
-        v-if="toggle4"
+        
         class="infoImg"
         src="../assets/03.svg"
-        :style="($vuetify.breakpoint.smAndUp)?'width:25vw;left: 12%; bottom: 40%;':'width:30vw; left: 15%; top:10%;'"
+        :style="($vuetify.breakpoint.smAndUp)?'width:25vw;left: 12%; bottom: 40%;':'width:30vw; left: 10%; top:8%;'"
         style="z-index:2;position:absolute;"
       ></v-img>
-    </transition>
-    <transition name="info_fade">
+      <!-- v-if="toggle4" -->
+    <!-- </transition> -->
+    <!-- <transition name="info_fade"> -->
       <v-img
-        v-if="toggle4"
         class="infoImg"
         src="../assets/chart.png"
-        :style="($vuetify.breakpoint.smAndUp)?'width:60vw;left: 50%; bottom: 2%;':'width:80vw; left: 34%; top:40%;'"
-        style="z-index:4;position:fixed;"
+        :style="($vuetify.breakpoint.smAndUp)?'width:60vw;left: 50%; bottom: 2%;':'width:100vw; left: 25%; top:45%;'"
+        style="z-index:4;position:absolute;"
       ></v-img>
-    </transition>
+
+      <!-- <v-btn class="elevation-0" color="#50989E" style="z-index:10;color:white;position:absolute;bottom:5vh;"  >回到帳本</v-btn> -->
+      <!-- v-if="toggle4" -->
+    <!-- </transition> -->
+  </v-layout>
+  </swiper-slide>
+
+  <!-- p5 -->
+  <swiper-slide v-if="toggle5"  style="height:100vh"> 
+  <v-layout style="width:100vw;height:100vh;overflow:hidden;position:relative;background-color:#000019">
     <transition name="info_fade">
       <v-card
         flat
-        outlined
-        :style="($vuetify.breakpoint.smAndUp)?'top:30%;left:32%;':'top:25%;left:16%;'"
-        style="background-color:#ffffff00;border:none;position:absolute;"
         v-if="toggle5"
+        outlined
+        :style="($vuetify.breakpoint.smAndUp)?'top:30%;left:32%;':'top:25%;left:14%;'"
+        style="background-color:#ffffff00;border:none;position:absolute;" 
       >
+      <!-- v-if="toggle5" -->
         <v-card-text
           :style="($vuetify.breakpoint.smAndUp)?'font-size:50px;':'font-size:25px;'"
           style="text-align:center;font-weight:700;color:#ffffff;"
@@ -249,25 +281,49 @@
     <transition name="info_fade">
       <v-btn
         v-on:click="doLogin('father@gmail.com')"
-        v-if="toggle5"
         rounded
+        v-if="toggle5"
         color="#ffffff00"
-        :style="($vuetify.breakpoint.smAndUp)?'left:47%;top: 50%;':'left: 43%;top: 35%;'"
+        :style="($vuetify.breakpoint.smAndUp)?'left:47%;top: 50%;':'left: 38%;top: 35%;'"
         style="color:#ffffff;position:absolute;border: 2px solid #ffffff;"
       >登入</v-btn>
+      <!-- v-if="toggle5" -->
     </transition>
-  </v-card>
+  <!-- </v-card> -->
+  </v-layout>
+  </swiper-slide>
+  </swiper>
+</v-container>
 </template>
 
 <script>
 import { ignoreNotLoginError } from "../utils";
+import { Swiper, SwiperSlide } from "vue-awesome-swiper";
 let data = {
-  toggle0: true,
-  toggle1: false,
-  toggle2: false,
-  toggle3: false,
-  toggle4: false,
-  toggle5: false,
+              swiperOption: {
+                notNextTick: true,
+                direction: "vertical",
+                grabCursor: true,
+                setWrapperSize: true,
+                autoHeight: true,
+                slidesPerView: 1,
+                mousewheel: true,
+                mousewheelControl: true,
+                width:window.innerWeight,
+                height: window.innerHeight,
+                resistanceRatio: 0,
+                observeParents: true,
+                pagination: {
+                    el: '.swiper-pagination'
+                }
+            },
+
+  // toggle0: true,
+  // toggle1: false,
+  // toggle2: false,
+  // toggle3: false,
+  // toggle4: false,
+  toggle5: true,
 };
 export default {
   name: "webInfoName",
@@ -289,26 +345,40 @@ export default {
       return this.$api.user.login;
     },
   },
-  methods: {
-    nextSlide1() {
-      this.toggle0 = !this.toggle0;
-      this.toggle1 = !this.toggle1;
-      this.toggle2 = !this.toggle2;
-    },
-    nextSlide2() {
-      this.toggle2 = !this.toggle2;
-      this.toggle3 = !this.toggle3;
-    },
-    nextSlide3() {
-      this.toggle3 = !this.toggle3;
-      this.toggle4 = !this.toggle4;
-    },
-    nextSlide4() {
+  components:{
+    Swiper,
+    SwiperSlide
+  },
+  created(){
       if(this.login == false){
-      this.toggle4 = !this.toggle4;
-      this.toggle5 = !this.toggle5;
+      this.toggle5 = true;
       }
       else{
+        this.toggle5=false
+      }
+  },
+  methods: {
+    // nextSlide1() {
+    //   this.toggle0 = !this.toggle0;
+    //   this.toggle1 = !this.toggle1;
+    //   this.toggle2 = !this.toggle2;
+    // },
+    // nextSlide2() {
+    //   this.toggle2 = !this.toggle2;
+    //   this.toggle3 = !this.toggle3;
+    // },
+    // nextSlide3() {
+    //   this.toggle3 = !this.toggle3;
+    //   this.toggle4 = !this.toggle4;
+    // },
+    nextSlide4() {
+      if(this.login == false){
+      // this.toggle4 = !this.toggle4;
+      this.toggle5 = true;
+      console.log("hello")
+      }
+      else{
+        this.toggle5=false
         this.$router.push('/accounting');
       }
     },

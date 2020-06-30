@@ -7,7 +7,7 @@
       flat
       clipped
       fixed
-      v-if="!login && $route.name!='webInfoName'"
+      v-if="!login && $route.name!='webInfoName' "
       style="z-index:8;width:100vw;"
     >
       <v-btn class="elevation-0" color="transparent" :style="($vuetify.breakpoint.smAndUp)?'font-size:40px;':'font-size:24px;'" @click="jumpTo('/')">FRONTER</v-btn>
@@ -23,7 +23,7 @@
             class="elevation-0"
             :class="($vuetify.breakpoint.smAndUp)?'pa-5':'pa-2'"
             style="font-weight:bold"
-            :style="($vuetify.breakpoint.smAndUp)?'font-size:18px;':'font-size:15px;'"
+            :style="($vuetify.breakpoint.smAndUp)?'font-size:18px;':'font-size:12px;'"
           >星．際帳</v-btn>
         </template>
         <v-card flat color="#dddee2" class="pa-2">
@@ -86,7 +86,7 @@
             class="elevation-0"
             :class="($vuetify.breakpoint.smAndUp)?'pa-5':'pa-2'"
             style="font-weight:bold"
-            :style="($vuetify.breakpoint.smAndUp)?'font-size:18px;':'font-size:15px;'"
+            :style="($vuetify.breakpoint.smAndUp)?'font-size:18px;':'font-size:12px;'"
           >宇宙．戰艦</v-btn>
         </template>
         <v-card flat color="#dddee2" class="pa-2">
@@ -124,11 +124,28 @@
         class="elevation-0"
         :class="($vuetify.breakpoint.smAndUp)?'pa-5':'pa-2'"
         style="font-weight:bold"
-        :style="($vuetify.breakpoint.smAndUp)?'font-size:18px;':'font-size:15px;'"
+        :style="($vuetify.breakpoint.smAndUp)?'font-size:18px;':'font-size:12px;'"
         @click="jumpTo('/aboutFRONTER')"
       >關於我們</v-btn>
       <!-- <v-btn width="fit-content" height="fit-content" color="transparent" class="elevation-0 pa-1" :class="($vuetify.breakpoint.smAndUp)?'pa-5':'pa-2'" style="font-weight:bold" :style="($vuetify.breakpoint.smAndUp)?'font-size:25px;':'font-size:15px;'">聯絡我們</v-btn> -->
     </v-app-bar>
+
+    <v-app-bar
+      v-else-if="$route.name=='webInfoName'"
+      color="transparent"
+      flat
+      clipped
+      fixed
+      class="my-5"
+    >
+      <router-link v-if="login" to="/fronter_home">
+        <v-card-title style="font-size:28px;" class="logo px-8">FRONTER</v-card-title>
+      </router-link>
+      <router-link v-else to="/">
+        <v-card-title style="font-size:28px" class="logo px-8">FRONTER</v-card-title>
+      </router-link>
+    </v-app-bar>
+
     <v-app-bar
       transition="slide-y-transition"
       :color="(login && this.$route.name != 'FronterHomeName') ? '#26282d' : '#ffffff00'"
@@ -470,8 +487,8 @@
               </div>
               <div class="home-card pos2">
                 <img src="./assets/home/p2/feature_block_2.svg" height="100%" />
-                <img src="./assets/home/p2/4.svg" height="30%" class="p2Icon" />
-                <v-card-text class="p2t2">綁定永豐銀行信用卡，自動登入每筆消費金額，記帳輕鬆無負擔。</v-card-text>
+                <img src="./assets/home/p2/5.svg" height="30%" class="p2Icon" />
+                <v-card-text class="p2t2">轉換遊戲中的成就感為動機，培養孩子記帳的習慣。</v-card-text>
               </div>
             </div>
           </transition>
@@ -646,7 +663,7 @@
 
     <!-- for mobile -->
     <v-content id="scroll-target" style="max-width:100vw" v-else>
-      <v-container class="pa-0" fluid v-if="!login & $route.name!='aboutUsName'" style="height:100vh;weight:50vw;">
+      <v-container class="pa-0" fluid v-if="!login && $route.name!='aboutUsName' && $route.name!='webInfoName'" style="height:100vh;weight:50vw;">
         <!-- <v-card v-scroll:#scroll-target="onScroll"> -->
 
         <!-- <swiper class="swiper" :options="swiperOption"> -->
@@ -676,8 +693,8 @@
           <!-- </v-flex> -->
         </v-card>
 
-        <swiper class="swiper" :options="swiperOption" style="height:100%">
-          <swiper-slide style="height:100%">
+        <swiper class="swiper" :options="swiperOption" style="height:100vh">
+          <swiper-slide style="height:100vh">
             <v-layout row style="height:100vh;overflow:hidden;position:relative">
               <v-flex xs6 style="height:100%;background-color:transparent;position:relative"></v-flex>
               <v-flex xs6 style="height:100%;background-color:#3D404E;position:relative">
@@ -707,7 +724,7 @@
           </swiper-slide>
 
           <!-- mobile-page2 -->
-          <swiper-slide style="height:100%">
+          <swiper-slide style="height:100vh">
             <v-layout row style="height:100%;overflow:hidden;position:relative">
               <v-flex xs6 style="height:100%;background-color:transparent;position:relative">
                 <!-- <img src="./assets/home-mobile/ledger.png" height="35%" style="position:absolute;right:0;top:10%" />
@@ -743,13 +760,13 @@
               <v-btn
                 class="py-1 px-8"
                 color="#50989E"
-                style="height:fit-content;font-size:0.8rem;font-weight:bold;border-radius:50px;position:absolute;bottom:8%;left:35%"
+                style="height:fit-content;font-size:0.8rem;font-weight:bold;border-radius:50px;position:absolute;bottom:15%;left:35%"
               >創建帳戶</v-btn>
             </v-layout>
           </swiper-slide>
 
           <!-- mobile-page3 -->
-          <swiper-slide style="height:100%">
+          <swiper-slide style="height:100vh">
             <v-layout row style="height:100%;overflow:hidden;position:relative">
               <v-flex xs6 style="height:100%;background-color:transparent;position:relative">
                 <!-- <img src="./assets/home-mobile/ledger.png" height="35%" style="position:absolute;right:0;top:10%" />
@@ -785,13 +802,13 @@
               <v-btn
                 class="py-1 px-8"
                 color="#DF764C"
-                style="height:fit-content;font-size:0.8rem;font-weight:bold;border-radius:50px;position:absolute;bottom:8%;left:28%"
+                style="height:fit-content;font-size:0.8rem;font-weight:bold;border-radius:50px;position:absolute;bottom:15%;left:28%"
               >開啟你的星際探險</v-btn>
             </v-layout>
           </swiper-slide>
 
           <!-- mobile-page4 -->
-          <swiper-slide style="height:100%">
+          <swiper-slide style="height:100vh">
             <v-layout row style="height:100%;overflow:hidden;position:relative">
               <v-flex xs6 style="height:100%;background-color:#26282D;position:relative">
                 <div class="px-8" style="margin-top:100%">
@@ -832,11 +849,11 @@
                 <div class="px-8" style="margin-top:10%">
                   <img
                     class="pa-2"
-                    src="./assets/home/p2/4.svg"
+                    src="./assets/home/p2/5.svg"
                     width="50%"
                     style="margin:auto;display:block;"
                   />
-                  <v-card-text class="pa-2" style="font-size:0.9rem;">綁定永豐銀行信用卡，自動登入每筆消費金額，記帳輕鬆無負擔。</v-card-text>
+                  <v-card-text class="pa-2" style="font-size:0.9rem;">轉換遊戲中的成就感為動機，培養孩子記帳的習慣。</v-card-text>
                 </div>
               </v-flex>
               <v-card
@@ -857,7 +874,7 @@
               <v-btn
                 class="py-1 px-8"
                 color="#FFF294"
-                style="height:fit-content;font-size:0.8rem;font-weight:bold;border-radius:50px;position:absolute;bottom:8%;left:35%;color:#26282D"
+                style="height:fit-content;font-size:0.8rem;font-weight:bold;border-radius:50px;position:absolute;bottom:13%;left:35%;color:#26282D"
               >關於我們</v-btn>
               <!-- <img
             src="./assets/home-mobile/star.png"

@@ -198,16 +198,31 @@
         </div>
       </v-card>
     </div>
+
     <v-card flat color="transparent" style="position:absolute;bottom:3%;width:100%">
       <div class="ma-auto member" style="display:block;width:fit-content">
         <v-btn
           class="ma-2 elevation-0"
-          @click="memberSelect(0)"
+          @click="memberSelect(0)" @mouseover="memberSelect(0)"
           style="min-width:0px;margin:3px;height:100px;width:100px;border-radius:50px;background-color:#F7EB92;"
           :style="(this.selected==0)?'border:7px double #3D404E':''"
         >
           <v-img src="../assets/aboutUs/logo.png" contain height="60px" style />
         </v-btn>
+
+            <v-btn class="ma-2 elevation-0" @click="memberSelect(1)"  @mouseover="memberSelect(1)"
+                style="min-width:0px;margin:3px;height:100px;width:100px;border-radius:50px;background-color:#FFA863;"
+                :style="(this.selected==1)?'border:7px double #3D404E':''"
+            >
+                <v-img src="../assets/aboutUs/wish.png" contain height="130px" style="position:relative;bottom:20px" />
+            </v-btn>
+
+            <v-btn class="ma-2 elevation-0" @click="memberSelect(2)"  @mouseover="memberSelect(2)"
+                style="min-width:0px;margin:3px;height:100px;width:100px;border-radius:50px;background-color:#D04F57;"
+                :style="(this.selected==2)?'border:7px double #3D404E':''"
+            >
+                <v-img src="../assets/aboutUs/yi.png" contain height="130px" style="position:relative;bottom:25px" />
+            </v-btn>
 
             <v-btn class="ma-2 elevation-0" @click="memberSelect(3)"  @mouseover="memberSelect(3)"
                 style="min-width:0px;margin:3px;height:100px;width:100px;border-radius:50px;background-color:#5D63AF;"
