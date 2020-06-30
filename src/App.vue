@@ -9,7 +9,12 @@
       v-if="!login"
       style="z-index:8;width:100vw;"
     >
-      <v-btn class="elevation-0" color="transparent" :style="($vuetify.breakpoint.smAndUp)?'font-size:40px;':'font-size:24px;'" @click="jumpToHome()">FRONTER</v-btn>
+      <v-btn
+        class="elevation-0"
+        color="transparent"
+        :style="($vuetify.breakpoint.smAndUp)?'font-size:40px;':'font-size:24px;'"
+        @click="jumpToHome()"
+      >FRONTER</v-btn>
       <v-spacer />
 
       <v-menu offset-y v-if="clear.animeOver" nudge-left="30">
@@ -175,8 +180,8 @@
         :close-on-content-click="true"
         offset-y
         nudge-left="40"
-        min-width="250"
-        max-width="400"
+        min-width="250px"
+        max-height="400px"
         v-if="login && clear.animeOver"
       >
         <template v-slot:activator="{ on, attrs }">
@@ -296,11 +301,11 @@
           <v-list-item-content>
             <br />
             <br />
-            <v-list-title
+            <v-list-item
               :class="($vuetify.breakpoint.smAndUp) ? 'pb-0 ml-11':'ml-6'"
               style="font-weight:bold;"
               :style="($vuetify.breakpoint.smAndUp) ? 'font-size:17px;':'font-size:15px;'"
-            >{{ profile.email }}</v-list-title>
+            >{{ profile.email }}</v-list-item>
 
             <v-btn
               outlined
@@ -398,10 +403,16 @@
       <!-- id="scroll-target" class="overflow-y-auto"  -->
       <!-- <v-app-bar class="mx-auto overflow-hidden" color="#efca16" elevate-on-scroll clipped-left app>
       </v-app-bar>-->
-      <v-container id="scroll-target" class="all pa-0" fluid v-if="!login && $route.name!='aboutUsName'" style="margin-top:50px">
+      <v-container
+        id="scroll-target"
+        class="all pa-0"
+        fluid
+        v-if="!login && $route.name!='aboutUsName'"
+        style="margin-top:50px"
+      >
         <!-- <div v-if="">
           <router-view></router-view>
-        </div> -->
+        </div>-->
         <!-- class="overflow-y-auto" -->
         <!-- <div
         v-scroll:#scroll-target="onScroll"
@@ -1180,7 +1191,7 @@ import { Swiper, SwiperSlide } from "vue-awesome-swiper";
 // import SideMenu from './components/SideMenu.vue'
 let data = {
   // modalOpen: false,
-  aboutUs:false,
+  aboutUs: false,
   offset: true,
   menuWithChild: [
     {
@@ -1324,13 +1335,13 @@ export default {
     }
   },
   methods: {
-    jumpToHome(){
+    jumpToHome() {
       this.$router.push("/");
-      this.aboutUs=false;
+      this.aboutUs = false;
     },
-    jumpToAboutUs(){
+    jumpToAboutUs() {
       this.$router.push("/aboutFRONTER");
-      this.aboutUs=true;
+      this.aboutUs = true;
     },
     timeString(time) {
       const date = new Date(time);

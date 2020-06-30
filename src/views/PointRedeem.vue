@@ -1,31 +1,28 @@
 <template>
-  <v-container
-    fluid
-    style="padding: 120px 0px 10px 50px;position:fixed; max-width:1250px;"
-    v-if="$vuetify.breakpoint.mdAndUp"
-  >
+  <v-container fluid style="padding: 70px 50px 50px 50px;">
+    <div v-if="$vuetify.breakpoint.smAndUp" style="height:70px"></div>
     <!-- v-if="!cartModal" -->
     <!-- laptop title-->
-    <v-row xs6 sm2 md2 lg2 v-if="!cartModal " class="sub-header d-flex">
-      <v-flex>
-        <v-card-title class="offset-8">
+    <v-row v-if="!cartModal " class="sub-header">
+      <v-flex xs5 sm8 md8 lg8 class="d-flex align-right">
+        <v-card-title class="ml-auto">
           <v-icon size="30">mdi-alpha-p-circle-outline</v-icon>
           {{totalPoint}}
         </v-card-title>
       </v-flex>
-      <v-flex xs6 sm2 md2 lg2>
+      <v-flex xs1 sm1 md1 lg1>
         <v-badge :content="cart" :value="cart" class="mt-4 mr-8">
           <v-icon v-on:click="lookCart()" color="#cccccc" size="30">mdi-cart-arrow-right</v-icon>
         </v-badge>
       </v-flex>
-      <v-flex xs6 sm2 md2 lg2 class="d-flex align-center">
+      <v-flex xs6 sm3 md3 lg3 class="d-flex align-center">
         <v-select
           v-model="propTypeSelected"
           :items="goods"
           item-text="name"
           item-value="name"
           label="name"
-          class="selector"
+          class="selector pa-3"
           dense
         ></v-select>
       </v-flex>
@@ -109,8 +106,7 @@
       </v-row>
     </v-card>
   </v-container>
-  <v-container fluid style="padding: 47px 20px 10px 40px;position:fixed;max-width:350px;" v-else>
-    <!-- mobile title-->
+  <!-- <v-container fluid style="padding: 47px 20px 10px 40px;position:fixed;max-width:350px;" v-else>
     <v-row
       xs6
       sm2
@@ -141,8 +137,6 @@
           dense
         ></v-select>
       </v-flex>
-    </v-row>
-    <!-- mobile cart -->
 
     <v-flex xs12 sm12 v-if="cartModal && $vuetify.breakpoint.smAndDown">
       <div class="sub-header">
@@ -193,7 +187,6 @@
         </v-data-table>
       </v-card>
     </v-flex>
-    <!-- goods -->
     <v-card flat style="height:83vh;background-color:#ffffff00;" class="scroll">
       <v-row v-if="loading">
         <v-flex xs6 sm4 md3 v-for="item in 8" :key="item" class="item">
@@ -218,7 +211,7 @@
         </v-flex>
       </v-row>
     </v-card>
-  </v-container>
+  </v-container>-->
 </template>
 
 <script>
