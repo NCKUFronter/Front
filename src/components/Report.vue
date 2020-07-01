@@ -26,7 +26,10 @@
             </tr>
             <tr style="height:fit-content">
               <td class="text-right pa-2">總和</td>
-              <td class="text-right pa-2">{{current.value}}</td>
+              <td v-if="current.data.child_type_name==('recordType')">{{current.children[0].value-current.children[1].value}}</td>
+              <td v-else-if="current.data.child_type_name==('flow')">{{current.children[0].value-current.children[1].value}}</td>
+              <td v-else class="text-right pa-2">{{current.value}}</td>
+              
             </tr>
           </tbody>
 
