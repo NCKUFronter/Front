@@ -1,5 +1,8 @@
 <template>
-  <v-container fluid style="padding: 70px 50px 50px 50px;">
+  <v-container
+    fluid
+    :style="($vuetify.breakpoint.smAndUp)? 'padding: 70px 50px 50px 50px;':'padding: 70px 30px 0px 30px;'"
+  >
     <div v-if="$vuetify.breakpoint.smAndUp" style="height:70px"></div>
     <!-- v-if="!cartModal" -->
     <!-- laptop title-->
@@ -72,9 +75,57 @@
         </v-data-table>
       </v-card>
     </v-flex>
+    <v-flex xs15 sm12 v-if="cartModal">
+      <div class="sub-header">
+        <v-card flat style="background-color: #ffffff00;">
+          <v-card-actions class="icon">
+            <v-btn icon class="back mt-3">
+              <v-icon size="25" @click="cartModal=!cartModal">mdi-arrow-left-circle</v-icon>
+            </v-btn>
+            <v-icon size="25" class="mt-3">mdi-alpha-p-circle-outline</v-icon>
+            <v-card-title class="pa-0 mt-3" style="font-size:15px;">{{totalPoint}}</v-card-title>
+            <v-spacer />
+            <v-card-title class="pa-0 mt-3" style="font-size:15px;">總額 {{sumcart}}</v-card-title>
+            <v-spacer />
+            <v-btn v-on:click="buy()" class="pa-0 mt-3" color="#6d6b6b" style="font-size:12px;">確認購買</v-btn>
+          </v-card-actions>
+        </v-card>
+      </div>
+      <v-card flat class="scroll" style=" height:70vh;background-color: #ffffff00;">
+        <v-data-table
+          v-model="selected"
+          :headers="headers"
+          :items="redeemGoods"
+          :single-select="false"
+          item-key="_id"
+          show-select
+          class="elevation-1 col-12 redeemCart"
+          hide-default-footer
+        >
+          <template v-slot:item.name="{ item }">
+            <v-img :src="item.photo" style="height:100px;width:100px;" contain></v-img>
+            <div class="cartContent" style="width:100px;">
+              <v-card-text class="cartT mt-1" style="font-size: 20px;text-align:left;">{{item.name}}</v-card-text>
+              <v-card-text
+                class="cartT mt-1"
+                style="font-size: 12px;text-align:left;"
+              >{{item.intro}}</v-card-text>
+            </div>
+          </template>
+          <template v-slot:item.point="{ item }">
+            <v-card-text style="font-size: 20px;">{{(item.point*item.quantity)}}</v-card-text>
+          </template>
+          <template v-slot:item.quantity="{ item }">
+            <v-icon v-on:click="modifyQuantity(item,-1)" class="cartquant">mdi-menu-left</v-icon>
+            <h4 class="cartQuant">{{ item.quantity }}</h4>
+            <v-icon v-on:click="modifyQuantity(item,1)" class="cartQuant">mdi-menu-right</v-icon>
+          </template>
+        </v-data-table>
+      </v-card>
+    </v-flex>
 
     <!-- goods -->
-    <v-card flat style="height:70vh;background-color:#ffffff00;" class="scroll">
+    <v-card flat style="height:70vh;background-color:#ffffff00;" class="scroll" v-if="!cartModal">
       <v-row v-if="loading">
         <v-flex xs6 sm4 md3 v-for="item in 8" :key="item" class="item">
           <v-skeleton-loader type="card" :loading="loading"></v-skeleton-loader>
@@ -84,7 +135,7 @@
         <v-flex xs6 sm4 md2 v-for="item in filterPropType" :key="item.name" class="item">
           <v-card flat class="goodsDiscri ma-2" style="border-radius:10px">
             <v-card class="pa-2" flat color="transparent" style="border-radius:10px;">
-            <v-img :src="item.photo" class="img" contain height="100px"></v-img>
+              <v-img :src="item.photo" class="img" contain height="100px"></v-img>
             </v-card>
             <v-card-text
               class="pb-0 ma-0"
@@ -93,7 +144,7 @@
             <v-card-text class="py-0 ma-0 mb-3" style="font-size: 12px;">{{item.intro}}</v-card-text>
             <v-icon class="pb-1 pl-1">mdi-alpha-p-circle-outline</v-icon>
             <v-card-subtitle class="pb-1" style="font-size:20px;">{{item.point}}</v-card-subtitle>
-            <v-card-actions class="icon mb-0 pr-4" style="float:right;padding:0 0 0 0;">
+            <v-card-actions class="icon mb-0" style="float:right;padding:0 0 0 0;">
               <!-- <v-btn icon v-on:click="addLike(item)">
                             <v-icon @click="heart++">mdi-heart</v-icon>
               </v-btn>-->
