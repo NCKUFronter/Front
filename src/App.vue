@@ -1417,7 +1417,7 @@ export default {
         // this.gameContent=false;
       }
 
-      if (this.offsetTop >= 1000) {
+      if (this.offsetTop >= 1700) {
         this.gameContent = true;
         // if(this.account){
         //   this.accountContent=true;

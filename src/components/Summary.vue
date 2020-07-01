@@ -5,11 +5,7 @@
     <div class="card-body father">-->
     <v-layout row>
       <v-flex xs0 sm2 md3 class="hidden-xs-only">
-        <v-card
-          class="my-4 px-10"
-          color="transparent"
-          flat
-        >
+        <v-card class="my-4 px-10" color="transparent" flat>
           <v-card-title style="display:inline">
             <v-icon class="mr-3">event</v-icon>時間區段
           </v-card-title>
@@ -24,7 +20,13 @@
             <template v-slot:activator="{ on, attrs }">
               <v-text-field v-model="dateRangeText" readonly v-bind="attrs" v-on="on" class="mx-4"></v-text-field>
             </template>
-            <v-date-picker v-model="date" @input="menu2 = false" type="month" range></v-date-picker>
+            <v-date-picker
+              v-if="$vuetify.breakpoint.smAndUp"
+              v-model="date"
+              @input="menu2 = false"
+              type="month"
+              range
+            ></v-date-picker>
           </v-menu>
         </v-card>
         <v-card color="transparent" flat :class="$vuetify.breakpoint.mdAndUp ? 'px-10' : ''">
@@ -191,7 +193,13 @@
                   class="mx-4"
                 ></v-text-field>
               </template>
-              <v-date-picker v-model="date" @input="menu2 = false" type="month" range></v-date-picker>
+              <v-date-picker
+                v-if="$vuetify.breakpoint.xsOnly"
+                v-model="date"
+                @input="menu2 = false"
+                type="month"
+                range
+              ></v-date-picker>
             </v-menu>
           </v-card>
           <v-card color="transparent" flat class="ma-0">

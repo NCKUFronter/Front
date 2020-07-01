@@ -1,6 +1,6 @@
 <template>
   <!--v-container fluid class="tree"-->
-  <v-card outlined class="parent py-4" v-if="current" color="#26282d">
+  <v-card flat outlined class="parent py-4" v-if="current" color="#26282d">
     <v-card
       flat
       :class="($vuetify.breakpoint.smAndUp)?'':'scroll'"
@@ -86,7 +86,7 @@ export default {
   },
   methods: {
     rgba(obj) {
-      if(!obj) return "#aaaaaa";
+      if (!obj) return "#aaaaaa";
       return `rgba(${obj.r},${obj.g},${obj.b},${obj.a})`;
     }
   }
