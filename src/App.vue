@@ -1,6 +1,6 @@
 <template>
-<!-- v-if="!viewIntro" -->
-  <v-app>
+  <!-- v-if="!viewIntro" -->
+  <v-app id="app">
     <v-app-bar
       transition="slide-y-transition"
       color="#ffffff00"
@@ -10,7 +10,12 @@
       v-if="!login && $route.name!='webInfoName' "
       style="z-index:8;width:100vw;"
     >
-      <v-btn class="elevation-0" color="transparent" :style="($vuetify.breakpoint.smAndUp)?'font-size:40px;':'font-size:24px;'" @click="jumpTo('/')">FRONTER</v-btn>
+      <v-btn
+        class="elevation-0"
+        color="transparent"
+        :style="($vuetify.breakpoint.smAndUp)?'font-size:40px;':'font-size:24px;'"
+        @click="jumpTo('/')"
+      >FRONTER</v-btn>
       <v-spacer />
 
       <v-menu offset-y v-if="clear.animeOver" nudge-left="30">
@@ -91,7 +96,7 @@
         </template>
         <v-card flat color="#dddee2" class="pa-2">
           <!-- <v-card-title class="justify-center">尚未登入</v-card-title> -->
-          <v-btn
+          <!--v-btn
             block
             class="elevation-0"
             color="transparent"
@@ -106,12 +111,13 @@
             style="color:#26282D;font-weight:bold"
           >
             <v-icon>mdi-account-tie</v-icon>成為艦長
-          </v-btn>
+          </v-btn-->
           <v-btn
             block
             class="elevation-0"
             color="transparent"
             style="color:#26282D;font-weight:bold"
+            @click="gotoGame"
           >
             <v-icon>mdi-airplane</v-icon>開始遨遊
           </v-btn>
@@ -376,7 +382,7 @@
             :key="'menu_' + index"
             :class="{ 'menu-item': true, disabled: !item.link }"
             class="pl-0"
-            @click="(item.title=='帳目'?($router.push(item.link) && setRecordModal(false)):$router.push(item.link))"
+            @click="(item.title=='帳目'?(safeRouterPush(item.link) && setRecordModal(false)):safeRouterPush(item.link))"
           >
             <!-- v-model="item.active" -->
             <template v-slot:activator>
@@ -403,8 +409,8 @@
             v-for="(item, index) in menu"
             :key="'menu_item' + index"
             :class="{ 'menu-item': true, disabled: !item.link }"
-            class="pl-10"  
-            :to='item.link'         
+            class="pl-10"
+            :to="item.link"
             @click="(item.title=='認識星際帳'? jumpTo('/webInfo'):jumpTo('/summary'))"
             active-class="active"
           >{{ item.title }}</v-list-item>
@@ -417,7 +423,13 @@
       <!-- id="scroll-target" class="overflow-y-auto"  -->
       <!-- <v-app-bar class="mx-auto overflow-hidden" color="#efca16" elevate-on-scroll clipped-left app>
       </v-app-bar>-->
-      <v-container id="scroll-target" class="all pa-0" fluid v-if="!login && $route.name!='aboutUsName' && $route.name!='webInfoName'" style="margin-top:50px">
+      <v-container
+        id="scroll-target"
+        class="all pa-0"
+        fluid
+        v-if="!login && $route.name!='aboutUsName' && $route.name!='webInfoName'"
+        style="margin-top:50px"
+      >
         <!-- <div v-if="">
           <router-view></router-view>
         </div>-->
@@ -663,7 +675,12 @@
 
     <!-- for mobile -->
     <v-content id="scroll-target" style="max-width:100vw" v-else>
-      <v-container class="pa-0" fluid v-if="!login && $route.name!='aboutUsName' && $route.name!='webInfoName'" style="height:100vh;weight:50vw;">
+      <v-container
+        class="pa-0"
+        fluid
+        v-if="!login && $route.name!='aboutUsName' && $route.name!='webInfoName'"
+        style="height:100vh;weight:50vw;"
+      >
         <!-- <v-card v-scroll:#scroll-target="onScroll"> -->
 
         <!-- <swiper class="swiper" :options="swiperOption"> -->
@@ -1181,7 +1198,7 @@
         style="color:#ffffff;position:absolute;border: 2px solid #ffffff;"
       >登入</v-btn>
     </transition>
-  </v-card> -->
+  </v-card>-->
 </template>
 
 <script>
@@ -1343,16 +1360,18 @@ export default {
     }
   },
   methods: {
-    jumpTo(path){
-      if(path == '/webInfo'){
-        if(this.login){
-          this.$router.push({name: 'webInfoName',params: {id: true}})
-        }  
-        else{
-          this.$router.push({name: 'webInfoName',params: {id: false}})
+    gotoGame() {
+      window.location = "/game";
+    },
+    jumpTo(path) {
+      if (path == "/webInfo") {
+        if (this.login) {
+          this.$router.push({ name: "webInfoName", params: { id: true } });
+        } else {
+          this.$router.push({ name: "webInfoName", params: { id: false } });
         }
       }
-      this.$router.push(path);
+      this.safeRouterPush(path);
     },
     timeString(time) {
       const date = new Date(time);
@@ -1399,8 +1418,12 @@ export default {
         // this.gameContent=false;
       }
     },
+    safeRouterPush(path) {
+      if (this.$route.path === path) return;
+      else this.$router.push(path);
+    },
     childList(item) {
-      this.$router.push(item.link);
+      this.safeRouterPush(item.link);
     },
     toLogin() {
       // this.$api.login("father@gmail.com", "0000").catch(console.log);
@@ -1413,13 +1436,11 @@ export default {
         .then(() => {
           this.login = true;
           this.$alert.success("登入成功");
-          
         })
         .catch(err => {
           console.log(err);
           this.$alert.error("登入失敗");
         });
-      
     },
     toLogout() {
       this.$api
@@ -1428,7 +1449,6 @@ export default {
           if (this.$route.name != null) this.$router.push("/");
         })
         .catch(console.log);
-        
     },
     getPoints() {
       this.$http

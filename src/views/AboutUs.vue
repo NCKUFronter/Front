@@ -451,7 +451,7 @@ export default {
     methods:{
         memberSelect(index){
             this.selected=index;
-            console.log('who'+this.selected)
+            // console.log('who'+this.selected)
             // if(this.selected!=0){
             //     this.displayMember=true;
             //     this.displayPhoto=this.member[index-1].photo;

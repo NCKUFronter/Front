@@ -4,12 +4,11 @@
     <!-- <div class="card-header">Sunburst</div>
     <div class="card-body father">-->
     <v-layout row>
-      <v-flex xs0 sm2 md3 v-if="$vuetify.breakpoint.smAndUp">
+      <v-flex xs0 sm2 md3 class="hidden-xs-only">
         <v-card
-          class="my-4"
+          class="my-4 px-10"
           color="transparent"
           flat
-          :class="$vuetify.breakpoint.smAndUp ? 'px-10' : ''"
         >
           <v-card-title style="display:inline">
             <v-icon class="mr-3">event</v-icon>時間區段
@@ -133,7 +132,7 @@
 
       <!-- for mobile -->
       <button
-        v-if="$vuetify.breakpoint.xsOnly"
+        class="d-sm-none"
         @click.stop="setting = !setting"
         style="position:fixed;right:60px;top:75px;background-color:transparent;z-index:4;height:fit-content;width:fit-content;"
       >
@@ -158,10 +157,9 @@
         flat
         min-height="85vh"
         style="position:fixed;top:15%;right:0%;border-radius:0;"
-        :style="setting?'z-index:3;':'z-index:-1'"
-        class="scroll"
+        :style="setting?'z-index:3;':'z-index:0'"
+        class="scroll d-sm-none"
         color="transparent"
-        v-if="$vuetify.breakpoint.xsOnly"
       >
         <v-navigation-drawer
           v-model="setting"
@@ -355,6 +353,7 @@ export default {
           .then(res => {
             const json = res.data;
             summaryAddParent(json);
+            console.log(json);
             return json;
           })
           .catch(error => {

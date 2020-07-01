@@ -82,7 +82,7 @@ const nameMap = {
     }[name];
   },
   subtype(name) {
-    if (name == "") return "其餘";
+    if (name == "") return "全部";
     else
       return {
         perLogin: "每日登入",

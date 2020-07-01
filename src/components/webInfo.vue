@@ -327,7 +327,7 @@ let data = {
 };
 export default {
   name: "webInfoName",
-  inject: ["$clear"],
+  inject: ["$clear", "$alert"],
   data() {
     return data;
   },
@@ -383,6 +383,8 @@ export default {
       }
     },
     doLogin(email) {
+      window.location = "/api/login/auth/google";
+      /*
       this.$api
         .login(email, "0000")
         .then(() => {
@@ -394,6 +396,7 @@ export default {
           console.log(err);
           this.$alert.error("登入失敗");
         });
+        */
       
     },
     toLogout() {
