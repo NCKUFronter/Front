@@ -82,9 +82,10 @@
       </v-row>
       <v-row v-if="!loading && !cartModal">
         <v-flex xs6 sm4 md2 v-for="item in filterPropType" :key="item.name" class="item">
-          <v-card flat class="goodsDiscri">
-            <v-img :src="item.photo" class="img"></v-img>
-
+          <v-card flat class="goodsDiscri ma-2" style="border-radius:10px">
+            <v-card class="pa-2" flat color="transparent" style="border-radius:10px;">
+            <v-img :src="item.photo" class="img" contain height="100px"></v-img>
+            </v-card>
             <v-card-text
               class="pb-0 ma-0"
               style="font-size:20px;color:#ffffff;font-weight:normal;"
