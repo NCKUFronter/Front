@@ -18,7 +18,7 @@
       >FRONTER</v-btn>
       <v-spacer />
 
-      <v-menu offset-y v-if="clear.animeOver" nudge-left="30">
+      <v-menu offset-y nudge-left="30">
         <template v-slot:activator="{ on }">
           <v-btn
             width="fit-content"
@@ -81,7 +81,7 @@
           </v-btn>
         </v-card>
       </v-menu>
-      <v-menu offset-y v-if="clear.animeOver">
+      <v-menu offset-y>
         <template v-slot:activator="{ on }">
           <v-btn
             width="fit-content"
@@ -541,7 +541,12 @@
                     在這裡，你可以體驗由永豐提供的智慧生活，記下日常
                     <br />消費的每筆帳目，並獲得回饋
                   </h1>
-                  <button @click="getToIntro" color="white" class="p3btn infoImg" outlined>深入了解</button>
+                  <button
+                    @click="jumpTo('/webInfo')"
+                    color="white"
+                    class="p3btn infoImg"
+                    outlined
+                  >深入了解</button>
                   <button @click="toLogin" color="white" class="p3btn infoImg" outlined>登入</button>
                 </div>
               </transition>
@@ -1409,7 +1414,7 @@ export default {
         // this.gameContent=false;
       }
 
-      if (this.offsetTop >= 1700) {
+      if (this.offsetTop >= 1000) {
         this.gameContent = true;
         // if(this.account){
         //   this.accountContent=true;
