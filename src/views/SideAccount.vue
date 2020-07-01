@@ -4,7 +4,8 @@
   <v-container
     class="account"
     fluid
-    style="padding: 70px 50px 50px 50px;height:100vh;overflow:hidden; "
+    style="padding: 70px 50px 50px 50px;height:100vh;"
+    :style="(this.GLOBAL.newRecordModal)?'overflow:auto;':'overflow:hidden;'"
   >
     <div v-if="$vuetify.breakpoint.smAndUp" style="height:70px"></div>
 
@@ -172,6 +173,7 @@
                 hide-details
                 solo
                 flat
+                no-data-text="請先新增帳本"
                 :prepend-inner-icon="$vuetify.breakpoint.smAndUp ? 'book' : ''"
                 item-text="ledgerName"
                 item-value="_id"
@@ -913,5 +915,6 @@ export default {
 
 .theme--dark.v-sheet {
   background-color: #26282d;
+
 }
 </style>
