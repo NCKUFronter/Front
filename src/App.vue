@@ -1354,7 +1354,10 @@ export default {
         this.$notification.connect();
       } else this.$notification.closeAll();
       console.log(this.$route.name);
-      if (this.login) {
+      if (
+        this.login &&
+        (this.$route.name == null || this.$route.name === "aboutUsName")
+      ) {
         this.safeRouterPush("/fronter_home");
       }
     }
