@@ -541,7 +541,12 @@
                     在這裡，你可以體驗由永豐提供的智慧生活，記下日常
                     <br />消費的每筆帳目，並獲得回饋
                   </h1>
-                  <button @click="getToIntro" color="white" class="p3btn infoImg" outlined>深入了解</button>
+                  <button
+                    @click="jumpTo('/webInfo')"
+                    color="white"
+                    class="p3btn infoImg"
+                    outlined
+                  >深入了解</button>
                   <button @click="toLogin" color="white" class="p3btn infoImg" outlined>登入</button>
                 </div>
               </transition>
@@ -778,6 +783,7 @@
                 class="py-1 px-8"
                 color="#50989E"
                 style="height:fit-content;font-size:0.8rem;font-weight:bold;border-radius:50px;position:absolute;bottom:15%;left:35%"
+                @click="toLogin"
               >創建帳戶</v-btn>
             </v-layout>
           </swiper-slide>
@@ -820,6 +826,7 @@
                 class="py-1 px-8"
                 color="#DF764C"
                 style="height:fit-content;font-size:0.8rem;font-weight:bold;border-radius:50px;position:absolute;bottom:15%;left:28%"
+                @click="gotoGame"
               >開啟你的星際探險</v-btn>
             </v-layout>
           </swiper-slide>
@@ -892,6 +899,7 @@
                 class="py-1 px-8"
                 color="#FFF294"
                 style="height:fit-content;font-size:0.8rem;font-weight:bold;border-radius:50px;position:absolute;bottom:13%;left:35%;color:#26282D"
+                @click="safeRouterPush('/aboutFRONTER')"
               >關於我們</v-btn>
               <!-- <img
             src="./assets/home-mobile/star.png"
