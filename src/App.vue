@@ -11,11 +11,18 @@
       style="z-index:8;width:100vw;"
     >
       <v-btn
-        class="elevation-0"
+        class="elevation-0 ma-0 pa-0"
         color="transparent"
         :style="($vuetify.breakpoint.smAndUp)?'font-size:40px;':'font-size:24px;'"
         @click="jumpTo('/')"
-      >FRONTER</v-btn>
+      >
+        <img
+          class="my-0 mx-2"
+          src="./assets/aboutUs/logo.png"
+          :height="($vuetify.breakpoint.smAndUp)?'40px;':'24px;'"
+        />
+        FRONTER
+      </v-btn>
       <v-spacer />
 
       <v-menu offset-y nudge-left="30">
@@ -145,10 +152,22 @@
       class="my-5"
     >
       <router-link v-if="login" to="/fronter_home">
-        <v-card-title style="font-size:28px;" class="logo px-8">FRONTER</v-card-title>
+        <v-card-title style="font-size:28px;" class="logo px-8">
+          <img
+            class="my-0 mx-2"
+            src="./assets/aboutUs/logo.png"
+            :height="($vuetify.breakpoint.smAndUp)?'40px;':'24px;'"
+          />FRONTER
+        </v-card-title>
       </router-link>
       <router-link v-else to="/">
-        <v-card-title style="font-size:28px" class="logo px-8">FRONTER</v-card-title>
+        <v-card-title style="font-size:28px" class="logo px-8">
+          <img
+            class="my-0 mx-2"
+            src="./assets/aboutUs/logo.png"
+            :height="($vuetify.breakpoint.smAndUp)?'40px;':'24px;'"
+          />FRONTER
+        </v-card-title>
       </router-link>
     </v-app-bar>
 
@@ -171,9 +190,26 @@
       ></v-app-bar-nav-icon>
       <!-- </v-flex> -->
       <!-- <v-flex xs3 sm3 md3 v-if="login && clear.animeOver" class="pa-4"> -->
-      <router-link to="/fronter_home">
+
+      <v-btn
+        class="elevation-0 ma-0 pa-0"
+        color="transparent"
+        :style="($vuetify.breakpoint.smAndUp)?'font-size:40px;':'font-size:24px;'"
+        @click="jumpTo('/fronter_home')"
+        v-if="clear.animeOver"
+      >
+        <img
+          class="my-0 mx-2"
+          src="./assets/aboutUs/logo.png"
+          :height="($vuetify.breakpoint.smAndUp)?'40px;':'24px;'"
+        />
+        FRONTER
+      </v-btn>
+
+      <!-- <router-link to="/fronter_home">
+        <img class="my-0 mx-2" src="./assets/aboutUs/logo.png" height="40px" />
         <h1 class="logo px-8" v-if="login && clear.animeOver">FRONTER</h1>
-      </router-link>
+      </router-link>-->
       <!-- </v-flex> -->
       <!-- v-if="login && $vuetify.breakpoint.smAndDown" -->
 
@@ -587,7 +623,7 @@
                 <div v-if="gameContent" class="p3Text">
                   <h1 class="p3t1">宇宙 · 戰艦</h1>
                   <h1 class="p3t2">在遊戲中使用回饋點數，讓孩子也能樂於記帳</h1>
-                  <button color="white" class="p4btn" outlined>開啟你的星際探險</button>
+                  <button @click="gotoGame" color="white" class="p4btn" outlined>開啟你的星際探險</button>
                 </div>
               </transition>
               <transition name="cardfade">
@@ -782,7 +818,7 @@
               <v-btn
                 class="py-1 px-8"
                 color="#50989E"
-                style="height:fit-content;font-size:0.8rem;font-weight:bold;border-radius:50px;position:absolute;bottom:15%;left:35%"
+                style="height:fit-content;font-size:0.8rem;font-weight:bold;border-radius:50px;position:absolute;bottom:10%;left:35%"
                 @click="toLogin"
               >創建帳戶</v-btn>
             </v-layout>
@@ -825,7 +861,7 @@
               <v-btn
                 class="py-1 px-8"
                 color="#DF764C"
-                style="height:fit-content;font-size:0.8rem;font-weight:bold;border-radius:50px;position:absolute;bottom:15%;left:28%"
+                style="height:fit-content;font-size:0.8rem;font-weight:bold;border-radius:50px;position:absolute;bottom:10%;left:28%"
                 @click="gotoGame"
               >開啟你的星際探險</v-btn>
             </v-layout>
@@ -898,7 +934,7 @@
               <v-btn
                 class="py-1 px-8"
                 color="#FFF294"
-                style="height:fit-content;font-size:0.8rem;font-weight:bold;border-radius:50px;position:absolute;bottom:13%;left:35%;color:#26282D"
+                style="height:fit-content;font-size:0.8rem;font-weight:bold;border-radius:50px;position:absolute;bottom:10%;left:35%;color:#26282D"
                 @click="safeRouterPush('/aboutFRONTER')"
               >關於我們</v-btn>
               <!-- <img

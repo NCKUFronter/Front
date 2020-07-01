@@ -120,7 +120,7 @@
             class="infoImg"
             flat
             src="../assets/firstPlant.svg"
-            :style="($vuetify.breakpoint.smAndUp)?'width:72vw;left: 48%; bottom: 10%;':'width:100vw; left: 40%; top:-2%;'"
+            :style="($vuetify.breakpoint.smAndUp)?'width:72vw;left: 48%; bottom: 10%;':'width:100vw; left: 40%; top:35%;'"
             style="z-index:2;position:absolute;"
           ></v-img>
           <!-- v-if="toggle2" -->

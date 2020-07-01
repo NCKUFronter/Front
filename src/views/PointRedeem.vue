@@ -21,7 +21,7 @@
       <v-flex xs6 sm3 md3 lg3 class="d-flex align-center">
         <v-select
           v-model="propTypeSelected"
-          :items="goods"
+          :items="goodsWithAll"
           item-text="name"
           item-value="name"
           label="name"
@@ -308,6 +308,10 @@ export default {
     }
   },
   computed: {
+    goodsWithAll() {
+      var goodSelect = [{ name: "All" }];
+      return goodSelect.concat(this.goods);
+    },
     totalPoint() {
       return this.$api.user.profile.rewardPoints;
     },
