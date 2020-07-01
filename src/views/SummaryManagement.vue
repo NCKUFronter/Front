@@ -1,5 +1,8 @@
 <template>
-  <v-container class="wrap-height" style="padding: 70px 0px 10px 30px;">
+  <v-container
+    class="wrap-height"
+    :style="($vuetify.breakpoint.smAndUp) ? 'padding: 130px 0px 10px 50px;':'padding: 70px 0px 10px 30px;'"
+  >
     <!-- <div class="d-xs-none" style="height:35px"></div> -->
     <v-card-title class="ma-0 pa-0">統計</v-card-title>
     <v-tabs v-model="tab" class="ma-0">
@@ -8,15 +11,15 @@
       <v-tab>點數</v-tab>
     </v-tabs>
     <v-tabs-items v-model="tab" class="pt-4">
-        <v-tab-item>
-          <SummaryContent :summary_type="'personal'" />
-        </v-tab-item>
-        <v-tab-item>
-          <SummaryContent :summary_type="'ledger'" />
-        </v-tab-item>
-        <v-tab-item>
-          <SummaryContent :summary_type="'points'" />
-        </v-tab-item>
+      <v-tab-item>
+        <SummaryContent :summary_type="'personal'" />
+      </v-tab-item>
+      <v-tab-item>
+        <SummaryContent :summary_type="'ledger'" />
+      </v-tab-item>
+      <v-tab-item>
+        <SummaryContent :summary_type="'points'" />
+      </v-tab-item>
     </v-tabs-items>
     <!-- <SummaryContent :summary_type="types[tab]" /> -->
   </v-container>
