@@ -1,6 +1,6 @@
 <template>
   <!--v-container fluid class="tree"-->
-  <v-card flat class="parent py-4" v-if="current" color="#26282d">
+  <v-card outlined class="parent py-4" v-if="current" color="#26282d">
     <v-card
       flat
       :class="($vuetify.breakpoint.smAndUp)?'':'scroll'"

@@ -28,7 +28,7 @@ export default {
   data() {
     return {
       types: ["personal", "ledger", "points"],
-      tab: null,
+      tab: 0,
       ledgerOrderlist: [
         { value: "ledger", text: "帳本" },
         { value: "recordType", text: "收支" },
