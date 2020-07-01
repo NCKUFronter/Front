@@ -1,6 +1,6 @@
 <template>
   <v-container class="wrap-height" style="padding: 70px 0px 10px 30px;">
-    <div class="d-xs-none" style="height:35px"></div>
+    <!-- <div class="d-xs-none" style="height:35px"></div> -->
     <v-card-title class="ma-0 pa-0">統計</v-card-title>
     <v-tabs v-model="tab" class="ma-0">
       <v-tab class="pl-0">個人紀錄</v-tab>
