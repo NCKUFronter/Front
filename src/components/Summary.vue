@@ -157,7 +157,7 @@
         flat
         min-height="85vh"
         style="position:fixed;top:15%;right:0%;border-radius:0;"
-        :style="setting?'z-index:3;':'z-index:0'"
+        :style="setting?'z-index:3;':'z-index:-2'"
         class="scroll d-sm-none"
         color="transparent"
       >
@@ -167,6 +167,7 @@
           style="border-top-left-radius:4em;width:220px;min-height:85vh;background-color:#3D404E;height:60vh"
           temporary
           right
+          :style="setting?'z-index:3;':'z-index:-2'"
           class="elevation-0 chart px-3"
         >
           <v-card class="my-4" color="transparent" flat style="padding-top:20%">
