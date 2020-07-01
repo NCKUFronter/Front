@@ -195,7 +195,9 @@ export default {
 .pointHistory.v-data-table th:nth-child(3) {
   border-top-right-radius: 5px;
 }
-.mobilePointHistory.v-application--is-ltr .v-data-footer__pagination {
-  margin: 0 10px 0 10px;
+.v-data-table.pointHistory.mobilePointHistory.theme--dark
+  .v-btn--icon.v-size--default {
+  height: 15px;
+  width: 15px;
 }
 </style>

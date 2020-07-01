@@ -26,7 +26,7 @@
           </ValidationProvider>
 
           <v-icon v-if="$vuetify.breakpoint.smAndUp">mdi-arrow-right-bold</v-icon>
-          <v-icon v-else size="30">mdi-arrow-down-bold</v-icon>
+          <v-icon v-else size="35" class="my-0 mx-10">mdi-arrow-down-bold</v-icon>
 
           <ValidationProvider v-slot="{ errors }" name="select" rules="required">
             <v-select
