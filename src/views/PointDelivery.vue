@@ -90,6 +90,10 @@ export default {
       return this.$api.user.profile.rewardPoints;
     }
   },
+  mounted: function() {
+    let self = this;
+    self.$api.updateProfile();
+  },
   asyncComputed: {
     relativeUsers: {
       get() {

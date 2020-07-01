@@ -296,6 +296,10 @@ export default {
   components: {
     // PointRedeemCart
   },
+  mounted: function() {
+    let self = this;
+    self.$api.updateProfile();
+  },
   asyncComputed: {
     goods: {
       get() {

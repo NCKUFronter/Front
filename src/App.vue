@@ -326,7 +326,7 @@
         class="pa-0 pr-8 mt-1"
         v-if="login && clear.animeOver && $vuetify.breakpoint.smAndUp"
         style="z-index:8;font-size:22px;font-weight:bold;"
-      >{{ profile.name }}</v-card-title>
+      >{{profile.name}}</v-card-title>
 
       <!-- personal profile -->
       <v-btn
@@ -346,7 +346,7 @@
         right
         v-model="profileDrawer"
         hide-overlay
-        :style="($vuetify.breakpoint.smAndUp) ? 'width:16%':'width:45%;'"
+        :style="($vuetify.breakpoint.smAndUp) ? 'width:20%':'width:45%;'"
         style="top:15%; background-color:#3D404E"
         app
         v-if="login && clear.animeOver "
@@ -357,15 +357,21 @@
             <br />
             <br />
             <v-list-item
-              :class="($vuetify.breakpoint.smAndUp) ? 'pb-0 ml-11':'ml-6'"
+              :class="($vuetify.breakpoint.smAndUp) ? 'pb-0 ml-11 pl-11':'ml-6'"
               style="font-weight:bold;"
               :style="($vuetify.breakpoint.smAndUp) ? 'font-size:17px;':'font-size:15px;'"
-            >{{ profile.email }}</v-list-item>
+            >
+              <v-card
+                outlined
+                color="#ffffff00"
+                :style="($vuetify.breakpoint.smAndUp) ? 'width:145px;':'width:120px;'"
+              >{{profile.email}}</v-card>
+            </v-list-item>
 
             <v-btn
               outlined
               block
-              :class="($vuetify.breakpoint.smAndUp) ? 'mt-3 ml-6 pa-0':'mt-3 ml-6'"
+              :class="($vuetify.breakpoint.smAndUp) ? 'mt-3 ml-6 pa-0':'mt-3 ml-5'"
               retain-focus-on-click
               style="background-color:#ffffff00;border:none;font-weight:bold;"
               :style="($vuetify.breakpoint.smAndUp) ? 'font-size:18px;':'font-size:15px;'"
@@ -377,7 +383,7 @@
             <v-btn
               outlined
               block
-              :class="($vuetify.breakpoint.smAndUp) ? 'ml-11':'ml-10'"
+              :class="($vuetify.breakpoint.smAndUp) ? 'ml-11':'ml-9'"
               style="background-color:#ffffff00;border:none;font-weight:bold;"
               :style="($vuetify.breakpoint.smAndUp) ? 'font-size:18px;':'font-size:15px;'"
               v-on:click="toLogout"
