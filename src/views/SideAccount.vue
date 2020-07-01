@@ -4,7 +4,8 @@
   <v-container
     class="account"
     fluid
-    style="padding: 70px 50px 50px 50px;height:100vh;overflow:hidden; "
+    style="padding: 70px 50px 50px 50px;height:100vh;"
+    :style="(this.GLOBAL.newRecordModal)?'overflow:auto;':'overflow:hidden;'"
   >
     <div v-if="$vuetify.breakpoint.smAndUp" style="height:70px"></div>
 
@@ -914,5 +915,6 @@ export default {
 
 .theme--dark.v-sheet {
   background-color: #26282d;
+
 }
 </style>
