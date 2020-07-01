@@ -7,18 +7,18 @@
       <v-tab>帳本紀錄</v-tab>
       <v-tab>點數</v-tab>
     </v-tabs>
-    <!--v-tabs-items v-model="tab" class="pt-4">
+    <v-tabs-items v-model="tab" class="pt-4">
         <v-tab-item>
-          <SummaryContent toggle_exclusive_perspective="personal" orderList="personalOrderList" />
+          <SummaryContent :summary_type="'personal'" />
         </v-tab-item>
         <v-tab-item>
-          <SummaryContent toggle_exclusive_perspective="ledger" orderList="ledgerOrderList" />
+          <SummaryContent :summary_type="'ledger'" />
         </v-tab-item>
         <v-tab-item>
-          <SummaryContent toggle_exclusive_perspective="points" orderList="pointOrderList" />
+          <SummaryContent :summary_type="'points'" />
         </v-tab-item>
-    </v-tabs-items-->
-    <SummaryContent :summary_type="types[tab]" />
+    </v-tabs-items>
+    <!-- <SummaryContent :summary_type="types[tab]" /> -->
   </v-container>
 </template>
 <script>

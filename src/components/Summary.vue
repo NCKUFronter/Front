@@ -310,7 +310,10 @@ export default {
     }
   },
   created() {
+    console.log(this.summary_type)
+
     this.orderSelected = [...this.sunburstOrder[this.summary_type]];
+    console.log(this.orderSelected )
     /*
     this.calculateList = [
       ...this.sunburstOrder[this.summary_type]
@@ -320,14 +323,24 @@ export default {
     this.startDate = new Date(
       start.getFullYear(),
       start.getMonth(),
-      2
-    ).toISOString();
+      1
+    )
+    this.startDate.setHours(0);
+    this.startDate.setMinutes(0);
+    this.startDate.setSeconds(0);
+    this.startDate.toISOString();
+
     var end = new Date(this.date[0]);
     this.endDate = new Date(
       end.getFullYear(),
       end.getMonth() + 1,
       1
-    ).toISOString();
+    )
+    this.endDate.setHours(0);
+    this.endDate.setMinutes(0);
+    this.endDate.setSeconds(0);
+    this.endDate.toISOString();
+
     console.log(this.startDate);
     console.log(this.endDate);
   },
