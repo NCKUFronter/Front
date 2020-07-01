@@ -172,6 +172,7 @@
                 hide-details
                 solo
                 flat
+                no-data-text="請先新增帳本"
                 :prepend-inner-icon="$vuetify.breakpoint.smAndUp ? 'book' : ''"
                 item-text="ledgerName"
                 item-value="_id"
