@@ -1,18 +1,22 @@
 <template>
   <!-- <v-content style="padding:0;"> -->
-    <!-- height:100vh;overflow:hidden; -->
-  <v-container class="account" fluid style="padding: 70px 50px 50px 50px;height:100vh;overflow:hidden; ">
-  <div v-if="$vuetify.breakpoint.smAndUp" style="height:70px"></div>
-  
-  <!-- for table & computer -->
-  <v-card
+  <!-- height:100vh;overflow:hidden; -->
+  <v-container
+    class="account"
+    fluid
+    style="padding: 70px 50px 50px 50px;height:100vh;overflow:hidden; "
+  >
+    <div v-if="$vuetify.breakpoint.smAndUp" style="height:70px"></div>
+
+    <!-- for table & computer -->
+    <v-card
       flat
       style="height:85vh;position:fixed;top:15%;right:0%;border-radius:0;"
       :style="participants?'z-index:3;':''"
-      class="scroll" 
+      class="scroll"
     >
-     <!-- min-height="85vh" -->
-    <!-- v-if="$vuetify.breakpoint.smAndUp" -->
+      <!-- min-height="85vh" -->
+      <!-- v-if="$vuetify.breakpoint.smAndUp" -->
       <v-navigation-drawer
         v-model="participants"
         hide-overlay
@@ -21,7 +25,10 @@
         right
         class="elevation-0"
       >
-        <v-card-title class="pl-12 py-2" style="font-size:0.8em;font-weight:bold;margin-top:70px">其他成員</v-card-title>
+        <v-card-title
+          class="pl-12 py-2"
+          style="font-size:0.8em;font-weight:bold;margin-top:70px"
+        >其他成員</v-card-title>
         <v-list nav class="pa-0" style="height:65vh;overflow-y:auto;overflow-x:hidden">
           <v-list-item
             v-for="(item, index) in engage_user.users"
@@ -29,20 +36,19 @@
             active-class="active"
             class="pl-10 pt-2"
           >
+            <v-avatar size="36" :style="onlineUserStyle(item)">
+              <img :src="item.photo" style="height:28px;width:28px;border-radius:28px" />
+            </v-avatar>
 
-              <v-avatar size="36" :style="onlineUserStyle(item)">
-                <img :src="item.photo" style="height:28px;width:28px;border-radius:28px"/>
-              </v-avatar>
-              
             <!-- </div> -->
             <v-list-item-title class="ml-4" v-text="item.name" style="font-weight:bold;"></v-list-item-title>
           </v-list-item>
         </v-list>
       </v-navigation-drawer>
-  </v-card>
+    </v-card>
 
-  <!--for mobile -->
-  <v-card
+    <!--for mobile -->
+    <v-card
       flat
       min-height="85vh"
       style="position:fixed;top:15%;right:0%;border-radius:0;"
@@ -53,7 +59,7 @@
         right: () => getYearMonthDate(-1),
       }"
     >
-    <!-- v-else -->
+      <!-- v-else -->
       <v-navigation-drawer
         v-model="mobilePieChart"
         hide-overlay
@@ -62,47 +68,34 @@
         right
         class="elevation-0 chart px-3"
       >
-            <v-card-title
-              class="pa-0 mr-5"
-              style="border-bottom:1px solid white;font-size:1em;font-weight:bold;margin-top:7vh; margin-left:4vw;"
-            >{{userDate}}</v-card-title> 
-             <!-- 當日小計 -->
-            <div
-              v-if="this.flowSelected != '支出'"
-              class="income"
-              style="height:28%;padding:0;margin:0"
-            >
-              <v-card-title
-                class="pa-0"
-                style="font-size:1em;margin-left:4vw;"
-              >總收入 {{ totalIncome }}</v-card-title>
-              <v-chart :options="income" />
-              <!-- <v-avatar v-else size="80" style="border:1px solid white" class="ml-5"/> -->
-            </div>
-            <div
-              flat
-              v-if="this.flowSelected != '收入'"
-              class="expense"
-              style="height:28%;padding:0;margin:0"
-            >
-              <v-card-title
-                class="pa-0"
-                style="font-size:1em;margin-left:4vw;"
-              >總支出 {{ totalExpense }}</v-card-title>
-              <v-chart :options="expense" />
-            </div>
-            <div
-              flat
-              v-if="this.flowSelected != '收入'"
-              class="point"
-              style="height:28%;padding:0;margin:0"
-            >
-              <v-card-title
-                class="pa-0"
-                style="font-size:1em;margin-left:4vw;"
-              >總點數 {{ totalPoints }}</v-card-title>
-              <v-chart :options="point" />
-            </div>
+        <v-card-title
+          class="pa-0 mr-5"
+          style="border-bottom:1px solid white;font-size:1em;font-weight:bold;margin-top:7vh; margin-left:4vw;"
+        >{{userDate}}</v-card-title>
+        <!-- 當日小計 -->
+        <div v-if="this.flowSelected != '支出'" class="income" style="height:28%;padding:0;margin:0">
+          <v-card-title class="pa-0" style="font-size:1em;margin-left:4vw;">總收入 {{ totalIncome }}</v-card-title>
+          <v-chart :options="income" />
+          <!-- <v-avatar v-else size="80" style="border:1px solid white" class="ml-5"/> -->
+        </div>
+        <div
+          flat
+          v-if="this.flowSelected != '收入'"
+          class="expense"
+          style="height:28%;padding:0;margin:0"
+        >
+          <v-card-title class="pa-0" style="font-size:1em;margin-left:4vw;">總支出 {{ totalExpense }}</v-card-title>
+          <v-chart :options="expense" />
+        </div>
+        <div
+          flat
+          v-if="this.flowSelected != '收入'"
+          class="point"
+          style="height:28%;padding:0;margin:0"
+        >
+          <v-card-title class="pa-0" style="font-size:1em;margin-left:4vw;">總點數 {{ totalPoints }}</v-card-title>
+          <v-chart :options="point" />
+        </div>
       </v-navigation-drawer>
     </v-card>
 
@@ -110,45 +103,65 @@
       <v-layout row>
         <v-flex xs12 sm9 md9 class="account-left">
           <v-card-title class="ma-0 pa-0" style="display:inline;">帳目一覽</v-card-title>
-            <div class="px-4" v-if="$vuetify.breakpoint.xsOnly" @click="participants=!participants" style="display:inline;width:fit-content">
-              <!-- if ledger.users.length<=6 -->
+          <div
+            class="px-4"
+            v-if="$vuetify.breakpoint.xsOnly"
+            @click="participants=!participants"
+            style="display:inline;width:fit-content"
+          >
+            <!-- if ledger.users.length<=6 -->
+            <v-avatar
+              v-for="user in ledgerUser(engage_user.users)"
+              :key="user._id"
+              size="22"
+              class="ma-1"
+              style="background-color:#3d404e"
+            >
+              <img :src="user.photo" />
+            </v-avatar>
+            <!-- v-if="ledger.users.length>6"  -->
+            <div
+              v-if="engage_user.users && engage_user.users.length>6"
+              style="position:relative;display:inline;top:4px"
+            >
               <v-avatar
-                v-for="user in ledgerUser(engage_user.users)"
-                :key="user._id"
-                size="22"     
+                size="22"
                 class="ma-1"
-                style="background-color:#3d404e"
-              >
-                <img :src="user.photo" />
-              </v-avatar>
-              <!-- v-if="ledger.users.length>6"  -->
-              <div v-if="engage_user.users.length>6" style="position:relative;display:inline;top:4px"> 
-              <v-avatar size="22" class="ma-1" style="background-color:#26282d;position: absolute;left:10px"></v-avatar>
-              <v-avatar size="22" class="ma-1" style="background-color:#32343e;position: absolute;left:5px"></v-avatar>
-              <v-avatar size="22" class="ma-1" style="background-color:#3d404e;;position: absolute;font-size:0.5em">+{{engage_user.users.length-4}}</v-avatar>
-              </div>
+                style="background-color:#26282d;position: absolute;left:10px"
+              ></v-avatar>
+              <v-avatar
+                size="22"
+                class="ma-1"
+                style="background-color:#32343e;position: absolute;left:5px"
+              ></v-avatar>
+              <v-avatar
+                size="22"
+                class="ma-1"
+                style="background-color:#3d404e;;position: absolute;font-size:0.5em"
+              >+{{engage_user.users.length-4}}</v-avatar>
+            </div>
           </div>
           <button
             v-if="$vuetify.breakpoint.xsOnly"
-                @click.stop="mobilePieChart = !mobilePieChart"
-                style="position:fixed;right:60px;top:75px;background-color:transparent;z-index:4;height:fit-content;width:fit-content;"
-              >
-                <transition name="fade">
-                  <img
-                    v-if="!mobilePieChart"
-                    src="../assets/fronter/account/member_unclicked.svg"
-                    height="18px"
-                    style="position: absolute;"
-                  />
-                </transition>
-                <transition name="fade">
-                  <img
-                    v-if="mobilePieChart"
-                    src="../assets/fronter/account/member_clicked.svg"
-                    height="18px"
-                    style="position: absolute;"
-                  />
-                </transition>
+            @click.stop="mobilePieChart = !mobilePieChart"
+            style="position:fixed;right:60px;top:75px;background-color:transparent;z-index:4;height:fit-content;width:fit-content;"
+          >
+            <transition name="fade">
+              <img
+                v-if="!mobilePieChart"
+                src="../assets/fronter/account/member_unclicked.svg"
+                height="18px"
+                style="position: absolute;"
+              />
+            </transition>
+            <transition name="fade">
+              <img
+                v-if="mobilePieChart"
+                src="../assets/fronter/account/member_clicked.svg"
+                height="18px"
+                style="position: absolute;"
+              />
+            </transition>
           </button>
           <v-layout row class="account-upper" style="margin-bottom:15px">
             <v-flex xs5 sm6 md3 data-app :class="$vuetify.breakpoint.smAndUp ? 'pr-5' : 'pr-0'">
@@ -180,7 +193,6 @@
                 full-width
                 color="white"
                 item-color="white"
-              
               ></v-select>
             </v-flex>
 
@@ -208,7 +220,8 @@
                 @change="updateDate()"
               >
                 <template v-slot:activator="{ on, value }">
-                  <div class="date" v-on="on">{{ value }}
+                  <div class="date" v-on="on">
+                    {{ value }}
                     <!-- <v-icon v-if="$vuetify.breakpoint.xsOnly" class="dateIcon" size="24px">mdi-menu-down</v-icon> -->
                   </div>
                 </template>
@@ -242,13 +255,13 @@
             </div>-->
           </v-layout>
 
-          <div class="account-down"
+          <div
+            class="account-down"
             v-touch="{
               left: () => getYearMonthDate(1),
               right: () => getYearMonthDate(-1),
             }"
           >
-
             <RecordTable
               :accountData="records"
               :userDate="userDate"
@@ -375,7 +388,7 @@ import ECharts from "vue-echarts/components/ECharts";
 
 let data = {
   // modalOpen: false,
-  ledgerSelected: "1", //希望預設0=mainAccount
+  ledgerSelected: null, //希望預設0=mainAccount
   flowSelected: "全部",
   // ledger: ["All", "Main Account", "Bank SinoPac"],
   flow: ["支出", "收入", "全部"],
@@ -618,6 +631,7 @@ export default {
     },
     engage_user: {
       get() {
+        if (this.ledgerSelected == null) return [];
         return this.$loading.insideLoading(
           this.$http
             .get(`/ledger/${this.ledgerSelected}`, {
@@ -646,8 +660,8 @@ export default {
   },
   methods: {
     onlineUserStyle(user) {
-      const isOnline = Boolean(this.$notification.onlineUser[user._id])
-      return isOnline ? "border:solid #FED37A 1.5px": "";
+      const isOnline = Boolean(this.$notification.onlineUser[user._id]);
+      return isOnline ? "border:solid #FED37A 1.5px" : "";
     },
     drawPie() {
       // console.log(this.filterAccountData);
@@ -751,19 +765,19 @@ export default {
           { name: "無資料", value: 0, color: "rgba(255,255,255,0.1)" }
         ];
     },
-    ledgerUser(user){
-        // console.log(user.length)
-        if(user.length<=6){
-          return user
-        }else{
-          var shortlist=[];
-          for (var i=0;i<4;i++){
-            shortlist.push(user[i])
-          }
-          return shortlist
-          // return user.splice(0,3)
+    ledgerUser(user) {
+      // console.log(user.length)
+      if (!user) return [];
+      else if (user.length <= 6) {
+        return user;
+      } else {
+        var shortlist = [];
+        for (var i = 0; i < 4; i++) {
+          shortlist.push(user[i]);
         }
-        
+        return shortlist;
+        // return user.splice(0,3)
+      }
     },
     fetchRecords() {
       this.$asyncComputed.records.update();
@@ -859,7 +873,6 @@ export default {
   .date {
     cursor: pointer;
   }
-  
 
   input {
     text-align: center;
