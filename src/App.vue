@@ -383,6 +383,18 @@
             <v-btn
               outlined
               block
+              :class="($vuetify.breakpoint.smAndUp) ? 'mt-3 ml-6 pa-0':'mt-3 ml-5'"
+              retain-focus-on-click
+              style="background-color:#ffffff00;border:none;font-weight:bold;"
+              :style="($vuetify.breakpoint.smAndUp) ? 'font-size:18px;':'font-size:15px;'"
+              @click="gotoGame"
+            >
+              <v-icon>mdi-airplane</v-icon>宇宙．戰艦
+            </v-btn>
+
+            <v-btn
+              outlined
+              block
               :class="($vuetify.breakpoint.smAndUp) ? 'ml-11':'ml-9'"
               style="background-color:#ffffff00;border:none;font-weight:bold;"
               :style="($vuetify.breakpoint.smAndUp) ? 'font-size:18px;':'font-size:15px;'"
