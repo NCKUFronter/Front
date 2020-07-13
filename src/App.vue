@@ -50,7 +50,7 @@
           >
             <v-icon small>mdi-book-open-page-variant</v-icon>認識星際帳
           </v-btn>
-          <v-btn
+          <!--v-btn
             block
             v-on:click="toLogin"
             class="elevation-0"
@@ -58,7 +58,7 @@
             style="color:#26282D;font-weight:bold"
           >
             <v-icon small>mdi-google</v-icon>進入星際帳
-          </v-btn>
+          </v-btn-->
           <v-btn
             block
             class="elevation-0"

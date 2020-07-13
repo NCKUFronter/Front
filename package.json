@@ -6,6 +6,7 @@
     "fake-backend": "json-server --id \"_id\" db.json",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "build:release": "vue-cli-service build && copy-files-from-to",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -33,6 +34,7 @@
     "@vue/cli-plugin-router": "^4.4.1",
     "@vue/cli-service": "~4.3.0",
     "babel-eslint": "^10.1.0",
+    "copy-files-from-to": "^3.1.2",
     "deepmerge": "^4.2.2",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
@@ -63,5 +65,12 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "copyFiles": [{
+    "from": "./dist/**",
+    "to": "../release/Front"
+  }],
+  "copyFilesSettings": {
+    "whenFileExists": "overwrite"
+  }
 }
